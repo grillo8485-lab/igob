@@ -1,0 +1,63 @@
+﻿
+
+@model List<IGOB.Areas.Catalogos.Models.ClsGenerica>
+@{
+    ViewBag.Title = "Modulos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<input type="hidden" name="IdPerfil" id="IdPerfil" value="0" />
+
+<div class="banner-color"></div>
+<button type="button" class="btn btn-secondary btn-circle " onclick="nuevoPerfil()">
+    <span class="icon-add-3"></span>
+    NUEVO PERFIL
+</button>
+<br /><br />
+<div>
+    <table class="table table-bordered table-hover" id="tableCatalogos">
+        <thead align="center">
+            <tr>
+                <th> Acciones </th>
+                <th> Perfil </th>
+                <th> Descripcion </th>
+                <th> Codigo Perfil </th>
+                <th> Activo</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="form-group" style="min-width:80px;">
+                            <button type="button" class="btn btn-secondary btn-circle delete-marca btn-sm" onclick="eliminarPerfil(@item.id,'@item.string1')"><span class="icon-garbage-2"></span></button>
+                            <button type="button" class="btn btn-secondary btn-circle edit-marca btn-sm" onclick="editarPerfil(@item.id)"><span class="icon-edit"></span></button>
+
+                        </div>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.string1)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.string2)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.string3)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.string4)
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>
+@{
+    Html.RenderPartial("EditPerfil");
+}
+@section scripts{
+    <script src="~/Scripts/Catalogos/Perfil.js"></script>
+}
+

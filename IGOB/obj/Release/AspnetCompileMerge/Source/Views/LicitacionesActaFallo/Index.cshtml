@@ -1,0 +1,166 @@
+﻿@{
+    ViewBag.Title = "Acta de Fallo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<style>
+    /* Ensure that the demo table scrolls */
+
+    .data_table > tbody > tr > td {
+        white-space: nowrap;
+    }
+
+</style>
+
+@Html.AntiForgeryToken()
+@Html.ValidationSummary()
+<input type="hidden" class="form-control" readonly id="IdLic_" value="@ViewBag.pIdLic">
+<div class="">
+    <div class="pos-f-t">
+        <nav class="navbar bg-secondary text-white navbar-light bg-light changeColorModal">
+            <div class="col-sm-4">
+                <label>@ViewBag.FolioLicitacion</label>
+            </div>
+
+            <div class="col-sm-8" style="text-align: right;">
+                <button class="btn btn-default btn-circle  btn-sm " type="button" onclick="ImprimirReporteActaFallo()" @(ViewBag.Licitacion.IdEstatusLicitacion > 60 ? "" : "disabled")>DESCARGAR ACTA DE FALLO</button>
+                <button class="btn btn-default btn-circle  btn-sm" type="button" onclick="validarGenerarPublicarReferenciaActaFallo()" @(ViewBag.Licitacion.IdEstatusLicitacion == 60 ? "" : "disabled")>PUBLICAR ACTA DE FALLO</button>
+                <button type="button" class="btn btn-default btn-sm" onclick="location.href='@Url.Action("Index", "ListadoLicitacionesInvitacionAceptadasProveedor")'">
+                    <span class="glyphicon glyphicon-step-backward"></span> Regresar
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <div style="color: #fff;background-color: #455407;text-align:center;padding:5px;">Acta de Fallo</div>
+
+    <div id="ResultadoBuscar"></div>
+
+    @foreach (var Inv in ((List<iGob.Entidades.beLicitacionesActaFallo>)ViewBag.ListaReq))
+    {
+        IGOB.Models.Enletras let = new IGOB.Models.Enletras();
+        string MontoAsignado = Inv.MontoAsignado.ToString("C2") + " (" + let.enletras(Inv.MontoAsignado.ToString()) + ").";
+
+        <div style="color: #fff;background-color: #999;text-align:center;padding:5px;">ASIGNACIÓN DE LOTES</div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Requisición:</th>
+                    <th>@Inv.RequisicionFolio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Dependencia solicitante:</td>
+                    <td>@Inv.Dependencia</td>
+                </tr>
+                <tr>
+                    <td>Proveedor:</td>
+                    <td>@Inv.RazonSocial</td>
+                </tr>
+                <tr>
+                    <td>Oferta total</td>
+                    <td>@Inv.OfertaTotal.ToString("C2")</td>
+                </tr>
+                <tr>
+                    <td>Tipo de abastecimiento</td>
+                    <td>@Inv.FormaAbastecimiento</td>
+                </tr>
+                <tr>
+                    <td>Lotes ofertados:</td>
+                    <td>@Inv.LotesOfertados</td>
+                </tr>
+                <tr>
+                    <td>Lotes asignados:</td>
+                    <td>@Inv.LotesAsignados</td>
+                </tr>
+                <tr>
+                    <td>Monto asignado C/IVA:</td>
+                    <td>@MontoAsignado</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div style="color: #fff;background-color: #999;text-align:center;padding:5px;">INCUMPLIMIENTO</div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Sección</th>
+                    <th>Observaciones y fundamentación legal</th>
+                </tr>
+            </thead>
+            <tbody>
+            @{ 
+                string CartasAdqObservacion = "Ninguno";
+                string CondicionEntregaAdqObservacion = "Ninguno";
+                string CondicionPagoAdqObservacion = "Ninguno";
+                string ManifiestoAdqObservacion = "Ninguno";
+            }
+            @if (Inv.CartaAdquisicionCumple == true)
+            {
+                CartasAdqObservacion = Inv.CartasAdqObservacion;
+            }
+            @if (Inv.CondicionEntregaAdquisicionCumple == true)
+            {
+                CondicionEntregaAdqObservacion = Inv.CondicionEntregaAdqObservacion;
+            }
+            @if (Inv.CondicionPagoAdquisicionCumple == true)
+            {
+                CondicionPagoAdqObservacion = Inv.CondicionPagoAdqObservacion;
+            }
+            @if (Inv.ManifiestoAdquisicionCumple == true)
+            {
+                ManifiestoAdqObservacion = Inv.ManifiestoAdqObservacion;
+            }
+                <tr>
+                    <td>Cartas</td>
+                    <td>@CartasAdqObservacion</td>
+                </tr>
+                <tr>
+                    <td>Condiciones de entrega</td>
+                    <td>@CondicionEntregaAdqObservacion</td>
+                </tr>
+                <tr>
+                    <td>Condiciones de pago</td>
+                    <td>@CondicionPagoAdqObservacion</td>
+                </tr>
+                <tr>
+                    <td>Manifiestos</td>
+                    <td>@ManifiestoAdqObservacion</td>
+                </tr>
+                
+            </tbody>
+        </table>
+    }
+
+</div>
+
+@section scripts{
+    <script src="~/Scripts/Catalogos/LicitacionesActaFallo.js"></script>
+}
+
+<!-- Modal loading -->
+<div class="modal fade" id="modal_loading">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header" style="text-align:center;">
+                <h4 class="modal-title">Generando Documento</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container" style="text-align:center;">
+                    <img style="width:100%;" src="~/Img/loading.gif">
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <!--<div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+            </div>-->
+
+        </div>
+    </div>
+</div>

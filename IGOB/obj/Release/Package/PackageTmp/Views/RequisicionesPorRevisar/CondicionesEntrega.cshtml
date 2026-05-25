@@ -1,0 +1,297 @@
+﻿@model IGOB.Models.Requisicion
+<div id="div_condiciones_entrega" class="container-fluid tab-pane fade">
+
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>VALIDAR CONDICIONES DE ENTREGA</strong>
+        </div>
+    </div>
+    <br />
+    <div id="cargarLoadCondicionesDeEntrega">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form", @id = "div_condiciones_entregaForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary()
+            <input type="hidden" id="IdRequisicionCondicionEntrega" value="@Model.condicionesDeEntrega.IdRequisicionCondicionEntrega" />
+            <input type="hidden" id="IdRequisicion" value="@Model.oRequisicones.IdRequisicion" />
+            <div class="row  disabledClick">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Plazo de entrega</label>
+                        @Html.DropDownList("IdPlazoEntegra", ViewBag.lstPlazoEntrega as SelectList, "Seleccione Plazo Entrega", new { @class = "form-control ", @Required = "", @id = "IdPlazoEntegra" })
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Cantidad</label>
+                        <input type="number" class="form-control" value="@Model.condicionesDeEntrega.PlazoEntregaCantidad" id="PlazoEntregaCantidad">
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Unidad</label>
+                        @Html.DropDownList("IdPlazoTiempo", ViewBag.lstPlazoTiempo as SelectList, "Seleccione Unidad", new { @class = "form-control ", @Required = "", @id = "IdPlazoTiempo" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row disabledClick">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Día</label>
+                        @Html.DropDownList("IdTipoDia", ViewBag.lstTipoDia as SelectList, "Seleccione Unidad", new { @class = "form-control ", @Required = "", @id = "IdTipoDia" })
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Forma de entrega</label>
+                        @Html.DropDownList("IdTipoEntrega", ViewBag.lstTiposEntrega as SelectList, "Seleccione forma de entrega", new { @class = "form-control ", @Required = "", @id = "IdTipoEntrega" })
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Hasta:</label>
+                        <div class='input-group date' id='datetimepicker4'>
+                            <input type='text' class="form-control" value="@String.Format("{0:yyyy-MM-dd}", Model.condicionesDeEntrega.FechaLimite)" name="FechaLimite" id="FechaLimite" autocomplete="off" readonly/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="idNuevaCondicionDePago">
+                <button type="button" class="btn btn-secondary btn-circle " data-toggle="modal" data-target="#modal_condcionesDePago_NotaEspecial">
+                    <span class="icon-add-3"></span>
+                    NOTA ESPECIAL
+                </button>
+
+            </div>
+            
+
+            <div class="modal fade" id="modal_condcionesDePago_NotaEspecial">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Nota Especial</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <div class="container">
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <textarea id="NotaEspecial" rows="5" class="form-control">@Model.condicionesDeEntrega.NotaEspecial</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <br />
+    <table class="table-bordered hover" id="condicionesDeEntragaTable" width="100%">
+        <thead>
+            <tr>
+                
+                <th>Número</th>
+                <th>Lote</th>
+                <th>Cantidad Entrega</th>
+                <th>Lugar Entrega</th>
+                <th>Domicilio Entrega</th>
+                <th>Mapa</th>
+                <th>Horario Inicio Entrega</th>
+                <th>Horario Fin Entrega</th>
+                <th>Dias Entrega</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{var i = 1;}
+            @foreach (var item in Model.lstRequisicionCondicionesEntregaDetalleConsulta)
+            {
+                <tr>
+                    
+                    <td>@item.NumeroEntrega</td>
+                    <td>@item.NoLote</td>
+                    <td align="right">@item.CantidadEntregaDetalle</td>
+                    <td>@item.Lugar</td>
+                    <td>@item.DomicilioEntrega</td>
+
+                    <td style="width:200px;height200px;">
+                        <div id="map-@i" class="maps" style="width:150px;height:150px">
+                        </div>
+                        <input type="hidden" class="inpt" value="@item.LocalizacionGoogle" />
+                    </td>
+                    <td>@item.HorarioInicio</td>
+                    <td>@item.HorarioFinal</td>
+                    <td>
+                        @if (item.Lunes == 1)
+                        {
+                            <button type="button" class="btn btn-secondary btn-sm"><span class="badge badge-light">Lunes</span></button>
+                        }
+                        @if (item.Martes == 1)
+                        {
+                            <button type="button" class="btn btn-secondary btn-sm"><span class="badge badge-light">Martes</span></button>
+                        }
+                        @if (item.Miercoles == 1)
+                        {
+                            <button type="button" class="btn btn-secondary btn-sm"><span class="badge badge-light">Miercoles</span></button>
+                        }
+                        @if (item.Jueves == 1)
+                        {
+                            <button type="button" class="btn btn-secondary btn-sm"><span class="badge badge-light">Jueves</span></button>
+                        }
+                        @if (item.Viernes == 1)
+                        {
+                            <button type="button" class="btn btn-secondary btn-sm"><span class="badge badge-light">Viernes</span></button>
+                        }
+                        @if (item.Sabado == 1)
+                        {
+                            <button type="button" class="btn btn-secondary btn-sm"><span class="badge badge-light">Sabado</span></button>
+                        }
+                        @if (item.Domingo == 1)
+                        {
+                            <button type="button" class="btn btn-secondary btn-sm"><span class="badge badge-light">Domingo</span></button>
+                        }
+
+
+                    </td>
+                </tr>
+                { i++; }
+            }
+        </tbody>
+    </table>
+
+    <!-- Modal condiciones entrega -->
+    <div class="modal fade" id="modal_condiciones_entrega">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">CONDICIONES DE ENTREGA</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="container">
+                        <div id="CondicionesDeEntregaDetalleDiv">
+                            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form", @id = "CondicionesDeEntregaDetalleForm" }))
+                            {
+                                <input type="hidden" id="IdCondicionEntregaDetalle" />
+                                <input type="hidden" id="diasDelaSemana" />
+                                <div class="row" >
+                                    <div class="col-sm-6" >
+                                        <div class="form-group" id="LoteCOndiconEntregaDetalle">
+                                            <label>Lote</label>
+                                            @Html.DropDownList("IdRequisicionLote", ViewBag.lstLotesPorAsignar as SelectList, "Seleccione lote", new { @class = "form-control ", @Required = "", @id = "IdRequisicionLote", @onchange = "getCantidad_x_Idlote()" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Cantidad Entrega</label>
+                                            <input type="number" class="form-control" id="CantidadDetalle" required>
+                                            <input type="hidden" class="form-control" id="CantidadDetalleReal" required>
+                                            <input type="hidden" class="form-control" id="CantidadLoteXAsignar" required>
+                                            <input type="hidden" class="form-control" id="CantidadLoteAsignado" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Lugar Entrega</label>
+                                            @Html.DropDownList("IdLugarEntrega", ViewBag.lstLugarEntregaFirma as SelectList, "Seleccione lugar entrega", new { @class = "form-control ", @Required = "", @id = "IdLugarEntrega", @onchange = "getDireccion()" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Domicilio Entrega</label>
+                                            <textarea id="Direccion" class="form-control" rows="6" required></textarea>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Horario Inicio Entrega</label>
+                                            <div class='input-group date' id='datetimepickerHorarioInicio'>
+                                                <input type='text' class="form-control" name="HorarioInicio" id="HorarioInicio" autocomplete="off" readonly required />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-time"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Horario Fin Entrega</label>
+                                            <div class='input-group date' id='datetimepickerHorarioFin'>
+                                                <input type='text' class="form-control" name="HorarioFinal" id="HorarioFinal" autocomplete="off" readonly required />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-time"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+
+                                    <div class="col-sm-3">
+                                        <div class="button-group">
+                                            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> <span class="caret"></span>Dias de entrega</button>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="#" class="small" style="color:black !important" data-value="Lunes" tabIndex="-1"><input type="checkbox" name="semana" value="Lunes" />&nbsp;Lunes</a></li>
+                                                <li><a href="#" class="small" style="color:black !important" data-value="Martes" tabIndex="-1"><input type="checkbox" name="semana" value="Martes" />&nbsp;Martes</a></li>
+                                                <li><a href="#" class="small" style="color:black !important" data-value="Miercoles" tabIndex="-1"><input type="checkbox" name="semana" value="Miercoles" />&nbsp;Miercoles</a></li>
+                                                <li><a href="#" class="small" style="color:black !important" data-value="Jueves" tabIndex="-1"><input type="checkbox" name="semana" value="Jueves" />&nbsp;Jueves</a></li>
+                                                <li><a href="#" class="small" style="color:black !important" data-value="Viernes" tabIndex="-1"><input type="checkbox" name="semana" value="Viernes" />&nbsp;Viernes</a></li>
+                                                <li><a href="#" class="small" style="color:black !important" data-value="Sabado" tabIndex="-1"><input type="checkbox" name="semana" value="Sabado" />&nbsp;Sabado</a></li>
+                                                <li><a href="#" class="small" style="color:black !important" data-value="Domingo" tabIndex="-1"><input type="checkbox" name="semana" value="Domingo" />&nbsp;Domingo</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-9 text-left">
+                                        <div id="SemanaSelect"></div>
+                                    </div>
+
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div id="map" style="width:330px;height:330px;"></div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                    <button type="button" class="btn btn-secondary" id="GuardarCondicionesDeEntrega" onclick="validarFomCondiconesDeEntregaDetalle()">GUARDAR</button>
+                    <button type="button" class="btn btn-secondary" id="ActualizarCondicionesDeEntrega" onclick="validarFomCondiconesDeEntregaDetalle()">ACTUALIZAR</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- fin de modal nuevo lote -->
+</div>

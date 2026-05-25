@@ -1,0 +1,74 @@
+﻿<!-- Modal Edit - New -->
+<div class="modal fade" id="ManifiestoModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Editar Manifiesto</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Id = "form-Manifiesto" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <div class="row container-fluid">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5"> Manifiesto:</div>
+                                <div class="col-7">
+                                    <input type="text" name="Manifiesto" id="Manifiesto" required class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5"> Dependencia: </div>
+                                <div class="col-7">
+                                    @if (ViewBag.gobList != null)
+	                                {
+		                                @Html.DropDownList("IdGobierno", ViewBag.gobList as SelectList, "Seleccione el Gobierno" ,new {@Class="form-control" , @Required = "" })
+	                                }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="IdManifiesto" id="IdManifiesto" value="0" />
+                    <input type="hidden" name="Activo" id="Activo" value="true" />
+
+                    <br /> <br />
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Editar" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->
+<!-- Modal Delete -->
+<div class="modal fade" id="DeleteManifiestoModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Eliminar Registro</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <br />
+                    <h4 id="titleManifiesto"></h4>
+                    <input type="hidden" class="IdManifiesto" />
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Eliminar" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->

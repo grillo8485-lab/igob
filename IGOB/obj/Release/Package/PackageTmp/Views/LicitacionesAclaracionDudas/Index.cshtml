@@ -1,0 +1,140 @@
+﻿@*@model List<iGob.Entidades.beLicitacionesAclaracionDudas>*@
+@{
+    ViewBag.Title = "Acta de Propuestas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="banner-color"></div>
+@Html.AntiForgeryToken()
+@Html.ValidationSummary()
+<input type="hidden" class="form-control" readonly id="IdLic_" value="@ViewBag.pIdLic">
+<div class="">
+    <div class="pos-f-t">
+        <div class="mainMenuBarAnchor" style="height: 0px;"></div>
+        <nav class="navbar bg-secondary text-white navbar-light bg-light changeColorModal mainMenuBar">
+            <div class="col-sm-4">
+                <label>@ViewBag.FolioLicitacion</label>
+            </div>
+
+            <div class="col-sm-8" style="text-align: right;">
+                <button class="btn btn-default btn-circle" type="button" onclick="ImprimirReporteAclaracionDudas()" @(ViewBag.Licitacion.IdEstatusLicitacion != 20 ? "" : "disabled")>DESCARGAR ACTA</button>
+                @switch (ViewBag.IdPerfil)
+                {
+                    case 7:
+                        <button class="btn btn-default btn-circle" type="button" onclick="validarGenerarPublicarActaAclaraciónDudas()" @(ViewBag.Licitacion.IdEstatusLicitacion == 20 ? "" : "disabled")>GENERAR ACTA DE ACLARACIÓN DE DUDAS</button>
+                        break;
+                    default:
+                        break;
+                }
+
+
+                <button type="button" class="btn btn-default btn-sm" onclick="location.href='@Url.Action("Index", "ListadoLicitacionesInvitacionAceptadasProveedor")'">
+                    <span class="glyphicon glyphicon-step-backward"></span> Regresar
+                </button>
+            </div>
+        </nav>
+    </div>
+    <div id="ResultadoBuscar"></div>
+    @{List<iGob.Entidades.beLicitacionesAclaracionDudas> Proveedores = ViewBag.ListaInvitacion;}
+                @foreach (iGob.Entidades.beLicitacionesAclaracionDudas Pro in Proveedores)
+                {
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th width="100px">Proveedor</th>
+                <td>@Pro.RazonSocial</td>
+            </tr>
+            <tr>
+                <th>Requisición</th>
+                <td>@Pro.RequisicionFolio</td>
+            </tr>
+            <tr>
+                <th>Partida</th>
+                <td>@Pro.Partida</td>
+            </tr>
+            <tr>
+                <th>Dependencia solicitante:</th>
+                <td>@Pro.Dependencia</td>
+            </tr>
+        </thead>
+    </table>
+        //{ listaRespuestas = Model.Where(u => u.IdProveedorRqInvitacion == @Pre.IdProveedorRqInvitacion).ToList(); }
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Pregunta</th>
+                <th>Respuesta</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Pre in ((List<iGob.Entidades.beLicitacionesAclaracionDudas>)ViewBag.ListaPreguntas).Where(x => x.IdProveedorRqInvitacion == Pro.IdProveedorRqInvitacion))
+            //@foreach (iGob.Entidades.beLicitacionesAclaracionDudas respuesta in listaRespuestas)
+            {
+
+            <tr><td>@Pre.Pregunta</td><td>@Pre.Respuesta</td></tr>
+
+            }
+        </tbody>
+    </table>
+
+    }
+
+    
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            // Cache selectors for faster performance.
+            var $window = $(window),
+                $mainMenuBar = $('.mainMenuBar'),
+                $mainMenuBarAnchor = $('.mainMenuBarAnchor');
+
+            // Run this on scroll events.
+            $window.scroll(function () {
+                var window_top = $window.scrollTop();
+                var div_top = $mainMenuBarAnchor.offset().top;
+                var diff = (Math.abs((window_top - 9) - (div_top)));
+
+                if (diff < 9) {
+                    return false;
+                } else if (window_top > div_top) {
+                    // Make the div sticky.
+                    $mainMenuBar.addClass('stick');
+                    $mainMenuBarAnchor.height($mainMenuBar.height());
+                }
+                else {
+                    // Unstick the div.
+                    $mainMenuBar.removeClass('stick');
+                    $mainMenuBarAnchor.height(0);
+                }
+            });
+        });
+    </script>
+    <script src="~/Scripts/Catalogos/LicitacionesAclaracionDudas.js"></script>
+}
+
+<!-- Modal loading -->
+<div class="modal fade" id="modal_loading">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header" style="text-align:center;">
+                <h4 class="modal-title">Generando Documento</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container">
+                    <img style="width:100%" src="~/Img/loading.gif">
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <!--<div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+            </div>-->
+
+        </div>
+    </div>
+</div>

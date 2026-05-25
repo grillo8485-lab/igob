@@ -1,0 +1,69 @@
+﻿@{ bool disabled = false; }
+@if (ViewBag.ConslusionResp != null)
+{
+    disabled = ViewBag.ConslusionResp;
+}
+
+<fieldset style="overflow:auto">
+    <legend>Datos Generales</legend>
+    <input type="hidden" id="UEVieneCatalogo" name="UEVieneCatalogo" value="@(ViewBag.BSEM != null ? (ViewBag.BSEM.UEVieneCatalogo ? "true" : "false") : "true")" />
+    <div class="row col-12">
+        <label for="BienServicio" class=" col-md-2 col-xs-12">Buscador del bien o servicio: </label>
+        <input id="BienServicio" name="BienServicio" type="text" class="required form-control col-md-10 col-xs-12" disabled value="@(ViewBag.bienservicio != null ? ViewBag.bienservicio.BienServicio : "")" />
+    </div>
+
+    <div class="row col-12">
+        <label for="DescripcionBS" class=" col-md-2 col-xs-12">Descripción del bien o servicio: </label>
+        <textarea id="DescripcionBS" name="DescripcionBS" type="text" class="required form-control col-md-10 col-xs-12" disabled style="resize:none">@(ViewBag.bienservicio != null ? ViewBag.bienservicio.Descripcion : "")</textarea>
+    </div>
+
+    <div class="row col-12">
+        <label for="CodigoSCIAN" class=" col-md-2 col-xs-12">
+            Código del SCIAN
+            <a href="#" data-toggle="tooltip" title="Sistema de Clasificación Industrial de América del Norte"><i class="fa fa-question-circle"></i></a>
+        </label>
+        <input id="CodigoSCIAN" name="CodigoSCIAN" type="text" class="required form-control col-md-4 col-xs-12" disabled value="@(ViewBag.bienservicio != null ? ViewBag.bienservicio.CodigoScian : "")" />
+
+        <label for="ClasificacionSCIAN" class=" col-md-2 col-xs-12">Clasificación del SCIAN</label>
+        <input type="text" class="required form-control col-md-4 col-xs-12" name="ClasificacionSCIAN" id="ClasificacionSCIAN" disabled value="@(ViewBag.categorscian != null ? ViewBag.categorscian.Titulo : "")" />
+    </div>
+
+    <br />
+    <hr />
+    <br />
+    <legend>Conclusiones</legend>
+    <table class="table-responsive table @(disabled ? "disabledClick" : "")" id="conclusionesEstMerc">
+        <thead>
+            <tr>
+                <td>Reactivos</td>
+                <td>Si</td>
+                <td>No</td>
+            </tr>
+        </thead>
+        <tbody>
+            @if (disabled)
+            {
+                foreach (var item in ViewBag.conclusiones)
+                {
+                    <tr>
+                        <td>@item.Reactivo</td>
+                        <td><input type="radio" name="@item.IdConclusionEstudioMercado" value="1" @(item.Respuesta ? "checked" : "") /></td>
+                        <td><input type="radio" name="@item.IdConclusionEstudioMercado" value="0" @(!item.Respuesta ? "checked" : "") /></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                foreach (var item in ViewBag.conclusiones)
+                {
+                    <tr>
+                        <td>@item.Reactivo</td>
+                        <td><input type="radio" name="@item.IdReactivoConclusionEM" value="1" checked /></td>
+                        <td><input type="radio" name="@item.IdReactivoConclusionEM" value="0" /></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-secondary @(disabled ? "disabledClick" : "")" onclick="GetInputsTableCon()" id="saveconclusionestable">Guardar conclusiones</button>
+</fieldset>

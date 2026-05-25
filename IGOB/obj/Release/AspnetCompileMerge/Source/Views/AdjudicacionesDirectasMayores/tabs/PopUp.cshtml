@@ -1,0 +1,23 @@
+﻿<div class="modal fade" id="Pop-Up" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Requisición Monto</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                <div class="modal-body">
+                    <br />
+                    <h4 id="titlePopUpModal"></h4>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cerrar" />
+                </div>
+            }
+        </div>
+    </div>
+</div>

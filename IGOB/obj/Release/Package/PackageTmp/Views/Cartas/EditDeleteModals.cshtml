@@ -1,0 +1,91 @@
+﻿<!-- Modal Edit - New -->
+<div class="modal fade" id="CartasModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Editar Carta</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Id = "form-Cartas" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <div class="row col-12">
+                        <div class="col-5">
+                            <label>Modelo de Carta:</label>
+                            @Html.DropDownList("IdTipoCarta", ViewBag.TCList as SelectList, "Seleccione el Tipo de Carta", new { @class = "form-control", @Required = "" })
+                        </div>
+                        <div class="col-4">
+                            <label>Inciso:</label>   
+                            <input type="text" name="Inciso" id="Inciso" class="form-control" required />
+                        </div>
+                        <div class="col-3">
+                            <label>Carta obligatoria por ley:</label>
+                            <select id="Obligada" name="Obligada" class="form-control" required>
+                                <option value="" disabled selected="selected">Seleccione</option>
+                                <option value="1">Sí</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-12">
+                            <label>Nombre identificador de la carta:</label>
+                            <input type="text" name="Nombre" id="Nombre" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-12">
+                            <label>Carta:</label>
+                            <textarea name="Carta" cols="50" rows="5" id="Carta" class="form-control" required style="resize:none"></textarea>
+                        </div>
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-12">
+                            <label>Descripción de la carta a solicitar:</label>
+                            <textarea name="Solicitada" cols="50" rows="3" id="Solicitada" required class="form-control" style="resize:none"></textarea>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="IdCarta" id="IdCarta" value="0" />
+                    <input type="hidden" name="IdGobierno" value="@((ViewBag.gob != null) ? ViewBag.gob : 0)" />
+                    <input type="hidden" name="FechaRegistro" id="FechaRegistro" value="" />
+                    <input type="hidden" name="IdEntidadPertenece" value="1" />
+                    <input type="hidden" name="IdEstatus" id="IdEstatus" value="0" />
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Editar" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->
+<!-- Modal Delete -->
+<div class="modal fade" id="DeleteCartasModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Eliminar Registro</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <br />
+                    <h4 id="titleCarta"></h4>
+                    <input type="hidden" class="IdCarta" />
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Eliminar" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->

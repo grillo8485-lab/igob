@@ -1,0 +1,143 @@
+﻿@model IEnumerable<iGob.Entidades.beAdjudicacionConsulta>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+
+    @if (ViewBag.IdPerfil == 3)
+    {
+
+        @Html.ActionLink("Crear Adjudicación", "Index", "AdjudicacionesDirectasMayores", new { tipo = ViewBag.tipoAdjudicacion, id = 0 }, new { @class = "btn btn-secondary" })
+        <br /><br />
+    }
+
+
+    <table class="table">
+        <thead align="justify">
+            <tr>
+                <th>Acciones</th>
+                <th>Estatus</th>
+                @( ViewBag.IdPerfil == 8 ? Html.Raw("") : Html.Raw("<th> Fecha y hora de creación</th>") )
+                <th>Número de requisición / servicio</th>
+                @( ViewBag.IdPerfil == 8 ? Html.Raw("") : Html.Raw("<th>Número oficio de solicitud</th>") )
+                <th>Número de licitación</th>
+                <th>Solicitud</th>
+                @( ViewBag.IdPerfil == 8 ? Html.Raw("") : Html.Raw("<th>Valor aproximado</th>") )
+                <th>Número oficio de certificación de recurso</th>
+                <th>Origen de recurso</th>
+                <th>Capítulos</th>
+                <th>Partida</th>
+                <th>Ejercicio</th>
+                <th>@Html.DisplayNameFor(model => model.Observaciones)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td align="center" style="vertical-align:middle">
+                        @if (ViewBag.IdPerfil == 8)
+                        {
+                            <div class="button-group">
+                                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" style="color:black !important"><span class="glyphicon glyphicon-tasks"></span> <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a title="Recibir propuesta técnica" href="@(Url.Action("Tecnica","AdjudicacionesDirectasMayores",new { @id=item.IdAdjudicacion,@tipo=item.IdTipoAdjudicacion}))" class="small" style="color:black !important;@(item.IdEstatusEnvioPropuestaEconomica != 10 ? "" : "pointer-events: none;cursor: default;opacity:.35;")" tabIndex="-1"><span class="glyphicon glyphicon-download-alt" style="color:black !important"></span>Propuesta técnica</a></li>
+                                    <li><a title="Recibir propuesta económica" href="@(Url.Action("Economica","AdjudicacionesDirectasMayores",new { @id=item.IdAdjudicacion,@tipo=item.IdTipoAdjudicacion}))" class="small" style="color:black !important;@(item.IdEstatusEnvioPropuestaTecnica == 0  || item.IdEstatusEnvioPropuestaEconomica == 10 ? "pointer-events: none;cursor: default;opacity:.35;" : "") " tabIndex="-1"><span class="glyphicon glyphicon-download-alt" style="color:black !important"></span>Propuesta económica</a></li>
+                                </ul>
+                            </div>
+                        }
+                        @*else if (ViewBag.IdPerfil == 3 && item.IdEstatusAdjudicacion>=110)
+                            {
+                                <div class="button-group">
+                                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" style="color:black !important"><span class="glyphicon glyphicon-tasks"></span> <span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="@Url.Action("RecibirPropuestaTecnica","AdjudicacionesDirectasMayores",new { @id=item.IdAdjudicacion,@tipo=item.IdTipoAdjudicacion})" class="small" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-download-alt" style="color:black !important"></span>Recibir Propuesta Técnica</a></li>
+                                        <li><a href="@Url.Action("RecibirPropuestaEconomica","AdjudicacionesDirectasMayores",new { @id=item.IdAdjudicacion,@tipo=item.IdTipoAdjudicacion})" class="small" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-download-alt" style="color:black !important"></span>Recibir Propuesta Económica</a></li>
+                                    </ul>
+                                </div>
+                            }*@
+                        else
+                        {
+                            <div class="form-group" style="min-width:100px;">
+                                <a title="@(ViewBag.IdPerfil == 2 ? "Agregar presupuesto" : (ViewBag.IdPerfil == 4 ? "Autorizar requisición" : ""))" onclick="edit(@item.IdAdjudicacion,@item.IdTipoAdjudicacion)" @(item.IdEstatus == 30 ? "disabled" : "") class="btn btn-secondary btn-sm">
+                                    <span class="icon-edit"></span>
+                                </a>
+                            </div>
+                        }
+                    </td>
+                    <td>
+                        @(item.Estatus)
+                    </td>
+                    @( ViewBag.IdPerfil == 8 ? Html.Raw("") : MvcHtmlString.Create("<td>" + item.FechaAdjudicacion + "</td>") )
+
+                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AdjudicacionFolio)
+                    </td>
+
+
+                        @( ViewBag.IdPerfil == 8 ? Html.Raw("") : MvcHtmlString.Create("<td>" + item.NumeroOficioSolicitud + "</td>") )
+
+                    
+                    <td>
+                        @( item.Acepta2daLicitacion == 0 ? " Primera Licitación " : "Segunda Licitacion" )
+                    </td>
+                    
+                    <td>
+                        @(ViewBag.IdPerfil == 8 ? item.TipoSolicitud : item.TipoAdjudicacion)
+                    </td>
+
+                    @( ViewBag.IdPerfil == 8 ? Html.Raw("") : MvcHtmlString.Create("<td align='right'> $" + item.MontoAproximado + "</td>") )
+                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumeroOficioCertificacion)
+                    </td>
+                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrigenRecurso)
+                    </td>
+                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Capitulo)
+                    </td>
+                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Partida)
+                    </td>
+                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ejercicio)
+                    </td>
+                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Observaciones)
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+            $(".table").DataTable({
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+                },
+                sort: false
+            });
+
+
+
+        });
+
+        function edit(IdAdjudicacion, TipoAdjudicacion) {
+            location.href = "/AdjudicacionesDirectasMayores/Index/" + IdAdjudicacion + "?tipo=" + TipoAdjudicacion + "";
+        }
+    </script>
+}

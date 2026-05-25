@@ -1,0 +1,73 @@
+﻿@model List<iGob.Entidades.beBienesServicios>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @section css{
+        <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+        <link href="~/Content/jquery-ui.structure.css" rel="stylesheet" />
+        <link href="~/Content/jquery-ui.theme.css" rel="stylesheet" />
+    }
+    <style>
+        #BSModal .row {
+            margin-bottom: 15px;
+        }
+
+        .ui-autocomplete {
+            max-height: 350px;
+            overflow-y: auto;
+            width: 350px;
+            max-width: 350px;
+            /* prevent horizontal scrollbar */
+            overflow-x: hidden;
+            /* add padding to account for vertical scrollbar */
+            padding-right: 20px;
+        }
+    </style>
+}
+<br />
+<button class="btn btn-secondary new-BS">Nuevo Bien o Servicio</button>
+<hr />
+<div class="row col-12 text-right">
+    <div class="col-1 text-right">
+        <label style="margin-top: 7px;">Capítulo: </label>
+    </div>
+    <div class="input-group col-6">
+        @Html.DropDownList("IdCapituloBuscar", ViewBag.capitulosListBuscar as SelectList, "Seleccionar", new { @class = "form-control", @Required = "" })
+    </div>
+    <button type="button" class="btn btn-default" id="IdBuscarPorCapitulo">
+        <span class="icon-search"></span>
+    </button>
+</div>
+<br />
+
+<table class="table" id="tableBS" style="width:100%">
+    <thead align="center">
+        <tr>
+            <th align="justify">Acciones</th>
+            <th align="justify">Código scan</th>
+            <th align="justify">Capítulo</th>
+            <th align="justify">Partida</th>
+            <th align="justify">Productos y servicios</th>
+            <th align="justify">Familia</th>
+            <th align="justify">Unidad de medida</th>
+            <th align="justify">Marca</th>
+            <th align="justify">Tipo Modificador</th>
+            <th align="justify">Tipo Producto</th>
+            <th align="justify">Clave productos y servicios</th>
+            <th align="justify">Impuesto</th>
+            <th align="justify">Características</th>
+            <th align="justify">Precio unitario de lista sin IVA</th>
+            <th align="justify">Certificación</th>
+        </tr>
+    </thead>
+
+</table>
+@{
+    Html.RenderPartial("EditDeleteModals");
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+}
+
+@section scripts{
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/Catalogos/AccionesBS.js"></script>
+}

@@ -1,0 +1,149 @@
+﻿<!-- Modal -->
+<div class="modal fade" id="modalDependencia" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title"><label id="formEditCreate"></label></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div align="center"><strong id="MensajeForm"></strong></div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, htmlAttributes: new { @class = "DependenciaForm" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+
+                    <input type="hidden" id="IdDependencia" name="IdDependencia" class="form-control" value="0" />
+                    <input type="hidden" id="IdUsuarioRegistro" name="IdUsuarioRegistro" class="form-control" value="1" />
+                    <input type="hidden" id="IdGobierno" name="IdGobierno" class="form-control" value="1" />
+
+                    <div class="row col-12">
+                        <div class="col-5">
+                            <label> Entidad: </label>
+                            @if (ViewBag.ListEntidadesFederativas != null)
+                            {
+                                @Html.DropDownList("ClaveEstado", ViewBag.ListEntidadesFederativas as SelectList, "Seleccione un Estado", new { @class = "form-control", @Required = "", @id = "ClaveEstado" });
+                            }
+                        </div>
+                        <div class="col-7">
+                            <label> Municipio: </label>
+                            <select id="IdMunicipio" name="IdMunicipio" class="form-control" required></select>
+                        </div>
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-9">
+                            <label> Nombre de la dependencia: </label>
+                            <input type="text" autocomplete="off" id="Dependencia" name="Dependencia" class="form-control" required />
+                        </div>
+                        <div class="col-3">
+                            <label> Abreviatura: </label>
+                            <input type="text" autocomplete="off" id="Abreviatura" name="Abreviatura" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-3">
+                            <label style="text-transform:uppercase !important"> RFC: </label>
+                            <input type="text" autocomplete="off" id="Rfc" name="Rfc" class="form-control" required />
+                        </div>
+                        <div class="col-9">
+                            <label> Calle: </label>
+                            <input type="text" autocomplete="off" id="Calle" name="Calle" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-3">
+                            <label> Número Exterior: </label>
+                            <input type="number" autocomplete="off" name="NoExterior" id="NoExterior" class="form-control textDerecha" required />
+                        </div>
+                        <div class="col-3">
+                            <label> Numero Interior: </label>
+                            <input type="text" autocomplete="off" id="NoInterior" name="NoInterior" class="form-control textDerecha" required />
+                        </div>
+                        <div class="col-6">
+                            <label> Colonia: </label>
+                            <input type="text" autocomplete="off" id="Colonia" name="Colonia" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-9">
+                            <label> Localidad: </label>
+                            <input type="text" id="Localidad" name="Localidad" class="form-control" required />
+                        </div>
+                        <div class="col-3">
+                            <label> Código Postal: </label>
+                            <input type="number" id="CodigoPostal" autocomplete="off" name="CodigoPostal" class="form-control textDerecha" required />
+                        </div>
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-4">
+                            <label> Teléfono: </label>
+                            <input type="tel" id="Telefono" autocomplete="off" name="Telefono" class="form-control textDerecha" required />
+                        </div>
+                        <div class="col-8">
+                            <label> Correo: </label>
+                            <input type="email" id="Email" autocomplete="off" name="Email" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-4">
+                            <label> Logo: </label>
+                            <input type="text" id="Logo" autocomplete="off" name="Logo" class="form-control" required />
+                        </div>
+                        <div class="col-8">
+                            <label> Sitio Web: </label>
+                            <input type="url" id="Sitiooficial" name="Sitiooficial" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-12">
+                            <label> Titular:</label>
+                            <input type="text" id="Titular" name="Titular" class="form-control" required />
+                        </div>
+                        @*<div class="col-4">
+                                <label> Gobierno: </label>
+                                @if (ViewBag.ListGob != null)
+                                {
+                                    @Html.DropDownList("IdGobierno", ViewBag.ListGob as SelectList, "Seleccione Gobierno", new { @class = "form-control", @Required = "" })
+                                }
+                            </div>*@
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <input type="submit" value="Guardar" id="submit" class="btn btn-secondary" />
+                </div>
+
+            }
+        </div>
+
+    </div>
+</div>
+
+<!--
+<div class="modal fade" id="FormDelete" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content
+<div class="modal-content">
+    <div class="modal-header changeColorModal">
+        <h4 class="modal-title" id="DeleteTitle"></h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+    </div>
+    @using (Html.BeginForm(null, null, FormMethod.Post, htmlAttributes: new { @class = "FormDelete" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div style="margin:30px;">
+            <label style="font-weight:bolder; font-size: 18px"><strong id="ConfirDelete"></strong></label>
+            <input type="hidden" id="deleteId" class="form-control" />
+        </div>
+        <div align="center"><strong id="MensajeDelete"></strong></div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <input type="submit" value="Eliminar" class="btn btn-primary" />
+        </div>
+    }
+</div>
+    </div>
+</div>
+-->

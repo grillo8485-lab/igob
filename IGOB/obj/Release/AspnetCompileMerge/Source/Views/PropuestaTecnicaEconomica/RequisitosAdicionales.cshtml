@@ -1,0 +1,254 @@
+﻿
+@model IGOB.Models.Requisicion
+<!-- CONDICIONES DE PAGO -->
+@{ var activarBtn = "";}
+@if (Model.oManifiestosProveedores.AnnioExperiencia == 0)
+{
+
+    { activarBtn = "disabledClick"; }
+}
+else
+{
+    if (ViewBag.idPerfil == 8)
+    {
+        activarBtn = "";
+
+    }
+    else
+    {
+        activarBtn = "disabledClick";
+    }
+}
+<div id="div_Requisitos_Adicionales" class="container-fluid tab-pane fade">
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>REQUISITOS ADICIONALES</strong>
+        </div>
+    </div>
+    <br />
+    <div id="cargarRequisitosAdicionales" class="@Model.activar">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form", @id = "div_Requisitos_AdicionalesForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary()
+            <input type="hidden" id="IdManifiestoProveedor" name="IdManifiestoProveedor" value="@Model.oManifiestosProveedores.IdManifiestoProveedor" />
+            <input type="hidden" id="IdRequisicion" name="IdRequisicion" value="@Model.oRequisicones.IdRequisicion" />
+            <input type="hidden" id="IdProveedorRqInvitacion" name="IdProveedorRqInvitacion" value="@Model.oManifiestosProveedores.IdProveedorRqInvitacion" />
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>*Descripción de infraestructura:</label>
+                        @Html.TextArea("Infraestructura", Model.oManifiestosProveedores.Infraestructura, new { @id = "Infraestructura", @class = "form-control ", @Required = "" })
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>*Experiencia adquirida en el ramo(años)</label>
+                        @Html.TextBox("AnnioExperiencia", Model.oManifiestosProveedores.AnnioExperiencia == 0 ? 1 : Model.oManifiestosProveedores.AnnioExperiencia, new { @type = "number", @id = "AnnioExperiencia number Required", @class = "form-control ", @Required = "", @min = 1 })
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>*Número de empleados</label>
+                        @Html.TextBox("NumeroEmpleados", Model.oManifiestosProveedores.NumeroEmpleados == 0 ? 1 : Model.oManifiestosProveedores.NumeroEmpleados, new { @type = "number", @class = "form-control number Required", @Required = "", @id = "NumeroEmpleados", @min = 1 })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4 ml-auto">
+                    <div class="form-group">
+                        <label>*Domicilio para oír o recibir notificaciones</label>
+                        @Html.TextArea("Domicilio", Model.oManifiestosProveedores.Domicilio, new { @id = "Domicilio", @class = "form-control ", @Required = "" })
+                    </div>
+
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Aplica capital contable</label>
+
+                        <div class="input-group">
+
+
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" aria-label="Checkbox for following text input" class="custom-control-input" name="AplicaCapitalContable" value="@(Model.oManifiestosProveedores.AplicaCapitalContable)" id="AplicaCapitalContable" @(Model.oManifiestosProveedores.AplicaCapitalContable == 1 ? "checked" : "") onclick="activarAplicaCapitalContable()">
+                                        <label class="custom-control-label" for="AplicaCapitalContable"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            @Html.TextBox("CapitalContable", Model.oManifiestosProveedores.CapitalContable > 0 ? Model.oManifiestosProveedores.CapitalContable : 1, new { @type = "text", @class = "form-control ",@name="number", @readonly = true, @id = "CapitalContable" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Ingreso último año:</label>
+                        @Html.TextBox("IngresosUltimoAnnio", Model.oManifiestosProveedores.IngresosUltimoAnnio > 0 ? Model.oManifiestosProveedores.IngresosUltimoAnnio : 1, new { @type = "text", @maxlength = "18", @class = "form-control" ,@style= "text-align: right;", @id = "IngresosUltimoAnnio" })
+                    </div>
+                </div>
+            </div>
+
+
+        }
+    </div>
+
+    <br />
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>PRINCIPALES CLIENTES DE LOS ULTIMOS DOS EJERCICIOS</strong>
+        </div>
+    </div>
+    <br />
+    <div id="cargarBtnNuevo">
+        <button type="button" class="btn btn-secondary btn-circle @activarBtn" onclick="nuevoClienteProveedor(0)">
+            <span class="icon-add-3"></span>
+            NUEVO CLIENTE
+        </button>
+    </div>
+    <br />
+    <br />
+    <div id="cargarTablaPricipalesCliente">
+        <table id="tablaPricipalesCliente" class="table" width="100%">
+            <thead style="width:auto;">
+                <tr>
+
+                    <th>Acciones</th>
+                   
+                    <th>Cliente</th>
+                    <th>Dirección</th>
+                    <th>Teléfono</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.lstManifiestoProveedoresClientes)
+                {
+                    <tr>
+                        <td>
+                            <div class="btn-group @(Model.activar)">
+                                <button class="btn btn-secondary btn-sm )" style="margin-right:5px;" onclick="nuevoClienteProveedor(@item.IdManifiestoProveedorCliente)"><span class="fa fa-pencil"></span></button>
+                                <button class="btn btn-secondary btn-sm )" style="margin-right:5px;" onclick="eliminarManifiestoProveedorClienteConfirm(@item.IdManifiestoProveedorCliente)"><span class="fa fa-trash-o"></span></button>
+                            </div>
+                        </td>
+                       
+                        <td>@item.NombreCliente</td>
+                        <td style="text-align:right">@item.DirecionCliente</td>
+                        <td style="text-align:right">@item.TelefonoCliente</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <br />
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>CARTA DECLARATORIAS SOLICITANTE</strong>
+        </div>
+    </div>
+    <br />
+
+    <br />
+    <div id="CargarTablaCartaDeclaratoriaSolcitantes">
+        <table id="tablaCartaDeclaratoriaSolcitantes" class="table" style="width:100%" width="100%">
+            <thead style="width:auto;">
+                <tr>
+
+                    <th>Manifiesto</th>
+                    <th>Acepta</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.lstManifiestoProveedoresDeclaratorias)
+                {
+                    <tr>
+
+                        <td>@item.Manifiesto</td>
+                        <td>
+                            <div class="custom-control custom-checkbox @Model.activar">
+                                <input type="checkbox" class="custom-control-input" name="@item.IdManifiestoProveedorDeclaratoria" value="@item.IdManifiestoProveedorDeclaratoria" id="cm_@item.IdManifiestoProveedorDeclaratoria" @(item.Aceptacion ? "checked" : "")>
+                                <label class="custom-control-label" for="@item.IdManifiestoProveedorDeclaratoria" onclick="aceptarManifiestoConfirm(@item.IdManifiestoProveedorDeclaratoria)"></label>
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <br />
+    <div id="CargarRequisitosAdicionalesPanel1">
+        <div class="row form-group @Model.visibleTecnicaSolicitante @Model.activarTecnicaSolicitante">
+            <div class="col-md-2 text-right">Cumple con lo ofertado (condiciones de pago):</div>
+            <div class="col-md-2 text-left input-group">
+                <div class="custom-control custom-checkbox">
+                    <input type="radio" class="custom-control-input" name="ManifiestoDependenciaCumple" value="1" id="ManifiestoDependenciaCumple1" @(Model.oProveedoresRequisicionesInvitacion.ManifiestoDependenciaCumple ? "checked" : "") onclick="validaDependenciaCumple('ManifiestoDependenciaCumple','ManifiestoFundamento')">Si
+                    <label class="custom-control-label" for="ManifiestoDependenciaCumple1"></label>
+
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="radio" class="custom-control-input" name="ManifiestoDependenciaCumple" value="0" id="ManifiestoDependenciaCumple2" @(!Model.oProveedoresRequisicionesInvitacion.ManifiestoDependenciaCumple ? "checked" : "") onclick="validaDependenciaCumple('ManifiestoDependenciaCumple','ManifiestoFundamento')">No
+                    <label class="custom-control-label" for="ManifiestoDependenciaCumple2"></label>
+                </div>
+            </div>
+            <div class="col-md-2 text-right">Observaciones y fundamentación legal:</div>
+            <div class="col-md-6 text-left">
+                <textarea id="ManifiestoFundamento" name="ManifiestoFundamento" rows="3" cols="33" class="form-control" @(Model.oProveedoresRequisicionesInvitacion.ManifiestoDependenciaCumple? "disabled":"")>@Model.oProveedoresRequisicionesInvitacion.ManifiestoFundamento</textarea>
+            </div>
+        </div>
+        <div class="row form-group @Model.visibleTecnicaRevisor  @Model.activarTecnicaRevisor">
+            <div class="col-md-2 text-right">Rechazar:</div>
+            <div class="col-md-2 text-left  input-group">
+                <div class="custom-control custom-checkbox">
+                    <input type="radio" class="custom-control-input" name="ManifiestoAdquisicionCumple" value="1" id="ManifiestoAdquisicionCumple1" @(Model.oProveedoresRequisicionesInvitacion.ManifiestoAdquisicionCumple ? "checked" : "") onclick="validaCumpleRevisor('ManifiestoAdquisicionCumple','ManifiestoAdqObservacion')">Si
+                    <label class="custom-control-label" for="ManifiestoAdquisicionCumple1"></label>
+
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="radio" class="custom-control-input" name="ManifiestoAdquisicionCumple" value="0" id="ManifiestoAdquisicionCumple2" @(!Model.oProveedoresRequisicionesInvitacion.ManifiestoAdquisicionCumple ? "checked" : "") onclick="validaCumpleRevisor('ManifiestoAdquisicionCumple','ManifiestoAdqObservacion')">No
+                    <label class="custom-control-label" for="ManifiestoAdquisicionCumple2"></label>
+                </div>
+            </div>
+            <div class="col-md-2 text-right">Observaciones adquisición</div>
+            <div class="col-md-6 text-left">
+                <textarea id="ManifiestoAdqObservacion" name="ManifiestoAdqObservacion" rows="3" cols="33" class="form-control" @(!Model.oProveedoresRequisicionesInvitacion.ManifiestoAdquisicionCumple? "disabled":"")>@Model.oProveedoresRequisicionesInvitacion.ManifiestoAdqObservacion</textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal nuevo lote -->
+<div class="modal fade" id="modal_Nuevo_Cliente">
+    <div class="modal-dialog modal-lg  modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title" id="tituloProceso">NUEVO CLIENTE</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container">
+                    <div id="CargarDatosCliente">
+                        @{
+
+                            Html.RenderPartial("Componentes/EditCliente");
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                <button type="button" class="btn btn-secondary" id="btnGuardarProveedorCliente" onclick="validarFormularioProveedorCLiente()">GUARDAR</button>
+            </div>
+
+        </div>
+    </div>
+</div>

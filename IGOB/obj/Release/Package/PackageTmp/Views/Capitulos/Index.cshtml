@@ -1,0 +1,44 @@
+﻿@model List<iGob.Entidades.beCapitulos>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<button class="btn btn-secondary new-Cap">Nuevo Capítulo</button>
+<br /><br />
+<div>
+    <table class="table table-bordered table-hover" id="tableCap">
+        <thead align="center">
+            <tr>
+                <th> Acciones </th>
+                <th> Clave  </th>
+                <th> Capitulo</th>
+            </tr>
+        </thead>
+        <tbody align="center">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="form-group" style="min-width:100px;">
+                            <a title="Eliminar registro" id="@item.IdCapitulo" data-title="@item.Capitulo" class="btn btn-secondary btn-circle delete-capitulo btn-sm"><span class="icon-garbage-2"></span></a>
+                            <a title="Editar registro" id="@item.IdCapitulo" data-title="@item.ClaveCapitulo" data-Capitulo="@item.Capitulo" class="btn btn-secondary btn-circle edit-Cap btn-sm"><span class="icon-edit"></span></a>
+                        </div>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClaveCapitulo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Capitulo)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@{
+    Html.RenderPartial("EditDeleteModals");
+}
+
+@section scripts{
+    <script charset="utf-8" type="text/javascript" src="~/Scripts/Catalogos/AccionesCap.js"></script>
+}

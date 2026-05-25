@@ -1,0 +1,268 @@
+﻿@model IGOB.Models.Adjudicacion
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section css{
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.theme.css" rel="stylesheet" />
+    <style>
+        #div_asignar_proveedores {
+            overflow: hidden;
+        }
+        #modal_condiciones_entrega .row .col-sm-6 label {
+            margin-bottom: 15px;
+        }
+
+        #modal_condiciones_entrega .col-10 .custom-control-label {
+            line-height: 25px;
+            margin-left: -3px;
+        }
+
+        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+            color: #fff;
+            background-color: #aaa;
+        }
+
+        #AdjFirm .col-sm-12 {
+            margin-bottom: 15px;
+        }
+
+        #map {
+            width: 100% !important;
+            height: 15vw !important;
+        }
+
+        .dataTables_filter {
+            text-align: right;
+        }
+
+        label[class*="error"] {
+            color: red;
+            display: block !important;
+        }
+
+        .sub_banner {
+            padding: 10.5px;
+            margin-top: 15px
+        }
+
+            .sub_banner strong {
+                font-size: 9.94pt;
+            }
+
+        #tableClavePresupuestal_length, #tableClavePresupuestal_filter {
+            display: none;
+        }
+
+        .datetimepicker-inline {
+            display: none !important;
+        }
+
+        .modal-body > .row {
+            margin: 0px 0px 15px 0px;
+        }
+
+        .ui-autocomplete {
+            max-height: 350px;
+            overflow-y: auto;
+            width: 350px;
+            max-width: 350px;
+
+        }
+
+        .ui-menu .ui-menu-item-wrapper {
+            border-bottom: 1px solid #ADCB60 !important;
+        }
+
+        #aceptar_propuestaTec .custom-control-label::before {
+            box-shadow: 0 0 0 #fff, 0 0 11px #007BF6, 0 0 5px #fff;
+        }
+    </style>
+}
+<div>
+    <input type="hidden" id="Formulario" value="@ViewBag.Formulario" />
+    <div class="pos-f-t">
+
+        <div class="mainMenuBarAnchor"></div>
+        <nav class="navbar text-white navbar-light changeColorModal mainMenuBar">
+            <button class="navbar-toggler @(ViewBag.IdPerfil == 2 ? "d-none": "")" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="col-sm-7">
+                <h5 style="font-size:16px;color: #fff;font-weight:bolder;">
+                    Solicitud: @(Model.oAdjudicaciones.Acepta2daLicitacion == 0 ? "Primera Licitación" : "Segunda Licitación") - Adjudicación Folio: @(Model.oAdjudicaciones.AdjudicacionFolio == null ? "Sin Folio" : Model.oAdjudicaciones.AdjudicacionFolio)  @(ViewBag.IdPerfil == 3 ? Html.Raw("") : Html.Raw(" - Enviada - " + ViewBag.Dependencia) )
+                </h5>
+            </div>
+            <div class="@(ViewBag.IdPerfil == 2 ? "col-sm-5" : "col-sm-4")" align="right" id="controls__Confirmar" style="display: inline;">
+                @if (ViewBag.IdPerfil == 8)
+                {
+                    <button id="btnProveedorAutorizaTec" title="Autorizar" onclick="propuestaTec()" disabled class="btn btn-secondary @(Model.isCheckTec == 0 ? "" : "disabledClick" ) " style="margin-top:6px;display:none">ENVIAR PROPUESTA TÉCNICA</button>
+                    <button id="btnProveedorAutorizaEco" title="Autorizar" onclick="propuestaEco()" class="btn btn-secondary @(ViewBag.TipoPropuesta == 2 ? "": "d-none" ) @(Model.isCheckEco  == 0 ? "" : "disabledClick")" style="margin-top:6px;">ENVIAR PROPUESTA ECONÓMICA</button>
+                }
+
+                    <button id="btnAutoriza" title=@(Model.oAdjudicaciones.IdEstatusAdjudicacion == 0 ? "Guardar": "Autorizar") onclick="validarFormulario(true);" class="btn btn-secondary @(ViewBag.IdPerfil == 8 ? "d-none": (((Model.oAdjudicaciones.IdEstatusAdjudicacion == 0 || Model.oAdjudicaciones.IdEstatusAdjudicacion == 50 || Model.oAdjudicaciones.IdEstatusAdjudicacion == 20) &&  ViewBag.IdPerfil == 3) || (Model.oAdjudicaciones.IdEstatusAdjudicacion == 10 && ViewBag.IdPerfil == 2) || (Model.oAdjudicaciones.IdEstatusAdjudicacion == 30 && ViewBag.IdPerfil == 6) || (Model.oAdjudicaciones.IdEstatusAdjudicacion == 60 && ViewBag.IdPerfil == 4) || (Model.oAdjudicaciones.IdEstatusAdjudicacion == 70 && ViewBag.IdPerfil == 8)) ? "" : "disabledClick" )  @(Model.oAdjudicaciones.IdEstatusAdjudicacion == 60 ? "disabledClick" : "") " style="margin-top:6px; @(Model.oAdjudicaciones.IdEstatusAdjudicacion == 50 ? "display:none" : "")">@(Model.oAdjudicaciones.IdEstatusAdjudicacion == 0 || Model.oAdjudicaciones.IdEstatusAdjudicacion ==  50 ? "Guardar" : "Autorizar")</button>
+                @if (Model.oAdjudicaciones.IdEstatusAdjudicacion != 10 && Model.oAdjudicaciones.IdEstatusAdjudicacion != 20)
+                {
+                    <button id="btnRechaza" onclick="validarFormulario(false);" title="Rechazar" class="btn btn-secondary  @(ViewBag.IdPerfil == 8 ? "d-none": (Model.oAdjudicaciones.IdEstatusAdjudicacion == 50) || (Model.oAdjudicaciones.IdEstatusAdjudicacion == 0) || (Model.oAdjudicaciones.IdEstatusAdjudicacion != 20 && ViewBag.IdPerfil == 2) || (Model.oAdjudicaciones.IdEstatusAdjudicacion != 30 && ViewBag.IdPerfil == 6) || (Model.oAdjudicaciones.IdEstatusAdjudicacion == 70 && ViewBag.IdPerfil == 3) ? "d-none" : "" )" style="margin-top:6px">Rechazar</button>
+                }
+                else if (Model.oAdjudicaciones.IdEstatusAdjudicacion == 10 && ViewBag.IdPerfil == 2)
+                {
+                    <button id="btnRechaza" onclick="validarFormulario(false);" title="Rechazar" class="btn btn-secondary " style="margin-top:6px">Rechazar</button>
+                }
+                <a href="#" onclick="retornarPagina(@ViewBag.tipoRequisicion);" title="Regresar a la lista" class="btn btn-secondary" style="margin-top:6px">Regresar</a>
+            </div>
+        </nav>
+        <div class="collapse changeColorModal collapse show @(ViewBag.IdPerfil == 2 ? "d-none": "")" id="navbarToggleExternalContent">
+            <div class="bg-light p-1">
+                <ul class="nav nav-pills" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewBag.IdPerfil == 2  ? "disabledClick" : ViewBag.IdPerfil == 8 ?  "d-none": "") " id="DatosGeneralesTabPadre" data-toggle="pill" href="#div_datos_generales">DATOS GENERALES</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewBag.IdPerfil == 8 ?  "d-none": (Model.oAdjudicaciones.IdEstatusAdjudicacion == 50 && ViewBag.IdPerfil == 3) || ( ViewBag.IdPerfil == 2) || (ViewBag.IdPerfil == 6) || (Model.oAdjudicaciones.IdEstatusAdjudicacion == 60 && ViewBag.IdPerfil == 4) ? "" : "disabledClick")" id="div_presupuesto_liquidezTabPadre" data-toggle="pill" href="#div_presupuesto_liquidez">PRESUPUESTO Y LIQUIDEZ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewBag.TipoPropuesta == 2 ? "d-none": ViewBag.IdPerfil == 8 ?  "active show": (Model.oAdjudicaciones.IdEstatusAdjudicacion == 50 && ViewBag.IdPerfil == 3) || (Model.oAdjudicaciones.IdEstatusAdjudicacion == 60 && ViewBag.IdPerfil == 4) || (Model.oAdjudicaciones.IdEstatusAdjudicacion == 70 && ViewBag.IdPerfil == 8) ? "" : "disabledClick")" id="div_lotesTabPadre" data-toggle="pill" href="#div_lotes">LOTES</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewBag.TipoPropuesta == 2 ? "d-none": (Model.oAdjudicaciones.IdEstatusAdjudicacion == 50 && ViewBag.IdPerfil == 3) || (Model.oAdjudicaciones.IdEstatusAdjudicacion == 60 && ViewBag.IdPerfil == 4) || (Model.oAdjudicaciones.IdEstatusAdjudicacion == 70 && ViewBag.IdPerfil == 8) ? "" : "disabledClick")" id="div_condiciones_entregaTabPadre" data-toggle="pill" href="#div_condiciones_entrega">CONDICIONES DE ENTREGA</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewBag.TipoPropuesta == 2 ? "d-none": (Model.oAdjudicaciones.IdEstatusAdjudicacion == 50 && ViewBag.IdPerfil == 3) || (Model.oAdjudicaciones.IdEstatusAdjudicacion == 60 && ViewBag.IdPerfil == 4) || (Model.oAdjudicaciones.IdEstatusAdjudicacion == 70 && ViewBag.IdPerfil == 8) ? "" : "disabledClick")" id="div_condiciones_pagoTabPadre" data-toggle="pill" href="#div_condiciones_pago">CONDICIONES DE PAGO</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewBag.IdPerfil == 8 ? "d-none": (Model.oAdjudicaciones.IdEstatusAdjudicacion == 50 && ViewBag.IdPerfil == 3)|| (Model.oAdjudicaciones.IdEstatusAdjudicacion == 60 && ViewBag.IdPerfil == 4) ? "" : "disabledClick")" id="div_asignar_proveedoresTabPadre" data-toggle="pill" href="#div_asignar_proveedores">ASIGNAR PROVEEDORES</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewBag.IdPerfil == 8 ? "d-none": Model.oAdjudicaciones.IdEstatusAdjudicacion == 60 && ViewBag.IdPerfil == 4 ? "" : "d-none")" id="div_firmantesTabPadre" data-toggle="pill" href="#div_firmantes">FIRMANTES</a>
+                    </li>
+
+                    @if (ViewBag.TipoPropuesta == 1)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewBag.IdPerfil == 8 ? "" : "d-none")" id="div_propuesta_tecnicaTabPadre" data-toggle="pill" href="#div_propuesta_tecnica">DETALLES PROPUESTA TÉCNICA</a>
+                        </li>
+                    }
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tab panes -->
+<div class="tab-content">
+
+    @{
+        Html.RenderPartial("tabs/datos_generales");
+
+        Html.RenderPartial("tabs/presupuesto_liquidez");
+
+        Html.RenderPartial("tabs/lotes");
+
+        Html.RenderPartial("tabs/condiciones_entrega");
+
+        Html.RenderPartial("tabs/condiciones_pago");
+
+        Html.RenderPartial("tabs/proveedores");
+
+        Html.RenderPartial("tabs/firmante");
+
+        Html.RenderPartial("tabs/propuesta_tecnica");
+
+    }
+
+</div>
+@{
+    switch (ViewBag.TipoPropuesta)
+    {
+        case 0:
+            Html.RenderPartial("tabs/ModalNuevoLote");
+            Html.RenderPartial("tabs/ModalEliminarLote");
+            Html.RenderPartial("tabs/PopUp");
+            break;
+        case 1:
+            Html.RenderPartial("tabs/PropuestaTecnica");
+            break;
+        case 2:
+            Html.RenderPartial("tabs/ModalNuevoLote");
+            break;
+    }
+}
+
+@section Scripts{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            // Cache selectors for faster performance.
+            var $window = $(window),
+                $mainMenuBar = $('.mainMenuBar'),
+                $mainMenuBarAnchor = $('.mainMenuBarAnchor');
+
+            // Run this on scroll events.
+            $window.scroll(function () {
+                var window_top = $window.scrollTop();
+                var div_top = $mainMenuBarAnchor.offset().top;
+                var diff = (Math.abs((window_top - 9 )- (div_top)));
+
+                if (diff < 9) {
+                    return false;
+                }else if(window_top > div_top) {
+                    // Make the div sticky.
+                    $mainMenuBar.addClass('stick');
+                    $mainMenuBarAnchor.height($mainMenuBar.height());
+                }
+                else {
+                    // Unstick the div.
+                    $mainMenuBar.removeClass('stick');
+                    $mainMenuBarAnchor.height(0);
+                }
+            });
+
+            $(function () {
+
+                if (@ViewBag.Diferencia > 0 && @Model.oAdjudicaciones.IdEstatusAdjudicacion == 50) {
+                    bootbox.alert({
+                        size: "small",
+                        title: "Adjudicación",
+                        message: "El valor aproximado fue modificado por la Secretaria de Hacienda."
+                    });
+                }
+            });
+        });
+
+        var tipoAdjudicacion = @(Model.oAdjudicaciones.IdTipoAdjudicacion == 0 ? 0 : Model.oAdjudicaciones.IdTipoAdjudicacion);
+        var solicitud = @Model.oAdjudicaciones.IdTipoSolicitud;
+        var OficioSolicitud = @(Model.oAdjudicaciones.NumeroOficioSolicitud == null ? "null" : Model.oAdjudicaciones.NumeroOficioSolicitud);
+        var idPartida = @Model.oAdjudicaciones.IdPartida;
+        var OrigenAdjudicacion = "@Html.Raw(ViewBag.OrigenAdjudicacion)";
+        var justificacion = "@Html.Raw(Model.oAdjudicaciones.Justificacion)";
+
+        var Perfil = @ViewBag.IdPerfil;
+        var Estatus = @Model.oAdjudicaciones.IdEstatusAdjudicacion;
+
+        if (@ViewBag.TipoPropuesta == 0 && @ViewBag.IdPerfil == 8)
+            retornarPagina();    
+
+        if (@ViewBag.IdPerfil == 4)
+            $("#btnAutoriza, #btnRechaza").hide();            
+
+        @Model.condicionPago.Anticipo == 1 ? $("#customRadio1").prop("checked", "true") : $("#customRadio2").prop("checked", "true")
+
+
+        function retornarPagina() {
+        location.href = '/AdjudicacionConsulta/Index/' + @ViewBag.tipoAdjudicacion;
+        }
+
+        </script>
+
+        <script src="~/Scripts/date.format.js"></script>
+        <script src="~/Scripts/jquery-ui.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZRXUq794gmdIcVRUS0toiAQD9MnQEFYg&libraries=places&callback=initAutocomplete" async defer></script>
+        <script src="~/Scripts/inputMap.js"></script>
+        <script src="~/Scripts/AdjudicacionesDirectasMayores.js"></script>
+        <script src="~/Scripts/AdjudicacionesDirectasMayores2.js"></script>
+}

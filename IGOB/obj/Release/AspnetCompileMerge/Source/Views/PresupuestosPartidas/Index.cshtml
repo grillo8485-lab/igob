@@ -1,0 +1,112 @@
+﻿@model IEnumerable<iGob.Entidades.bePresupuestosPartidas>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section css{
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />    
+    <style>
+        .col-12 {
+            margin-bottom: 15px;
+        }
+        input[type=number] {
+            text-align: right;
+        }
+        .datetimepicker-inline{
+            display: none !important;
+        }
+        .tableDetails {
+            width: -webkit-fill-available !important;
+        }
+    </style>
+    }
+<br />
+<button class="btn btn-secondary new-Presupuestos">Nueva Partida Presupuestal</button>
+<br /><br />
+<table class="table" id="tablePresupuestos">
+    <thead align="center">
+        <tr>
+            <th>Acciones</th>
+            <th>Dependencia</th>
+            <th>Capítulo</th>
+            <th>Partida</th>
+            <th>Número Ministración</th>
+            <th>Ejercicio</th>
+            <th>Monto presupuestado total</th>
+            <th>Monto comprometido</th>
+            <th>Fallo ejecutado</th>
+            <th>Saldo final</th>
+            <th>Economía</th>
+        </tr>
+    </thead>
+    <tbody align="justify">
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td align="center">
+                <div class="form-group" style="min-width:100px;">
+                    <a title="Eliminar registro"
+                       data-prep="@item.IdPresupuestoPartida" class="btn btn-secondary btn-circle delete-Presupuestos btn-sm"><span class="icon-garbage-2"></span></a>
+                    <a title="Editar registro"
+                       data-prep="@item.IdPresupuestoPartida"
+                       data-idpartida="@item.IdPartida"
+                       data-montoprep="@item.MontoPresupuesto"
+                       data-montocomp="@item.MontoComprometido"
+                       data-montoejet="@item.MontoEjecutadoTotal"
+                       data-saldo="@item.MontoSaldo"
+                       data-economia="@item.MontoEconomia"
+                       data-numminis="@item.NumeroMinistracion"
+                       data-dependencia="@item.IdDependencia"
+                       data-idEjercicio="@item.IdEjercicioFiscal"
+                       data-ejercicio="@item.Ejercicio"
+                       data-fr="@item.FechaRegistro" class="btn btn-secondary btn-circle edit-Presupuestos btn-sm">
+                        <span class="icon-file-2"></span>
+                    </a>
+                </div>
+            </td>
+            <td>
+                <div>
+                    @Html.DisplayFor(modelItem => item.Dependencia)
+                </div>
+                
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Capitulo)
+            </td>
+            <td>
+                <div>
+                    @Html.DisplayFor(modelItem => item.Partida)
+                </div>
+            </td>
+            <td>
+                @Html.DisplayFor(modelitem => item.NumeroMinistracion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ejercicio)
+            </td>
+            <td>
+                @String.Format("{0:C}", item.MontoPresupuestoTotal)
+            </td>
+            <td>
+                @String.Format("{0:C}", item.MontoComprometido)
+            </td>
+            <td>
+                @String.Format("{0:C}", item.MontoEjecutadoTotal)
+            </td>
+            <td>
+                @String.Format("{0:C}", item.MontoSaldo)
+            </td>
+            <td>
+                @String.Format("{0:C}", item.MontoEconomia)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+@{
+    Html.RenderPartial("EditDeleteModals");
+}
+
+@section scripts{
+    <script src="~/Scripts/Catalogos/AccionesPresupuestosPartidas.js"></script>
+}
+

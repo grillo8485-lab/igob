@@ -1,0 +1,47 @@
+D:\Proyectos Web\Proyecto i Gob 2\iGob.Entidades\bin\Debug\iGob.Entidades.dll
+D:\Proyectos Web\Proyecto i Gob 2\iGob.Entidades\bin\Debug\iGob.Entidades.pdb
+D:\Proyectos Web\Proyecto i Gob 2\iGob.Entidades\obj\Debug\iGob.Entidades.dll
+D:\Proyectos Web\Proyecto i Gob 2\iGob.Entidades\obj\Debug\iGob.Entidades.pdb
+D:\Proyectos Web\Proyecto i Gob 2\iGob.Entidades\obj\Debug\iGob.Entidades.csprojAssemblyReference.cache
+D:\Proyectos Web\Proyecto i Gob 2\iGob.Entidades\obj\Debug\iGob.Entidades.csproj.CoreCompileInputs.cache
+D:\Proyecto i Gob NL\iGob.Entidades\bin\Debug\iGob.Entidades.dll
+D:\Proyecto i Gob NL\iGob.Entidades\bin\Debug\iGob.Entidades.pdb
+D:\Proyecto i Gob NL\iGob.Entidades\obj\Debug\iGob.Entidades.csproj.CoreCompileInputs.cache
+D:\Proyecto i Gob NL\iGob.Entidades\obj\Debug\iGob.Entidades.dll
+D:\Proyecto i Gob NL\iGob.Entidades\obj\Debug\iGob.Entidades.pdb
+D:\Proyecto Igob IMSS\iGob.Entidades\bin\Debug\iGob.Entidades.dll
+D:\Proyecto Igob IMSS\iGob.Entidades\bin\Debug\iGob.Entidades.pdb
+D:\Proyecto Igob IMSS\iGob.Entidades\obj\Debug\iGob.Entidades.dll
+D:\Proyecto Igob IMSS\iGob.Entidades\obj\Debug\iGob.Entidades.pdb
+D:\Proyecto Igob IMSS\iGob.Entidades\obj\Debug\iGob.Entidades.csprojAssemblyReference.cache
+D:\Proyecto Igob IMSS\iGob.Entidades\obj\Debug\iGob.Entidades.csproj.CoreCompileInputs.cache
+D:\SEDENA\iGob.Entidades\bin\Debug\iGob.Entidades.dll
+D:\SEDENA\iGob.Entidades\bin\Debug\iGob.Entidades.pdb
+D:\SEDENA\iGob.Entidades\obj\Debug\iGob.Entidades.csprojAssemblyReference.cache
+D:\SEDENA\iGob.Entidades\obj\Debug\iGob.Entidades.csproj.CoreCompileInputs.cache
+D:\SEDENA\iGob.Entidades\obj\Debug\iGob.Entidades.dll
+D:\SEDENA\iGob.Entidades\obj\Debug\iGob.Entidades.pdb
+D:\_ProyectoIgobmayo2022\SEDENA\iGob.Entidades\bin\Debug\iGob.Entidades.dll
+D:\_ProyectoIgobmayo2022\SEDENA\iGob.Entidades\bin\Debug\iGob.Entidades.pdb
+D:\_ProyectoIgobmayo2022\SEDENA\iGob.Entidades\obj\Debug\iGob.Entidades.csproj.CoreCompileInputs.cache
+D:\_ProyectoIgobmayo2022\SEDENA\iGob.Entidades\obj\Debug\iGob.Entidades.dll
+D:\_ProyectoIgobmayo2022\SEDENA\iGob.Entidades\obj\Debug\iGob.Entidades.pdb
+D:\_ProyectoIgobmayo2022\SEDENA\iGob.Entidades\obj\Debug\iGob.Entidades.csprojAssemblyReference.cache
+D:\_ProyectoIgobMarzo2023\SEDENA\iGob.Entidades\bin\Debug\iGob.Entidades.dll
+D:\_ProyectoIgobMarzo2023\SEDENA\iGob.Entidades\bin\Debug\iGob.Entidades.pdb
+D:\_ProyectoIgobMarzo2023\SEDENA\iGob.Entidades\obj\Debug\iGob.Entidades.csprojAssemblyReference.cache
+D:\_ProyectoIgobMarzo2023\SEDENA\iGob.Entidades\obj\Debug\iGob.Entidades.csproj.CoreCompileInputs.cache
+D:\_ProyectoIgobMarzo2023\SEDENA\iGob.Entidades\obj\Debug\iGob.Entidades.dll
+D:\_ProyectoIgobMarzo2023\SEDENA\iGob.Entidades\obj\Debug\iGob.Entidades.pdb
+D:\_ProyectoIgobChiapas2024\SEDENA\iGob.Entidades\bin\Debug\iGob.Entidades.dll
+D:\_ProyectoIgobChiapas2024\SEDENA\iGob.Entidades\bin\Debug\iGob.Entidades.pdb
+D:\_ProyectoIgobChiapas2024\SEDENA\iGob.Entidades\obj\Debug\iGob.Entidades.csprojAssemblyReference.cache
+D:\_ProyectoIgobChiapas2024\SEDENA\iGob.Entidades\obj\Debug\iGob.Entidades.csproj.CoreCompileInputs.cache
+D:\_ProyectoIgobChiapas2024\SEDENA\iGob.Entidades\obj\Debug\iGob.Entidades.dll
+D:\_ProyectoIgobChiapas2024\SEDENA\iGob.Entidades\obj\Debug\iGob.Entidades.pdb
+E:\SEDENA\iGob.Entidades\bin\Debug\iGob.Entidades.dll
+E:\SEDENA\iGob.Entidades\bin\Debug\iGob.Entidades.pdb
+E:\SEDENA\iGob.Entidades\obj\Debug\iGob.Entidades.csprojAssemblyReference.cache
+E:\SEDENA\iGob.Entidades\obj\Debug\iGob.Entidades.csproj.CoreCompileInputs.cache
+E:\SEDENA\iGob.Entidades\obj\Debug\iGob.Entidades.dll
+E:\SEDENA\iGob.Entidades\obj\Debug\iGob.Entidades.pdb

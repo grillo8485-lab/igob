@@ -1,0 +1,111 @@
+﻿@{
+    var activo = true;
+    if (ViewBag.BSEM != null)
+    {
+        activo = false;
+    }
+}
+<fieldset style="overflow:auto">
+    <legend>Datos Generales</legend>
+    <div class="row col-12 @(!activo ? "disabledClick":"") div_DatosGeneralesSeleccionBienServicio">
+        <label for="BienServicio" class=" col-md-2 col-xs-12">Buscador del bien o servicio: </label>
+        <input id="BienServicio" name="BienServicio" type="text" class="required form-control col-md-10 co-xs-12" value="@(ViewBag.bienservicio != null ? ViewBag.bienservicio.BienServicio : "")" />
+        <input id="IdBienServicio" name="IdBienServicio" type="hidden" value="@(ViewBag.BSEM != null ? ViewBag.BSEM.IdBienServicio : "")" />
+        <input id="IdDeterminaPrecioBienServicio" name="IdDeterminaPrecioBienServicio" type="hidden" value="@(ViewBag.determinacionP != null ? ViewBag.determinacionP.IdDeterminaPrecioBienServicio : "")" />
+        <input id="IdBienServicioEstMerc" name="IdBienServicioEstMerc" type="hidden" value="@(ViewBag.BSEM != null ? ViewBag.BSEM.IdDatoEstudioMercado : "")" />
+        <input id="IdEstatusEstudioMercado" name="IdEstatusEstudioMercado" type="hidden" value="@(ViewBag.BSEM != null ? ViewBag.BSEM.IdEstatusEstudioMercado : "1")">
+        <input id="TamannoUnidades" name="TamannoUnidades" type="hidden" value="@(ViewBag.BSEM != null ? ViewBag.BSEM.NoUnidadesEconomicas : "1")">
+        <input id="TipoDeterminacion" name="TipoDeterminacion" type="hidden" value="@(ViewBag.BSEM != null ? ViewBag.BSEM.TipoDeterminacion : "1")">
+
+    </div>
+
+    <div class="row col-12 div_DatosGeneralesSeleccionBienServicio">
+        <label for="DescripcionBS" class="col-md-2 col-xs-12">Descripción del bien o servicio: </label>
+        <textarea id="DescripcionBS" name="DescripcionBS" type="text" class="form-control col-md-10 col-xs-12" disabled style="resize:none">@(ViewBag.bienservicio != null ? ViewBag.bienservicio.Descripcion : "")</textarea>
+    </div>
+
+    <div class="row col-12 div_DatosGeneralesSeleccionBienServicio">
+        <label for="CodigoSCIAN" class="col-md-2 col-xs-12">
+            Código del SCIAN
+            <a href="#" data-toggle="tooltip" title="Sistema de Clasificación Industrial de América del Norte"><i class="fa fa-question-circle"></i></a>
+        </label>
+        <input id="CodigoSCIAN" name="CodigoSCIAN" type="text" class="form-control col-md-4 col-xs-12" disabled value="@(ViewBag.bienservicio != null ? ViewBag.bienservicio.CodigoScian : "")" />
+
+        <label for="ClasificacionSCIAN" class="col-md-2 col-xs-12">
+            Clasificación del SCIAN
+        </label>
+        <input id="ClasificacionSCIAN" name="ClasificacionSCIAN" type="text" class="form-control col-md-4 col-xs-12" disabled value="@(ViewBag.categorscian != null ? ViewBag.categorscian.Titulo : "")" />
+    </div>
+    <br />
+    <hr />
+
+    <legend>Delimitación de variables para el estudio:</legend>
+    <br /><br />
+
+    <div class="row col-12 @(!activo ? "disabledClick":"") div_DatosGeneralesSeleccionBienServicio">
+        <label for="PlazoEntrega" class="col-md-2 col-xs-12">Plazos de Entrega:</label>
+        <input id="PlazoEntrega" name="PlazoEntrega" type="text" class="required form-control col-md-4 col-xs-12" value="@(ViewBag.BSEM != null ? ViewBag.BSEM.PlazoEntrega : "")" />
+
+        <label for="LugaresEntrega" class="col-md-2 col-xs-12">Lugares de Entrega:</label>
+        <input id="LugaresEntrega" name="LugaresEntrega" type="text" class="required form-control col-md-4 col-xs-12" value="@(ViewBag.BSEM != null ? ViewBag.BSEM.LugaresEntrega : "")" />
+    </div>
+
+    <div class="row col-12 @(!activo ? "disabledClick":"") div_DatosGeneralesSeleccionBienServicio">
+        <label for="FormaTerminoPago" class="col-md-2 col-xs-12">Formas y  términos de pago:</label>
+        <input id="FormaTerminoPago" name="FormaTerminoPago" type="text" class="required form-control col-md-4 col-xs-12" value="@(ViewBag.BSEM != null ? ViewBag.BSEM.FormaTerminoPago : "")" />
+
+        <label for="CaracteristicasBien" class="col-md-2 col-xs-12">Características Técnicas del bien:</label>
+        <textarea id="CaracteristicasBien" name="CaracteristicasBien" type="text" class="form-control col-md-4 col-xs-12" style="resize:none"></textarea>
+    </div>
+
+    <div class="row col-12 @(!activo ? "disabledClick":"") div_DatosGeneralesSeleccionBienServicio">
+        <label for="CircunstanciaAplicables" class="col-md-2 col-xs-12">Otras circunstancias aplicables:</label>
+        <input id="CircunstanciaAplicables" name="CircunstanciaAplicables" type="text" class="required form-control col-md-4 col-xs-12" value="@(ViewBag.BSEM != null ? ViewBag.BSEM.CircunstanciaAplicables : "")" />
+
+        <label for="NormasAplicables" class="col-md-2 col-xs-12">Normas aplicables:</label>
+        <input id="NormasAplicables" name="NormasAplicables" type="text" class="required form-control col-md-4 col-xs-12" value="@(ViewBag.BSEM != null ? ViewBag.BSEM.NormasAplicables : "")" />
+    </div>
+
+    <div class="row col-12 @(!activo ? "disabledClick":"") div_DatosGeneralesSeleccionBienServicio">
+        <label for="GradoIntegracionMexicano" class="col-md-2 col-xs-12">Grado de integración Mexicano:</label>
+        <input id="GradoIntegracionMexicano" name="GradoIntegracionMexicano" type="text" class="required form-control col-md-4 col-xs-12" value="@(ViewBag.BSEM != null ? ViewBag.BSEM.GradoIntegracionMexicano : "")" />
+
+        <label for="EntFed" class=" col-md-2 col-xs-12"> Estado: </label>
+        @if (ViewBag.comboEstados != null)
+        {
+            @Html.DropDownList("Estado", ViewBag.comboEstados as SelectList, "Seleccione un estado", new { @class = "form-control col-md-4 col-xs-12", @Required = "", @id = "Estado", @onchange = "getmunicipios()" })
+        }
+    </div>
+    <div class="row col-12 @(!activo ? "disabledClick":"") div_DatosGeneralesSeleccionBienServicio">
+        <label for="Municipio" class="col-md-2 col-xs-12"> Municipio: </label>
+        @if (ViewBag.comboMunicip == null)
+        {
+            <select id="Municipio" name="Municipio" class="required form-control col-md-4 col-xs-12" onchange="getColonias()"></select>
+        }
+        else
+        {
+            @Html.DropDownList("Municipio", ViewBag.comboMunicip as SelectList, "Seleccione un municipio", new { @class = "required form-control col-md-4 col-xs-12", @Required = "", @id = "Municipio", @onchange = "getColonias()" })
+        }
+
+        <label for="Localidad" class="col-md-2 col-xs-12"> Colonia: </label>
+        @if (ViewBag.comboLocalid == null)
+        {
+            <select id="Localidad" name="Localidad" class="required form-control col-md-4 col-xs-12"></select>
+        }
+        else
+        {
+            @Html.DropDownList("Localidad", ViewBag.comboLocalid as SelectList, "Seleccione una localidad", new { @class = "required form-control col-md-4 col-xs-12", @id = "Localidad" })
+        }
+    </div>
+
+    <div class="row col-12 @(!activo ? "disabledClick":"") div_DatosGeneralesSeleccionBienServicio">
+        <label for="UEIdentificadas" class="col-md-2 col-xs-12">Identificar el tamaño de las UE:</label>
+        @if (ViewBag.comboUE != null)
+        {
+            @Html.DropDownList("UEIdentificadas", ViewBag.comboUE as SelectList, "Seleccione un tamaño UE", new { @class = "form-control col-md-4 col-xs-12", @Required = "", @id = "UEIdentificadas", @onchange = "getUEidenticicada()" })
+        }
+        <label for="NoUnidadesEconomicas" class="col-md-2 col-xs-12">UE Identificadas:</label>
+        <input id="NoUnidadesEconomicas" name="NoUnidadesEconomicas" type="text" class="form-control col-md-4 col-xs-12 disabledClick" value="@(ViewBag.BSEM != null ? ViewBag.BSEM.NoUnidadesEconomicas : "")">
+    </div>
+</fieldset>
+

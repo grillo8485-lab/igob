@@ -1,0 +1,38 @@
+﻿<!-- Modal Edit - New -->
+<div class="modal fade" id="ULModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Editar Unidad Licitadora</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+                <div class="modal-body">
+                    <div class="row col-12">
+                        <div class="col-4">
+                            <label>Nombre de la Unidad Licitadora:</label>
+                            <input type="text" name="UnidadLicitadora" id="UnidadLicitadora" class="form-control" maxlength="9" required />
+                        </div>
+                        <div class="col-8">
+                            <label>Dependencia: </label>  
+                            @if (ViewBag.dependenciasList != null)
+                            {
+                                @Html.DropDownList("IdDependencia", ViewBag.dependenciasList as SelectList, "Seleccione la Dependencia", new { @class = "form-control", @Required = "" })
+                            }
+                        </div>
+                    </div>
+                    <input type="hidden" name="Activo" id="Activo" value="true" />
+                    <input type="hidden" name="IdUnidadLicitadora" id="IdUnidadLicitadora" value="0" /><br /> <br />
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Editar" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->

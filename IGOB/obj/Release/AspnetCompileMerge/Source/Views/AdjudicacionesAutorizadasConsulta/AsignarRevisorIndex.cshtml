@@ -1,0 +1,216 @@
+﻿@model IGOB.Models.Adjudicacion
+@{
+    ViewBag.Title = "AsignarRevisor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .sub_banner {
+        padding: 10.5px;
+    }
+
+        .sub_banner strong {
+            font-size: 9.94pt;
+        }
+</style>
+<div class="pos-f-t">
+    <div class="mainMenuBarAnchor"></div>
+    @if (ViewBag.IdPerfil == 5)
+    {
+        using (Html.BeginForm(null, null, FormMethod.Post, htmlAttributes: new { @id = "AsignacionRevisorAdj" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            if (Model.oAdjudicaciones.IdEstatusAdjudicacion == 90 || Model.oAdjudicaciones.IdEstatusAdjudicacion == 100)
+            {
+                <nav class="navbar text-white navbar-light changeColorModal mainMenuBar">
+                    <div class="row">
+                        <div class="col-8 text-left">
+                            <h6>Adjudicación: @Model.oAdjudicaciones.AdjudicacionFolio - @ViewBag.Solicitante - Asignación número de acuerdo de autorización de comité</h6>
+                        </div>
+                        <div class="col-4 text-right">
+                            <button type="button" class="btn btn-secondary btn-sm @ViewBag.Activo" id="btnAsignarNumeroAcuerdo">GUARDAR</button>
+                            <input type="button" class="btn btn-secondary btn-sm" onclick="retornoBack()" value="REGRESAR">
+                            <a></a>
+                        </div>
+                    </div>
+                </nav>
+                <br />
+                <div class="row container-fluid">
+                    <div class="col-sm-4 text-left">
+                        <div class="form-group">
+                            <label for="IdUsuarioRevisor">Número de acuerdo de autorización</label>
+                            <input type="text" id="AcuerdoAutorizacionComite" name="AcuerdoAutorizacionComite" value="@(Model.oAdjudicaciones.AcuerdoAutorizacionComite == "0" ? "" : Model.oAdjudicaciones.AcuerdoAutorizacionComite)" class="form-control @ViewBag.Activo" required />
+                            <!--<input type="text" id="AcuerdoAutorizacionComite" name="AcuerdoAutorizacionComite" value="Model.oAdjudicaciones.AcuerdoAutorizacionComite" class="form-control ViewBag.Activo" required/>-->
+                        </div>
+                    </div>
+                    <input type="hidden" name="IdAdjudicacion" id="id" value="@Model.oAdjudicaciones.IdAdjudicacion" />
+                    <input type="hidden" name="tipo" id="tipo" value="1" />
+                </div>
+                <br />
+            }
+            else if (Model.oAdjudicaciones.IdEstatusAdjudicacion == 130 || Model.oAdjudicaciones.IdEstatusAdjudicacion == 80)
+            {
+                <nav class="navbar text-white navbar-light changeColorModal mainMenuBar">
+                    <div class="row">
+                        <div class="col-9 text-left">
+                            <h6>Adjudicación: @Model.oAdjudicaciones.AdjudicacionFolio - @ViewBag.Solicitante - Asignación de revisor</h6>
+                        </div>
+                        <div class="col-3 text-right">
+                            <button type="button" class="btn btn-secondary btn-sm @ViewBag.Activo" id="btnAsignarRev">GUARDAR</button>
+                            <input type="button" class="btn btn-secondary btn-sm" onclick="retornoBack()" value="REGRESAR">
+                        </div>
+                    </div>
+                </nav>
+                <br />
+                <div class="row container-fluid">
+                    <div class="col-sm-4 text-left">
+                        <div class="form-group">
+                            <label for="IdUsuarioRevisor">Revisor</label>
+                            @if (ViewBag.ComboRevisor != null)
+                            {
+                                @Html.DropDownList("IdUsuarioRevisor", ViewBag.ComboRevisor as SelectList, "Seleccione un Revisor", new { @class = "form-control " + ViewBag.Activo, @Required = "" })
+                            }
+                        </div>
+                    </div>
+                    <input type="hidden" name="IdAdjudicacion" id="IdAdjudicacion" value="@Model.oAdjudicaciones.IdAdjudicacion" />
+                    <input type="hidden" name="IdUsuarioAsignante" id="IdUsuarioAsignante" value="@ViewBag.IdPerfil" />
+                </div>
+                <hr />
+            }
+
+        }
+    }
+    else if (ViewBag.IdPerfil == 7)
+    {
+        using (Html.BeginForm(null, null, FormMethod.Post, htmlAttributes: new { @id = "RevisorAutAdj" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            <nav class="navbar text-white navbar-light changeColorModal mainMenuBar" style="padding-right:0;margin-right:0">
+                <div class="row">
+                    <button class="col-1 navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="col-7 text-left">
+                        <h6>Adjudicación: @Model.oAdjudicaciones.AdjudicacionFolio - @ViewBag.Solicitante - revisar adjudicación</h6>
+                    </div>
+                    <div class="col-4 text-right">
+                        <button type="button" class="btn btn-secondary btn-sm @ViewBag.Activo d-none" disabled id="btnAutoriza">REVISAR</button>
+                        <button type="button" class="btn btn-secondary btn-sm @ViewBag.Activo d-none" id="btnRechazar">RECHAZAR</button>
+                        <input type="hidden" id="id" name="id" value="@Model.oAdjudicaciones.IdAdjudicacion" />
+                        <input type="hidden" id="tipo" name="tipo" value="0" />
+                        <input type="button" class="btn btn-secondary btn-sm" onclick="retornoBack()" value="REGRESAR">
+                    </div>
+                </div>
+            </nav>
+            <div class="collapse changeColorModal collapse show @(ViewBag.IdPerfil == 2 ? "d-none": "")" id="navbarToggleExternalContent">
+                <div class="bg-light p-1">
+                    <ul class="nav nav-pills" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" id="DatosGeneralesTabPadre" data-toggle="pill" href="#div_datos_generales">DATOS GENERALES</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="FirmanteTabPadre" data-toggle="pill" href="#div_firmantes">FIRMANTES</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <br />
+        }
+    }
+    <div class="tab-content">
+        <div id="div_datos_generales" class="container-fluid tab-pane active">
+            <div class="row bg-secondary text-white sub_banner">
+                <div class="col-12" align="center">
+                    <strong>DATOS GENERALES</strong>
+                </div>
+            </div><br />
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group" id="Camp1">
+                        <label>Número Oficio de Solicitud</label>
+                        <input type="text" id="NumeroOficioSolicitud" class="form-control" value="@Model.oAdjudicaciones.NumeroOficioSolicitud" readonly="">
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Tipo de Adjudicación</label>
+                        @Html.DropDownList("IdTipoAdjudicacion", ViewBag.TiposAdjudicaciones as SelectList, "Seleccionar", new { @class = "form-control ", @Required = "", @Disabled = "" })
+
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Solicitud</label>
+                        @if (ViewBag.SolList != null)
+                        {
+                            @Html.DropDownList("IdTipoSolicitud", ViewBag.SolList as SelectList, "Seleccione el tipo de Solicitud", new { @class = "form-control", @Disabled = "", @Required = "" })
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Capítulo</label>
+                        <input type="text" name="Capitulo" id="Capitulo" value="@(ViewBag.CapList == null ? "No Asignado" : ViewBag.CapList )" class="form-control" readonly Required />
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Partida <a href="#" data-toggle="tooltip" data-placement="bottom" title="Comentario de partida"><i class="fa fa-question-circle-o"></i></a></label>
+                        <input type="text" name="Partida" id="Partida" value="@(ViewBag.Partida == null ? "" : ViewBag.Partida )" class="form-control" readonly Required />
+                        <input type="hidden" id="IdPresupuestoPartida" value="1" />
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Origen de recurso</label>
+                        <input type="text" name="OrigenRecursos" id="OrigenRecursos" value="@(ViewBag.OrigenAdjudicacion == null ? "Estatal" : ViewBag.OrigenAdjudicacion )" class="form-control" readonly Required />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Valor aproximado <a href="#" data-toggle="tooltip" data-placement="top" title="Comentario"><i class="fa fa-question-circle-o"></i></a></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <input type="text" class="form-control text-xl-right" name="ValorAproximado" id="ValorAproximado" min="0" step="0.1" max="" style="min-width: 80%;" @(Model.oAdjudicaciones.MontoAproximadoAutorizado == 0 ? "" : "disabled") value="@String.Format("{0:N2}",(Model.oAdjudicaciones.MontoAproximadoAutorizado == 0 ? 0: Model.oAdjudicaciones.MontoAproximadoAutorizado))" required>
+                            <input type="hidden" name="pre" id="pre" value="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Núm. de oficio de certificación de recurso <a href="#" data-toggle="tooltip" data-placement="top" title="Comentario"><i class="fa fa-question-circle-o"></i></a></label>
+                        <input type="text" min="0" name="NumeroOficioCertificacion" required class="form-control text-xl-right" id="NumeroOficioCertificacion" @(Model.oAdjudicaciones.NumeroOficioCertificacion == null ? "" : "disabled") value="@Model.oAdjudicaciones.NumeroOficioCertificacion" placeholder="Válido en el ejercicio fiscal vigente">
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="Ejercicio">Ejercicio</label>
+                        <input type="text" class="form-control" readonly id="Ejercicio" value="@(ViewBag.EjercicioAdjudicacion == null ? ViewBag.ejercicioActual.Ejercicio : ViewBag.EjercicioAdjudicacion )">
+                        <input type="hidden" id="IdEjercicioFiscal" value="@(Model.oAdjudicaciones.IdEjercicioFiscal == 0 ? ViewBag.ejercicioActual.IdEjercicioFiscal : ViewBag.IdEjercicioFiscal )">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12" id="DBS">
+                    <div class="form-group">
+                        <label>Descripción de bienes o servicios</label>
+                        <textarea class="form-control" name="Observacion" id="Observacion" @(Model.oAdjudicaciones.Observaciones == null ? "" : "disabled") style="resize: none;" required="required">@Model.oAdjudicaciones.Observaciones</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @{Html.RenderPartial("firmante");}
+    </div>
+</div>
+<input type="hidden" id="back" value="@ViewBag.tipoAdjudicacion">
+@section Scripts{
+    <script src="~/Scripts/Catalogos/AsignarRevisorRevisar.js"></script>
+}

@@ -1,0 +1,185 @@
+﻿<!-- CONDICIONES DE ENTREGA -->
+<div id="div_presupuesto_liquidez" class="container-fluid tab-pane fade @(ViewBag.IdPerfil == 2 ? "active show": "")">
+    <div id="AutorizarFail" class="col-12 text-center"></div>
+    <div>
+        <div class="row bg-secondary text-white sub_banner">
+            <div class="col-12" align="center">
+                <strong>PRESUPUESTO</strong>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-4">
+                <div class="form-group">
+                    <label>Partida</label>
+                    <textarea class="form-control" rows="1" readonly="">@ViewBag.Partida</textarea>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label>Monto solicitado</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">$</span>
+                        </div>
+                        <input type="text" class="form-control textDerecha" step="any" style="min-width: 120px;" value="@(ViewBag.MontoSolicitado != null ? String.Format("{0:N2}", ViewBag.MontoSolicitado) : MvcHtmlString.Empty ) " id="MontoSolicitado" readonly="" onkeydown="return flotante(event);" min="0">
+                        <input type="hidden" id="MontoSolicitadoH" value="@ViewBag.MontoSolicitado" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label>Saldo partida</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">$</span>
+                        </div>
+                        <input type="text" class="form-control textDerecha" step="any" style="min-width: 120px;" value="@(ViewBag.SaldoPartida != null ? String.Format("{0:N2}",ViewBag.SaldoPartida) : Html.Raw(""))" readonly onkeydown="return flotante(event);" min="0">
+                        <input type="hidden" id="saldo" value="@ViewBag.SaldoPartida" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="form-group">
+                    <label>Monto presupuestado autorizado</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">$</span>
+                        </div>
+                        <input type="text" class="form-control textDerecha" @((Model.oAdjudicaciones.IdEstatusAdjudicacion == 10 && ViewBag.IdPerfil == 2 ) ? "" : "disabled")  step="0.1" max="@ViewBag.MontoSolicitado" style="min-width: 120px;" value="@String.Format("{0:N2}", (ViewBag.MontoPresupuestadoAutorizado == null ? "0.00" : ViewBag.MontoPresupuestadoAutorizado))" required=""  id="MontoPresupuestadoAutorizado" onblur="compare(this.value);" min="0" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label>Saldo presupuestado autorizado</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">$</span>
+                        </div>
+                        <input type="text" id="SaldoPresupuestadoAutorizado" class="form-control textDerecha" step="any" style="min-width: 120px;" value="@(ViewBag.MontoAutorizado != null ? String.Format("{0:N2}", ViewBag.MontoAutorizado) : MvcHtmlString.Empty )" readonly="" onkeydown="return flotante(event);" min="0">
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label>Origen de recurso</label>
+                    <div id="">
+                        <select id="IDORIGENRECURSO" class="form-control" required disabled>
+                            <option selected disabled>@ViewBag.OrigenAdjudicacion</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+            <div id="ResultadoBuscar" class="col-12"></div>
+
+            <input type="hidden" name="MM_accion" value="editar">
+        </div>
+    </div>
+
+    <div>
+        <div class="row bg-secondary text-white sub_banner">
+            <div class="col-12" align="center">
+                <strong>CLAVES PRESUPUESTALES</strong>
+            </div>
+        </div>
+        <br />
+
+        <table class="table table-hover" id="tableClavePresupuestal">
+            <thead align="center">
+                <tr>
+                    <th>Origen de recurso</th>
+                    <th>Clave presupuestal</th>
+                    <th>Número de ministración</th>
+                    <th>De</th>
+                    <th>Al</th>
+                    <th>Monto presupuestado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (ViewBag.ODetalles != null)
+                {
+                    foreach (var item in ViewBag.ODetalles)
+                    {
+                        <tr>
+                            <td>@item.OrigenRecurso</td>
+                            <td>@item.ClavePresupuestal </td>
+                            <td>@ViewBag.Noministracion</td>
+                            <td>@item.MesInicial</td>
+                            <td>@item.MesFinal</td>
+                            <td align="right">@(item.MontoPresupuestado != null ? (String.Format("{0:C2}", item.MontoPresupuestado)) : Html.Raw(""))  </td>
+                        </tr>
+                    }
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+
+    <div id="section__liquidez">
+        <div class="row bg-secondary text-white sub_banner">
+            <div class="col-12" align="center">
+                <strong>LIQUIDEZ</strong>
+            </div>
+        </div>
+
+
+        <div id="alertMonto" class="col-12 text-center"></div>
+
+        <br />
+        <button class="btn btn-secondary new-liquidez @((Model.oAdjudicaciones.IdEstatusAdjudicacion == 10 && ViewBag.IdPerfil == 2 ) ? "" : "disabledClick")"> <span class="icon-add-3"></span> Agregar</button>
+        <br /><br />
+        <table class="table table-hover">
+            <thead align="center">
+                <tr>
+                    <th>Acciones</th>
+                    <th>Origen de recurso</th>
+                    <th>Cuenta</th>
+                    <th>Nombre de la cuenta	Banco</th>
+                    <th>Número de operación bancaria</th>
+                    <th>Saldo i Gob</th>
+                    <th>Saldo en cuenta</th>
+                    <th>Monto comprometido</th>
+                    <th>Fecha autorización</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (ViewBag.Licitaciones != null)
+                {
+                    foreach (var item in ViewBag.Licitaciones)
+                    {
+                        <tr>
+                            <td align="center" valign="middle">
+                                <div class="form-group" style="min-width:100px;">
+                                    <a title="Eliminar registro" onclick="delete__item(@item.IdAdjudicacionLiquidez);" class="btn btn-secondary btn-sm @((Model.oAdjudicaciones.IdEstatusAdjudicacion == 10 && ViewBag.IdPerfil == 2) ? "" : "disabledClick")"><span class="icon-garbage-2"></span></a>
+                                    <a title="Editar registro" onclick="EditModal(@item.IdAdjudicacionLiquidez);" class="btn edit btn-secondary btn-sm @((Model.oAdjudicaciones.IdEstatusAdjudicacion == 10 && ViewBag.IdPerfil == 2) ? "" : "disabledClick")"><span class="icon-edit"></span></a>
+                                </div>
+                            </td>
+                            <td>@item.OrigenRecurso</td>
+                            <td>@item.NumeroCuenta</td> <!--CUENTA BANCO-->
+                            <td>@item.NombreCuenta</td> <!--NOMBRE BANCO-->
+                            <td>@item.NumeroOperacion</td>
+                            <td align="right">@(item.SaldoIgob != null ? String.Format("{0:C2}", item.SaldoIgob) : MvcHtmlString.Empty )</td>
+                            <td align="right">@(item.SaldoCuenta != null ? String.Format("{0:C2}", item.SaldoCuenta) : MvcHtmlString.Empty)</td>
+                            <td align="right">@(item.MontoComprometido != null ? String.Format("{0:C2}", item.MontoComprometido) : MvcHtmlString.Empty)</td>
+                            <td>@item.FechaDeposito</td>
+                        </tr>
+                    }
+                }
+
+
+            </tbody>
+
+        </table>
+        <input type="hidden" id="totalMontoComprometido" value="@ViewBag.totalMontoComprometido" />
+        
+    </div>
+
+    @{
+        Html.RenderPartial("tabs/AddLiquidezModal");
+    }
+</div>

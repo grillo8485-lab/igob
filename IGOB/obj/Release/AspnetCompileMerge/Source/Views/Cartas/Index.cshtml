@@ -1,0 +1,79 @@
+﻿@model IEnumerable<iGob.Entidades.beCartas>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+    #CartasModal .row {
+        margin-bottom:15px;    
+    }
+</style>
+<br />
+<button class="btn btn-secondary new-Carta" >Nueva Carta</button>
+<br><br />
+<table class="table" id="tableCartas" width="100%">
+    <thead align="justify">
+        <tr>
+            <th>
+                Acciones
+            </th>
+            <th>
+                Modelo de carta
+            </th>
+            <th>
+                Inciso
+            </th>
+            <th>
+                Nombre identificador de la carta
+            </th>
+            <th>
+                Carta
+            </th>
+            <th>
+                Descripción de la carta a solicitar
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <div class="form-group" style="min-width:200px;">
+                        <a title="Eliminar registro" id="@item.IdCarta" data-title="@item.Carta" class="btn btn-secondary btn-circle delete-Carta btn-sm"><span class="icon-garbage-2"></span></a>
+                        <a title="Editar registro" id="@item.IdCarta" data-title="@item.Carta" data-TC="@item.IdTipoCarta" data-obligada="@item.Obligada" data-inciso="@item.Inciso" data-nombre="@item.Nombre" data-Solicitada="@item.Solicitada" class="btn btn-secondary btn-circle edit-Carta btn-sm"><span class="icon-edit"></span></a>
+                        <a title="Autorizar" id="@item.IdCarta" name="IdAutorizar" data-title="@item.Nombre" class="btn btn-secondary btn-circle edit-Carta btn-sm @(item.IdEstatus==0?"":"disabledClick")" onclick="autorizarCarta(this)"><span class="glyphicon glyphicon-ok"></span></a>
+                        <a title="Rechazar" id="@item.IdCarta" name="IdRechazar" data-title="@item.Nombre"  class="btn btn-secondary btn-circle edit-Carta btn-sm @(item.IdEstatus==0?"":"disabledClick")" onclick="rechazarCarta(this)"><span class="glyphicon glyphicon-remove"></span></a>
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoCarta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Inciso)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Carta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Solicitada)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    Html.RenderPartial("EditDeleteModals");
+}
+
+@section scripts{
+    <script src="~/Scripts/Catalogos/AccionesCartas.js"></script>
+}

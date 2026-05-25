@@ -1,0 +1,146 @@
+﻿@model IEnumerable<iGob.Entidades.beProveedores>
+@section css{
+    <style>
+        input, select {
+            margin-bottom: 10px;
+        }
+
+        #slide-options {
+            margin-bottom: 20px;
+        }
+
+        #slide-action {
+            padding-left: 20px;
+            padding-right: 20px;
+            cursor: pointer;
+            left: 50%;
+            top: 10%;
+        }
+
+        #options-type {
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #ecf0f1;
+            min-width: 40%;
+            width: 40%;
+        }
+    </style>
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    <br />
+        <input class="btn btn-secondary" id="create-item" type="button" value="Nuevo Proveedor @(ViewBag.Tipo == 1 ? "Menor" : "General")" />
+    <hr/>
+
+    <div class="container col-12">
+        <ul class="nav nav-pills mt-2" role="tablist">
+            <li class="nav-item">
+                <a class="btn-secondary btn active disabled" href="/ProveedoresMenores/Index/">PROVEEDORES</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link d-none addIdProv" href="/ProveedoresAccionistas/Index/">ACCIONISTAS / REPRESENTANTES LEGALES</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link d-none addIdProv" href="/ProveedoresGirosComerciales/Index/">GIROS PREPONDERANTES</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link d-none addIdProv" href="/ProveedoresActaConstitutiva/Index/">ACTA CONSTITUTIVA</a>
+            </li>
+        </ul>
+    </div>
+    <br />
+
+    <table class="table-bordered hover " id="tableprovmen">
+        <thead align="center">
+            <tr>
+                <th style="min-width:104px;"> Acciones </th>
+                <th> Estado </th>
+                <th> Nombre proveedor </th>
+                <th> RFC </th>
+                <th> Calle </th>
+                <th> Razón Social </th>
+                <th> Tipo Persona </th>
+                <th> Número Exterior </th>
+                <th> Número Interior </th>
+                <th> Colonia </th>
+                <th> Código Postal </th>
+                <th> Estado </th>
+                <th> Municipio </th>
+                <th> Teléfono </th>
+                <th> Correo electrónico </th>
+                <th> Página web </th>
+                <th> Responsable </th>
+            </tr>
+        </thead>
+        <tbody align="center">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="form-group" style="min-width:104px;">
+                            <button title="Ver registro" class="btn btn-secondary btn-circle btn-sm" onclick="verProv(@item.IdProveedor)"><span class="icon-agenda"></span></button>
+                            <button title="Editar registro" class="btn btn-secondary btn-circle edit-prov btn-sm" data-idProveedor="@item.IdProveedor" data-estado="@item.ClaveEstado"><span class="icon-edit"></span></button>
+                            <button title="Eliminar registro" class="btn btn-secondary btn-circle delete-prov btn-sm" data-idProveedor="@item.IdProveedor" data-nombre="@item.NombreComercial"><span class="icon-garbage-2"></span></button>
+                        </div>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Estado)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreComercial)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rfc)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Calle)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RazonSocial)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoPersona)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NoExterior)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NoInterior)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Colonia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CodigoPostal)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Estado)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Municipio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Telefono)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sitiooficial)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Titular)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @{
+        Html.RenderPartial("EditDeleteModals");
+    }
+@section scripts{
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/Catalogos/AccionesProveedoresMenores.js"></script>
+}

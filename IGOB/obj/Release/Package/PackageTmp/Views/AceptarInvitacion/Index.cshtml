@@ -1,0 +1,24 @@
+﻿@model IGOB.Models.AceptarInvitacion
+
+@{
+    ViewBag.Title = "Aceptar Licitacion Proveedor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section css{
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.structure.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.theme.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <!-- estilo pills personalizado -->
+    }
+<div id="AceptarInvitacionDiv">
+
+    @{
+        <!-- Configuracione sModalidades -->
+        Html.RenderPartial("Componentes");
+    }
+</div>
+
+@section scripts{
+    <script src="~/Scripts/Catalogos/AceptarInvitacion.js"></script>
+}

@@ -1,0 +1,149 @@
+﻿@model List<iGob.Entidades.beLicitacionesActaPropuesta>
+@{
+    ViewBag.Title = "Acta de Propuestas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    /* Ensure that the demo table scrolls */
+
+    .data_table > tbody > tr > td {
+        white-space: nowrap;
+    }
+
+    /*
+    .data_table > tbody > tr > td {
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    */
+
+</style>
+
+<div class="banner-color"></div>
+
+@Html.AntiForgeryToken()
+@Html.ValidationSummary()
+<input type="hidden" class="form-control" readonly id="IdLic_" value="@ViewBag.pIdLic">
+<div class="">
+    <div class="pos-f-t">
+        <div class="mainMenuBarAnchor" style="height: 0px;"></div>
+        <nav class="navbar bg-secondary text-white navbar-light bg-light changeColorModal mainMenuBar">
+            <div class="col-sm-4">
+                <label>@ViewBag.FolioLicitacion</label>
+            </div>
+
+            <div class="col-sm-8" style="text-align: right;">
+                <button class="btn btn-default btn-circle  btn-sm " type="button" onclick="ImprimirReporteActaPropuesta()" @(ViewBag.Licitacion.IdEstatusLicitacion != 30 ? "" : "disabled")>DESCARGAR ACTA</button>
+                <button class="btn btn-default btn-circle  btn-sm" type="button" onclick="validarGenerarPublicarPropuestaTecnicaEconomica()" @(ViewBag.Licitacion.IdEstatusLicitacion == 30 ? "" : "disabled")>PUBLICAR APERTURA</button>
+                <button type="button" class="btn btn-default btn-sm" onclick="location.href='@Url.Action("Index", "ListadoLicitacionesInvitacionAceptadasProveedor")'">
+                    <span class="glyphicon glyphicon-step-backward"></span> Regresar
+                </button>
+            </div>
+        </nav>
+    </div>
+    <div id="ResultadoBuscar"></div>
+
+    <table class="table table-bordered table-hover">
+
+        @foreach (var Pro in Model)
+        {
+            IGOB.Models.Enletras let = new IGOB.Models.Enletras();
+
+
+            string cantidad = Pro.OfertaTotal.ToString("C2") + " (" + let.enletras(Pro.OfertaTotal.ToString()) + ").";
+
+            <thead>
+                <tr>
+                    <th>Requisición</th>
+                    <th>@Pro.RequisicionFolio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Dependencia solicitante:</td>
+                    <td>@Pro.Dependencia</td>
+                </tr>
+                <tr>
+                    <td>Proveedor:</td>
+                    <td>@Pro.RazonSocial</td>
+                </tr>
+                <tr>
+                    <td>Oferta total</td>
+                    <td>@cantidad</td>
+                </tr>
+                <tr>
+                    <td>Tipo de abastecimiento</td>
+                    <td>@Pro.FormaAbastecimiento</td>
+                </tr>
+                <tr>
+                    <td>Número de lotes ofertados:</td>
+                    <td>@Pro.NumLotes/@Pro.TotalLotes</td>
+                </tr>
+                <tr>
+                    <td>Lotes ofertados:</td>
+                    <td>@Pro.LotesOfertados</td>
+                </tr>
+            </tbody>
+        }
+    </table>
+
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            // Cache selectors for faster performance.
+            var $window = $(window),
+                $mainMenuBar = $('.mainMenuBar'),
+                $mainMenuBarAnchor = $('.mainMenuBarAnchor');
+
+            // Run this on scroll events.
+            $window.scroll(function () {
+                var window_top = $window.scrollTop();
+                var div_top = $mainMenuBarAnchor.offset().top;
+                var diff = (Math.abs((window_top - 9) - (div_top)));
+
+                if (diff < 9) {
+                    return false;
+                } else if (window_top > div_top) {
+                    // Make the div sticky.
+                    $mainMenuBar.addClass('stick');
+                    $mainMenuBarAnchor.height($mainMenuBar.height());
+                }
+                else {
+                    // Unstick the div.
+                    $mainMenuBar.removeClass('stick');
+                    $mainMenuBarAnchor.height(0);
+                }
+            });
+        });
+    </script>
+    <script src="~/Scripts/Catalogos/LicitacionesActaPropuestas.js"></script>
+}
+
+<!-- Modal loading -->
+<div class="modal fade" id="modal_loading">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header" style="text-align:center;">
+                <h4 class="modal-title">Generando Documento</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container" style="text-align:center">
+                    <img style="width:100%" src="~/Img/loading.gif">
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <!--<div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+            </div>-->
+
+        </div>
+    </div>
+</div>

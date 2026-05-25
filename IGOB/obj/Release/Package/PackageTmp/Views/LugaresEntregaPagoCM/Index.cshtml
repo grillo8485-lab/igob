@@ -1,0 +1,109 @@
+﻿@model IEnumerable<iGob.Entidades.beLugaresEntregasPagosCM>
+@{
+    ViewBag.Title = "Lugares de Entrega y Pago para Compras Menores";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    /* Ensure that the demo table scrolls */
+
+    .data_table > tbody > tr > td {
+        white-space: nowrap;
+    }
+
+    /*
+    .data_table > tbody > tr > td {
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    */
+
+</style>
+
+<div class="banner-color"></div>
+<br />
+<button type="button" class="btn btn-secondary" id="create-item">
+    <span class="icon-add-3"></span>
+    NUEVO
+</button>
+<br /><br />
+<div>
+    <table class="table table-bordered hover data_table" id="tableLugares" width="100%">
+        <thead align="center">
+            <tr>
+                <th>Acciones</th>
+                <th>Dependencia</th>
+                <th>Lugar</th>
+                <th>Direccion</th>
+                <th>Colonia</th>
+                <th>CodigoPostal</th>
+                <th>Municipio</th>
+                <th>Estado</th>
+                <th>Teléfono</th>
+                <th>TipoLugar</th>
+                <th>FechaRegistro</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td align="center" valign="middle">
+                    <button title="Eliminar registro" class="btn btn-secondary btn-circle delete-lugar btn-sm" data-IdLugarEntregaPago="@item.IdLugarEntregaPago" data-Lugar="@item.Lugar">
+                        <span class="icon-garbage-2"></span>
+                    </button>
+                    <button title="Editar registro" class="btn btn-secondary btn-circle edit-lugar btn-sm" data-IdLugarEntregaPago="@item.IdLugarEntregaPago">
+                        <span class="icon-edit"></span>
+                    </button>
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Dependencia)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lugar)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Direccion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Colonia)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CodigoPostal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Municipio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Estado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telefono)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoLugar)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaRegistro)
+                </td>
+
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@{
+    Html.RenderPartial("EditDeleteModals");
+}
+
+@{ 
+    string fecha= DateTime.Now.ToString("yyyyMMddHHmmssFFF");
+}
+
+@section scripts{
+    <!--<script src="~/Scripts/jquery-ui.js"></script>-->
+    <script src="~/Scripts/Catalogos/AccionesLugaresEntregaPagoCM.js?id=@(fecha)"></script>
+}

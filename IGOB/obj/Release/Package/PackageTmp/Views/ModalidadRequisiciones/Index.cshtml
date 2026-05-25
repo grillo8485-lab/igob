@@ -1,0 +1,52 @@
+﻿@model List<iGob.Entidades.beModalidadesRequisiciones>
+@{
+    ViewBag.Title = "Inicio";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<div class="banner-color"></div>
+
+<button class="btn btn-secondary new-modalidadrequisicion">Nueva Modalidad de Requisición</button>
+<br /><br />
+<table class="table table-bordered table-hover" id="tableMR">
+    <thead align="center">
+        <tr>
+            <th> # </th>
+            <th> Acciones </th>
+            <th> Modalidad  </th>
+            <th> Abreviatura</th>
+        </tr>
+    </thead>
+    <tbody align="center">
+        @{var i = 1;}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @i
+                </td>
+                <td>
+                    <div class="form-group" style="min-width:100px;">
+                        <a title="Eliminar registro" id="@item.IdModalidadRequisicion" data-title="@item.ModalidadRequisicion" class="btn btn-secondary btn-circle delete-ModalidadRequisicion"><span class="icon-garbage-2"></span></a>
+                        <a title="Editar registro" id="@item.IdModalidadRequisicion" data-title="@item.ModalidadRequisicion" data-abreviatura="@item.Abreviatura" data-activo="@item.Activo" class="btn btn-secondary btn-circle edit-ModalidadRequisicion"><span class="icon-edit"></span></a>
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModalidadRequisicion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Abreviatura)
+                </td>
+            </tr>
+            { i++; }
+        }
+    </tbody>
+</table>
+@{
+    Html.RenderPartial("EditDeleteModals");
+}
+
+@section scripts{
+    <script src="~/Scripts/Catalogos/AccionesModalidadRequisicion.js"></script>
+}
+

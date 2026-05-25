@@ -1,0 +1,340 @@
+﻿@model iGob.Entidades.beAdjudicaciones
+@{
+    ViewBag.Title = "ElaborarPedido";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model.IdEstatusAdjudicacion == 100 || Model.IdEstatusAdjudicacion == 140)
+{
+    <div class="text-white sub_banner changeColorModal">
+        <div class="mainMenuBarAnchor"></div>
+        <nav class="navbar bg-secondary text-white navbar-light bg-light changeColorModal mainMenuBar">
+            <div class="row col-12">
+                <div class="col-7 text-left">
+                    <h6>@ViewBag.Titulo</h6>
+                </div>
+                <div class="col-5 text-right">
+                    @using (Html.BeginForm(null, null, FormMethod.Post, htmlAttributes: new { @id = "FormLiberarPedido" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        <input type="hidden" value="@ViewBag.IdAdjudicacion" id="" name="id" />
+                        <input type="hidden" value="@ViewBag.adjudicacionpedido.IdAdjudicacionPedido" id="idpedadj" />
+                        <input type="hidden" value="@((ViewBag.adjudicacionpedidofirmante != null ? ViewBag.adjudicacionpedidofirmante.IdEstatusFirmaPedido : "2"))" id="statusFirm" />
+                        switch (ViewBag.IdPerfil)
+                        {
+                            case 3:                                
+                                <a href="@Url.Action("DescargaPedido", "AdjudicacionesAutorizadasConsulta", new { @IdAdjudicacionPedido = @ViewBag.adjudicacionpedido.IdAdjudicacionPedido })" type="button" class="btn btn-secondary btn-sm @(Model.IdEstatusAdjudicacion != 100 ? "" : "disabledClick" )" role="button" target="_blank">DESCARGAR PEDIDO</a>
+                                <button type="button" class="btn btn-secondary btn-sm" id="LibPedido" @(Model.IdEstatusAdjudicacion == 100 ? "" : "disabled")>LIBERAR PEDIDO</button>
+                                break;
+                            case 4:
+                            case 8:
+                            case 5:
+                                if (ViewBag.adjudicacionpedido.IdEstatusPedido == 1 && ViewBag.OrdenFirmante)
+                                {
+                                    <button type="button" class="btn btn-secondary btn-sm" id="AutPed" @(ViewBag.disabled) onclick="LibPed(1)">AUTORIZAR PEDIDO</button>
+                                    @*<button type="button" class="btn btn-secondary btn-sm" id="RecPed" @(ViewBag.disabled) onclick="LibPed(2)">RECHAZAR PEDIDO</button>*@
+                                }
+                                break;
+                            default:
+                                break;
+
+                        }
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="location.href='/AdjudicacionesAutorizadasConsulta/Index/@Model.IdTipoAdjudicacion'">REGRESAR</button>
+                    }
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-6">
+                <label>Pedido:</label>
+                <input type="text" value="@ViewBag.adjudicacionpedido.Folio" class="form-control" disabled />
+            </div>
+            <div class="col-6">
+                <label>Adjudicación</label>
+                <input type="text" value="@Model.AdjudicacionFolio" class="form-control" disabled />
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-12">
+                <label>Partidas y Conceptos</label>
+                <input value="@ViewBag.Partida" class="form-control" disabled />
+            </div>
+        </div>
+        <br />
+        <label style="height:15px;margin:0 !important;padding:0 !important;">Datos Generales del Proveedor</label>
+        <hr style="margin:0 !important;padding:0 !important;" />
+        <div class="row">
+            <div class="col-4">
+                <label>Nombre denominación o razon social</label>
+                <input value="@ViewBag.proveedor.RazonSocial" class="form-control" disabled />
+            </div>
+            <div class="col-4">
+                <label>Clave de Registro Federal de Contribuyente</label>(RFC)
+                <input class="form-control" value="@ViewBag.proveedor.Rfc" disabled />
+            </div>
+            <div class="col-4">
+                <label>Calle</label>
+                <input class="form-control" value="@ViewBag.proveedor.Calle" disabled />
+            </div>
+            <div class="col-4">
+                <label>Número de Exterior</label>
+                <input class="form-control" value="@ViewBag.proveedor.NoExterior" disabled />
+            </div>
+            <div class="col-4">
+                <label>Número Interior</label>
+                <input class="form-control" value="@ViewBag.proveedor.NoInterior" disabled />
+            </div>
+            <div class="col-4">
+                <label>Colonia</label>
+                <input class="form-control" value="@ViewBag.proveedor.Colonia" disabled />
+            </div>
+            <div class="col-4">
+                <label>País</label>
+                <input class="form-control" value="@ViewBag.Pais.Pais" disabled />
+            </div>
+            <div class="col-4">
+                <label>Estado</label>
+                <input class="form-control" value="@ViewBag.Estado.Estado" disabled />
+            </div>
+            <div class="col-4">
+                <label>Municipio</label>
+                <input class="form-control" value="@ViewBag.Municipio.Municipio" disabled />
+            </div>
+            <div class="col-4">
+                <label>Localidad</label>
+                <input class="form-control" value="@ViewBag.proveedor.Colonia" disabled />
+            </div>
+            <div class="col-4">
+                <label>Codigo Postal</label>
+                <input class="form-control" value="@ViewBag.proveedor.CodigoPostal" disabled />
+            </div>
+            <div class="col-4">
+                <label>Correo Electronico</label>
+                <input class="form-control" value="@ViewBag.proveedor.Email" disabled />
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-4">
+                <label>Fechas</label>
+                <input class="form-control" value="@ViewBag.AdjEntrega.FechaLimite" disabled />
+            </div>
+            <div class="col-4">
+                <label>Dependencias o Entidades</label>
+                <input class="form-control" value="@ViewBag.Dependencia.Dependencia" disabled />
+            </div>
+            <div class="col-4">
+                <label>Condiciones de Entrega</label>
+                <input class="form-control" value="@ViewBag.condicionentrega.TipoEntrega" disabled />
+            </div>
+        </div>
+        <hr />
+        <table id="lotes_pedido" class="table-hover table-bordered userSelectnone">
+            <thead>
+                <tr>
+                    <th>NoLote</th>
+                    <th>BienServicio</th>
+                    <th>Cantidad</th>
+                    <th>Unidad</th>
+                    <th>Lugar de entrega</th>
+                    <th>Horario de entrega</th>
+                    <th>Dias de entrega</th>
+                    <th>Precio unitario</th>
+                    <th>Importe total</th>
+                    <th>Impuesto importe</th>
+                    <th>Total periodo</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var lotes in ViewBag.ListAdjCondEntDet)
+                {
+                    <tr>
+                        @*<td>@lotes.IdAdjudicacionPedido</td>*@
+                        <td>@lotes.NoLote</td>
+                        <td>@lotes.BienServicio</td>
+                        <td>@lotes.Cantidad</td>
+                        <td>@lotes.UnidadMedida</td>
+                        <td>@lotes.Lugar</td>
+                        <td>@lotes.HorarioEntrega</td>
+                        <td>@lotes.DiasEntrega</td>
+                        <td align="right">@string.Format("{0:C2}", lotes.PrecioUnitarioOfertado)</td>
+                        <td align="right">@string.Format("{0:C2}", @lotes.ImporteOfertado)</td>
+                        <td align="right">@string.Format("{0:C2}", @lotes.ImpuestoImporte)</td>
+                        <td align="right">@string.Format("{0:C2}", @lotes.TotalPeriodo)</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="9"></td>
+                    <td>Subtotal</td>
+                    <td>
+                        @ViewBag.SubTotal
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="9"></td>
+                    <td>Impuesto</td>
+                    <td>@ViewBag.Impuesto</td>
+                </tr>
+                <tr>
+                    <td colspan="9"></td>
+                    <td>Total</td>
+                    <td>@ViewBag.Total</td>
+                </tr>
+            </tfoot>
+        </table>
+        <hr />
+        <div class="row">
+            <div class="col-6">
+                <label>Condiciones de Pago</label>
+                <input class="form-control" value="@(ViewBag.Adjudicacionpago.PlazoPagoCantidad + " " + (ViewBag.Adjudicacionpago.PlazoPagoCantidad == 1 ? "Día" : ViewBag.PlazosTiemposPago.PlazozTiempo.Trim()) + " " + ViewBag.TiposDiasPago.TipoDia + " " + ViewBag.tipocondicionpago.Condicion)" disabled />
+            </div>
+            <div class="col-6">
+                <label>Plazo de entrega</label>
+                <input class="form-control" value="@(ViewBag.AdjEntrega.PlazoEntregaCantidad + " " + (ViewBag.AdjEntrega.PlazoEntregaCantidad == 1 ? "Día" : ViewBag.PlazosTiemposEntrega.PlazozTiempo.Trim()) + " " + ViewBag.TiposDiasEntrega.TipoDia + " " + ViewBag.PlazoEntrega.PlazoEntrega)" disabled />
+            </div>
+        </div>
+        <br />
+    </div>
+}
+@if ((ViewBag.IdPerfil == 4 || ViewBag.IdPerfil == 8 || ViewBag.IdPerfil == 5) && Model.IdEstatusAdjudicacion == 140 && ViewBag.OrdenFirmante)
+{
+    <hr />
+    <div class="container-fluid text-center">
+        <div class="custom-control custom-checkbox custom-control-inline">
+            <input type="checkbox" class="custom-control-input" id="aut" onchange="disabledButtons()" @(ViewBag.disabled != "" ? "checked " + ViewBag.disabled : "")>
+            <label class="custom-control-label" false for="aut">@(ViewBag.IdPerfil == 4?"Autorizar jefe dependencia":(ViewBag.IdPerfil == 8?"Autorizar proveedor":(ViewBag.IdPerfil == 5?"Autoriza secretario comité":"")))</label>
+        </div>
+    </div>
+    <br />
+}
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            if ($("#statusFirm").val() == 1) {
+                disabledButtons()
+            }
+            $("#lotes_pedido").DataTable({
+                sort: false
+            })
+            // Cache selectors for faster performance.
+            var $window = $(window),
+                $mainMenuBar = $('.mainMenuBar'),
+                $mainMenuBarAnchor = $('.mainMenuBarAnchor');
+
+            // Run this on scroll events.
+            $window.scroll(function () {
+                var window_top = $window.scrollTop();
+                var div_top = $mainMenuBarAnchor.offset().top;
+                var diff = (Math.abs((window_top - 9) - (div_top)));
+
+                if (diff < 9) {
+                    return false;
+                } else if (window_top > div_top) {
+                    // Make the div sticky.
+                    $mainMenuBar.addClass('stick');
+                    $mainMenuBarAnchor.height($mainMenuBar.height());
+                }
+                else {
+                    // Unstick the div.
+                    $mainMenuBar.removeClass('stick');
+                    $mainMenuBarAnchor.height(0);
+                }
+            });
+        });
+        $('#LibPedido').on('click', function () {
+            bootbox.confirm({
+                title: `<div class="text-center">Liberación de pedido</div>`,
+                message: "¿Desea liberar el pedido?",
+                size: "small",
+                callback: function (acepto) {
+                    if (acepto) {
+                        traerTokenCapturaGenerico({ title: "Introduce token", CallBack: validarTokenGenerico, CallBackPersonalizado: saveLiberarPedidoFirma, b: undefined })
+                    }
+                }
+            })
+        })
+        function LibPed(tipo) {
+            if (tipo) {
+                let action = tipo == 1 && validarJdep() ? "/UpdateLiberarPedidoFirma" : (tipo == 2 ? "/" : "")
+                bootbox.confirm({
+                    title: `<div class="text-center">${(tipo == 1 && validarJdep() ? "Autorizar" : (tipo == 2 ? "Rechazar" : ""))} pedido</div>`,
+                    message: `¿Desea ${(tipo == 1 ? "autorizar" : (tipo == 2 ? "rechazar" : ""))} liberación de pedido?`,
+                    size: "small",
+                    callback: function (res) {
+                        if (res) {
+                            traerTokenCapturaGenerico({ title: "Introduce token", CallBack: validarTokenGenerico, CallBackPersonalizado: saveLiberarPedidoFirmaTodos, b: tipo })
+                        }
+                    }
+                })
+            } else {
+                bootbox.alert({
+                    title: `<div class="text-center">Aviso</div>`,
+                    message: "No se a seleccionado autorizar",
+                    size: "small"
+                })
+            }
+        }
+        function saveLiberarPedidoFirmaTodos(tipo) {
+            let action = tipo == 1 && validarJdep() ? "/UpdateLiberarPedidoFirma" : (tipo == 2 ? "/" : "")
+            $.post("/AdjudicacionesAutorizadasConsulta" + action, { id: $("#idpedadj").val(), __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val() }, "json")
+                .done(function (response) {
+                    bootbox.alert({
+                        title: `${(tipo == 1 && validarJdep() ? "Autorizar" : (tipo == 2 ? "Rechazar" : ""))} pedido`,
+                        message: response,
+                        size: "small",
+                        callback: function () {
+                            location.reload();
+                        }
+                    })
+                }).fail(function (jqxhr, ErrorText, status) {
+                    bootbox.alert({
+                        title: "Aviso",
+                        message: `Error: ${jqxhr} ${ErrorText} ${status}`,
+                        size: "small"
+                    })
+                })
+        }
+        function validarJdep() {
+            return ($("#aut").is(":checked") ? true : false);
+        }
+        function disabledButtons() {
+            if ($("#aut").is(":checked")) {
+                $("#AutPed").prop("disabled", false)
+                $("#RecPed").prop("disabled", true)
+            } else {
+                $("#AutPed").prop("disabled", true)
+                $("#RecPed").prop("disabled", false)
+            }
+        }
+        function saveLiberarPedidoFirma() {
+            $.post('/AdjudicacionesAutorizadasConsulta/UpdateAdjudicacionLiberarPedido/',
+                $('#FormLiberarPedido').serialize(),
+                "json"
+            )
+                .done(function (data) {
+                    bootbox.alert({
+                        title: `<div class="text-center">Liberación de pedido</div>`,
+                        message: data,
+                        size: "small",
+                        callback: function () {
+                            location.reload();
+                        }
+                    })
+                })
+                .fail(function (xhr, TextStatus, error) {
+                    bootbox.alert({
+                        title: `<div class="text-center">Aviso</div>`,
+                        message: `Error: ${xhr} ${TextStatus} ${error}`,
+                        size: 'small'
+                    });
+                })
+        }
+    </script>
+}

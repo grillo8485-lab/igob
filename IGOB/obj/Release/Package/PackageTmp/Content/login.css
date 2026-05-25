@@ -1,0 +1,133 @@
+﻿body {
+    background-color: #383838;
+    color: #fff;
+    font-size: 18px !important;
+    margin: 0;
+    padding: 0;
+    line-height: 1.42857143 !important;
+}
+
+.btn-ChangeColor {
+    width: 150px;
+    float: right;
+    margin-right: 19%;
+}
+
+#container__password {
+    border-top: 1px solid#fff !important;
+    padding-top: 15px;
+    font-size: 15px;
+    text-align: center;
+    user-select: none
+}
+
+label {
+    margin: 5px 0 0 0;
+}
+.h1, .h2, .h3, h1, h2, h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+*, :after, :before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.barra-green {
+    background-color: #adcb60;
+    height: 50px;
+}
+.padre-menu-top {
+    display: flex;
+    align-items: center;
+}
+.hijo-menu-top {
+    background-color: yellow;
+    padding: 10px;
+
+    display: inline-block;
+}
+.panel-title-login {
+    font-size: 23px;
+    text-align: center;
+    user-select:none;
+}
+.input-group-addon {
+    padding: 2px 10px !important;
+}
+.btn-green {
+    background-color: #adcb60;
+    width: 150px;
+    margin-left: 22%;
+}
+.checkbox-G-login {
+    width: 50px;
+    height: 28px;
+}
+.infoConoce {
+    margin-top: 72px;
+    font-size: 15px;
+    text-align: center;
+    background-color: #00000052;
+    border-radius: 10px 10px 10px 10px;
+    z-index: 1;
+    font-weight: 700;
+    margin-left: 75%;
+}
+    .infoConoce > a {
+        font-size: 12px;
+        color: #adcb60;
+        font-weight: 700;
+        text-decoration: none;
+    }
+.col-logo {
+    margin-bottom: -50px;
+    margin-top: -20px;
+}
+.alert-danger {
+    border: 3px solid #b51717 !important;
+}
+
+.footer {
+    position: fixed;
+    background-color: #383838;
+    right: 0;
+    bottom: 0;
+    padding-bottom: 3vw;
+    left: 0;
+    text-align: center;
+    z-index: 9;
+}
+#container__login{
+    margin-left: 3vw;
+    margin-top: 7px;
+    margin-bottom:1vw;
+}
+
+img{
+    user-select:none;
+}
+
+@media (max-width: 1204px) {
+    .infoConoce {
+        margin-left:80%      
+    }
+    #container__login {
+        margin-left: 0px !important;
+    }
+    
+}
+@media (max-width: 767px) {
+    .infoConoce {
+        margin-left:2% !important;
+        margin-right: 2% !important;
+        }
+
+}
+
+@media (max-height: 624px) {
+    body {
+         overflow-y:scroll;
+    }
+} 
+

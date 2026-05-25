@@ -1,0 +1,396 @@
+﻿@model IEnumerable<iGob.Entidades.beGobierno>
+@section css
+{
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <style>
+        .text-long {
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .dataTables_scrollBody {
+            position: unset !important;
+            z-index: 1 !important;
+        }
+
+        .dataTables_wrapper {
+            z-index: 2 !important;
+            position: unset !important;
+        }
+      
+
+        hr {
+            margin-top: 0rem !important;
+            margin-bottom: 0rem !important;
+        }
+    </style>
+
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<input type="button" value="Nuevo Gobierno" class="btn btn-secondary" id="create-item" />
+<br /><br />
+<table class="table-bordered hover" id="tabla_Gobierno" style="z-index:2">
+    <thead align="justify">
+        <tr>
+            <th> # </th>
+            <th> Acciones </th>
+            <th> Menu </th>
+            <th> Empresa </th>
+            <th> Cobro de las Bases </th>
+            <th> Costo de Bases </th>
+            <th> Evitar Repetir Accionistas </th>
+            <th> Aplicar Fecha de cedulas </th>
+            <th> Aplicar Restricciones de fecha de cedulas </th>
+            <th> Limite de Giros </th>
+            <th> Hora Inicial de Labores </th>
+            <th> Hora Final de Labores </th>
+            <th> Horas Maximas de Alerta Verde </th>
+            <th> Horas Maximas de Alerta Amarilla </th>
+            <th> Horas Maximas de Alerta Roja </th>
+            <th> Dias Envio Correo 2da Vuelta</th>
+            <th> Dias Para Cancelar Solicitud sin Atender </th>
+            <th> Horas para Validar Pago </th>
+            <th> Horas para Validar Pago Extra</th>
+            <th> Banner </th>
+            <th> Logo </th>
+            <th> Fecha Registro </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ var i = 1; }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@i</td>
+                <td>
+                    <div class="form-group" style="min-width:80px;">
+                        <a title="Eliminar registro" class="btn btn-secondary btn-circle delet-item btn-sm"
+                           data-idgob="@item.IdGobierno"
+                           data-gob="@item.Gobierno"
+                           data-idur="@item.IdUsuarioRegistro">
+                            <span class="icon-garbage-2"></span>
+                        </a>
+                        <a title="Editar registro"
+                           data-idgob="@item.IdGobierno"
+                           data-idur="@item.IdUsuarioRegistro"
+                           data-gob="@item.Gobierno"
+                           data-cobb="@item.Cobrobases"
+                           data-monb="@item.MontoBases"
+                           data-repa="@item.RepertirAccionistas"
+                           data-apfc="@item.AplicarFechasCedula"
+                           data-aprc="@item.AplicarRestriccionCedula"
+                           data-ligp="@item.LimiteGirosProveedor"
+                           data-hrli="@item.HorarioLaboralInicio"
+                           data-hrlf="@item.HorarioLaboralFin"
+                           data-alve="@item.AlertaVerde"
+                           data-alam="@item.AlertaAmarilla"
+                           data-alro="@item.AlertaRoja"
+                           data-decdv="@item.DiasEnvioCorreo2daVuelta"
+                           data-dcan="@item.DiasCancelarNoAtendida"
+                           data-hrvp="@item.TiempoValidaPago"
+                           data-hrep="@item.TiempoExtraValidaPago"
+                           data-bnnr="@item.UrlBanner"
+                           data-urlg="@item.UrlLogo"
+                           data-freg="@item.FechaRegistro"
+                           data-logo="@item.Logo"
+                           data-banner="@item.Banner"
+                           class="btn btn-secondary btn-circle edit-item  btn-sm"><span class="icon-edit"></span></a>
+                    </div>
+                </td>
+                <td>
+                    <div class="button-group">
+                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"  style="color:black !important"><span class="glyphicon glyphicon-cog"></span> <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li>
+                            <li><a href="@Url.Action("configuracionModalidadesGobierno","Gobierno", new { @IdGobierno = item.IdGobierno })" class="small" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-cog" style="color:black !important"></span>Configuracion de Modalidad</a></li>
+                            <li><a href="@Url.Action("Index","DiasInhabiles")" class="small" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-calendar" style="color:black !important"></span>Dias Inhabiles del Año</a><hr /></li>
+                            <li><a href="@Url.Action("Index","Manifiestos")" class="small" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-th-list" style="color:black !important"></span>Catalogos de Manifiestos</a></li>
+                            <li><a href="@Url.Action("Index","SubirPlantillas")" class="small" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-open" style="color:black !important"></span>Subir plantillas</a><hr /></li>
+                            <li><a   disabled                        class="small" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-warning-sign" style="color:black !important"></span>Alerta Perfiles</a><hr /></li>
+                            <li><a   disabled                        class="small" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-th-list" style="color:black !important"></span>Titulos</a></li>
+                            <li><a href="@Url.Action("Index","ConfiguracionFirmantesModalidades")" class="small" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-th-list" style="color:black !important"></span>Configuración firmantes</a></li>
+                            <li><a href="@Url.Action("Index","Manifiestos")" class="small" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-th-list" style="color:black !important"></span>Catalogo de firmates</a></li>
+                            <li><a href="@Url.Action("Index","InvestigacionPrecios")" class="small" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-folder-open" style="color:black !important"></span>Estudio de mercado</a></li>
+                        </ul>
+                    </div>
+                </td>
+                <td>@item.Gobierno</td>
+                <td>
+                    <div class="custom-control custom-checkbox">
+                        @Html.CheckBox("bases", @item.Cobrobases, htmlAttributes: new { @class = "custom-control-input",@disabled="" })
+                        <label class="custom-control-label" for="Cobrobases"></label>
+                    </div>
+                </td>
+                <td>@item.MontoBases</td>
+                <td>
+                    <div class="custom-control custom-checkbox">
+                        @Html.CheckBox("Accionistas", @item.RepertirAccionistas, htmlAttributes: new { @class = "custom-control-input", @disabled = "" })
+                        <label class="custom-control-label" for="RepertirAccionistas"></label>
+                    </div>
+                </td>
+                <td>
+                    <div class="custom-control custom-checkbox">
+                        @Html.CheckBox("Cedula", @item.AplicarFechasCedula, htmlAttributes: new { @class = "custom-control-input", @disabled = "" })
+                        <label class="custom-control-label" for="AplicarFechasCedula"></label>
+                    </div>
+                </td>
+                <td>@item.AplicarRestriccionCedula</td>
+                <td>@item.LimiteGirosProveedor</td>
+                <td>@item.HorarioLaboralInicio</td>
+                <td>@item.HorarioLaboralFin</td>
+                <td>@item.AlertaVerde</td>
+                <td>@item.AlertaAmarilla</td>
+                <td>@item.AlertaRoja</td>
+                <td>@item.DiasEnvioCorreo2daVuelta</td>
+                <td>@item.DiasCancelarNoAtendida</td>
+                <td>@item.TiempoValidaPago</td>
+                <td>@item.TiempoExtraValidaPago</td>
+                <td><img src="@item.Banner" width="350" height="100"></td>
+                <td><img src="@item.Logo" width="100" height="100"></td>
+                <td>@item.FechaRegistro</td>
+            </tr>
+            { i++; }
+        }
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalForm" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title" id="formEditCreate"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div align="center"><strong id="MensajeForm"></strong></div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, htmlAttributes: new { @class = "GobForm" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5"><label id="" for="Gobierno"> Empresa: </label></div>
+                                <div class="col-7">
+                                    <input type="hidden" id="IdGobierno" name="IdGobierno" class="form-control" />
+                                    <input type="text" id="Gobierno" name="Gobierno" class="form-control" maxlength="250" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="custom-control custom-checkbox">
+                                        @Html.CheckBox("Cobrobases", false, htmlAttributes: new { @class = "custom-control-input" })
+                                        <label class="custom-control-label" for="Cobrobases" id="lblCobroBase"> Cobro bases: </label>
+                                    </div>
+                                </div>
+                                <div class="col-7">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroupPrepend2">$</span>
+                                        </div>
+                                        <input type="text" class="form-control" name="MontoBases" id="MontoBases" placeholder="Monto Base" aria-describedby="inputGroupPrepend2" maxlength="20" required disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:15px;">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="custom-control custom-checkbox">
+                                        @Html.CheckBox("RepertirAccionistas", false, htmlAttributes: new { @class = "custom-control-input" })
+                                        <label class="custom-control-label" for="RepertirAccionistas"> Repertir Accionistas: </label>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="custom-control custom-checkbox">
+                                        @Html.CheckBox("AplicarFechasCedula", false, htmlAttributes: new { @class = "custom-control-input" })
+                                        <label class="custom-control-label" for="AplicarFechasCedula"> Aplicar Fechas Cedula: </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5"><label class="control-label" for="AplicarRestriccionCedula" id=""> Aplicar Restricciones Cedula: </label></div>
+                                <div class="col-7"><input type='text' class="form-control" id="AplicarRestriccionCedula" name="AplicarRestriccionCedula" required></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5"> <label id="" for="LimiteGirosProveedor"> Limite Giros Proveedor: </label> </div>
+                                <div class="col-7"><input type="text" id="LimiteGirosProveedor" name="LimiteGirosProveedor" class="form-control" maxlength="16" required /></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5"><label for="HorarioLaboralInicio">Horario Laboral Inicio:</label></div>
+                                <div class="col-7">
+                                    <input type="text" value="" data-date-format="hh:ii" class="form-control input-time" id="HorarioLaboralInicio" name="HorarioLaboralInicio" required readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5"><label for="HorarioLaboralFin"> Horario Laboral Fin: </label></div>
+                                <div class="col-7">
+                                    <input type="text" value="" data-date-format="hh:ii" class="form-control input-time" id="HorarioLaboralFin" name="HorarioLaboralFin" required readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5">
+                                    <label for="AlertaVerde">Alerta Verde:</label>
+                                </div>
+                                <div class="col-7">
+                                    <input type="text" value="" data-date-format="hh:ii" class="form-control input-time" id="AlertaVerde" name="AlertaVerde" required readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5"><label for="AlertaAmarilla"> Alerta Amarilla: </label></div>
+                                <div class="col-7">
+                                    <input type="text" value="" data-date-format="hh:ii" class="form-control input-time" id="AlertaAmarilla" name="AlertaAmarilla" required readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5"><label for="AlertaRoja"> Alerta Roja: </label></div>
+                                <div class="col-7">
+                                    <input type="text" value="" data-date-format="hh:ii" class="form-control input-time" id="AlertaRoja" name="AlertaRoja" required readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5"> <label id="" for="DiasEnvioCorreo2daVuelta"> Dias Envio Correo 2da Vuelta : </label> </div>
+                                <div class="col-7"><input type="text" id="DiasEnvioCorreo2daVuelta" name="DiasEnvioCorreo2daVuelta" class="form-control" maxlength="15" required /></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5"> <label id="" for="DiasCancelarNoAtendida"> Dias Cancelar No Atendida: </label> </div>
+                                <div class="col-7"><input type="text" id="DiasCancelarNoAtendida" name="DiasCancelarNoAtendida" class="form-control" maxlength="15" required /></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5"><label for="TiempoValidaPago"> Tiempo Validar Pago: </label></div>
+                                <div class="col-7">
+                                    <input type="text" value="" data-date-format="hh:ii" class="form-control input-time" id="TiempoValidaPago" name="TiempoValidaPago" required readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5"><label for="TiempoExtraValidaPago"> Tiempo Extra Validar Pago: </label></div>
+                                <div class="col-7">
+                                    <input type="text" value="" data-date-format="hh:ii" class="form-control input-time" id="TiempoExtraValidaPago" name="TiempoExtraValidaPago" required readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5"> Banner: </div>
+                                <div class="col-7">
+                                    <textarea id="Banner" name="Banner" style="display:none"></textarea>
+                                    <input id="UrlBanner" name="UrlBanner" type="hidden"/>
+                                    <div class="input-group mb-3">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" accept="image/gif, image/jpeg, image/png, image/svg+xml" onchange="readURL(this,'UrlBanner','Banner','lblbanner');">
+                                            <label class="custom-file-label text-long" id="lblbanner">Seleccione Banner</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5"> Logo: </div>
+                                <div class="col-7">
+                                    <textarea id="Logo" name="Logo" style="display:none"></textarea>
+                                    <input id="UrlLogo" name="UrlLogo" type="hidden" />
+                                    <div class="input-group mb-3">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" accept="image/gif, image/jpeg, image/png, image/svg+xml" onchange="readURL(this,'UrlLogo','Logo','lbllogo');">
+                                            <label class="custom-file-label text-long" id="lbllogo">Seleccione Logo</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5"> <label id="" for="FechaRegistro"> Fecha Registro: </label> </div>
+                                <div class="col-7">
+                                    <input type="text" value="" autocomplete="off" readonly class="datetimepicker form-control" id="FechaRegistro" name="FechaRegistro" data-date-format="yyyy-mm-dd hh:ii" required />
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="IdUsuarioRegistro" name="IdUsuarioRegistro" value="1" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <input type="submit" value="Guardar" id="submitform" class="btn btn-secondary" />
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="FormDelete" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title" id="DeleteTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, htmlAttributes: new { @class = "FormDelete" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div style="margin:30px;">
+                    <strong id="ConfirDelete"></strong>
+                    <input type="hidden" id="deleteId" class="form-control" />
+                        
+                </div>
+                <div align="center"><strong id="MensajeDelete"></strong></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <input type="submit" value="Eliminar" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/Catalogos/AccionesGobierno.js"></script>
+}

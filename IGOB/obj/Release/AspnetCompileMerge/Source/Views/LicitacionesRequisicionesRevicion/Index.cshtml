@@ -1,0 +1,61 @@
+﻿@model IGOB.Models.ListadoLicitacionesInvitacionAceptadasProveedor
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section css{
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.structure.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.theme.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form", @id = "GenerarLiquidacionForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="modal-header changeColorModal">
+        <div class="col-6 text-left">
+            <label>@Model.Titulo</label>
+        </div>
+        <div class="col-6 text-right">
+            <button type="button" class="btn btn-default btn-sm" onclick="location.href='@Url.Action("Index", "ListadoLicitacionesInvitacionAceptadasProveedor")'">
+                <span class="glyphicon glyphicon-step-backward"></span> Regresar
+            </button>
+        </div>
+
+    </div>
+
+    <table class="table-bordered hover" id="LicitacionesListadoAceptadasProveedores" width="100%">
+        <thead>
+            <tr>
+                <th align="justify"> Acciones </th>
+                <th align="justify"> Proveedor </th>
+                <th align="justify"> Fecha de pago </th>
+                <th align="justify"> Folio de pago </th>
+                <th align="justify"> Recibo de pago(jpg,png,pdf) </th>
+                <th align="justify"> Estatus </th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.lstInvitacionesAcptadasProveedor)
+            {
+                <tr>
+                    <td align="center">
+                        <button title="Abrir envio de pagos" type="button" class="btn btn-secondary btn-circle edit-marca btn-sm" to onclick="location.href='@Url.Action("Index","EnviarPagosProveedor",new { @IdInvitacion=item.IdInvitacion})'">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                        </button>
+                    </td>
+                    <td>@item.RazonSocial</td>
+                    <td>@item.FolioPago</td>
+                    <td>@String.Format("{0:dd/MM/yyyy HH:mm:ss}", item.FechaPago)</td>           
+                    <td>@item.UrlRecibo</td>
+                    <td>@item.Estatus</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@section scripts{
+    <script src="~/Scripts/Catalogos/ListadoLicitacionesAceptadasProveedor.js"></script>
+}

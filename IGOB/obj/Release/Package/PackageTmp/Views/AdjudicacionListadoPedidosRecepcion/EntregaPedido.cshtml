@@ -1,0 +1,178 @@
+﻿@model IEnumerable<iGob.Entidades.beAdjudicacionLiberarPedido>
+@{
+    ViewBag.Title = "Recepción pedido";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="text-white sub_banner changeColorModal">
+    <div class="mainMenuBarAnchor"></div>
+    <nav class="navbar bg-secondary text-white navbar-light bg-light changeColorModal mainMenuBar">
+        <div class="row col-12">
+            <div class="col-7 text-left">
+                <h6>@ViewBag.Titulo</h6>
+            </div>
+            <div class="col-5 text-right">
+                <button class="btn btn-secondary btn-sm" onclick="location.href=`/AdjudicacionListadoPedidosRecepcion/`">REGRESAR</button>
+            </div>
+        </div>
+    </nav>
+</div>
+<br />
+@Html.AntiForgeryToken()
+@Html.ValidationSummary(true)
+<div class="container-fluid">
+    <table id="PedidosRecepcion" class="table table-hover userSelectnone">
+        <thead>
+            <tr>
+                <th>NoLote</th>
+                <th width="150px;">Descripción</th>
+                <th>Unidad<br /> medida</th>
+                <th>Cantidad<br /> total</th>
+                <th>Cantidad<br /> pendiente</th>
+                <th>Cantidad<br /> total <br />recibida</th>
+                <th>Cantidad<br /> a recibir</th>
+                <th>Lugar de <br />entrega</th>
+                <th>Observación</th>
+                <th>recepcionar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ var id = 1;}
+            @foreach (var i in Model)
+            {
+                var dis = "";
+                var totalrecibido = (i.CantidadRecepcionar - i.CantidadxRecibir);
+                if (i.CantidadRecepcionar == totalrecibido && i.CantidadxRecibir == 0)
+                {
+                    dis = "disabledClick";
+                }
+                <tr>
+                    <td>@i.NoLote</td>
+                    <td>@i.BienServicio</td>
+                    <td>@i.UnidadMedida</td>
+                    <td>@i.CantidadRecepcionar</td>
+                    <td>@i.CantidadxRecibir</td>
+                    <td>@totalrecibido</td>
+                    <td><input type="text" id="@id" name="cantidadRecepcion" value="@(i.CantidadxRecibir != 0 ? i.CantidadxRecibir : 0)" class="form-control @dis textDerecha" min="@(i.CantidadxRecibir != 0 ? 1 : 0)" /></td>
+                    <td>@Html.DropDownList("IdLugarEntrega", new SelectList(ViewBag.LugaresEntregaFirma as List<iGob.Entidades.beLugaresEntregaFirma>, "IdLugarEntregaFirma", "Lugar", i.IdLugarEntrega), "Seleccione lugar entrega", new { @class = "form-control " + dis, @Required = "", @id = id })</td>
+                    <td><textarea name="Observaciones" id="@id" class="form-control @dis">@i.Observaciones</textarea></td>
+                    <td>
+                        <button type="button" class="btn btn-default btn-sm saveRecepcionPed @dis" style="color:black !important;"
+                                data-IdAdConEntDet="@i.IdAdCondicionEntregaDetalle"
+                                data-IdAdjPedDet="@i.IdAdjudicacionPedidoDetalle"
+                                data-IdAdjPed="@i.IdAdjudicacionPedido"
+                                data-total="@i.CantidadRecepcionar"
+                                data-lugar="@i.IdLugarEntrega"
+                                data-idele="@id">
+                            <span class="glyphicon glyphicon-floppy-disk @dis"></span> <span class="caret"></span>
+                        </button>
+                    </td>
+                </tr>
+                { id++; }
+            }
+        </tbody>
+    </table>
+</div>
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#PedidosRecepcion").on("click", ".saveRecepcionPed", function () {
+                let idElement = $(this).attr("data-idele")
+                let IdAdConEntDet = $(this).attr("data-IdAdConEntDet")
+                let idAdjPedDet = $(this).attr("data-IdAdjPedDet")
+                let idAdjPed = $(this).attr("data-IdAdjPed")
+                let total = $(this).attr("data-total")
+                let cantidad = $(`#${idElement}[name="cantidadRecepcion"]`).val()
+                let lugar = $(`select[name="IdLugarEntrega"][id="${idElement}"]`).val()
+                let lugarAnt = $(this).attr("data-lugar")
+                let observacion = $(`textarea[name="Observaciones"][id="${idElement}"]`).val()
+                if ((IdAdConEntDet != 0 && IdAdConEntDet != "") && (idAdjPedDet != 0 && idAdjPedDet != ""))
+                    console.log(`T:${total} C:${cantidad} L:${lugar} LA:${lugarAnt} O:${observacion} ${IdAdConEntDet} ${idAdjPedDet}`)
+                if (validaDatos(total, cantidad, lugar, observacion, lugarAnt)) {
+                    let object = {
+                        "IdAdjCondicionEntregaDetalle": IdAdConEntDet,
+                        "IdRecepcionAdjudicacionDetalle": 0,
+                        "IdAdjudicacionPedidoDetalle": idAdjPedDet,
+                        "IdAdjudicacionPedido": idAdjPed,
+                        "CantidadRecibida": cantidad,
+                        "Observaciones": observacion,
+                        "IdLugarEntrega": lugar,
+                        "__RequestVerificationToken": $("[name='__RequestVerificationToken']").val()
+                    }
+                    bootbox.confirm({
+                        title: `<div class="text-center">Recepcionar pedido</div>`,
+                        message: `¿Desea recepcionar la cantidad ${cantidad}?`,
+                        size: "small",
+                        callback: function (res) {
+                            if (res) {
+                                traerTokenCapturaGenerico({ title: "Introduce token", CallBack: validarTokenGenerico, CallBackPersonalizado: saveRecepcionPedidoSolicitante, b: object })
+                            }
+                                
+                        }
+                    })
+                }
+            })
+        })
+
+        function saveRecepcionPedidoSolicitante(object) {
+            $.post("/AdjudicacionListadoPedidosRecepcion/RecepcionesAdjudicacionesPedidosDetalles/", object, "json")
+                .done(function (respuesta) {
+                    if (respuesta.success)
+                        bootbox.alert({
+                            title: `<div class="text-center">Recepcionar pedido</div>`,
+                            message: respuesta.message,
+                            size: "small",
+                            callback: function () {
+                                location.reload()
+                            }
+                        })
+                    else
+                        bootbox.alert({
+                            title: `<div class="text-center">Recepcionar pedido</div>`,
+                            message: respuesta.message,
+                            size: "small"
+                        })
+                })
+                .fail(function (jqxhr, error, status) {
+                    bootbox.alert({
+                        title: `<div class="text-center">Aviso</div>`,
+                        message: `${jqxhr} ${error} ${status}`,
+                        size: "small"
+                    })
+                })
+        }
+
+        function validaDatos(total, cantidad, lugar, observacion, lugarAnt) {
+            if (validarformRecPed(total, cantidad, lugar, observacion, lugarAnt) == false) {
+                let error = ""
+                if ((observacion == "" || observacion == undefined) && (cantidad != 0 && cantidad != undefined))
+                    error += "falta llenar campo de observaciones<br/>"
+                if (lugar == "" || lugar == undefined)
+                    error += "no se ha seleccionado un lugar entrega<br/>"
+                if (cantidad == 0 || cantidad == undefined)
+                    error += "La cantidad a entregar debe ser mayor a 0<br/>"
+                bootbox.alert({
+                    title: `<div class="text-center">Aviso</div>`,
+                    message: error,
+                    size: "small"
+                })
+                return false
+            }
+            else {
+                return true
+            }
+        }
+
+        function validarformRecPed(total, cantidad, lugar, observacion, lugarAnt) {
+            if (parseInt(total) == parseInt(cantidad) && parseInt(lugar) == parseInt(lugarAnt)) {
+                return true
+            }
+            else if ((observacion != "" && observacion != undefined) && (lugar != "" && lugar != undefined) && (cantidad != 0 && cantidad != undefined)) {
+                return true
+            }
+            else {
+                return false
+            }
+        }
+    </script>
+}

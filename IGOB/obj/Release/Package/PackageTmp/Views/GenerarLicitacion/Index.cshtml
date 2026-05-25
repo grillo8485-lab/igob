@@ -1,0 +1,127 @@
+﻿@model IGOB.Models.GenerarLicitacion
+
+@{
+    ViewBag.Title = "Licitacion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section css{
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.structure.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.theme.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <!-- estilo pills personalizado -->
+    <style>
+        #pac-input {
+            width: 100%;
+        }
+
+        .col-12 {
+            margin-bottom: 15px !important;
+        }
+
+        .pac-container {
+            z-index: 9999;
+        }
+
+        #map {
+            width: 100% !important;
+            height: 15vw !important;
+        }
+
+        .dataTables_filter {
+            text-align: right;
+        }
+
+        .error {
+            color: red !important;
+        }
+
+        .sub_banner {
+            padding: 10.5px;
+            /*margin-top: 15px*/
+        }
+
+            .sub_banner strong {
+                font-size: 9.94pt;
+            }
+
+        input[type=number] {
+            text-align: right;
+        }
+
+        input[name=number] {
+            text-align: right;
+        }
+        /**nav fijo**/
+        #encabezado {
+            overflow: hidden;
+        }
+
+        .sticky {
+            position: fixed;
+            top: 0;
+            z-index: 2;
+        }
+
+            .sticky + #DatosGenerales {
+                padding-top: 10px;
+            }
+    </style>
+}
+
+<div id="GenerarLicitacionDiv">
+
+    @{
+        <!-- Configuracione sModalidades -->
+        Html.RenderPartial("EditFechas");
+    }
+</div>
+<div id="listadoDiv">
+    <table class="table" id="listadoRequisiciones">
+        <thead>
+            <tr>
+                <th>Dependencia o unidad requirente</th>
+                <th>Concepto</th>
+                <th>Económico</th>
+                <th>Recepción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.lstLicitacionRequisiciciones)
+            {
+                <tr>
+                    <td>@item.Dependencia</td>
+                    <td>@item.Partida</td>
+                    <td>@item.FolioRequisicion</td>
+                    <td>@String.Format("{0: dd/MM/yyyy}", item.FechaAutorizacion) </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="modal fade" id="Pop-Up" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Requisición Monto</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <br />
+                    <h4 id="titlePopUp"></h4>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cerrar" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/Catalogos/GenerarLicitacion.js"></script>
+
+}

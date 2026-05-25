@@ -1,0 +1,60 @@
+﻿@model IGOB.Models.Requisicion
+
+<style>
+    #ui-id-1 {
+        z-index: 9999 !important;
+    }
+</style>
+<div id="div_lotes" class="container-fluid tab-pane fade active show">
+
+    <div id="cargarLotesTable2">
+        <table class="table" id="LotesTable2" width="100%">
+            <thead>
+                <tr>
+                    <th>Lote ofertado</th>
+                    <th>Productos o servicios</th>
+                    <th>Cantidad</th>
+                    <th>Unidad</th>
+                    <th>Precio de referencia sin iva</th>
+                    <th>Impuesto</th>
+                    <th>*Precio unitario ofertado sin iva</th>
+                    <th>Importe</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ decimal impuesto = 0, subtotal = 0, total = 0; }
+                @foreach (var item in Model.lstRequisicionLotesIdRequisicion)
+                {
+                    <tr>
+                        <td>@item.NoLote</td>
+                        <td>@item.BienServicio</td>
+                        <td align="right">@item.Cantidad</td>
+                        <td>@item.UnidadMedida</td>
+                        <td align="right">@string.Format("{0:C2}",item.PrecioUnitario)</td>
+                        <td>@item.Impuesto</td>
+                        <td align="right">@string.Format("{0:C2}", item.PrecioUnitarioOfertado)</td>
+                        <td align="right">@string.Format("{0:C2}", (item.TotalOfertado > 0 ? item.ImporteOfertado : item.ImportePeriodo))</td>
+                    </tr>
+                    subtotal += (item.TotalOfertado > 0 ? item.ImporteOfertado : item.ImportePeriodo);
+                    impuesto += (item.ImpuestoPorcentaje * item.PrecioUnitarioOfertado * item.Cantidad);
+                }
+                @{total = subtotal + impuesto;}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="7" style="text-align:end;">Subtotal</td>
+                    <td align="right">@string.Format("{0:C2}",@subtotal)</td>
+                </tr>
+                <tr>
+                    <td colspan="7" style="text-align:end;">Impuesto</td>
+                    <td align="right">$@string.Format("{0:C2}",((Math.Truncate(@impuesto * 100) / 100).ToString("N2")))</td>
+                </tr>
+                <tr>
+                    <td colspan="7" style="text-align:end;">Total</td>
+                    <td align="right">$@string.Format("{0:C2}",((Math.Truncate(total * 100) / 100).ToString("N2")))</td>
+                </tr>
+
+            </tfoot>
+        </table>
+    </div>
+</div>

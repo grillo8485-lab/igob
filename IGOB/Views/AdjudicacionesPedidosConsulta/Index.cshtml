@@ -1,0 +1,48 @@
+﻿@model IEnumerable<iGob.Entidades.beAdjudicacionesPedidosConsulta>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<table class="table" id="tableAdjAut">
+    <thead align="justify">
+        <tr>
+            <th> Acciones </th>
+            <th> Estatus </th>
+            <th> Folio pedido </th>
+            <th> Adjudicación </th>
+            <th> proveedor </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td align="center" style="vertical-align:middle">
+                    <div class="button-group">
+                        <a href="@Url.Action("ElaborarPedido", "AdjudicacionesAutorizadasConsulta", new { @id = item.IdAdjudicacion })" title="Firmar liberación" class="btn btn-secondary btn-sm"><span class="glyphicon glyphicon-check"></span></a>
+                    </div>
+                </td>
+                <td>@item.EstatusFirmaPedido</td>
+                <td>@item.Folio</td>
+                <td>@item.AdjudicacionFolio</td>
+                <td>@item.RazonSocial</td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+<br /><br />
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#tableAdjAut").DataTable({
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+                },
+                sort: false
+            });
+        });
+    </script>
+}

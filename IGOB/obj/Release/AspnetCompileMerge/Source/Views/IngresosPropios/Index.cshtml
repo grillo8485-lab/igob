@@ -1,0 +1,47 @@
+﻿@model IEnumerable<iGob.Entidades.beCuentasBancariasDependencias>
+@{
+                /**/
+
+                Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<button class="btn btn-secondary" id="create-ctaban">Nuevo Ingreso Propio</button>
+<br />
+<br />
+<table class="table table-bordered table-hover" id="tableCtaBan">
+    <thead align="center">
+        <tr>
+            <td> Cuenta </td>
+            <td> Nombre de la Cuenta </td>
+            <td> Banco </td>
+            <td> Disponible </td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumeroCuenta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreCuenta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreCorto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MontoDisponible)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{ 
+    Html.RenderPartial("CreateModal");
+}
+
+@section scripts{
+    <script src="~/Scripts/Catalogos/AccionesIngProp.js"></script>
+}

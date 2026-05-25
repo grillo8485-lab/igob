@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "Presupuesto Dependencia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section css{
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.structure.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.theme.css" rel="stylesheet" />
+    <style>
+        .col-12 {
+            margin-bottom: 15px;
+        }
+    </style>
+}
+
+@Html.AntiForgeryToken()
+@Html.ValidationSummary()
+
+<div class="row">
+    <div class="col-sm-8">
+        <div class="form-group">
+            <label> Seleccione el producto que requiera cotizar: </label>
+            <input type="text" id="pNombreProducto" name="pNombreProducto" class="form-control" />
+            <input type='hidden' class="form-control" id="IdBienServicio" name="IdBienServicio" />
+        </div>
+    </div>
+</div>
+
+<div id="div_rep"></div>
+
+@section Scripts{
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+
+    <script>
+        $("#pNombreProducto").autocomplete({
+            minLength: 1,
+            source: function (request, response) {
+                $.ajax({
+                    url: '/RepCotizacion/ListaProductos',
+                    dataType: 'JSON',
+                    data: { descripcion: $("#pNombreProducto").val() },
+
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.BienServicio, value: item.BienServicio, id: item.IdBienServicio };
+                        }))
+                        //console.log(data);
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            },
+            select: function (e, ui) {
+                $("#IdBienServicio").val(ui.item.id);
+                TraerPrecios();
+            },
+            change: function (e, ui) {
+                if (!(ui.item)) e.target.value = "";
+            }
+        });
+
+        
+
+        function TraerPrecios() {
+            var token = $("[name='__RequestVerificationToken']").val();
+            
+            var IdBienServicio = $("#IdBienServicio").val();
+            var parametros = {
+                pIdBienServicio: IdBienServicio,
+                __RequestVerificationToken: token
+            };
+
+            $.ajax({
+                data: parametros,
+                url: '/RepCotizacion/PrecioProducto',
+                type: 'post',
+                beforeSend: function () {
+
+                },
+                success: function (result) {
+                    $('#div_rep').html(result);
+                }
+            });
+        }
+
+
+    </script>
+}
+

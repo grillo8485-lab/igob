@@ -1,0 +1,82 @@
+﻿@model IGOB.Models.Requisicion
+
+<div id="div_cartas" class="container-fluid tab-pane fade ">
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>CARTAS CUMPLIMIENTO</strong>
+        </div>
+    </div>
+    <br />
+    <div id="cargarTablaCarta">
+        <table class="table" id="CartaTabla" width="100%">
+            <thead style="width:auto;">
+                <tr>
+                    <th>*Aceptar</th>
+                    <th>Inciso</th>
+                    <th>Nombre Carta</th>
+                    <th>Carta</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.lstCartas)
+                {
+                    <tr>
+                        <td>
+                            <div class="custom-control custom-checkbox @Model.activar">
+                                <input type="checkbox" class="custom-control-input" name="CartasProveedor" value="@item.IdProveedorCarta" id="cd_@item.IdProveedorCarta" @(item.AceptacionCarta ? "checked" : "") onclick="aceptarCarta(@item.IdProveedorCarta,@item.IdProveedorRqInvitacion)">
+                                <label class="custom-control-label" for="@item.IdProveedorCarta"></label>
+                            </div>
+
+                        </td>
+                        <td>@item.Inciso</td>
+                        <td>@item.NombreCarta</td>
+                        <td>@item.CartaTexto</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <br />
+    <div id="CargarCartasPanel1">
+        <div class="row form-group @Model.visibleTecnicaSolicitante @Model.activarTecnicaSolicitante">
+            <div class="col-md-2 text-right">Cumple con lo ofertado (cartas):</div>
+            <div class="col-md-2 text-left input-group">
+                <div class="custom-control custom-checkbox">
+                    <input type="radio" class="custom-control-input" name="CartasDependenciaCumple" value="1" id="CartasDependenciaCumple1" @(Model.oProveedoresRequisicionesInvitacion.CartasDependenciaCumple ? "checked" : "") onclick="validaDependenciaCumple('CartasDependenciaCumple','CartaFundamento')">Si
+                    <label class="custom-control-label" for="CartasDependenciaCumple1"></label>
+
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="radio" class="custom-control-input" name="CartasDependenciaCumple" value="0" id="CartasDependenciaCumple2" @(!Model.oProveedoresRequisicionesInvitacion.CartasDependenciaCumple ? "checked" : "") onclick="validaDependenciaCumple('CartasDependenciaCumple','CartaFundamento')">No
+                    <label class="custom-control-label" for="CartasDependenciaCumple2"></label>
+                </div>
+            </div>
+            <div class="col-md-2 text-right">Observaciones y fundamentación legal:</div>
+            <div class="col-md-6 text-left">
+                <textarea id="CartaFundamento" name="CartaFundamento" rows="3" cols="33" class="form-control" @(Model.oProveedoresRequisicionesInvitacion.CartasDependenciaCumple ? "disabled" : "") >@Model.oProveedoresRequisicionesInvitacion.CartaFundamento</textarea>
+            </div>
+        </div>
+        <div class="row form-group @Model.visibleTecnicaRevisor  @Model.activarTecnicaRevisor">
+            <div class="col-md-2 text-right">Rechazar:</div>
+            <div class="col-md-2 text-left  input-group">
+                <div class="custom-control custom-checkbox">
+                    <input type="radio" class="custom-control-input" name="CartaAdquisicionCumple" value="1" id="CartaAdquisicionCumple1" @(Model.oProveedoresRequisicionesInvitacion.CartaAdquisicionCumple ? "checked" : "") onclick="validaCumpleRevisor('CartaAdquisicionCumple','CartasAdqObservacion')">Si
+                    <label class="custom-control-label" for="CartaAdquisicionCumple1"></label>
+
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="radio" class="custom-control-input" name="CartaAdquisicionCumple" value="0" id="CartaAdquisicionCumple2" @(!Model.oProveedoresRequisicionesInvitacion.CartaAdquisicionCumple ? "checked" : "") onclick="validaCumpleRevisor('CartaAdquisicionCumple','CartasAdqObservacion')">No
+                    <label class="custom-control-label" for="CartaAdquisicionCumple2"></label>
+                </div>
+            </div>
+            <div class="col-md-2 text-right">Observaciones adquisición</div>
+            <div class="col-md-6 text-left">
+                <textarea id="CartasAdqObservacion" name="CartasAdqObservacion" rows="3" cols="33" class="form-control" @(!Model.oProveedoresRequisicionesInvitacion.CartaAdquisicionCumple ? "disabled" : "") >@Model.oProveedoresRequisicionesInvitacion.CartasAdqObservacion</textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

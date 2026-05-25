@@ -1,0 +1,48 @@
+﻿@model IEnumerable<iGob.Entidades.beAdjudicacionListadoPedidos>
+@{
+    ViewBag.Title = "Recepción de pedidos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<div class="container-fluid">
+    <table class="table-hover table-bordered" id="ListadoPedidos">
+        <thead>
+            <tr>
+                <th>Acciones</th>
+                <th>Estatus de la recepción</th>
+                <th>Proveedor</th>
+                <th>Folio del pedido</th>
+                <th>Adjudicación</th>
+                <th>Partida</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var i in Model)
+            {
+                <tr>
+                    <td align="center">
+                        <div class="button-group">
+                            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" style="color:black !important;"><span class="glyphicon glyphicon-tasks"></span> <span class="caret"></span></button>
+                            <ul class="dropdown-menu" style="color:black !important;">
+                                <li><a href="/AdjudicacionListadoPedidosRecepcion/EntregaPedido/@i.IdAdjudicacion" class="small" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-download-alt" style="color:black !important"></span>Recepcionar</a></li>
+
+                                <li><a href="/AdjudicacionListadoPedidosRecepcion/EntregaPedidoDetalle/@i.IdAdjudicacion" class="small" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-usd " style="color:black !important"></span>Detalle recepción del pedido</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td>@i.Estatus</td>
+                    <td>@i.RazonSocial</td>
+                    <td>@i.Folio</td>
+                    <td>@i.AdjudicacionFolio</td>
+                    <td>@i.Partida</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section scripts{
+    <script>
+        $("#ListadoPedidos").DataTable({sort:false})
+    </script>
+}

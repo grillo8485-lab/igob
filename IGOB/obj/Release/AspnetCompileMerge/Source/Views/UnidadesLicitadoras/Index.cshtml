@@ -1,0 +1,44 @@
+﻿@model IEnumerable<iGob.Entidades.beUnidadesLicitadoras>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<button class="btn btn-secondary new-UL" >Nueva Unidad Licitadora</button>
+<br /><br />
+<table class="table" id="tableUL">
+    <thead align="justify">
+        <tr>
+            <th>Acciones</th>
+            <th>Unidad Licitadora</th>
+            <th>Dependencia</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td align="center" valign="middle">
+                    <div class="form-group" style="min-width:100px;">
+                        <a title="Eliminar registro" id="@item.IdUnidadLicitadora" data-title="@item.UnidadLicitadora" class="btn btn-secondary btn-circle delete-UL btn-sm"><span class="icon-garbage-2"></span></a>
+                        <a title="Editar registro" id="@item.IdUnidadLicitadora" data-title="@item.UnidadLicitadora" data-dependencia="@item.IdDependencia" class="btn btn-secondary btn-circle edit-UL btn-sm"><span class="icon-edit"></span></a>
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnidadLicitadora)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Dependencia)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@{
+    Html.RenderPartial("EditDeleteModals");
+}
+
+@section scripts{
+    <script src="~/Scripts/Catalogos/AccionesUL.js"></script>
+}

@@ -1,0 +1,69 @@
+﻿<!-- Modal Edit - New -->
+<div class="modal fade" id="DIModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+                <div class="modal-body">
+                    <div class="row container-fluid">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-4"><h6>Nombre del Evento: </h6></div>
+                                <div class="col-8">
+                                    <input type="text" name="Evento" id="Evento" class="form-control" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-4"> Fecha: </div>
+                                <div class="col-8">
+                                    <input type="text" value="" autocomplete="off" readonly class="datetimepicker form-control" name="Fecha" id="Fecha" data-date-format="yyyy-mm-dd hh:ii" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="Activo" id="Activo" value="true" />
+                    <input type="hidden" name="IdDiaInhabil" id="IdDiaInhabil" value="0" /><br /> <br />
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Editar" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->
+<!-- Modal Delete -->
+<div class="modal fade" id="DeleteDIModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Eliminar Día Inhabil</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm("Delete", "Marcas", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <br />
+                    <h4 id="titleDI"></h4>
+                    <input type="hidden" class="IdDiaInhabil" id="IdDiaInhabil" /><br />
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Eliminar" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->

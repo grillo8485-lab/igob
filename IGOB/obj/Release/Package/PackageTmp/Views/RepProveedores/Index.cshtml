@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.Title = "Presupuesto Dependencia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section css{
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.structure.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.theme.css" rel="stylesheet" />
+    <style>
+        .col-12 {
+            margin-bottom: 15px;
+        }
+    </style>
+}
+
+@Html.AntiForgeryToken()
+@Html.ValidationSummary()
+
+<div class="pos-f-t">
+    <nav class="navbar bg-secondary text-white navbar-light bg-light changeColorModal">
+        <div class="col-sm-4">
+
+        </div>
+
+        <div class="col-sm-8" style="text-align: right;">
+            <button class="btn btn-default btn-circle btn-sm" type="button" onclick="printData()" id="btn_imprimir" disabled>IMPRIMIR</button>
+        </div>
+    </nav>
+</div>
+
+<div class="row">
+    <div class="col-sm-8">
+        <div class="form-group">
+            <label> Seleccione al proveedor a consultar: </label>
+            <input type="text" id="pNombreProducto" name="pNombreProducto" class="form-control" />
+            <input type='hidden' class="form-control" id="IdProveedor" name="IdProveedor" />
+        </div>
+    </div>
+</div>
+
+<div id="div_rep"></div>
+
+@section Scripts{
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+
+    <script>
+        $("#pNombreProducto").autocomplete({
+            minLength: 1,
+            source: function (request, response) {
+                $.ajax({
+                    url: '/RepProveedores/ListaProveedores',
+                    dataType: 'JSON',
+                    data: { descripcion: $("#pNombreProducto").val() },
+
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.RazonSocial, value: item.RazonSocial, id: item.IdProveedor };
+                        }))
+                        //console.log(data);
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            },
+            select: function (e, ui) {
+                $("#IdProveedor").val(ui.item.id);
+                ProDetalles();
+            },
+            change: function (e, ui) {
+                if (!(ui.item)) e.target.value = "";
+            }
+        });
+
+        function ProDetalles() {
+            var token = $("[name='__RequestVerificationToken']").val();
+
+            var pIdProveedor = $("#IdProveedor").val();
+            var parametros = {
+                pIdProveedor: pIdProveedor,
+                __RequestVerificationToken: token
+            };
+
+            $.ajax({
+                data: parametros,
+                url: '/RepProveedores/Detalles',
+                type: 'post',
+                beforeSend: function () {
+
+                },
+                success: function (result) {
+                    $('#div_rep').html(result);
+                    $('#btn_imprimir').prop("disabled", false);
+                },
+                error: function (data) {
+                    $('#btn_imprimir').prop("disabled", true);
+                }
+            });
+        }
+
+    </script>
+}

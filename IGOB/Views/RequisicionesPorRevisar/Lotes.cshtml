@@ -1,0 +1,271 @@
+﻿@model IGOB.Models.Requisicion
+
+<style>
+    #ui-id-1 {
+        z-index: 9999 !important;
+    }
+</style>
+<div id="div_lotes" class="container-fluid tab-pane fade @(Model.oRequisicones.IdEstatusRequisicion==60?"disabledClick":"")">
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>COTIZAR LOTES</strong>
+        </div>
+    </div>
+    
+    <br />
+
+    <table class="table-bordered hover" id="LotesTable">
+        <thead>
+            <tr>
+                
+                <th>Lote</th>
+                <th>Clave Pantone</th>
+                @if (Model.oRequisicones.IdTipoSolicitud == 2)
+                {
+                    <th>Mes Inicio</th>
+                    <th>Mes Fin</th>
+                }
+                <th>Productos o servicios</th>
+                <th>Unidad</th>
+                <th>Características</th>
+                @if (Model.oRequisicones.IdTipoSolicitud == 2)
+                {
+                    <th>Frecuencia</th>
+                }
+                <th>Requerimiento</th>
+                <th>Impuesto</th>
+                <th>Importe Unitario sin impuesto</th>
+                <th>Importe Unitario con impuesto</th>
+                <th>Cantidad</th>
+                <th>Importe sin impuesto</th>
+                <th>Importe con impuesto</th>
+                @if (Model.oRequisicones.IdTipoSolicitud == 2)
+                {
+                    <th>Periodo</th>
+                }
+                    <th>Total Periodo</th>
+                </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.lstRequisicionLotesIdRequisicion)
+            {
+            <tr>
+
+                <td>@item.NoLote</td>
+                <td>@item.Pantone</td>
+                @if (Model.oRequisicones.IdTipoSolicitud == 2)
+                {
+                    <td>@item.DesCricionMesInicial</td>
+                    <td>@item.DesCricionMesFinal</td>
+                }
+                <td>@item.BienServicio</td>
+                <td>@item.UnidadMedida</td>
+                <td>@item.Descripcion</td>
+                @if (Model.oRequisicones.IdTipoSolicitud == 2)
+                {
+                    <td>@item.DescripcionFrecuencia</td>
+                }
+                <td >@item.Muestra</td>
+                <td align="right">@String.Format("{0:C2}", @item.Impuesto) </td>
+                <td align="right">@String.Format("{0:C2}", @item.PrecioUnitario)</td>
+                <td align="right">@String.Format("{0:C2}", @item.ImporteCImpuesto)</td>
+                <td align="right">@item.Cantidad</td>
+                <td align="right">@String.Format("{0:C2}", @item.Importe)</td>
+                <td align="right">@String.Format("{0:C2}", @item.ImporteMesnsualCImpuesto)</td>
+                @if (Model.oRequisicones.IdTipoSolicitud == 2)
+                {
+                    <td>@item.MesesServicio</td>
+                }
+                <td align="right">@String.Format("{0:C2}", @item.Total)</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Monto presupuestado autorizado</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input type="text" name="number" value="@(Model.oRequisicones.MontoAproximadoAutorizado == 0 ? "0.00" : String.Format("{0:C2}",  Model.oRequisicones.MontoAproximadoAutorizado))" id="MontoPresupuestoAutorizado" class="form-control" readonly />
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Liquidez</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input type="text" name="number" value="@(Model.sumLiquidez == 0 ? "0.00" : String.Format("{0:C2}",Model.sumLiquidez) )" id="liquidez" class="form-control" readonly>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group" id="ImporteTotalConImpuestoDiv">
+                <label>Importe total con impuestos</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input type="text" name="number" value="@(Model.sumRequisicionLote == 0 ? "0.00" : String.Format("{0:C2}",Model.sumRequisicionLote))" id="ImporteTotalConImpuesto" class="form-control" readonly>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal nuevo lote -->
+    <div class="modal fade" id="modal_nuevo_lote">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header changeColorModal">
+                    <h4 class="modal-title">Nuevo lote</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="container">
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form", @id = "div_LotesForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary()
+                            <input type="hidden" id="IdPartida_" value="@Model.oRequisicones.IdPartida" />
+                            <input type="hidden" id="IdBienServicio" value="@Model.oRequisicones.IdPartida" />
+                            <input type="hidden" id="IdLote" value="0" />
+                            if (Model.oRequisicones.IdTipoSolicitud == 2)
+                            {
+                                <div class="row form-group" id="DivServicios">
+                                    <div class="col-md-1 text-right">Mes inicio:</div>
+                                    <div class="col-md-2 text-left">
+                                        @Html.DropDownList("De", ViewBag.lstMesesDe as SelectList, "Seleccione Desde", new { @class = "form-control ", @Required = "", @onchange = "mesesActivos()" })
+
+                                    </div>
+                                    <div class="col-md-1 text-right">Mes fin:</div>
+                                    <div class="col-md-2 text-left">
+                                        @Html.DropDownList("Al", ViewBag.lstMesesAl as SelectList, "Seleccione Hasta", new { @class = "form-control ", @Required = "", @onchange = "mesesActivos()" })
+                                    </div>
+                                    <div class="col-md-2 text-right">Meses:</div>
+                                    <div class="col-md-4 text-left"> <input type="number" class="form-control" id="Meses" placeholder="" readonly></div>
+                                </div>
+                            }
+                            else
+                            {
+                                @Html.TextBox("De", "0", new { @type = "hidden", @id = "De" })
+                                @Html.TextBox("Al", "0", new { @type = "hidden", @id = "Al" })
+                                @Html.TextBox("Meses", "0", new { @type = "hidden", @id = "Meses" })
+                            }
+
+
+                            <div class="row form-group">
+                                <div class="col-md-2 text-right">Producto o servicio:</div>
+                                <div class="col-md-4 text-left"> <input type="text" ame="Producto" id="Producto" class="form-control" autocomplete="off" required></div>
+                                <div class="col-md-2 text-right">Unidad:</div>
+                                <div class="col-md-4 text-left"> <input type="text" class="form-control" id="Unidad" readonly></div>
+                            </div>
+                            <div class="row form-group" id="FrecuenciaServicio">
+                                @if (Model.oRequisicones.IdTipoSolicitud == 2)
+                                {
+                                    <div class="col-md-2 text-right">Frecuencia:</div>
+                                    <div class="col-md-4 text-left">
+                                        @Html.DropDownList("Frecuencia", ViewBag.lstFrecuencias as SelectList, "Seleccione Frecuencia", new { @class = "form-control ", @Required = "", @id = "Frecuencia" })
+                                    </div>
+                                }
+                                else
+                                {
+                                    @Html.TextBox("Frecuencia", "0", new { @type = "hidden", @id = "Frecuencia" })
+                                }
+                                <div class="col-md-2 text-right">Requerimiento:</div>
+                                <div class="col-md-4 text-left">
+                                    @Html.DropDownList("Requerimiento", ViewBag.lstRequerimiento as SelectList, "Seleccione Requerimiento", new { @class = "form-control ", @Required = "", @id = "Requerimiento" })
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-2 text-right">Caracterisiticas:</div>
+                                <div class="col-md-4 text-left"> <textarea id="Caracteristica" rows="5"></textarea></div>
+                                <div class="col-md-2 text-right">Clave pantone:</div>
+                                <div class="col-md-4 text-left"> <input type="text" class="form-control" id="ClavePantone"></div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-2 text-right">Impuesto:</div>
+                                <div class="col-md-4 text-left"> <input type="text" class="form-control" id="Impuesto" readonly><input type="hidden" id="TasaImpuesto" /></div>
+                                <div class="col-md-2 text-right">Precio unitario de lista sin impuesto@(Model.oRequisicones.IdTipoSolicitud == 2 ? " mensual" : "" ):</div>
+                                <div class="col-md-4 text-left">
+                                    <input type="text" name="number" class="form-control" id="PrecioUnitarioListaSinImpuestoMensual" readonly>
+                                    <input type="hidden" id="importeConImpuesto" value="0" />
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-2 text-right">Cantidad:</div>
+                                <div class="col-md-4 text-left"> <input type="number" name="number" class="form-control" id="Cantidad" onkeypress="return runScript(event)"></div>
+                                <div class="col-md-2 text-right">Importe sin impuesto mensual:</div>
+                                <div class="col-md-4 text-left"> <input type="text" name="number" class="form-control" id="ImporteSinImpuestoMensual" readonly></div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-md-2 text-right">Importe con impuesto@(Model.oRequisicones.IdTipoSolicitud == 2 ? " mensual" : "" ):</div>
+                                <div class="col-md-4 text-left"> <input type="text" name="number" class="form-control" id="ImporteConImpuestoMensual" readonly></div>
+                                <div class="col-md-2 text-right">Importe total@(Model.oRequisicones.IdTipoSolicitud == 2 ? " periodo" : "" ):</div>
+                                <div class="col-md-4 text-left">
+                                    <input type="text" name="number" class="form-control" id="ImporteTotalPeriodo" readonly>
+                                    @Html.TextBox("ImporteTotalPeriodoActual", "0", new { @type = "hidden", @id = "ImporteTotalPeriodoActual" })
+                                </div>
+                            </div>
+
+                        }
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                    <button type="button" class="btn btn-secondary"  id="GuardarLote" onclick="validarFormularioLote()">GUARDAR</button>
+                    <button type="button" class="btn btn-secondary"  id="ActualizarLote" onclick="validarFormularioLoteEdit()">ACTUALIZAR</button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- fin de modal nuevo lote -->
+    <!-- Modal eliminar lote -->
+    <div class="modal fade" id="modal_eliminar_lote">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header changeColorModal">
+                    <h4 class="modal-title">Eliminar lote</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="container">
+
+                        <label>¿Desea eliminar el lote?</label>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                    <button type="button" class="btn btn-secondary" onclick="eliminarLote()">ELIMINAR</button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- fin de modal eliminar lote -->
+
+</div>

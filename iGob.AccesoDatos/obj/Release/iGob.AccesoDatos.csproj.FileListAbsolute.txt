@@ -1,0 +1,18 @@
+D:\Proyectos Web\Proyecto i Gob 2\iGob.AccesoDatos\bin\Release\iGob.AccesoDatos.dll
+D:\Proyectos Web\Proyecto i Gob 2\iGob.AccesoDatos\bin\Release\iGob.AccesoDatos.pdb
+D:\Proyectos Web\Proyecto i Gob 2\iGob.AccesoDatos\bin\Release\iGob.Entidades.dll
+D:\Proyectos Web\Proyecto i Gob 2\iGob.AccesoDatos\bin\Release\iGob.Entidades.pdb
+D:\Proyectos Web\Proyecto i Gob 2\iGob.AccesoDatos\obj\Release\iGob.AccesoDatos.csprojAssemblyReference.cache
+D:\Proyectos Web\Proyecto i Gob 2\iGob.AccesoDatos\obj\Release\iGob.AccesoDatos.csproj.CoreCompileInputs.cache
+D:\Proyectos Web\Proyecto i Gob 2\iGob.AccesoDatos\obj\Release\iGob.AccesoDatos.csproj.CopyComplete
+D:\Proyectos Web\Proyecto i Gob 2\iGob.AccesoDatos\obj\Release\iGob.AccesoDatos.dll
+D:\Proyectos Web\Proyecto i Gob 2\iGob.AccesoDatos\obj\Release\iGob.AccesoDatos.pdb
+D:\SEDENA\iGob.AccesoDatos\bin\Release\iGob.AccesoDatos.dll
+D:\SEDENA\iGob.AccesoDatos\bin\Release\iGob.AccesoDatos.pdb
+D:\SEDENA\iGob.AccesoDatos\bin\Release\iGob.Entidades.dll
+D:\SEDENA\iGob.AccesoDatos\bin\Release\iGob.Entidades.pdb
+D:\SEDENA\iGob.AccesoDatos\obj\Release\iGob.AccesoDatos.csprojAssemblyReference.cache
+D:\SEDENA\iGob.AccesoDatos\obj\Release\iGob.AccesoDatos.csproj.CoreCompileInputs.cache
+D:\SEDENA\iGob.AccesoDatos\obj\Release\iGob.AccesoDatos.csproj.CopyComplete
+D:\SEDENA\iGob.AccesoDatos\obj\Release\iGob.AccesoDatos.dll
+D:\SEDENA\iGob.AccesoDatos\obj\Release\iGob.AccesoDatos.pdb

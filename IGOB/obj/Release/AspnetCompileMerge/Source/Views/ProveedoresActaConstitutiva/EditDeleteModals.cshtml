@@ -1,0 +1,66 @@
+﻿<!-- Modal Edit - New -->
+<div class="modal fade" id="PACModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Editar Acta Constitutiva</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+            <div class="modal-body" id="PACMOdalBody" style="height:550px;">
+
+                <div class="row col-12">
+                    <div class="col-4">
+                        <label> Número Escritura: </label>
+                        <input type="number" name="NoEscritura" id="NoEscritura" min="1" class="form-control textDerecha" required />
+                    </div>
+                    <div class="col-4">
+                        <label> Número Notaria: </label>
+                        <input type="number" name="NoNotaria" id="NoNotaria" min="1" class="form-control textDerecha" required />
+                    </div>
+                    <div class="col-4">
+                        <label> Fecha Escritura: </label>
+                        <input type="text" autocomplete="off" name="FechaEscritura" id="FechaEscritura" class="datetimepicker form-control textDerecha" onkeypress="return false;" required />
+                    </div>
+                </div>
+
+                <div class="row col-12">
+                    <div class="col-4">
+                        <label> Número Folio Registro: </label>
+                        <input type="number" name="NoFolioRegistro" id="NoFolioRegistro" min="1" class="form-control textDerecha" required />
+                    </div>
+                    <div class="col-4">
+                        <label> Fecha Registro Público: </label>
+                        <input type="text" autocomplete="off" name="FechaRegistroPublico" id="FechaRegistroPublico" class="datetimepicker form-control textDerecha" onkeypress="return false;" required />
+                    </div>
+                    <div class="col-4">
+                        <label> Actualización: </label>
+                        <input type="number" name="Actualizacion" id="Actualizacion" min="1" class="form-control textDerecha" required />
+                    </div>
+                </div>
+
+                <div class="row col-12">
+                    <div class="col-1">
+                        <label> Lugar: </label>
+                    </div>
+                    <div class="col-9">
+                        <div id="map" style="width:390px;height:330px;position:absolute"></div>
+                    </div>
+                </div>
+
+                <input type="hidden" name="IdActaConstitutiva" id="IdActaConstitutiva" value="0" />
+                <input type="hidden" name="Lugar" id="Lugar" value="" />
+                <input type="hidden" name="IdProveedor" id="IdProveedor" value="@ViewBag.IdProveedor" />
+            </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Editar" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->

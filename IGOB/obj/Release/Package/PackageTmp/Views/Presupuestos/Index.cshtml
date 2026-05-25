@@ -1,0 +1,61 @@
+﻿@model IEnumerable<iGob.Entidades.bePresupuestosPartidas>
+@{ 
+    ViewBag.Title = "Clave Presupuestales";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+
+<table class="table" id="tablePresupuestos">
+    <thead align="center">
+        <tr>
+            <th>Dependencia</th>
+            <th>Capítulo</th>
+            <th>Ejercicio</th>
+            <th>Monto Presupuesto Total</th>
+            <th>Monto Comprometido</th>
+            <th>Monto Ejecutado Total</th>
+            <th>Monto Saldo</th>
+            <th>Monto Economía</th>
+            <th>Partida</th>
+        </tr>
+    </thead>
+    <tbody align="center">
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dependencia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Capitulo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ejercicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MontoPresupuestoTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PreMontoComprometido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PreMontoEjecutadoTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PreMontoSaldo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PreMontoEconomia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Partida)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts{
+    <script src="~/Scripts/Catalogos/AccionesPresupuestos.js"></script>
+}
+

@@ -1,0 +1,223 @@
+﻿<!-- Modal Edit - New -->
+<div class="modal fade" id="PresupuestosModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Nueva Partida Presupuestal</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Id = "form-Presupuestos" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+                <div class="modal-body">
+                    <div class="row col-12">
+                        <div class="col-3">
+                            Ejercicio Fiscal:
+                            <input type="text" name="EjercicioFiscal" id="EjercicioFiscal" class="form-control" readonly required value="@ViewBag.ejercicioActual.Ejercicio" />
+                        </div>
+                        <div class="col-9">
+                            Dependencia
+                            @if (ViewBag.Dependencias != null)
+                            {
+                                @Html.DropDownList("IdDependencia", ViewBag.Dependencias as SelectList, "Seleccionar", new { @class = "form-control", @Required = "" })
+                            }
+                        </div>
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-md-9">
+                            Capítulos:
+                            @if (ViewBag.CapList != null)
+                            {
+                                @Html.DropDownList("IdCapitulo", ViewBag.CapList as SelectList, "Seleccionar", new { @class = "form-control", @Required = "" })
+                            }
+                        </div>
+                        <div class="col-3">
+                            Número Ministración:
+                            <input type="number" min="0" name="NumeroMinistracion" id="NumeroMinistracion" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-12">
+                            Partida:
+                            @Html.DropDownList("IdPartida", new SelectList(" "), "Seleccionar", new { @class = "form-control", @Required = "" })
+                        </div>
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-4">
+                            Monto Comprometido:
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">$</span>
+                                </div>
+                                <input type="number" min="0" name="MontoComprometido" id="MontoComprometido" class="form-control" required readonly value="0.00" />
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            Saldo Final:
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">$</span>
+                                </div>
+                                <input type="number" min="0" name="MontoSaldo" id="MontoSaldo" class="form-control" required readonly value="0.00" />
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            Monto Ejecutado Total:
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">$</span>
+                                </div>
+                                <input type="number" min="0" name="MontoEjecutadoTotal" id="MontoEjecutadoTotal" class="form-control" readonly required value="0.00" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-4">
+                            Economía:
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">$</span>
+                                </div>
+                                <input type="number" min="0" name="MontoEconomia" id="MontoEconomia" class="form-control" readonly value="0.00" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-4">
+                            <input type="button" class="btn btn-secondary expand" value="Agregar" />
+
+                        </div>
+                    </div>
+
+
+                    <table class="table-hover tableDetails">
+                        <thead align="center">
+                            <tr>
+                                <th>Acciones</th>
+                                <th>Origen recurso</th>
+                                <th>Clave Presupuestal</th>
+                                <th>Monto Presupuestado</th>
+                                <th>Mes Inicio</th>
+                                <th>Mes Final</th>
+                            </tr>
+                            @ViewBag.PresupuestosPartidasDetails
+                        </thead>
+                        <tbody align="center"></tbody>
+                    </table>
+                </div>
+                <input type="hidden" name="IdEjercicioFiscal" id="IdEjercicioFiscal" value="@ViewBag.ejercicioActual.IdEjercicioFiscal" />
+                <input type="hidden" name="IdPresupuestoPartida" class="IdPresupuestoPartida"/>
+
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Guardar" id="SavePrepuestoPartida" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->
+
+<!-- Modal Details -->
+<div class="modal fade" id="add-monto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Id = "Detalles" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+                <div class="modal-body">
+                    <div class="row col-12">
+                        <div class="col-5">
+                            <h6><strong>Origen</strong></h6>
+                            @if (ViewBag.ORList != null)
+                            {
+                                @Html.DropDownList("IdOrigenRecurso", ViewBag.ORList as SelectList, "Seleccionar", new { @class = "form-control", @Required = "" })
+                            }
+                        </div>
+                        <div class="col-7">
+                            <h6><strong>Clave presupuestal</strong></h6>
+                            <input type="text" name="ClavePresupuestal" id="ClavePresupuestal" class="form-control" value="" required />
+                        </div>
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-4">
+                            <h6><strong>Mes Inicio</strong></h6>
+
+                            <div class='input-group date datepicker'>
+                                <input type='text' class="form-control" name="MesInicio" id="MesInicio" autocomplete="off" required  onkeypress="return false;" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <h6><strong>Mes Final</strong></h6>
+                            <div class='input-group date datepicker'>
+                                <input type='text' class="form-control" name="MesFinal" id="MesFinal" autocomplete="off" required  onkeypress="return false;" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <h6><strong>Monto Presupuestado</strong></h6>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">$</span>
+                                </div>
+                                <input type="number" name="MontoPresupuestado" id="MontoPresupuestado" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="IdClavePresupuestalDetalle" name="IdClavePresupuestalDetalle" value="0" />
+                <input type="hidden" name="IdPresupuestoPartida" class="IdPresupuestoPartida" id="IdPresupuestoPartida" />
+                <input type="hidden" id="IdMesInicio" name="IdMesInicio" />
+                <input type="hidden" id="IdMesFinal" name="IdMesFinal" />
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-secondary" id="saveDetails">Agregar</button>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Delete PresupuestosPartidas -->
+<div class="modal fade" id="DeletePresupuestosPartidaModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Eliminar Presupuesto Partida</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <br />
+                    <h4 id="titlePresupuestoPartida"></h4>
+                    <input type="hidden" class="IdPresupuestoPartida" id="IdPresupuestoPartida" /><br />
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Eliminar" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Delete PresupuestosPartidas -->
+

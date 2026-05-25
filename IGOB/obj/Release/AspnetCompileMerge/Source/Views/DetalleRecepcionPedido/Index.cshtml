@@ -1,0 +1,167 @@
+﻿
+@model IGOB.Models.PedidoDetalleLotes
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .dataTables_scrollBody {
+        position: unset !important;
+        z-index: 1 !important;
+    }
+
+    .dataTables_wrapper {
+        z-index: 2 !important;
+        position: unset !important;
+    }
+
+    hr {
+        margin-top: 0rem !important;
+        margin-bottom: 0rem !important;
+    }
+
+    .hide {
+        display: none;
+    }
+</style>
+<div class="pos-f-t">
+    <nav class="navbar bg-secondary text-white navbar-light bg-light changeColorModal">
+
+        <div class="col-sm-12 text-right" style="text-align: right;">
+
+            <a href="@Url.Action("DescargaRecepcion", "DetalleRecepcionPedido", new { @IdPedido = ViewBag.IdPedido })" type="button" class="btn btn-default btn-circle  btn-sm" role="button" target="_blank">DESCARGAR RECEPCIÓN</a>
+            <button type="button" class="btn btn-default btn-sm" onclick="location.href='@Url.Action("Index", "LiberarPedido")'">
+                <span class="glyphicon glyphicon-step-backward"></span> Regresar
+            </button>
+        </div>
+    </nav>
+</div>
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-4">
+            <div class="form-group">
+                <label for="NumeroOficioSolicitud">Dependencia</label>
+                
+                <TextArea class="form-control" readonly>@Model.oCabezera.Dependencia</TextArea>
+                
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="NumeroLicitacion">Estatus</label>
+
+                @Html.TextBox("EstatusPedido", Model.oCabezera.EstatusPedido, new { @type = "text", @class = "form-control disabledClick", @id = "EstatusPedido", @placeholder = "", @readonly = true, @Required = "" })
+
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="Solicitud">Fecha y hora</label>
+                @Html.TextBox("Fecha", Model.oCabezera.Fecha, new { @type = "text", @class = "form-control disabledClick", @id = "Fecha", @placeholder = "", @readonly = true, @Required = "" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <div class="form-group">
+                <label for="NumeroOficioSolicitud">Folio del pedido</label>
+                @Html.TextBox("Folio", Model.oCabezera.Folio, new { @type = "text", @class = "form-control disabledClick", @id = "Folio", @placeholder = "", @readonly = true, @Required = "" })
+
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="NumeroLicitacion">Modalidad</label>
+                <TextArea class="form-control" readonly>@Model.oCabezera.Licitacion</TextArea>
+                
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="Solicitud">Licitacion</label>
+                <TextArea class="form-control" readonly>@Model.oCabezera.FolioLicitacion</TextArea>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <div class="form-group">
+                <label for="NumeroOficioSolicitud">Requisición</label>
+                @Html.TextBox("RequisicionFolio", Model.oCabezera.RequisicionFolio, new { @type = "text", @class = "form-control disabledClick", @id = "RequisicionFolio", @placeholder = "", @readonly = true, @Required = "" })
+
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="NumeroLicitacion">Proveedor</label>
+                <TextArea class="form-control" readonly>@Model.oCabezera.RazonSocial</TextArea>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="Solicitud">Partida</label>
+                <TextArea class="form-control" readonly>@Model.oCabezera.Partida</TextArea>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+</div>
+
+<div class="container-fluid">
+    
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+        <table class="table" id="LicitacionesListadoAceptadasProveedores" width="100%">
+            <thead>
+                <tr style="text-align:center">
+                    <th align="justify"> Lote </th>
+                    <th align="justify"> Descripción </th>
+                    <th align="justify"> Unidad de medida </th>
+                    <th align="justify"> Cantidad </th>
+                    <th align="justify"> Cantidad <br />recibida</th>
+                    <th align="justify">
+                        Cantidad pendiente
+                        por recibir
+                    </th>
+                    <th align="justify"> Fecha recepción </th>
+                    <th align="justify"> Lugar entrega </th>
+                    <th align="justify"> Encargado  <br />recepción </th>
+                    <th align="justify"> Observación </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Detalle)
+                {
+                <tr>
+                    <td align="center">
+                        @item.NoLote
+                        <input type="hidden" name="IdPedidoDetalle" value="@item.IdPedidoDetalle" />
+                    </td>
+
+                    <td>@item.BienServicio</td>
+                    <td>@item.UnidadMedida</td>
+                    <td align="right">@item.Cantidad</td>
+                    <td align="right">@item.CantidadRecibida</td>
+                    <td align="right">@item.CantidadxRecibir</td>
+                    <td>@item.FechaRegistro</td>
+                    <td>
+                        @item.Lugar
+                    </td>
+                    <td>
+                        @item.EncargadoRecepcion
+                    </td>
+                    <td>
+                        @item.Observaciones
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    
+</div>
+@section scripts{
+    <script src="~/Scripts/Catalogos/LiberarPedidoLicitacion.js"></script>
+}
+

@@ -1,0 +1,1031 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3AFD6802-B5BD-4EFF-BF94-7E322A5EF35A}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>IGOB</RootNamespace>
+    <AssemblyName>IGOB</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>2.8</TypeScriptToolsVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.4\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.4\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Diagnostics.DiagnosticSource">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.4.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.TelemetryCorrelation">
+      <HintPath>..\packages\Microsoft.AspNet.TelemetryCorrelation.1.0.0\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.5.1\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.4.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.5.1\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.5.1\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.5.1\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.5.1\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.5.1\lib\net45\Microsoft.AI.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AceptarInvitacionController.cs" />
+    <Compile Include="Controllers\AdjudicacionConsultaController.cs" />
+    <Compile Include="Controllers\AdjudicacionesAutorizadasConsultaController.cs" />
+    <Compile Include="Controllers\AdjudicacionesDirectasMayoresController.cs" />
+    <Compile Include="Controllers\AdjudicacionesPedidosConsultaController.cs" />
+    <Compile Include="Controllers\AdjudicacionesPropuestasController.cs" />
+    <Compile Include="Controllers\AdjudicacionListadoPedidosRecepcionController.cs" />
+    <Compile Include="Controllers\AsignacionPresupuestosController.cs" />
+    <Compile Include="Controllers\BienesServiciosController.cs" />
+    <Compile Include="Controllers\CapitulosController.cs" />
+    <Compile Include="Controllers\CartasController.cs" />
+    <Compile Include="Controllers\CatFamiliasController.cs" />
+    <Compile Include="Controllers\CertificacionesController.cs" />
+    <Compile Include="Controllers\CondicionesEntregaController.cs" />
+    <Compile Include="Controllers\CondicionesPagoController.cs" />
+    <Compile Include="Controllers\ConfiguracionAdjudicacionesController.cs" />
+    <Compile Include="Controllers\ConfiguracionesModalidadesController.cs" />
+    <Compile Include="Controllers\ConfiguracionFirmantesModalidadesController.cs" />
+    <Compile Include="Controllers\CuentasBancariasController.cs" />
+    <Compile Include="Controllers\DepartamentosController.cs" />
+    <Compile Include="Controllers\DatosPersonasController.cs" />
+    <Compile Include="Controllers\DependenciasController.cs" />
+    <Compile Include="Controllers\DetalleRecepcionPedidoController.cs" />
+    <Compile Include="Controllers\DiasInhabilesController.cs" />
+    <Compile Include="Controllers\EnviarPagosProveedorController.cs" />
+    <Compile Include="Controllers\EstudioMercadoController.cs" />
+    <Compile Include="Controllers\FuncionController.cs" />
+    <Compile Include="Controllers\GenerarLicitacionController.cs" />
+    <Compile Include="Controllers\GobiernoController.cs" />
+    <Compile Include="Controllers\GobiernoLogoBannerController.cs" />
+    <Compile Include="Controllers\IngresosPropiosController.cs" />
+    <Compile Include="Controllers\InvestigacionPreciosController.cs" />
+    <Compile Include="Controllers\LiberarPedidoController.cs" />
+    <Compile Include="Controllers\LiberarPedidoLicitacionRequisicionController.cs" />
+    <Compile Include="Controllers\LicitacionesAclaracionDudasController.cs" />
+    <Compile Include="Controllers\LicitacionesActaAdjudicacionController.cs" />
+    <Compile Include="Controllers\LicitacionesActaDictamenController.cs" />
+    <Compile Include="Controllers\LicitacionesActaFalloController.cs" />
+    <Compile Include="Controllers\LicitacionesActaPropuestasController.cs" />
+    <Compile Include="Controllers\LicitacionesDictamenController.cs" />
+    <Compile Include="Controllers\LicitacionesListadoInvitacionesController.cs" />
+    <Compile Include="Controllers\LicitacionesRequisicionesRevicionController.cs" />
+    <Compile Include="Controllers\ListadoLicitacionesController.cs" />
+    <Compile Include="Controllers\ListadoLicitacionesInvitacionAceptadasProveedorController.cs" />
+    <Compile Include="Controllers\ListadoRequisicionLicitacionController.cs" />
+    <Compile Include="Controllers\LugarEntregaController.cs" />
+    <Compile Include="Controllers\LugaresEntregaPagoCMController.cs" />
+    <Compile Include="Controllers\LugarFirmaController.cs" />
+    <Compile Include="Controllers\ManifiestosController.cs" />
+    <Compile Include="Controllers\MarcasController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\ModalidadAdjudicacionesDirectasController.cs" />
+    <Compile Include="Controllers\ModalidadLicitacionesController.cs" />
+    <Compile Include="Controllers\ModalidadRequisicionesController.cs" />
+    <Compile Include="Controllers\ModuloController.cs" />
+    <Compile Include="Controllers\PerfilController.cs" />
+    <Compile Include="Controllers\PerfilFuncionesController.cs" />
+    <Compile Include="Controllers\PerfilUsuarioController.cs" />
+    <Compile Include="Controllers\PreguntasProveedorController.cs" />
+    <Compile Include="Controllers\PresupuestosController.cs" />
+    <Compile Include="Controllers\PresupuestosPartidasController.cs" />
+    <Compile Include="Controllers\PropuestaTecnicaEconomicaController.cs" />
+    <Compile Include="Controllers\ProveedoresAccionistasController.cs" />
+    <Compile Include="Controllers\ProveedoresActaConstitutivaController.cs" />
+    <Compile Include="Controllers\ProveedoresGirosComercialesController.cs" />
+    <Compile Include="Controllers\ProveedoresMenoresController.cs" />
+    <Compile Include="Controllers\ReactivosConclusionEMController.cs" />
+    <Compile Include="Controllers\RecepcionarPedidoDetalleController.cs" />
+    <Compile Include="Controllers\RecuperacionContraseniaController.cs" />
+    <Compile Include="Controllers\RepAdquisicionesController.cs" />
+    <Compile Include="Controllers\RepCotizacionController.cs" />
+    <Compile Include="Controllers\RepDependenciasEntidadesController.cs" />
+    <Compile Include="Controllers\RepPresupuestoController.cs" />
+    <Compile Include="Controllers\RepProveedoresController.cs" />
+    <Compile Include="Controllers\RequisicionAsignacionController.cs" />
+    <Compile Include="Controllers\RequisicionConsultaController.cs" />
+    <Compile Include="Controllers\RequisicionesComprasMenoresConsultaController.cs" />
+    <Compile Include="Controllers\RequisicionesComprasMenoresController.cs" />
+    <Compile Include="Controllers\RequisicionesController.cs" />
+    <Compile Include="Controllers\RequisicionesPorRevisarController.cs" />
+    <Compile Include="Controllers\RequisicionesSegundaVueltaConsultaController.cs" />
+    <Compile Include="Controllers\RequisicionFirmanteController.cs" />
+    <Compile Include="Controllers\RequisicionHistorialController.cs" />
+    <Compile Include="Controllers\RequisicionLicitacionController.cs" />
+    <Compile Include="Controllers\RespuestaPreguntaSolicitanteController.cs" />
+    <Compile Include="Controllers\RevicionPreguntaRespuestaController.cs" />
+    <Compile Include="Controllers\SubirPlantillasController.cs" />
+    <Compile Include="Controllers\UnidadesLicitadorasController.cs" />
+    <Compile Include="Controllers\UnidadesMedidaController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Controllers\ValidaSession.cs" />
+    <Compile Include="Models\AceptarInvitacion.cs" />
+    <Compile Include="Models\Adjudicacion.cs" />
+    <Compile Include="Models\Carta.cs" />
+    <Compile Include="Models\ClavesPresupuestales.cs" />
+    <Compile Include="Models\ClsAceptarInvitacion.cs" />
+    <Compile Include="Models\ClsAdjudicacionesImprimirSolicitud.cs" />
+    <Compile Include="Models\ClsAdquisicion.cs" />
+    <Compile Include="Models\ClsAsignacionRequisicion.cs" />
+    <Compile Include="Models\ClsChangePassword.cs" />
+    <Compile Include="Models\ClsClavesPresupuestales.cs" />
+    <Compile Include="Models\ClsConfiguracionesModalidades.cs" />
+    <Compile Include="Models\ClsConfiguracionFirmantesModalidades.cs" />
+    <Compile Include="Models\ClsDatosPersonas.cs" />
+    <Compile Include="Models\ClsDependencia.cs" />
+    <Compile Include="Models\ClsEstudioMercado.cs" />
+    <Compile Include="Models\ClsFuncion.cs" />
+    <Compile Include="Models\ClsGenerarLicitacion.cs" />
+    <Compile Include="Models\ClsGenerica.cs" />
+    <Compile Include="Models\ClsImprimirCedulaProgramacion.cs" />
+    <Compile Include="Models\ClsImprimirRepAdjudicacionPedido.cs" />
+    <Compile Include="Models\ClsImprimirRepRecepcionPedidos.cs" />
+    <Compile Include="Models\ClsInvesticacionPrecio.cs" />
+    <Compile Include="Models\ClsLiberarPedido.cs" />
+    <Compile Include="Models\ClsLiberarPedidoLicitacionRequisicion.cs" />
+    <Compile Include="Models\ClsLibreriaArchivos.cs" />
+    <Compile Include="Models\ClsLicitacionesCambios.cs" />
+    <Compile Include="Models\ClsLicitacionesImprimirAclaracionDudas.cs" />
+    <Compile Include="Models\ClsLicitacionesImprimirActaAdjudicacion.cs" />
+    <Compile Include="Models\ClsLicitacionesImprimirActaFallo.cs" />
+    <Compile Include="Models\ClsLicitacionesImprimirActaPropuestas.cs" />
+    <Compile Include="Models\ClsLicitacionesImprimirBases.cs" />
+    <Compile Include="Models\ClsLicitacionesImprimirConvocatoria.cs" />
+    <Compile Include="Models\ClsLicitacionesImprimirDictamen.cs" />
+    <Compile Include="Models\ClsLicitacionesImprimirPedido.cs" />
+    <Compile Include="Models\ClsLicitacionesImprimirRecepcionPedido.cs" />
+    <Compile Include="Models\ClsListadoLicitacionesInvitacionAceptadasProveedor.cs" />
+    <Compile Include="Models\ClsLogin.cs" />
+    <Compile Include="Models\ClsMarca.cs" />
+    <Compile Include="Models\ClsMenu.cs" />
+    <Compile Include="Models\ClsMenuPropiedades.cs" />
+    <Compile Include="Models\ClsModulo.cs" />
+    <Compile Include="Models\ClsPerfil.cs" />
+    <Compile Include="Models\ClsPerfilFuncion.cs" />
+    <Compile Include="Models\ClsProvedoresMenores.cs" />
+    <Compile Include="Models\ClsProveedores.cs" />
+    <Compile Include="Models\ClsReactivosConclusionEM.cs" />
+    <Compile Include="Models\ClsRequisicionAsignacion.cs" />
+    <Compile Include="Models\ClsRequisiciones.cs" />
+    <Compile Include="Models\ClsRequisicionesComprasMenores.cs" />
+    <Compile Include="Models\ClsRequisicionesComprasMenoresImprimirReporte.cs" />
+    <Compile Include="Models\ClsRequisicionesImprimirSolicitud.cs" />
+    <Compile Include="Models\ClsRequisicionFirmante.cs" />
+    <Compile Include="Models\ClsRespuestaPreguntaSolicitante.cs" />
+    <Compile Include="Models\ClsUnidadMedida.cs" />
+    <Compile Include="Controllers\ActividadesEconomicasController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ClsUsuario.cs" />
+    <Compile Include="Models\ClsWord.cs" />
+    <Compile Include="Models\ConfiguracionesModalidades.cs" />
+    <Compile Include="Models\ConfiguracionFirmantesModalidades.cs" />
+    <Compile Include="Models\DispercionMuestraPreciosUE.cs" />
+    <Compile Include="Models\Enletras.cs" />
+    <Compile Include="Models\Funcion.cs" />
+    <Compile Include="Models\GenerarLicitacion.cs" />
+    <Compile Include="Models\LiberarPedidoLicitacionRequisicion.cs" />
+    <Compile Include="Models\ListadoLicitacionesInvitacionAceptadasProveedor.cs" />
+    <Compile Include="Models\Modulo.cs" />
+    <Compile Include="Models\ParametrosGenerarLicitacion.cs" />
+    <Compile Include="Models\PedidoDetalleLotes.cs" />
+    <Compile Include="Models\PerfilesFunciones.cs" />
+    <Compile Include="Models\PresupuestoLiquidez.cs" />
+    <Compile Include="Models\proveedores.cs" />
+    <Compile Include="Models\Requisicion.cs" />
+    <Compile Include="Models\RespuestaPreguntaSolicitante.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-datetimepicker.css" />
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\changeColor.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\font-icon_IGob.css" />
+    <Content Include="Content\iGob\bootstrap-select.css" />
+    <Content Include="Content\iGob\bootstrap.css" />
+    <Content Include="Content\iGob\dataTables.bootstrap.css" />
+    <Content Include="Content\iGob\dataTables.bootstrap4.min.css" />
+    <Content Include="Content\iGob\datepicker.standalone.css" />
+    <Content Include="Content\iGob\jquery.alerts.css" />
+    <Content Include="Content\iGob\jquery.auto-complete.css" />
+    <Content Include="Content\iGob\jquery.timepicker.css" />
+    <Content Include="Content\iGob\master.css" />
+    <Content Include="Content\iGob\material-icons.css" />
+    <Content Include="Content\iGob\responsive.css" />
+    <Content Include="Content\iGob\select2.css" />
+    <Content Include="Content\iGob\style.css" />
+    <Content Include="Content\iGob\stylesheet.css" />
+    <Content Include="Content\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\jquery-ui.structure.css" />
+    <Content Include="Content\jquery-ui.structure.min.css" />
+    <Content Include="Content\jquery-ui.theme.css" />
+    <Content Include="Content\jquery-ui.theme.min.css" />
+    <Content Include="Content\login.css" />
+    <Content Include="Content\normalize.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\glyphicons-halflings.png" />
+    <Content Include="Global.asax" />
+    <Content Include="Img\banners\admin-banner.png" />
+    <Content Include="Img\banners\bannericardo.png" />
+    <Content Include="Img\banners\bannerimss.png" />
+    <Content Include="Img\banners\BannerJ_RFM_1.png" />
+    <Content Include="Img\banners\BannerJ_RFM_2.png" />
+    <Content Include="Img\banners\bannernl.png" />
+    <Content Include="Img\banners\BannerRFM_2.png" />
+    <Content Include="Img\banners\Escudo2.png" />
+    <Content Include="Img\banners\Escudo6.png" />
+    <Content Include="Img\banners\Escudo8.png" />
+    <Content Include="Img\banners\EscudoChiapas.jpeg" />
+    <Content Include="Img\banners\felipe15.png" />
+    <Content Include="Img\banners\felipe16.png" />
+    <Content Include="Img\banners\felipe_11.png" />
+    <Content Include="Img\banners\felipe_12.png" />
+    <Content Include="Img\banners\felipe_13.png" />
+    <Content Include="Img\banners\felipe_14.png" />
+    <Content Include="Img\banners\iGob_logotipo.svg" />
+    <Content Include="Img\banners\lipe_jaguar2.png" />
+    <Content Include="Img\banners\LOGO lipe_jaguar.png" />
+    <Content Include="Img\banners\Logo MXIMSS.png" />
+    <Content Include="Img\banners\logoEscudo1.png" />
+    <Content Include="Img\banners\logoEscudo2.png" />
+    <Content Include="Img\banners\logoEscudo3.png" />
+    <Content Include="Img\banners\logoEscudo4.png" />
+    <Content Include="Img\banners\LogoGobMX.png" />
+    <Content Include="Img\banners\LogoGobMX2.png" />
+    <Content Include="Img\banners\LogoJRFM_3.png" />
+    <Content Include="Img\banners\LogoJRFM_4.png" />
+    <Content Include="Img\banners\LogoJRFM_5.png" />
+    <Content Include="Img\banners\LogoJRFM_6.png" />
+    <Content Include="Img\banners\LogoMXIMSS.png" />
+    <Content Include="Img\banners\LogoMXIMSS2.png" />
+    <Content Include="Img\banners\LogoMXIMSS3.png" />
+    <Content Include="Img\banners\LogoMXIMSS4.png" />
+    <Content Include="Img\banners\LogoMx_2.png" />
+    <Content Include="Img\banners\logotipoimssmx10.png" />
+    <Content Include="Img\banners\logotipoimssmx11.png" />
+    <Content Include="Img\banners\logotipoimssmx4.jpg" />
+    <Content Include="Img\banners\logotipoimssmx4x.png" />
+    <Content Include="Img\banners\soloescudo1.png" />
+    <Content Include="Img\dataTables\sort_asc.png" />
+    <Content Include="Img\dataTables\sort_both.png" />
+    <Content Include="Img\dataTables\sort_desc.png" />
+    <Content Include="Img\favicon.ico" />
+    <Content Include="Img\glyphicons-halflings.png" />
+    <Content Include="Img\loading.gif" />
+    <Content Include="Img\login\flechaNueva3.png" />
+    <Content Include="Img\login\flechaNueva4.png" />
+    <Content Include="Img\login\flechas_bottom.png" />
+    <Content Include="Img\login\iGob_logotipo.png" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\login\LogoGMX_1.png" />
+    <Content Include="Img\login\LogoGMX_11.png" />
+    <Content Include="Img\login\LogoGobMX.png" />
+    <Content Include="Img\login\nombre1.png" />
+    <Content Include="Scripts\acceso.js" />
+    <Content Include="Scripts\AdjudicacionesDirectasMayores.js" />
+    <Content Include="Scripts\AdjudicacionesDirectasMayores2.js" />
+    <Content Include="Scripts\AsignacionPresupuesto.js" />
+    <Content Include="Scripts\Catalogos\AccionesAE.js" />
+    <Content Include="Scripts\Catalogos\AccionesCap.js" />
+    <Content Include="Scripts\Catalogos\AccionesCertificaciones.js" />
+    <Content Include="Scripts\Catalogos\AccionesLugaresEntregaPagoCM.js" />
+    <Content Include="Scripts\Catalogos\AccionesDatosPersonas.js" />
+    <Content Include="Scripts\Catalogos\AccionesIngProp.js" />
+    <Content Include="Scripts\bootbox.min.js" />
+    <Content Include="Scripts\Catalogos\AccionesPAC.js" />
+    <Content Include="Scripts\Catalogos\AccionesDI.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.es.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Catalogos\AccionesBS.js" />
+    <Content Include="Scripts\Catalogos\AccionesCartas.js" />
+    <Content Include="Scripts\Catalogos\AccionesCondicioneEntrega.js" />
+    <Content Include="Scripts\Catalogos\AccionesCondicionesPago.js" />
+    <Content Include="Scripts\Catalogos\AccionesCtaBancaria.js" />
+    <Content Include="Scripts\Catalogos\AccionesDependencias.js" />
+    <Content Include="Scripts\Catalogos\AccionesFam.js" />
+    <Content Include="Scripts\Catalogos\AccionesGobierno.js" />
+    <Content Include="Scripts\Catalogos\AccionesLugarEntrega.js" />
+    <Content Include="Scripts\Catalogos\AccionesManifiesto.js" />
+    <Content Include="Scripts\Catalogos\AccionesMarca.js" />
+    <Content Include="Scripts\Catalogos\AccionesModalidadLicitacion.js" />
+    <Content Include="Scripts\Catalogos\AccionesModalidadRequisicion.js" />
+    <Content Include="Scripts\Catalogos\AccionesPresupuestos.js" />
+    <Content Include="Scripts\Catalogos\AccionesPresupuestosPartidas.js" />
+    <Content Include="Scripts\Catalogos\AccionesDepartamentos.js" />
+    <Content Include="Scripts\Catalogos\AccionesProveedoresMenores.js" />
+    <Content Include="Scripts\Catalogos\AccionesProveedoresGirosComerciales.js" />
+    <Content Include="Scripts\Catalogos\AccionesTA.js" />
+    <Content Include="Scripts\Catalogos\AccionesUL.js" />
+    <Content Include="Scripts\Catalogos\AccionesUM.js" />
+    <Content Include="Scripts\Catalogos\AccionesPA.js" />
+    <Content Include="Scripts\Catalogos\AceptarInvitacion.js" />
+    <Content Include="Scripts\Catalogos\AsignarRevisorRevisar.js" />
+    <Content Include="Scripts\Catalogos\ConfiguracionesModalidades.js" />
+    <Content Include="Scripts\Catalogos\ConfiguracionFirmantes.js" />
+    <Content Include="Scripts\Catalogos\EstudioMercado.js" />
+    <Content Include="Scripts\Catalogos\Funcion.js" />
+    <Content Include="Scripts\Catalogos\GenerarLicitacion.js" />
+    <Content Include="Scripts\Catalogos\InvestigacionPrecios.js" />
+    <Content Include="Scripts\Catalogos\LiberarPedidoLicitacion.js" />
+    <Content Include="Scripts\Catalogos\LicitacionesAclaracionDudas.js" />
+    <Content Include="Scripts\Catalogos\LicitacionesActaAdjudicacion.js" />
+    <Content Include="Scripts\Catalogos\LicitacionesActaFallo.js" />
+    <Content Include="Scripts\Catalogos\LicitacionesActaPropuestas.js" />
+    <Content Include="Scripts\Catalogos\LicitacionesDictamen.js" />
+    <Content Include="Scripts\Catalogos\LicitacionesListadoInvitaciones.js" />
+    <Content Include="Scripts\Catalogos\ListadoGenerarLicitaciones.js" />
+    <Content Include="Scripts\Catalogos\ListadoLicitacionesAceptadasProveedor.js" />
+    <Content Include="Scripts\Catalogos\ListadoRequisicionLicitacion.js" />
+    <Content Include="Scripts\Catalogos\Modulo.js" />
+    <Content Include="Scripts\Catalogos\Perfil.js" />
+    <Content Include="Scripts\Catalogos\PerfilFuncion.js" />
+    <Content Include="Scripts\Catalogos\PreguntasProveedores.js" />
+    <Content Include="Scripts\Catalogos\PropuestaTecnicaEconomica.js" />
+    <Content Include="Scripts\Catalogos\Reactivo.js" />
+    <Content Include="Scripts\Catalogos\RequisicionConsulta.js" />
+    <Content Include="Scripts\Catalogos\Requisiciones.js" />
+    <Content Include="Scripts\Catalogos\RequisicionesComprasMenores.js" />
+    <Content Include="Scripts\Catalogos\RequisicionesFirmas.js" />
+    <Content Include="Scripts\Catalogos\RequisicionPorAsignacion.js" />
+    <Content Include="Scripts\Catalogos\RequisicionRevisorFirmante.js" />
+    <Content Include="Scripts\Catalogos\RespuestaPreguntaSolicitante.js" />
+    <Content Include="Scripts\Catalogos\SubirPlantillas.js" />
+    <Content Include="Scripts\Catalogos\Usuarios.js" />
+    <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
+    <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
+    <Content Include="Scripts\DataTables\autoFill.bootstrap4.js" />
+    <Content Include="Scripts\DataTables\autoFill.bootstrap4.min.js" />
+    <Content Include="Scripts\DataTables\autoFill.foundation.js" />
+    <Content Include="Scripts\DataTables\autoFill.foundation.min.js" />
+    <Content Include="Scripts\DataTables\autoFill.jqueryui.js" />
+    <Content Include="Scripts\DataTables\autoFill.jqueryui.min.js" />
+    <Content Include="Scripts\DataTables\autoFill.semanticui.js" />
+    <Content Include="Scripts\DataTables\autoFill.semanticui.min.js" />
+    <Content Include="Scripts\DataTables\buttons.bootstrap.js" />
+    <Content Include="Scripts\DataTables\buttons.bootstrap.min.js" />
+    <Content Include="Scripts\DataTables\buttons.bootstrap4.js" />
+    <Content Include="Scripts\DataTables\buttons.bootstrap4.min.js" />
+    <Content Include="Scripts\DataTables\buttons.colVis.js" />
+    <Content Include="Scripts\DataTables\buttons.colVis.min.js" />
+    <Content Include="Scripts\DataTables\buttons.flash.js" />
+    <Content Include="Scripts\DataTables\buttons.flash.min.js" />
+    <Content Include="Scripts\DataTables\buttons.foundation.js" />
+    <Content Include="Scripts\DataTables\buttons.foundation.min.js" />
+    <Content Include="Scripts\DataTables\buttons.html5.js" />
+    <Content Include="Scripts\DataTables\buttons.html5.min.js" />
+    <Content Include="Scripts\DataTables\buttons.jqueryui.js" />
+    <Content Include="Scripts\DataTables\buttons.jqueryui.min.js" />
+    <Content Include="Scripts\DataTables\buttons.print.js" />
+    <Content Include="Scripts\DataTables\buttons.print.min.js" />
+    <Content Include="Scripts\DataTables\buttons.semanticui.js" />
+    <Content Include="Scripts\DataTables\buttons.semanticui.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.autoFill.js" />
+    <Content Include="Scripts\DataTables\dataTables.autoFill.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.bootstrap.js" />
+    <Content Include="Scripts\DataTables\dataTables.bootstrap.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.bootstrap4.js" />
+    <Content Include="Scripts\DataTables\dataTables.bootstrap4.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.buttons.js" />
+    <Content Include="Scripts\DataTables\dataTables.buttons.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.colReorder.js" />
+    <Content Include="Scripts\DataTables\dataTables.colReorder.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.fixedColumns.js" />
+    <Content Include="Scripts\DataTables\dataTables.fixedColumns.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.fixedHeader.js" />
+    <Content Include="Scripts\DataTables\dataTables.fixedHeader.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.foundation.js" />
+    <Content Include="Scripts\DataTables\dataTables.foundation.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.jqueryui.js" />
+    <Content Include="Scripts\DataTables\dataTables.jqueryui.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.keyTable.js" />
+    <Content Include="Scripts\DataTables\dataTables.keyTable.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.material.js" />
+    <Content Include="Scripts\DataTables\dataTables.material.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.responsive.js" />
+    <Content Include="Scripts\DataTables\dataTables.responsive.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.rowGroup.js" />
+    <Content Include="Scripts\DataTables\dataTables.rowGroup.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.rowReorder.js" />
+    <Content Include="Scripts\DataTables\dataTables.rowReorder.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.scroller.js" />
+    <Content Include="Scripts\DataTables\dataTables.scroller.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.select.js" />
+    <Content Include="Scripts\DataTables\dataTables.select.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.semanticui.js" />
+    <Content Include="Scripts\DataTables\dataTables.semanticui.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.uikit.js" />
+    <Content Include="Scripts\DataTables\dataTables.uikit.min.js" />
+    <Content Include="Scripts\DataTables\jquery.dataTables.js" />
+    <Content Include="Scripts\DataTables\jquery.dataTables.min.js" />
+    <Content Include="Scripts\DataTables\responsive.bootstrap.js" />
+    <Content Include="Scripts\DataTables\responsive.bootstrap.min.js" />
+    <Content Include="Scripts\DataTables\responsive.bootstrap4.js" />
+    <Content Include="Scripts\DataTables\responsive.bootstrap4.min.js" />
+    <Content Include="Scripts\DataTables\responsive.foundation.js" />
+    <Content Include="Scripts\DataTables\responsive.foundation.min.js" />
+    <Content Include="Scripts\DataTables\responsive.jqueryui.js" />
+    <Content Include="Scripts\DataTables\responsive.jqueryui.min.js" />
+    <Content Include="Scripts\DataTables\responsive.semanticui.js" />
+    <Content Include="Scripts\DataTables\responsive.semanticui.min.js" />
+    <Content Include="Scripts\date.format.js" />
+    <Content Include="Scripts\esm\popper-utils.js" />
+    <Content Include="Scripts\esm\popper-utils.min.js" />
+    <Content Include="Scripts\esm\popper.js" />
+    <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\esm\popper.min.js.map" />
+    <Content Include="Scripts\esm\popper.js.map" />
+    <Content Include="Scripts\esm\popper-utils.min.js.map" />
+    <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\Avenir-Roman.ttf" />
+    <Content Include="fonts\icomoon.ttf" />
+    <Content Include="Scripts\inputMap.js" />
+    <Content Include="Scripts\inputMapLugEntFirm.js" />
+    <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery.formtowizard.js" />
+    <Content Include="Scripts\MapsIndex.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\numeral.js" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Marcas\Index.cshtml" />
+    <Content Include="Views\CatFamilias\Index.cshtml" />
+    <Content Include="Views\Marcas\EditDeleteModals.cshtml" />
+    <Content Include="Views\BienesServicios\Index.cshtml" />
+    <Content Include="Views\BienesServicios\EditDeleteModals.cshtml" />
+    <Content Include="Views\CondicionesEntrega\Index.cshtml" />
+    <Content Include="Views\CondicionesPago\Index.cshtml" />
+    <Content Include="Views\LugarEntrega\Index.cshtml" />
+    <Content Include="Views\Menu\Index.cshtml" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
+    <Content Include="Content\jquery.dataTables.min.css" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\iGob\responsive.dataTables.scss" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\iGob\autocomplete.js" />
+    <Content Include="Scripts\iGob\bootstrap-datepicker.js" />
+    <Content Include="Scripts\iGob\bootstrap.min.js" />
+    <Content Include="Scripts\iGob\common.js" />
+    <Content Include="Scripts\iGob\dataTables.bootstrap4.min.js" />
+    <Content Include="Scripts\iGob\funcionesMatematicas.js" />
+    <Content Include="Scripts\iGob\function.js" />
+    <Content Include="Scripts\iGob\jquery-1.4.2.min.js" />
+    <Content Include="Scripts\iGob\jquery-3.2.1.min.js" />
+    <Content Include="Scripts\iGob\jquery.alerts.mod.js" />
+    <Content Include="Scripts\iGob\jquery.auto-complete.js" />
+    <Content Include="Scripts\iGob\jquery.dataTables.js" />
+    <Content Include="Scripts\iGob\jquery.timepicker.min.js" />
+    <Content Include="Scripts\iGob\jquery.ui.draggable.js" />
+    <Content Include="Scripts\iGob\js-config.js" />
+    <Content Include="Scripts\iGob\master.js" />
+    <Content Include="Scripts\iGob\menu-fixed.js" />
+    <Content Include="Scripts\iGob\metisMenu.min.js" />
+    <Content Include="Scripts\iGob\popper.min.js" />
+    <Content Include="Scripts\iGob\select2.min.js" />
+    <Content Include="Scripts\iGob\selectanidado.js" />
+    <Content Include="Scripts\iGob\stats.js" />
+    <Content Include="Scripts\iGob\util.js" />
+    <Content Include="Scripts\jquery-3.3.1.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.dataTables.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\popper-utils.js" />
+    <Content Include="Scripts\popper-utils.min.js" />
+    <Content Include="Scripts\popper.js" />
+    <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\umd\popper-utils.js" />
+    <Content Include="Scripts\umd\popper-utils.min.js" />
+    <Content Include="Scripts\umd\popper.js" />
+    <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Login.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Scripts\umd\popper.min.js.map" />
+    <Content Include="Scripts\umd\popper.js.map" />
+    <Content Include="Scripts\umd\popper-utils.min.js.map" />
+    <Content Include="Scripts\umd\popper-utils.js.map" />
+    <Content Include="Scripts\popper.min.js.map" />
+    <Content Include="Scripts\popper.js.map" />
+    <Content Include="Scripts\popper-utils.min.js.map" />
+    <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Shared\AlertModal.cshtml" />
+    <Content Include="Views\ActividadesEconomicas\Index.cshtml" />
+    <Content Include="Views\CatFamilias\EditDeleteModals.cshtml" />
+    <Content Include="Views\ModalidadLicitaciones\Index.cshtml" />
+    <Content Include="Views\ModalidadRequisiciones\Index.cshtml" />
+    <Content Include="Views\Capitulos\Index.cshtml" />
+    <Content Include="Views\ActividadesEconomicas\EditDeleteModals.cshtml" />
+    <Content Include="Views\Capitulos\EditDeleteModals.cshtml" />
+    <Content Include="Views\Certificaciones\EditDeleteModals.cshtml" />
+    <Content Include="Views\Certificaciones\index.cshtml" />
+    <Content Include="Views\ModalidadLicitaciones\EditDeleteModals.cshtml" />
+    <Content Include="Views\ModalidadRequisiciones\EditDeleteModals.cshtml" />
+    <Content Include="Views\Cartas\Index.cshtml" />
+    <Content Include="Views\UnidadesMedida\Index.cshtml" />
+    <Content Include="Views\Dependencias\Index.cshtml" />
+    <Content Include="Views\ProveedoresAccionistas\Index.cshtml" />
+    <Content Include="Views\CuentasBancarias\Index.cshtml" />
+    <Content Include="Views\PresupuestosPartidas\Index.cshtml" />
+    <Content Include="Views\Presupuestos\Index.cshtml" />
+    <Content Include="Views\Shared\_Principal.cshtml" />
+    <Content Include="Views\Cartas\EditDeleteModals.cshtml" />
+    <Content Include="Views\LugarFirma\Index.cshtml" />
+    <Content Include="Views\UnidadesLicitadoras\Index.cshtml" />
+    <Content Include="Views\UnidadesLicitadoras\EditDeleteModals.cshtml" />
+    <Content Include="Views\Manifiestos\Index.cshtml" />
+    <Content Include="Views\Usuario\Index.cshtml" />
+    <Content Include="Views\Usuario\EditUsuario.cshtml" />
+    <Content Include="Views\Usuario\BuscarPersona.cshtml" />
+    <Content Include="Views\Gobierno\Index.cshtml" />
+    <Content Include="Views\Manifiestos\EditDeleteModals.cshtml" />
+    <Content Include="Views\Presupuestos\EditDeleteModals.cshtml" />
+    <Content Include="Views\PresupuestosPartidas\EditDeleteModals.cshtml" />
+    <Content Include="Views\DiasInhabiles\Index.cshtml" />
+    <Content Include="Views\Modulo\Index.cshtml" />
+    <Content Include="Views\Modulo\EditarModulo.cshtml" />
+    <Content Include="Views\Funcion\Index.cshtml" />
+    <Content Include="Views\Funcion\EditFuncion.cshtml" />
+    <Content Include="Views\PerfilFunciones\Index.cshtml" />
+    <Content Include="Views\PerfilFunciones\EditPerfilFuncion.cshtml" />
+    <Content Include="Views\Perfil\Index.cshtml" />
+    <Content Include="Views\Perfil\EditPerfil.cshtml" />
+    <Content Include="Views\DiasInhabiles\EditDeleteModals.cshtml" />
+    <Content Include="Views\DiasInhabiles\Index.cshtml" />
+    <Content Include="Views\Gobierno\Index.cshtml" />
+    <Content Include="Views\ProveedoresActaConstitutiva\Index.cshtml" />
+    <Content Include="Views\ProveedoresActaConstitutiva\EditDeleteModals.cshtml" />
+    <Content Include="Views\CuentasBancarias\EditDeleteModals.cshtml" />
+    <Content Include="Views\ProveedoresMenores\Index.cshtml" />
+    <Content Include="Views\ProveedoresMenores\EditDeleteModals.cshtml" />
+    <Content Include="Views\Modulo\Index.cshtml" />
+    <Content Include="Views\Modulo\EditarModulo.cshtml" />
+    <Content Include="Views\Funcion\Index.cshtml" />
+    <Content Include="Views\Funcion\EditFuncion.cshtml" />
+    <Content Include="Views\PerfilFunciones\Index.cshtml" />
+    <Content Include="Views\PerfilFunciones\EditPerfilFuncion.cshtml" />
+    <Content Include="Views\Perfil\Index.cshtml" />
+    <Content Include="Views\Perfil\EditPerfil.cshtml" />
+    <Content Include="Views\ModalidadAdjudicacionesDirectas\Index.cshtml" />
+    <Content Include="Views\ModalidadAdjudicacionesDirectas\EditDeleteModals.cshtml" />
+    <Content Include="Views\Manifiestos\EditDeleteModals.cshtml" />
+    <Content Include="Views\Presupuestos\EditDeleteModals.cshtml" />
+    <Content Include="Views\PresupuestosPartidas\EditDeleteModals.cshtml" />
+    <Content Include="Views\DiasInhabiles\Index.cshtml" />
+    <Content Include="Views\DiasInhabiles\EditDeleteModals.cshtml" />
+    <Content Include="Views\ProveedoresAccionistas\EditDeleteModals.cshtml" />
+    <Content Include="Views\Gobierno\Index.cshtml" />
+    <Content Include="Views\DiasInhabiles\EditDeleteModals.cshtml" />
+    <Content Include="Views\DiasInhabiles\Index.cshtml" />
+    <Content Include="Views\Gobierno\Index.cshtml" />
+    <Content Include="Views\Requisiciones\AsignarProveedores.cshtml" />
+    <Content Include="Views\Requisiciones\CondicionesEntrega.cshtml" />
+    <Content Include="Views\Requisiciones\CondicionesPago.cshtml" />
+    <Content Include="Views\Requisiciones\DatosGenerales.cshtml" />
+    <Content Include="Views\Requisiciones\Index.cshtml" />
+    <Content Include="Views\Requisiciones\Lotes.cshtml" />
+    <Content Include="Views\Requisiciones\PresupuestoLiquidez.cshtml" />
+    <Content Include="Views\AdjudicacionesDirectasMayores\tabs\datos_generales.cshtml" />
+    <Content Include="Views\AdjudicacionesDirectasMayores\tabs\presupuesto_liquidez.cshtml" />
+    <Content Include="Views\AdjudicacionesDirectasMayores\tabs\lotes.cshtml" />
+    <Content Include="Views\AdjudicacionesDirectasMayores\tabs\condiciones_entrega.cshtml" />
+    <Content Include="Views\AdjudicacionesDirectasMayores\tabs\condiciones_pago.cshtml" />
+    <Content Include="Views\AdjudicacionesDirectasMayores\tabs\proveedores.cshtml" />
+    <Content Include="Views\AdjudicacionesDirectasMayores\tabs\firmante.cshtml" />
+    <Content Include="Views\AdjudicacionesDirectasMayores\Index.cshtml" />
+    <Content Include="Views\RequisicionConsulta\Index.cshtml" />
+    <Content Include="Views\AdjudicacionConsulta\Index.cshtml" />
+    <Content Include="Views\ProveedoresGirosComerciales\Index.cshtml" />
+    <Content Include="Views\Requisiciones\Cartas.cshtml" />
+    <Content Include="Views\AsignacionPresupuestos\AddLiquidezModal.cshtml" />
+    <Content Include="Views\AsignacionPresupuestos\Index.cshtml" />
+    <Content Include="Views\IngresosPropios\CreateModal.cshtml" />
+    <Content Include="Views\IngresosPropios\Index.cshtml" />
+    <Content Include="Views\RequisicionesComprasMenores\CondicionesEntregaPago.cshtml" />
+    <Content Include="Views\RequisicionesComprasMenores\DatosGenerales.cshtml" />
+    <Content Include="Views\RequisicionesComprasMenores\Lotes.cshtml" />
+    <Content Include="Views\RequisicionesComprasMenoresConsulta\Index.cshtml" />
+    <Content Include="Views\ProveedoresGirosComerciales\EditDeleteModals.cshtml" />
+    <Content Include="Views\DiasInhabiles\EditDeleteModals.cshtml" />
+    <Content Include="Views\DiasInhabiles\Index.cshtml" />
+    <Content Include="Views\Gobierno\Index.cshtml" />
+    <Content Include="Views\Manifiestos\EditDeleteModals.cshtml" />
+    <Content Include="Views\Presupuestos\EditDeleteModals.cshtml" />
+    <Content Include="Views\PresupuestosPartidas\EditDeleteModals.cshtml" />
+    <Content Include="Views\Requisiciones\Firmantes.cshtml" />
+    <Content Include="Views\AdjudicacionesDirectasMayores\tabs\AddLiquidezModal.cshtml" />
+    <Content Include="Views\AsignacionPresupuestos\Details.cshtml" />
+    <Content Include="Views\ConfiguracionesModalidades\ConfiguracionesModalidades.cshtml" />
+    <Content Include="Views\ConfiguracionesModalidades\Index.cshtml" />
+    <Content Include="Views\GenerarLicitacion\EditFechas.cshtml" />
+    <Content Include="Views\GenerarLicitacion\Index.cshtml" />
+    <Content Include="Views\LicitacionesListadoInvitaciones\Index.cshtml" />
+    <Content Include="Views\ListadoLicitaciones\Index.cshtml" />
+    <Content Include="Views\RequisicionAsignacion\DatosGenerales.cshtml" />
+    <Content Include="Views\RequisicionAsignacion\Index.cshtml" />
+    <Content Include="Views\RequisicionesPorRevisar\Cartas.cshtml" />
+    <Content Include="Views\RequisicionesPorRevisar\CondicionesEntrega.cshtml" />
+    <Content Include="Views\RequisicionesPorRevisar\CondicionesPago.cshtml" />
+    <Content Include="Views\RequisicionesPorRevisar\DatosGenerales.cshtml" />
+    <Content Include="Views\RequisicionesPorRevisar\Firmantes.cshtml" />
+    <Content Include="Views\RequisicionesPorRevisar\Index.cshtml" />
+    <Content Include="Views\RequisicionesPorRevisar\Lotes.cshtml" />
+    <Content Include="Views\RequisicionesPorRevisar\PresupuestoLiquidez.cshtml" />
+    <Content Include="Views\AceptarInvitacion\Componentes.cshtml" />
+    <Content Include="Views\AceptarInvitacion\Index.cshtml" />
+    <Content Include="Views\DatosPersonas\EditDeleteModals.cshtml" />
+    <Content Include="Views\DatosPersonas\Index.cshtml" />
+    <Content Include="Views\RequisicionesComprasMenores\Index.cshtml" />
+    <Content Include="Views\Departamentos\Index.cshtml" />
+    <Content Include="Views\Departamentos\EditDeleteModals.cshtml" />
+    <Content Include="Views\LugaresEntregaPagoCM\Index.cshtml" />
+    <Content Include="Views\LugaresEntregaPagoCM\EditDeleteModals.cshtml" />
+    <Content Include="Views\ListadoLicitacionesInvitacionAceptadasProveedor\Index.cshtml" />
+    <Content Include="Views\EnviarPagosProveedor\Index.cshtml" />
+    <Content Include="Views\LicitacionesRequisicionesRevicion\Index.cshtml" />
+    <Content Include="Views\CuentasBancarias\CuentasPorDependencias.cshtml" />
+    <Content Include="Views\ListadoRequisicionLicitacion\Index.cshtml" />
+    <Content Include="Views\PreguntasProveedor\Index.cshtml" />
+    <Content Include="Views\RespuestaPreguntaSolicitante\Index.cshtml" />
+    <Content Include="Views\AdjudicacionesDirectasMayores\tabs\ModalNuevoLote.cshtml" />
+    <Content Include="Views\AdjudicacionesDirectasMayores\tabs\ModalEliminarLote.cshtml" />
+    <Content Include="Views\AdjudicacionesDirectasMayores\tabs\PopUp.cshtml" />
+    <Content Include="Views\AdjudicacionesDirectasMayores\tabs\PropuestaTecnica.cshtml" />
+    <Content Include="Views\AdjudicacionesDirectasMayores\tabs\propuesta_tecnica.cshtml" />
+    <Content Include="Views\AdjudicacionesAutorizadasConsulta\Index.cshtml" />
+    <Content Include="Views\AdjudicacionesPropuestas\RecibirPropuestaEconomica.cshtml" />
+    <Content Include="Views\RevicionPreguntaRespuesta\Index.cshtml" />
+    <Content Include="Views\AdjudicacionesPropuestas\RecibirPropuestaTecnica.cshtml" />
+    <Content Include="Views\AdjudicacionesPropuestas\Index.cshtml" />
+    <Content Include="Views\AdjudicacionesAutorizadasConsulta\AsignarRevisorIndex.cshtml" />
+    <Content Include="Views\LicitacionesActaPropuestas\Index.cshtml" />
+    <Content Include="Views\LicitacionesAclaracionDudas\Index.cshtml" />
+    <Content Include="Views\LicitacionesDictamen\Index.cshtml" />
+    <Content Include="Views\AdjudicacionesAutorizadasConsulta\ElaborarPedido.cshtml" />
+    <Content Include="Views\PropuestaTecnicaEconomica\Cartas.cshtml" />
+    <Content Include="Views\PropuestaTecnicaEconomica\CondicionesEntrega.cshtml" />
+    <Content Include="Views\PropuestaTecnicaEconomica\CondicionesPago.cshtml" />
+    <Content Include="Views\PropuestaTecnicaEconomica\Index.cshtml" />
+    <Content Include="Views\PropuestaTecnicaEconomica\Lotes.cshtml" />
+    <Content Include="Views\PropuestaTecnicaEconomica\RequisitosAdicionales.cshtml" />
+    <Content Include="Views\PropuestaTecnicaEconomica\Componentes\EditLote.cshtml" />
+    <Content Include="Views\PropuestaTecnicaEconomica\Componentes\EditCliente.cshtml" />
+    <Content Include="Views\PropuestaTecnicaEconomica\ValidarPropuestaTecnica.cshtml" />
+    <Content Include="Views\PropuestaTecnicaEconomica\LotesValidarPropuestaTecnica.cshtml" />
+    <Content Include="Views\PropuestaTecnicaEconomica\PropEconomica.cshtml" />
+    <Content Include="Views\LicitacionesActaFallo\Index.cshtml" />
+    <Content Include="Views\LicitacionesActaAdjudicacion\Index.cshtml" />
+    <Content Include="Views\SubirPlantillas\Index.cshtml" />
+    <Content Include="Views\BienesServicios\BienServicio.cshtml" />
+    <Content Include="Views\ListadoRequisicionLicitacion\ListadoLicitacionRequisiciones.cshtml" />
+    <Content Include="Views\ListadoRequisicionLicitacion\ListadoLicitacionRequisicionLiberarPedido.cshtml" />
+    <Content Include="Views\LiberarPedidoLicitacionRequisicion\Index.cshtml" />
+    <Content Include="Views\PerfilUsuario\Index.cshtml" />
+    <Content Include="Views\LiberarPedido\Index.cshtml" />
+    <Content Include="Views\RecepcionarPedidoDetalle\Index.cshtml" />
+    <Content Include="Views\DetalleRecepcionPedido\Index.cshtml" />
+    <Content Include="Views\AdjudicacionListadoPedidosRecepcion\Index.cshtml" />
+    <Content Include="Views\AdjudicacionListadoPedidosRecepcion\EntregaPedido.cshtml" />
+    <Content Include="Views\AdjudicacionListadoPedidosRecepcion\EntregaPedidoDetalle.cshtml" />
+    <Content Include="Views\AdjudicacionesPropuestas\AutorizarPropuestaTecnica.cshtml" />
+    <Content Include="Views\AdjudicacionesPropuestas\AutorizarPropuestaEconomica.cshtml" />
+    <Content Include="Views\Dependencias\EditDeleteModals.cshtml" />
+    <Content Include="Views\PerfilUsuario\ChangePassword.cshtml" />
+    <Content Include="Views\RecuperacionContrasenia\Index.cshtml" />
+    <Content Include="Views\RecuperacionContrasenia\LinkRecuperacionPassword.cshtml" />
+    <Content Include="Views\ConfiguracionFirmantesModalidades\Index.cshtml" />
+    <Content Include="Views\AdjudicacionesPedidosConsulta\Index.cshtml" />
+    <Content Include="Views\ConfiguracionAdjudicaciones\Index.cshtml" />
+    <Content Include="Views\RequisicionesSegundaVueltaConsulta\Index.cshtml" />
+    <Content Include="Views\RepPresupuesto\Index.cshtml" />
+    <Content Include="Views\RepAdquisiciones\Index.cshtml" />
+    <Content Include="Views\RepDependenciasEntidades\Index.cshtml" />
+    <Content Include="Views\RepDependenciasEntidades\RepPresupuesto.cshtml" />
+    <Content Include="Views\RepDependenciasEntidades\RepAdquisiciones.cshtml" />
+    <Content Include="Views\RepCotizacion\Index.cshtml" />
+    <Content Include="Views\RepCotizacion\PrecioProducto.cshtml" />
+    <Content Include="Views\RequisicionHistorial\Index.cshtml" />
+    <Content Include="Views\AdjudicacionesAutorizadasConsulta\firmante.cshtml" />
+    <Content Include="Views\RepProveedores\Index.cshtml" />
+    <Content Include="Views\RepProveedores\Detalles.cshtml" />
+    <Content Include="Views\InvestigacionPrecios\Index.cshtml" />
+    <Content Include="Views\InvestigacionPrecios\Componente\EditInvestigacionPrecio.cshtml" />
+    <Content Include="Views\EstudioMercado\Index.cshtml" />
+    <Content Include="Views\ReactivosConclusionEM\Index.cshtml" />
+    <Content Include="Views\ReactivosConclusionEM\Reactivo.cshtml" />
+    <Content Include="Views\EstudioMercado\Modal.cshtml" />
+    <Content Include="Views\EstudioMercado\Section1.cshtml" />
+    <Content Include="Views\EstudioMercado\Section2.cshtml" />
+    <Content Include="Views\EstudioMercado\Section3.cshtml" />
+    <Content Include="Views\EstudioMercado\Section4.cshtml" />
+    <Content Include="Views\EstudioMercado\Historial.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="PropuestasTecEco\Certificacion\" />
+    <Folder Include="PropuestasTecEco\MuestraCatalogo\" />
+    <Folder Include="Views\GobiernoLogoBanner\" />
+    <Folder Include="Views\LicitacionActaDictamen\" />
+    <Folder Include="Views\LicitacionesActaDictamen\" />
+    <Folder Include="Views\RequisicionLicitacion\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\index.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\iGob.AccesoDatos\iGob.AccesoDatos.csproj">
+      <Project>{7983F289-31EA-4F4C-89D1-51CF0E5A7BDE}</Project>
+      <Name>iGob.AccesoDatos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\iGob.Entidades\iGob.Entidades.csproj">
+      <Project>{56c2f2e1-1d56-4cbd-88bc-2c161f0cc29b}</Project>
+      <Name>iGob.Entidades</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\iGob.ReglasNegocios\iGob.ReglasNegocios.csproj">
+      <Project>{27b7247f-e192-4b66-990c-39326633e4af}</Project>
+      <Name>iGob.ReglasNegocios</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Word">
+      <Guid>{00020905-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>8</VersionMajor>
+      <VersionMinor>7</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>64072</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:64072/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+    <MonoDevelop>
+      <Properties>
+        <XspParameters Port="8080" Address="127.0.0.1" SslMode="None" SslProtocol="Default" KeyType="None" CertFile="" KeyFile="" PasswordOptions="None" Password="" Verbose="True" />
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

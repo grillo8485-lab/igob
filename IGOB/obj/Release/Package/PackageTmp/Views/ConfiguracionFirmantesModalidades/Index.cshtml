@@ -1,0 +1,86 @@
+﻿
+@model IGOB.Models.ConfiguracionFirmantesModalidades
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .dataTables_scrollBody {
+        position: unset !important;
+        z-index: 1 !important;
+    }
+
+    .dataTables_wrapper {
+        z-index: 2 !important;
+        position: unset !important;
+    }
+
+    hr {
+        margin-top: 0rem !important;
+        margin-bottom: 0rem !important;
+    }
+
+    .hide {
+        display: none;
+    }
+</style>
+<div class="pos-f-t">
+    <nav class="navbar bg-secondary text-white navbar-light bg-light changeColorModal">
+        <div class="col-9 text-left">
+            <h6>Firmantes</h6>
+        </div>
+    </nav>
+</div>
+<div class="container-fluid">
+    @using (Html.BeginForm("", "", FormMethod.Post, new { @id = "formGenerarPedido" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+
+            <div class="input-group col-12 ">
+                
+                @Html.DropDownList("IdModalidadLicitacion", Model.lstModalidades, "Seleccionar modalidad licitación", new { @class = "form-control", @Required = "" })
+                <div class="input-group-append">
+                    <button type="button" id="btnBuscarModalidad" class="btn btn-default" onclick="getModalidadLicitacion()"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+
+            <br />
+        <div id="cargarFirmantes">
+            <table class="table" id="ConfiguraacionFirmantesTbl" width="100%">
+                <thead>
+                    <tr style="text-align:center">
+                        <th align="justify"> Perfil </th>
+                        <th align="justify"> Modalidad </th>
+                        <th align="justify"> Ordenamiento </th>
+                        <th align="justify"> Cargo </th>
+                        <th align="justify"> Activo</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.lst)
+                    {
+                        <tr>
+                            <td>@item.Perfil</td>
+                            <td>@item.Modalidad</td>
+                            <td align="right">@item.Ordenamiento</td>
+                            <td align="right"><input type="text" name="Cargo_@item.IdPerfil" class="form-control" id="Cargo_@item.IdPerfil" value="@item.Cargo" /></td>
+                            <td align="center">
+                                <div class="custom-control custom-checkbox text-center">
+                                    <input type="checkbox" class="custom-control-input" name="@item.IdPerfil" value="@(item.Activo?"1":"0")" id="@item.IdPerfil" @(item.Activo ? "checked" : "") onclick="saveConfirmFirmanteConfiguracion(@item.IdConfigFirmantePedido,@item.IdPerfil,@item.Ordenamiento)">
+                                    <label class="custom-control-label" for="@item.IdPerfil"></label>
+                                </div>
+                            </td>
+
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+@section scripts{
+    <script src="~/Scripts/Catalogos/ConfiguracionFirmantes.js"></script>
+}

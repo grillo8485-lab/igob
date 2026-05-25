@@ -1,0 +1,90 @@
+﻿@model IEnumerable<iGob.Entidades.beProveedoresPreguntas>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    <div class="pos-f-t">
+        <div class="text-white sub_banner changeColorModal" style="padding:10px; margin:0px;">
+            <div class="row">
+                <div class="col-8 text-center">
+                    <h6>@ViewBag.Titulo</h6>
+                </div>
+                <div class="col-4 text-right">
+                    <input type="button" class="btn btn-default btn-sm @ViewBag.disabled" id="EnviarPreguntas" value="Enviar Preguntas" />
+                    <button type="button" class="btn btn-default btn-sm" onclick="location.href='@Url.Action("Index", "ListadoRequisicionLicitacion", new { @id = ViewBag.IdInvitacion})'">
+                        <span class="glyphicon glyphicon-step-backward"></span> Regresar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="container-fluid">
+        <input type="button" id="create-Pregunta" class="btn btn-secondary @ViewBag.disabled" value="Nueva Pregunta" />
+        <input type="hidden" id="IdProveedorRqInvitacion" value="@ViewBag.IdProveedorRqInvitacion" />
+        <br /><br />
+        <table class="table-bordered hover" id="tableProvPreguntas">
+            <thead align="justify">
+                <tr>
+                    <th> Acciones </th>
+                    <th> Pregunta </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="form-group" style="min-width:80px;">
+                                <a title="Eliminar registro" data-idProvReqIn="@item.IdProveedorRqInvitacion" data-preg="@item.Pregunta" data-idpreg="@item.IdPregunta" class="btn btn-secondary btn-circle btn-sm delet-item @ViewBag.disabled"><span class="icon-garbage-2"></span></a>
+                                <a title="Editar registro" data-idProvReqIn="@item.IdProveedorRqInvitacion" data-preg="@item.Pregunta" data-idpreg="@item.IdPregunta" data-nopreg="@item.NoPregunta" class="btn btn-secondary btn-circle btn-sm edit-item @ViewBag.disabled"><span class="icon-edit"></span></a>
+                            </div>
+                        </td>
+                        <td>
+                            @item.Pregunta
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="modal fade" id="modalProvPreguntas" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header changeColorModal">
+                        <h4 class="modal-title" id="formEditCreate"></h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div align="center"><strong id="MensajeForm"></strong></div>
+                    @using (Html.BeginForm(null, null, FormMethod.Post, htmlAttributes: new { @id = "formPregunta" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        <input type="hidden" name="IdPregunta" id="IdPregunta" value="0" />
+                        <input type="hidden" name="IdProveedorRqInvitacion" id="IdProveedorRqInvitacion" value="@ViewBag.IdProveedorRqInvitacion" />
+                        <input type="hidden" name="NoPregunta" id="NoPregunta" value="0" />
+                        <input type="hidden" name="IdEstatusPregunta" id="IdEstatusPregunta" value="1" />
+                        <input type="hidden" name="FechaRegistro" id="FechaRegistro" value="@DateTime.Now" />
+                        <input type="hidden" name="IdUsuarioRegistro" id="IdUsuarioRegistro" value="@ViewBag.IdUsuarioRegistra" />
+                        <br />
+                        <div class="row col-12" style="margin:0;padding:0;">
+                            <div class="container-fluid">
+                                <label for="Pregunta"> Pregunta: </label>
+                                <textarea id="Pregunta" name="Pregunta" class="form-control" required></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <input type="submit" value="Guardar" id="submitform" class="btn btn-secondary" />
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+        <div id="modaldiv"></div>
+    </div>
+@section scripts{
+    <script src="~/Scripts/Catalogos/PreguntasProveedores.js"></script>
+}

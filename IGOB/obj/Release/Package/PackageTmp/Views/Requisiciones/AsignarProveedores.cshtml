@@ -1,0 +1,49 @@
+﻿@model IGOB.Models.Requisicion
+
+<!-- ASIGNAR PROVEEDORES -->
+<div id="div_asignar_proveedores" class="container-fluid tab-pane fade">
+
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>ASIGNAR PROVEEDORES</strong>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div id="cargarAsignacionProveedor">
+        <table id="tabla_asignar_proveedores" class="table" width="100%">
+            <thead align="center">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Abreviatura</th>
+                    <th class="text-uppercase">RFC</th>
+                    <th>Calle</th>
+                    <th>Núm. Exterior</th>
+                    <th>Núm. Interior</th>
+                    <th>Colonia</th>
+                    <th>Asignar</th>
+                </tr>
+            </thead>
+            <tbody align="justify">
+                @foreach (var item in Model.lstProveedoresxAsignar)
+                {
+                    <tr>
+                        <td>@item.NombreComercial</td>
+                        <td>@item.NombreContacto</td>
+                        <td>@item.Rfc</td>
+                        <td>@item.Calle</td>
+                        <td>@item.NoExterior</td>
+                        <td>@item.NoInterior</td>
+                        <td>@item.Colonia</td>
+                        <td align="center">
+                            <div class="custom-control custom-checkbox" style="left: 42%;">
+                                <input type="checkbox" class="custom-control-input" id="@item.IdProveedor" data-IdAdjudicacionProveedor="@item.IdAdjudicacionProveedor" @(item.Seleccion == 0 ? "" : "checked") onclick="asignarProveedor(this.id)">
+                                <label class="custom-control-label" for="@item.IdProveedor"></label>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

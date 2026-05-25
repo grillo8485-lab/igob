@@ -1,0 +1,33 @@
+﻿<table class="table-bordered hover" id="tablaListadoRequisicionLicitacion" width="100%">
+    <thead align="justify">
+        <tr>
+            <th> Acciones </th>
+            <th> Pedido </th>
+            <th> Estatus firma </th>
+            <th> Estatus </th>
+            <th> Requisición </th>
+            <th> Nombre, denominación o razón social </th>
+            <th> Clave de registro federal de contribuyentes </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.ListadoRequisicionLicitacion)
+        {
+        <tr>
+            <td align="center">
+                <button title="Abrir Requisicion" type="button" class="btn btn-secondary btn-circle edit-marca btn-sm" to onclick="location.href='@Url.Action("liberarPedido", "ListadoRequisicionLicitacion",new { IdPedido = item.IdPedido})'">
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                </button>
+            </td>
+
+            <td>@item.Folio</td>
+            <td>@item.EstatusFirmaPedido</td>
+            <td>@item.EstatusPedido</td>
+
+            <td>@item.RequisicionFolio</td>
+            <td>@item.RazonSocial</td>
+            <td>@item.Rfc</td>
+        </tr>
+        }
+    </tbody>
+</table>

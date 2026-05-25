@@ -1,0 +1,71 @@
+﻿@model IEnumerable<iGob.Entidades.beAdjudicacionesProveedores>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<table class="table" id="tableProvProp">
+    <thead align="justify">
+        <tr>
+            <th>Acciones</th>
+            <th>Proveedor</th>
+            <th>@Html.DisplayNameFor(model => model.Partida)</th>
+            <th>@Html.DisplayNameFor(model => model.Capitulo)</th>
+            <th>Valor Aproximado</th>
+            <th>@Html.DisplayNameFor(model => model.Ejercicio)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td align="center" style="vertical-align:middle">
+                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" style="color:black !important"><span class="glyphicon glyphicon-tasks"></span> <span class="caret"></span></button>
+                <ul class="dropdown-menu" style="position:static !important">
+                    @if (ViewBag.IdPerfil == 4)
+                    {
+                        <li><a href="@Url.Action("AutorizarPropuestaTecnica", "AdjudicacionesPropuestas", new { @id = item.IdAdjudicacionProveedor })" class="small" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-check" style="color:black !important"></span>Autorizar propuesta técnica</a></li>
+                        <li><a href="@Url.Action("AutorizarPropuestaEconomica", "AdjudicacionesPropuestas", new { @id = item.IdAdjudicacionProveedor })" class="small" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-check" style="color:black !important"></span>Autorizar propuesta económica</a></li>
+                    }
+                    else
+                    {
+
+                    <li><a href="@Url.Action("RecibirPropuestaTecnica", "AdjudicacionesPropuestas", new { @id = item.IdAdjudicacionProveedor })" class="small" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-download-alt" style="color:black !important"></span>Recibir propuesta técnica</a></li>
+                    <li><a href="@Url.Action("RecibirPropuestaEconomica", "AdjudicacionesPropuestas", new { @id = item.IdAdjudicacionProveedor })" class="small" style="color:black !important" tabIndex="-1"><span class="glyphicon  glyphicon-download-alt" style="color:black !important"></span>Recibir propuesta económica</a></li>
+                    }
+                </ul>
+            </td>
+            <td>
+                @item.RazonSocial
+            </td>
+            <td>
+                @item.Partida
+            </td>
+            <td>
+                @item.Capitulo
+            </td>
+            <td class="textDerecha">
+                @(item.MontoAproximadoAutorizado != 0 ? String.Format("{0:C2}",item.MontoAproximadoAutorizado) : "0.00") 
+            </td>
+            <td>
+                @item.Ejercicio
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<br /><br />
+
+@section Scripts{
+      <script type="text/javascript">
+          $("#tableProvProp").DataTable({
+              scrollCollapse: true,
+              sort: false,
+              language: {
+                  "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+              }
+          })
+      </script>
+    
+    }

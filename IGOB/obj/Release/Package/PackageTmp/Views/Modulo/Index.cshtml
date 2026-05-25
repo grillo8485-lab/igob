@@ -1,0 +1,71 @@
+﻿
+@model List<IGOB.Areas.Catalogos.Models.ClsGenerica>
+@{
+    ViewBag.Title = "Modulos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<input type="hidden" name="IdModulo" id="IdModulo" value="0" />
+
+<div class="banner-color"></div>
+<button type="button" class="btn btn-secondary btn-circle " onclick="nuevoModulo()">
+    <span class="icon-add-3"></span>
+    NUEVO MODULO
+</button>
+<br /><br />
+<div>
+    <table class="table table-bordered table-hover" id="tableCatalogos">
+        <thead align="center">
+            <tr>
+                <th> Acciones </th>
+                <th> Orden</th>
+                <th> Modulo </th>
+                <th> Descripcion </th>
+                <th> Clave </th>
+                <th> Icono</th>
+                <th> Activo</th>
+            </tr>
+        </thead>
+        <tbody align="center">
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    <div class="form-group" style="min-width:80px;">
+                        <button type="button" class="btn btn-secondary btn-circle btn-sm delete-marca" onclick="eliminarModulo(@item.id,'@item.string1')"><span class="icon-garbage-2"></span></button>
+                        <button type="button" class="btn btn-secondary btn-circle btn-sm edit-marca" onclick="editarModulo(@item.id)"><span class="icon-edit"></span></button>
+
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.string1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.string2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.string3)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.string4)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.string5)
+                </td>
+            </tr>
+                
+            }
+        </tbody>
+    </table>
+</div>
+@{
+    Html.RenderPartial("EditarModulo");
+    //Html.RenderPartial("BuscarPersona");
+
+}
+@section scripts{
+    <script src="~/Scripts/Catalogos/Modulo.js"></script>
+}

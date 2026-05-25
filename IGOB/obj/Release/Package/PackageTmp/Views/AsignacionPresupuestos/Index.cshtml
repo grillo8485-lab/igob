@@ -1,0 +1,223 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section css{
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <style>
+        .sub_banner {
+            padding: 10.5px;
+            margin-top: 15px
+        }
+
+            .sub_banner strong {
+                font-size: 9.94pt;
+            }
+
+        #tableClavePresupuestal_length, #tableClavePresupuestal_filter {
+            display: none;
+        }
+        .datetimepicker-inline {
+            display: none !important;
+        }
+    </style>   
+}
+<div class="changeColorModal row" style="min-height: 50px;">
+    <div class="col-sm-8">
+        <h5 style="font-size:16px;color: #fff;font-weight:bolder;top:15%;position:absolute">
+            Solicitud: @(ViewBag.Requision.Acepta2daLicitacion == 0 ? "Primera Licitación" : "Segunda Licitación") - @ViewBag.Requision.RequisicionFolio - Enviada  - @ViewBag.Dependencia
+        </h5>
+    </div>
+    <div class="col-sm-4" align="right" id="controls__Confirmar" style="display: inline;">
+        <button id="btnAutoriza" @((ViewBag.IdEstatusRequisicion == 10 || ViewBag.IdEstatusRequisicion == 40 && ViewBag.IdPerfil == 2) || ( ViewBag.IdEstatusRequisicion == 30  && ViewBag.IdPerfil == 6) || ( ViewBag.IdEstatusRequisicion == 60  && ViewBag.IdPerfil == 4) ? "" : "disabled") title="Autorizar" onclick="confirmar(true);"  class="btn btn-secondary" style="margin-top:6px">Autorizar</button>
+        <button id="btnRechaza"  @((ViewBag.IdEstatusRequisicion == 10 || ViewBag.IdEstatusRequisicion == 40 && ViewBag.IdPerfil == 2) || ( ViewBag.IdEstatusRequisicion == 30  && ViewBag.IdPerfil == 6) || ( ViewBag.IdEstatusRequisicion == 60  && ViewBag.IdPerfil == 4) ? "" : "disabled") onclick="confirmar(false);" title="Rechazar" class="btn btn-secondary" style="margin-top:6px">Rechazar</button>
+        <a onclick="back()" title="Regresar a la lista" class="btn btn-secondary" style="margin-top:6px">Regresar</a>
+    </div>
+</div>
+
+<div id="AutorizarFail" class="col-12 text-center"></div>
+
+<div>
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>PRESUPUESTO</strong>
+        </div>
+    </div>
+    <br />
+    <div class="row container-fluid">
+        <div class="col-4">
+            <div class="form-group">
+                <label>Partida</label>
+                <textarea class="form-control" id="" rows="1" readonly="">@ViewBag.Partida</textarea>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label>Monto solicitado</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">$</span>
+                    </div>
+                    <input type="text" class="form-control textDerecha" step="any" style="min-width: 120px;" value="@String.Format("{0:N2}",ViewBag.MontoSolicitado)" readonly="" id="MontoSolicitado" onkeypress="return flotante(event);" min="0">
+                    <input type="hidden" id="MontoSolicitadoH" value="@ViewBag.MontoSolicitado" />
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label>Saldo partida</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">$</span>
+                    </div>
+                    <input type="text" class="form-control textDerecha" step="any" style="min-width: 120px;" value="@String.Format("{0:N2}",ViewBag.SaldoPartida)" readonly onkeypress="return flotante(event);" min="0">
+                    <input type="hidden" id="saldo" value="@ViewBag.SaldoPartida" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="form-group">
+                <label>Monto presupuestado autorizado</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">$</span>
+                    </div>
+                    <input type="text" class="form-control textDerecha" @(ViewBag.Requision.NumeroLicitacion==2?"disabled" :(ViewBag.IdEstatusRequisicion == 10 || ViewBag.IdEstatusRequisicion == 20||ViewBag.IdEstatusRequisicion  == 40) ? "" : "disabled") step="0.01" max="@ViewBag.MontoSolicitado" style="min-width: 120px;" value="@(ViewBag.MontoPresupuestadoAutorizado == null ? "0.00" : String.Format("{0:N2}",ViewBag.MontoPresupuestadoAutorizado))" required="" onblur="compare(this.value);" id="MontoPresupuestadoAutorizado" min="1" />
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label>Saldo presupuestado autorizado</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">$</span>
+                    </div>
+                    <input type="text" id="SaldoPresupuestadoAutorizado" class="form-control textDerecha" step="any" style="min-width: 120px;" value="@String.Format("{0:N2}",ViewBag.IdEstatusRequisicion==10?ViewBag.SaldoPartida-ViewBag.MontoSolicitado: ViewBag.MontoAutorizado)" readonly="" onkeypress="return flotante(event);" min="0">
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label>Origen de recurso</label>
+                <div id="">
+                    <select id="IDORIGENRECURSO" class="form-control" onchange="selectmultiple(this.value,&quot;&quot;); " required disabled>
+                        <option selected disabled>@ViewBag.OrigenRecurso</option>
+                    </select>
+                </div>
+                <o style="display:none;" id="ID_MULTIPLE_11251">IDORIGENRECURSO</o>
+                <o style="display:none;" id="VALUE_MULTIPLE_11251">1</o>
+            </div>
+        </div>
+        <div id="ResultadoBuscar" class="col-12"></div>
+
+        <input type="hidden" name="MM_accion" value="editar">
+    </div>
+</div>
+
+<div>
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>CLAVES PRESUPUESTALES</strong>
+        </div>
+    </div>
+    <br />
+    <div class="container-fluid">
+        <table class="table table-hover" id="tableClavePresupuestal">
+        <thead align="center">
+            <tr>
+                <th>Origen de recurso</th>
+                <th>Clave presupuestal</th>
+                <th>Número de ministración</th>
+                <th>De</th>
+                <th>Al</th>
+                <th>Monto presupuestado</th>
+            </tr>
+        </thead>
+        <tbody align="center">
+            @foreach (var item in ViewBag.ODetalles)
+            {
+            <tr>
+                <td>@item.OrigenRecurso</td>
+                <td>@item.ClavePresupuestal </td>
+                <td>@ViewBag.Noministracion</td>
+                <td>@item.MesInicial</td>
+                <td>@item.MesFinal</td>
+                <td>@String.Format("{0:C2}", item.MontoPresupuestado)</td>
+            </tr>
+            }
+
+        </tbody>
+    </table>
+    </div>
+</div>
+
+<div id="section__liquidez">
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>LIQUIDEZ</strong>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div id="alertMonto" class="col-12 text-center"></div>
+        <br />
+        <button class=" btn btn-secondary new-liquidez" @((ViewBag.IdEstatusRequisicion == 10 || ViewBag.IdEstatusRequisicion == 20 || ViewBag.IdEstatusRequisicion == 40) ? "" : "disabled")> <span class="icon-add-3"></span> Agregar</button>
+        <br /><br />
+        <table class="table table-hover">
+            <thead align="center">
+                <tr>
+                    <th>Acciones</th>
+                    <th>Origen de recurso</th>
+                    <th>Cuenta</th>
+                    <th>Nombre de la cuenta	Banco</th>
+                    <th>Número de operación bancaria</th>
+                    <th>Saldo i Gob</th>
+                    <th>Saldo en cuenta</th>
+                    <th>Monto comprometido</th>
+                    <th>Fecha autorización</th>
+                </tr>
+            </thead>
+            <tbody align="center">
+                @foreach (var item in ViewBag.Licitaciones)
+                {
+                    <tr>
+                        <td>
+                            <div class="form-group" style="min-width:100px;">
+                                <a title="Eliminar registro" onclick="delete__item(@item.IdRequisicionLiquidez);" class="btn btn-secondary btn-circle @((ViewBag.IdEstatusRequisicion == 10 || ViewBag.IdEstatusRequisicion == 20||ViewBag.IdEstatusRequisicion  == 40||ViewBag.IdEstatusRequisicion == 60) ? "" : "disabledClick")"><span class="icon-garbage-2"></span></a>
+                                <a title="Editar registro" onclick="EditModal(@item.IdRequisicionLiquidez);" data-b="@item.NombreCorto" class="btn edit btn-secondary btn-circle @((ViewBag.IdEstatusRequisicion == 10 || ViewBag.IdEstatusRequisicion == 20||ViewBag.IdEstatusRequisicion  == 40||ViewBag.IdEstatusRequisicion == 60) ? "" : "disabledClick") "><span class="icon-edit"></span></a>
+                            </div>
+                        </td>
+                        <td>@item.OrigenRecurso</td>
+                        <td>@item.NumeroCuenta</td> <!--CUENTA BANCO-->
+                        <td>@item.NombreCuenta</td> <!--NOMBRE BANCO-->
+                        <td>@item.NumeroOperacion</td>
+                        <td>@String.Format("{0:C2}", item.SaldoIgob)</td>
+                        <td>@String.Format("{0:C2}", item.SaldoCuenta)</td>
+                        <td>@String.Format("{0:C2}", item.MontoComprometido)</td>
+                        <td>@item.FechaDeposito</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <input type="hidden" id="totalMontoComprometido" value="@ViewBag.totalMontoComprometido" />
+    <input type="hidden" id="IdPerfil" value="@ViewBag.Idperfil" />
+</div>
+
+
+@{
+    Html.RenderPartial("AddLiquidezModal");
+}
+
+@section scripts{
+    <script src="~/Scripts/date.format.js"></script>
+    <script src="~/Scripts/AsignacionPresupuesto.js"></script>
+    <script>
+        function back() {
+            
+            location.href = "/Requisicionconsulta/Index/"+ @ViewBag.Requision.IdTipoRequisicion;
+        }
+    </script>
+}

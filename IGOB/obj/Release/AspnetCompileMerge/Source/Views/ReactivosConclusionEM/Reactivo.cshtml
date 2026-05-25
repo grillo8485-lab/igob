@@ -1,0 +1,30 @@
+﻿@model iGob.Entidades.beReactivosConclusionEM
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form", @id = "frmReactivo" }))
+{
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+    <input type="hidden" id="IdReactivoConclusionEM" name="IdReactivoConclusionEM" value="@Model.IdReactivoConclusionEM" />
+    <div class="row form-group">
+        <div class="col-md-2 text-right">Reactivo:</div>
+        <div class="col-md-10 text-left">
+            <textarea id="Reactivo" rows="3" cols="33" class="form-control" required>@Model.Reactivo</textarea>
+        </div>
+    </div>
+
+     <div class="row form-group">
+        <div class="col-md-3 text-right">Activo:</div>
+        <div class="col-md-2 text-left input-group">
+            <div class="custom-control custom-checkbox">
+                <input type="radio" class="custom-control-input" name="Activo" value="1" id="Activo1" @(Model.Activo ? "checked" : "")>Si
+                <label class="custom-control-label" for="Activo1"></label>
+            </div>
+            <div class="custom-control custom-checkbox">
+                <input type="radio" class="custom-control-input" name="Activo" value="0" id="Activo2" @(!Model.Activo ? "checked" : "")>No
+                <label class="custom-control-label" for="Activo2"></label>
+            </div>
+        </div>
+    </div>
+
+}
+

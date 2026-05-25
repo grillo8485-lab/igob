@@ -1,0 +1,186 @@
+﻿<!-- Modal Edit - New -->
+<div class="modal fade" id="ModalDatosPersona" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title" id="formEditCreate"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div id="MensajeForm"></div>
+            @using (Html.BeginForm(null,null, FormMethod.Post, new { @Id = "formDatosPersona" }))
+             {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <div class="row col-12">
+                        <div id="datnull">
+                        </div>
+                        <input type="hidden" id="IdPersona" name="IdPersona" value="0" />
+                        <input type="hidden" id="IdUsuarioRegistro" name="IdUsuarioRegistro" value="@ViewBag.IdUsuarioRegistro" />
+                        <div class="col-md-4 col-sm-12">
+                            <label for="Apellidos"> Apellidos: </label>
+                            <input type="text" name="Apellidos" id="Apellidos" class="form-control" autocomplete="new-password" required />
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label for="Nombres"> Nombre: </label>
+                            <input type="text" name="Nombres" id="Nombres" required class="form-control" autocomplete="new-password" />
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label> Sexo: </label><br />
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" name="Sexo" id="Sexo1" value="M" class="custom-control-input">
+                                <label class="custom-control-label" for="Sexo1" style="user-select:none;text-transform:capitalize !important">Masculino</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" name="Sexo" id="Sexo2" value="F" class="custom-control-input">
+                                <label class="custom-control-label" for="Sexo2" style="user-select:none;text-transform:capitalize !important">Femenino</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label> Fecha Nacimiento: </label>
+                            <input type="text" value="" autocomplete="new-password" readonly class="form-control" id="FechaNacimiento" name="FechaNacimiento" data-date-format="yyyy-mm-dd" required />
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label for="EntFedNacimiento"> Estado de Nacimiento: </label>
+                            @if (ViewBag.EntFedNacimiento != null)
+                            {
+                                @Html.DropDownList("EntFedNacimiento", ViewBag.EntFedNacimiento as SelectList, "Seleccione un Estado de Nacimiento", new { @class = "form-control", @Required = "", @id= "EntFedNacimiento" })
+                            }
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label for="Municipio"> Municipio: </label>
+                            <select id="Municipio" class="form-control" required></select>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label for="IdColonia"> Colonia: </label>
+                            <select id="IdColonia" name="IdColonia" class="form-control" required></select>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <label for="Curp"> Curp: </label>
+                            <input type="text" id="Curp" name="Curp" class="form-control" required />
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <label for="Rfc" class="text-uppercase"> RFC: </label>
+                            <input type="text" id="Rfc" name="Rfc" required class="form-control" pattern="[a-zA-Z]{3,4}[-]{0,1}[0-9]{6}[-]{0,1}[a-zA-Z0-9]{3}" autocomplete="new-password" />
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <label for="Telefono"> Teléfono: </label>
+                            <input type="tel" id="Telefono" name="Telefono" class="form-control" required  pattern="[0-9]{3}[-]{0,1}[0-9]{3}[-]{0,1}[0-9]{2}[-]{0,1}[0-9]{2}" autocomplete="new-password" />
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <label for="Celular"> Celular: </label>
+                            <input type="text" id="Celular" name="Celular" class="form-control" required  pattern="[0-9]{3}[-]{0,1}[0-9]{3}[-]{0,1}[0-9]{2}[-]{0,1}[0-9]{2}" autocomplete="new-password" />
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label for="CorreoElectronico"> Correo electrónico: </label>
+                            <input type="email" id="CorreoElectronico" name="CorreoElectronico" class="form-control" required autocomplete="new-password" />
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label for="Calle"> Calle (Proveedor): </label>
+                            <input type="text" id="Calle" name="Calle" class="form-control" required autocomplete="new-password" />
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label for="NoExterior"> Número Exterior: </label>
+                            <input type="text" id="NoExterior" name="NoExterior" class="form-control" required autocomplete="new-password" />
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label for="NoInterior"> Número Interior: </label>
+                            <input type="text" id="NoInterior" name="NoInterior" class="form-control" value="" autocomplete="new-password" />
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label for="Localidad"> Localidad: </label>
+                            <input type="text" id="Localidad" name="Localidad" class="form-control" required autocomplete="new-password" />
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label for="CodigoPostal"> Código Postal: </label>
+                            <input type="number" id="CodigoPostal" name="CodigoPostal" class="form-control" min="1" required autocomplete="new-password" />
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label> Estado Civil: </label><br />
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" name="EstadoCivil" id="EstadoCivil1" value="C" class="custom-control-input">
+                                <label class="custom-control-label" for="EstadoCivil1" style="user-select:none;text-transform:capitalize !important">Casado</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" name="EstadoCivil" id="EstadoCivil2" value="S" class="custom-control-input">
+                                <label class="custom-control-label" for="EstadoCivil2" style="user-select:none;text-transform:capitalize !important">Soltero</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label> Nacionalidad: </label><br />
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" name="Nacionalidad" id="Nacionalidad1" value="M" class="custom-control-input">
+                                <label class="custom-control-label" for="Nacionalidad1" style="user-select:none;text-transform:capitalize !important">Mexicana</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" name="Nacionalidad" id="Nacionalidad2" value="E" class="custom-control-input">
+                                <label class="custom-control-label" for="Nacionalidad2" style="user-select:none;text-transform:capitalize !important">Extranjera</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label for="IdEstatus"> Estatus: </label>
+                            @if (ViewBag.Estatus != null)
+                            {
+                                @Html.DropDownList("IdEstatus", ViewBag.Estatus as SelectList, "Seleccione Estatus", new { @class = "form-control", @Required = "", @id= "IdEstatus" })
+                            }
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label for="IdTipoPersona"> Tipo Persona: </label>
+                            @if (ViewBag.TipoPersona != null)
+                            {
+                                @Html.DropDownList("IdTipoPersona", ViewBag.TipoPersona as SelectList, "Seleccione el Tipo de Persona", new { @class = "form-control", @Required = "" })
+                            }
+                        </div>
+                        <div class="col-md-4 col-sm-12" id="DivDependencia" style="display:none">
+                            <label for="IdDependencia"> Dependencia: </label>
+                            @if (ViewBag.Dependencia != null)
+                            {
+                                @Html.DropDownList("IdDependencia", ViewBag.Dependencia as SelectList, "Seleccione una Dependencia", new { @class = "form-control", @id= "IdDependencia" })
+                            }
+                        </div>
+                        <div class="col-md-4 col-sm-12" id="DivProveedor" style="display:none">
+                            <label for="IdProveedor"> Proveedor: </label>
+                            @if (ViewBag.Proveedor != null)
+                            {
+                                @Html.DropDownList("IdProveedor", ViewBag.Proveedor as SelectList, "Seleccione un Proveedor", new { @class = "form-control",@id= "IdProveedor" })
+                            }
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" value="" id="FechaRegistro" name="FechaRegistro" />
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Editar" id="submit" class="btn btn-secondary" />
+                </div>
+             }
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->
+<!-- Modal Delete -->
+<div class="modal fade" id="DeleteDatosPersona" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title" id="DeleteTitle">Eliminar Datos Persona</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <br />
+                    <h4 id="ConfirDelete"></h4>
+                    <h4 id="MensajeDelete"></h4>
+                    <input type="hidden" id="deleteId" />
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Eliminar" class="btn btn-secondary" id="submit_delete" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->

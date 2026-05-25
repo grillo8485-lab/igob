@@ -1,0 +1,39 @@
+﻿<div class="modal" tabindex="-1" role="dialog" id="ModalsearchUE">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">buscar unidades economicas</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row col-12" id="buscadorDivProveedor">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Buscador.." aria-label="" aria-describedby="basic-addon2" name="searchprovider" id="searchprovider">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" onclick="SearchUE()"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                    <input type="hidden" name="idenUniEcoEstMer" value="" />
+                    <table id="TableUEstMer">
+                        <thead>
+                            <tr>
+                                <td>Nombre establecimento</td>
+                                <td>Razon social</td>
+                                <td>Codigo act</td>
+                                <td>Nombre act</td>
+                                <td>Agregar</td>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyUnidadesEcSearchModal"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+

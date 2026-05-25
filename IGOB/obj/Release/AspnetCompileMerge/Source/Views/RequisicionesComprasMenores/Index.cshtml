@@ -1,0 +1,173 @@
+﻿@{
+    ViewBag.Title = "Adjudicaciones Menores";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section css{
+
+    <!-- estilo pills personalizado -->
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+
+    <style>
+        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+            color: #fff;
+            background-color: #aaa;
+        }
+        .error {
+            color: red !important;
+        }
+        .disabledbutton {
+            pointer-events: none;
+            opacity: 0.4;
+            cursor: default;
+        }
+        #TableLotes {
+            width:100% !important;
+        }
+        .sub_banner {
+            margin-top: 15px
+        }
+    </style>
+
+
+}
+
+<input type="hidden" class="form-control" readonly id="IdCompramenor_" value="@ViewBag.IdCompramenor">
+<div class="">
+    <input type="hidden" name="IdEstatusCM" value="0" id="IdEstatusCM" />
+    <input type="hidden" id="Formulario" />
+    <div class="pos-f-t">
+        <div class="mainMenuBarAnchor"></div>
+        <nav class="navbar bg-secondary text-white navbar-light bg-light changeColorModal mainMenuBar">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="col-sm-4 "><h4>COMPRAS MENORES</h4></div>
+            <div class="col-sm-6" style="text-align: right;">
+                <button class="btn btn-secondary disabledbutton" type="button" data-toggle="modal" data-target="#modal_terminar_compra_menor" id="btn_terminar">Terminar</button>
+                <button class="btn btn-secondary " id="btnSave" type="button" onclick="validarFormulario();">GUARDAR</button>
+                <button class="btn btn-secondary" onclick="returnToIndex()" type="button">REGRESAR</button>
+            </div>
+        </nav>
+        <div class="collapse changeColorModal collapse show" id="navbarToggleExternalContent">
+            <div class="bg-light p-1">
+                <ul class="nav nav-pills" role="tablist">
+                    <li class="nav-item ">
+                        <a class="nav-link active " data-toggle="pill" href="#DatosGenerales" id="DatosGeneralesTabPadre">DATOS GENERALES</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabledbutton" data-toggle="pill" href="#div_lotes" id="div_lotesTabPadre">LOTES</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabledbutton" data-toggle="pill" href="#div_condiciones_entrega_pago" id="div_condiciones_entrega_pagoTabPadre">CONDICIONES DE ENTREGA</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="ResultadoBuscar"></div>
+    <div class="tab-content">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+
+        @{
+            <!-- Datos Generales -->
+            Html.RenderPartial("DatosGenerales");
+            <!-- LOTES -->
+            Html.RenderPartial("Lotes");
+            <!-- CONDICIONES DE ENTREGA  Y PAGO-->
+            Html.RenderPartial("CondicionesEntregaPago");
+        }
+        <div id="div_firmantes" class="container-fluid tab-pane fade">
+            <br>
+            <h3>FIRMANTES</h3>
+        </div>
+    </div>
+</div>
+
+<!-- Modal terminar compra menor -->
+<div class="modal fade" id="modal_terminar_compra_menor">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">FINALIZAR COMPRA MENOR</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container">
+                    <label>¿Desea terminar la captura de datos de la compra menor? <br /> Una vez que termine no se podrán realizar más cambios.</label>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="TerminarReqCM();">Terminar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- fin de modal terminar compra menor -->
+<!-- Modal loading -->
+<div class="modal fade" id="modal_loading">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header" style="text-align:center;">
+                <h4 class="modal-title">Generando Documento</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container">
+                    <img class="mx-auto d-block" src="~/Img/loading.gif">
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <!--<div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+            </div>-->
+
+        </div>
+    </div>
+</div>
+
+
+<!-- fin de modal eliminar lote -->
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            // Cache selectors for faster performance.
+            var $window = $(window),
+                $mainMenuBar = $('.mainMenuBar'),
+                $mainMenuBarAnchor = $('.mainMenuBarAnchor');
+
+            // Run this on scroll events.
+            $window.scroll(function () {
+                var window_top = $window.scrollTop();
+                var div_top = $mainMenuBarAnchor.offset().top;
+                var diff = (Math.abs((window_top - 9) - (div_top)));
+
+                if (diff < 9) {
+                    return false;
+                } else if (window_top > div_top) {
+                    // Make the div sticky.
+                    $mainMenuBar.addClass('stick');
+                    $mainMenuBarAnchor.height($mainMenuBar.height());
+                }
+                else {
+                    // Unstick the div.
+                    $mainMenuBar.removeClass('stick');
+                    $mainMenuBarAnchor.height(0);
+                }
+            });
+        });
+    </script>
+    <script src="~/Scripts/Catalogos/RequisicionesComprasMenores.js"></script>
+}

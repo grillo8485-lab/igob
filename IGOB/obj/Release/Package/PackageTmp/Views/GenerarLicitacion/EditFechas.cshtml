@@ -1,0 +1,206 @@
+﻿@model IGOB.Models.GenerarLicitacion
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form", @id = "GenerarLiquidacionForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="text-white sub_banner changeColorModal" id="encabezado">
+        <div class="row">
+            <div class="col-12 text-right">
+                @*<button type="button" class="btn btn-default btn-sm" id="btnDescargarCedula" @(Model.oLicitacion.IdEstatusLicitacion == 10 ? "disabled" : "")>DESCARGAR CÉDULA DE PROGRAMACIÓN</button>*@
+                <a href="@Url.Action("CedulaProgramacion", "GenerarLicitacion", new { @pIdLic = Model.oLicitacion.IdLicitacion })" type="button" class="btn btn-default btn-sm @(Model.oLicitacion.IdEstatusLicitacion == 10 ? "disabledClick" : "")" role="button" target="_blank" >DESCARGAR CÉDULA DE PROGRAMACIÓN</a>
+                <button type="button" class="btn btn-default btn-sm" id="btnGenerarConvocatoria" @(Model.oLicitacion.IdEstatusLicitacion == 10 ? "disabled" : "") onclick="ImprimirConvocatoria()">GENERAR CONVOCATORIA</button>
+                <button type="button" class="btn btn-default btn-sm" id="btnGenerarBases" @(Model.oLicitacion.IdEstatusLicitacion == 10 ? "disabled" : "") onclick="ImprimirBases()">GENERAR BASES</button>
+                <button type="button" class="btn btn-default btn-sm" id="btnPublicar" @(Model.oLicitacion.IdEstatusLicitacion == 10 ? "" : "disabled") onclick="publicar()">PUBLICAR</button>
+                <button type="button" class="btn btn-default btn-sm" id="btnActualizarFechas" @(Model.oLicitacion.IdEstatusLicitacion == 10 ? "" : "disabled") onclick="actualizarFecha()">ACTUALIZAR FECHAS</button>
+                <button type="button" class="btn btn-default btn-sm" onclick="regresar()">REGRESAR</button>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div id="ResultadoBuscar"></div>
+        <input type="hidden" readonly id="IdLicitacion" name="IdLicitacion" value="@Model.oLicitacion.IdLicitacion" class="form-control " />
+        <input type="hidden" readonly id="IdRequisisicones" name="IdRequisisicones" value="@Model.IdRequisisicones" class="form-control " />
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Modalidad</label>
+                    <input type="text" readonly id="Modalidad" name="Modalidad" value="@Model.oLicitacion.Modalidad" class="form-control " />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Número licitación por modalidad</label>
+                    <input type="text" readonly id="NumeroLicitacion" name="NumeroLicitacion" value="@(Model.oLicitacion.NumeroLicitacion==1?"Primer licitación":"Segunda licitación")" class="form-control " />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Ejercicio</label>
+                    @Html.DropDownList("IdEjercicioFiscal", @Model.lstEjerccioFiscal, "Seleccione Unidad ", new { @class = "form-control disabledClick", @Required = "", @id = "IdEjercicioFiscal" })
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Tiempo</label>
+                    @Html.DropDownList("IdTiempo", Model.lstTiempos as SelectList, "Seleccione Unidad ", new { @class = "form-control disabledClick", @Required = "", @id = "IdTiempo" })
+
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Número oficial de requisición</label>
+
+                    <input type="text" readonly id="FolioOficial" name="number" value="@Model.oLicitacion.FolioOficial" class="form-control " />
+
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Fecha de autorización de liquidación</label>
+                    <div class='input-group date'>
+                        <input type='text' class="form-control ssss" value="@String.Format("{0:MM/dd/yyyy}", Model.oLicitacion.FechaAutorizacion)" name="FechaAutorizacion" id="FechaAutorizacion" autocomplete="off" readonly />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-time"></span>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Publicación de convocatoria</label>
+                    <input type="text" readonly id="FechaPublicacion" name="FechaPublicacion" value="@String.Format("{0:MM/dd/yyyy hh:mm:ss}",Model.oLicitacion.FechaPublicacion)" class="form-control " />
+
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Límite de disposición de bases</label>
+
+                    <input type="text" readonly id="FechaDisposicionBases" name="FechaDisposicionBases" value="@String.Format("{0:MM/dd/yyyy hh:mm:ss}",Model.oLicitacion.FechaDisposicionBases)" class="form-control " />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Límite de envío de preguntas de proveedores</label>
+
+                    <input type="text" readonly id="FechaLimitePreguntas" name="FechaLimitePreguntas" value="@String.Format("{0:MM/dd/yyyy hh:mm:ss}",Model.oLicitacion.FechaLimitePreguntas)" class="form-control " />
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Límite envío de respuesta de la dependencia o entidad</label>
+
+                    <input type="text" readonly id="FechaLimiteRespuestas" name="FechaLimiteRespuestas" value="@String.Format("{0:MM/dd/yyyy hh:mm:ss}",Model.oLicitacion.FechaLimiteRespuestas)" class="form-control " />
+
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Junta de aclaración de dudas</label>
+
+                    <input type="text" readonly id="FechaHoraAclaracionDudas" name="FechaHoraAclaracionDudas" value="@String.Format("{0:MM/dd/yyyy hh:mm:ss}",Model.oLicitacion.FechaHoraAclaracionDudas)" class="form-control " />
+
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Fecha hora aclaración de dudas</label>
+                    <div class='input-group date'>
+                        <input type='text' class="form-control datetimepickerHoraAclaracionDuda" value="@String.Format("{0:MM/dd/yyyy hh:mm:ss}",Model.oLicitacion.FechaHoraAclaracionDudas)" name="HoraAutorizacion" id="HoraAutorizacion" autocomplete="off" readonly />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-time"></span>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Límite envío de propuesta técnica y económica</label>
+
+                    <input type="text" readonly id="FechaEnvioPropuestasTecEco" name="FechaEnvioPropuestasTecEco" value="@String.Format("{0:MM/dd/yyyy hh:mm:ss}",Model.oLicitacion.FechaEnvioPropuestasTecEco)" class="form-control " />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Entrega de dictamen</label>
+
+                    <input type="text" readonly id="FechaLimiteDictamen" name="FechaLimiteDictamen" value="@String.Format("{0:MM/dd/yyyy hh:mm:ss}",Model.oLicitacion.FechaLimiteDictamen)" class="form-control " />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Fallo</label>
+
+                    <input type="text" readonly id="FechaFallo" name="FechaFallo" value="@String.Format("{0:MM/dd/yyyy hh:mm:ss}",Model.oLicitacion.FechaFallo)" class="form-control " />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+
+                <div class="form-group">
+                    <label>Fecha hora de Fallo</label>
+                    <div class='input-group date' id=''>
+
+                        <input type='text' class="form-control datetimepickerHoraFallo" name="HoraFallo" id="HoraFallo" autocomplete="off" readonly required value="@String.Format("{0:MM/dd/yyyy HH\\:mm\\:ss}", Model.oLicitacion.FechaFallo)" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-time"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Número de unidad licitadora</label>
+                    @Html.DropDownList("IdUnidadLicitadora", Model.lstNumeroUnidadLicitatotia, "Seleccione Unidad", new { @class = "form-control", @Required = "", @id = "IdUnidadLicitadora" })
+
+                </div>
+            </div>
+            <div class="col-sm-4">
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal loading -->
+    <div class="modal fade" id="modal_loading">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title" style="text-align:center;">Generando Documento</h4>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="container" style="text-align:center;">
+                        <img style="width:100%;" src="~/Img/loading.gif">
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <!--<div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                </div>-->
+
+            </div>
+        </div>
+    </div>
+}

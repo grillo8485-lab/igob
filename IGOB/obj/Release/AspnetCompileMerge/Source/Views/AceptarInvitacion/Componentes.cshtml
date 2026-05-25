@@ -1,0 +1,163 @@
+﻿@model IGOB.Models.AceptarInvitacion
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form", @id = "GenerarLiquidacionForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="modal-header changeColorModal">
+
+        <div class="col-12 text-right">
+            <button type="button" class="btn btn-default btn-sm" id="btnDescargarConvotoria" onclick="ImprimirConvocatoria();">DESCARGAR CONVOCATORIA</button>
+            <button type="button" class="btn btn-default btn-sm" id="btnDescargarBases" onclick="ImprimirBases();">DESCARGAR BASES</button>
+            <button type="button" class="btn btn-default btn-sm" id="btnGuardar" @(Model.oAceptarInvitacion.IdEstatusPago == 1 ? "" : "disabled") onclick="saveAceptacionInvitacion()">GUARDAR</button>
+            <button type="button" class="btn btn-default btn-sm" onclick="location.href='@Url.Action("Index", "LicitacionesListadoInvitaciones")'">
+                <span class="glyphicon glyphicon-step-backward"></span> Regresar
+            </button>
+        </div>
+
+    </div>
+    <div id="ResultadoBuscar"></div>
+    <div class="container col-12">
+        <input type="hidden" readonly id="IdLicitacion" name="IdLicitacion" value="@Model.oAceptarInvitacion.IdLicitacion" class="form-control " />
+        <input type="hidden" readonly id="IdInvitacion" name="IdInvitacion" value="@Model.oAceptarInvitacion.IdInvitacion" class="form-control " />
+        <div class="row">
+            <div class="col-sm-4">
+                <label>Aceptar invitación</label>
+                <br />
+                <label class="radio-inline">
+                    <input type="radio" id="Si" value="1" name="aceptar" @(Model.oAceptarInvitacion.Aceptacion ? "checked" : "" )>Si
+                </label>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Licitación</label>
+                    <input type="text" readonly id="FolioOficial" name="FolioOficial" value="@Model.oAceptarInvitacion.FolioOficial" class="form-control " />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Partida</label>
+
+                    <textarea class="form-control" aria-label="With textarea" id="Partidas" name="Partidas" readonly style="resize:none" rows="3">"@Model.oAceptarInvitacion.Partidas</textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Dependencia</label>
+                    <textarea class="form-control" aria-label="With textarea" id="Dependencias" name="Dependencias" readonly style="resize:none" rows="3">"@Model.oAceptarInvitacion.Dependencias</textarea>
+
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Ejercicio</label>
+                    <input type="text" readonly id="Ejercicio" name="Ejercicio" value="@Model.oAceptarInvitacion.Ejercicio" class="form-control " />
+
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Tiempo</label>
+                    <input type="text" readonly id="Tiempo" name="Tiempo" value="@Model.oAceptarInvitacion.Tiempo" class="form-control " />
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Publicación de convocatoria</label>
+                    <input type="text" readonly id="FechaPublicacion" name="FechaPublicacion" value="@String.Format("{0:dd/MM/yyyy hh:mm:ss}",Model.oAceptarInvitacion.FechaPublicacion)" class="form-control " />
+
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Disposición de bases</label>
+
+                    <input type="text" readonly id="FechaDisposicionBases" name="FechaDisposicionBases" value="@String.Format("{0:dd/MM/yyyy hh:mm:ss}",Model.oAceptarInvitacion.FechaDisposicionBases)" class="form-control " />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Fecha y hora límite de envío de preguntas por parte de los proveedores</label>
+                    <input type="text" readonly id="FechaLimitePreguntas" name="FechaLimitePreguntas" value="@String.Format("{0:dd/MM/yyyy hh:mm:ss}",Model.oAceptarInvitacion.FechaLimitePreguntas)" class="form-control " />
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Junta de aclaración de dudas</label>
+
+                    <input type="text" readonly id="FechaHoraAclaracionDudas" name="FechaHoraAclaracionDudas" value="@String.Format("{0:dd/MM/yyyy hh:mm:ss}",Model.oAceptarInvitacion.FechaHoraAclaracionDudas)" class="form-control " />
+
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Fecha y hora límite de envío de propuesta técnica y económica</label>
+                    <input type="text" readonly id="FechaEnvioPropuestasTecEco" name="FechaEnvioPropuestasTecEco" value="@String.Format("{0:dd/MM/yyyy hh:mm:ss}",Model.oAceptarInvitacion.FechaEnvioPropuestasTecEco)" class="form-control " />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Fallo</label>
+
+                    <input type="text" readonly id="FechaFallo" name="FechaFallo" value="@String.Format("{0:dd/MM/yyyy hh:mm:ss}",Model.oAceptarInvitacion.FechaFallo)" class="form-control " />
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Número de unidad licitadora</label>
+                    @Html.DropDownList("IdUnidadLicitadora", Model.lstNumeroUnidadLicitatotia, "Seleccione Unidad", new { @class = "form-control disabledClick", @Required = "", @id = "IdUnidadLicitadora", @readonly = true })
+
+                </div>
+            </div>
+            <div class="col-sm-4">
+
+            </div>
+            <div class="col-sm-4">
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal loading -->
+    <div class="modal fade" id="modal_loading">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header" style="text-align:center;">
+                    <h4 class="modal-title">Generando Documento</h4>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="container" style="text-align:center;">
+                        <img style="width:100%;" src="~/Img/loading.gif">
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <!--<div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                </div>-->
+
+            </div>
+        </div>
+    </div>
+}
+

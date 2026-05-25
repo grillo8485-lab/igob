@@ -1,0 +1,70 @@
+﻿@model IEnumerable<iGob.Entidades.beCondicionesPagosEntrega>
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+<br />
+<input type="button" id="create-item" class="btn btn-secondary" value="Nueva Condición de Pago" />
+<br /><br />
+<table class="table-bordered hover" id="tableCondicionPago">
+    <thead align="justify">
+        <tr>
+            <th style="min-width:100px;width:110px"> Acciones </th>
+            <th> Condición </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td align="center" valign="middle">
+                    <div class="form-group" style="min-width:100px;width:110px">
+                        <a title="Eliminar registro" class="btn btn-secondary btn-circle delet-item btn-sm" data-idCond="@item.IdCondicion" data-cond="@item.Condicion" data-idTipoCond="@item.IdTipoCondicion"><span class="icon-garbage-2"></span></a>
+                        <a title="Editar registro" data-idCond="@item.IdCondicion" data-idTipoCond="@item.IdTipoCondicion" data-cond="@item.Condicion" data-activ="@item.Activo" class="btn btn-secondary btn-circle edit-item btn-sm"><span class="icon-edit"></span></a>
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Condicion)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="modalCondicionesPago" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title" id="formEditCreate"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div align="center"><strong id="MensajeForm"></strong></div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, htmlAttributes: new { @class = "FormCondiciones" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <div class="row container-fluid">
+                        <input type="hidden" id="IdCondicion" name="IdCondicion" value="0" />
+                        <input type="hidden" id="IdTipoCondicion" name="IdTipoCondicion" value="1" />
+                        <input type="hidden" id="Activo" name="Activo" value="True" />
+                        <div class="col-3"><label> Condicion Pago: </label></div>
+                        <div class="col-9">
+                            <input type="text" id="Condicion" name="Condicion" class="form-control" required/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <input type="submit" value="Guardar" id="submit" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/Catalogos/AccionesCondicionesPago.js"></script>
+}

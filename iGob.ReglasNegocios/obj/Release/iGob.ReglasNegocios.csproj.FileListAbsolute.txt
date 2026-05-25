@@ -1,0 +1,22 @@
+D:\Proyectos Web\Proyecto i Gob 2\iGob.ReglasNegocios\bin\Release\iGob.ReglasNegocios.dll
+D:\Proyectos Web\Proyecto i Gob 2\iGob.ReglasNegocios\bin\Release\iGob.ReglasNegocios.pdb
+D:\Proyectos Web\Proyecto i Gob 2\iGob.ReglasNegocios\bin\Release\iGob.AccesoDatos.dll
+D:\Proyectos Web\Proyecto i Gob 2\iGob.ReglasNegocios\bin\Release\iGob.Entidades.dll
+D:\Proyectos Web\Proyecto i Gob 2\iGob.ReglasNegocios\bin\Release\iGob.AccesoDatos.pdb
+D:\Proyectos Web\Proyecto i Gob 2\iGob.ReglasNegocios\bin\Release\iGob.Entidades.pdb
+D:\Proyectos Web\Proyecto i Gob 2\iGob.ReglasNegocios\obj\Release\iGob.ReglasNegocios.csprojAssemblyReference.cache
+D:\Proyectos Web\Proyecto i Gob 2\iGob.ReglasNegocios\obj\Release\iGob.ReglasNegocios.csproj.CoreCompileInputs.cache
+D:\Proyectos Web\Proyecto i Gob 2\iGob.ReglasNegocios\obj\Release\iGob.ReglasNegocios.csproj.CopyComplete
+D:\Proyectos Web\Proyecto i Gob 2\iGob.ReglasNegocios\obj\Release\iGob.ReglasNegocios.dll
+D:\Proyectos Web\Proyecto i Gob 2\iGob.ReglasNegocios\obj\Release\iGob.ReglasNegocios.pdb
+D:\SEDENA\iGob.ReglasNegocios\bin\Release\iGob.ReglasNegocios.dll
+D:\SEDENA\iGob.ReglasNegocios\bin\Release\iGob.ReglasNegocios.pdb
+D:\SEDENA\iGob.ReglasNegocios\bin\Release\iGob.AccesoDatos.dll
+D:\SEDENA\iGob.ReglasNegocios\bin\Release\iGob.Entidades.dll
+D:\SEDENA\iGob.ReglasNegocios\bin\Release\iGob.AccesoDatos.pdb
+D:\SEDENA\iGob.ReglasNegocios\bin\Release\iGob.Entidades.pdb
+D:\SEDENA\iGob.ReglasNegocios\obj\Release\iGob.ReglasNegocios.csprojAssemblyReference.cache
+D:\SEDENA\iGob.ReglasNegocios\obj\Release\iGob.ReglasNegocios.csproj.CoreCompileInputs.cache
+D:\SEDENA\iGob.ReglasNegocios\obj\Release\iGob.ReglasNegocios.csproj.CopyComplete
+D:\SEDENA\iGob.ReglasNegocios\obj\Release\iGob.ReglasNegocios.dll
+D:\SEDENA\iGob.ReglasNegocios\obj\Release\iGob.ReglasNegocios.pdb

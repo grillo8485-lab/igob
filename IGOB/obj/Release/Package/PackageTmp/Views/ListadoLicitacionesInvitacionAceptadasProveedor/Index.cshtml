@@ -1,0 +1,167 @@
+﻿@model IGOB.Models.ListadoLicitacionesInvitacionAceptadasProveedor
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .dataTables_scrollBody {
+        position: unset !important;
+        z-index: 1 !important;
+    }
+
+    .dataTables_wrapper {
+        z-index: 2 !important;
+        position: unset !important;
+    }
+    hr {
+        margin-top: 0rem !important;
+        margin-bottom: 0rem !important;
+    }
+</style>
+<script></script>
+@using (Html.BeginForm("licitacionRequision", "", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+    <table class="table" id="LicitacionesListadoAceptadasProveedores" width="100%">
+        <thead>
+            <tr>
+                <th align="justify"> Menú </th>
+                <th align="justify"> # </th>
+                @switch (Model.IdPerfil)
+                {
+                    case 8:
+                    case 7:
+                    case 3:
+                    case 4:
+                    case 5:
+                        <th align="justify"> Estatus </th>
+                        break;
+                }
+                <th align="justify"> Licitación </th>
+                <th align="justify"> Número licitación <br />por modalidad </th>
+                <th align="justify"> Ejercicios </th>
+                <th align="justify"> Tiempos </th>
+                <th align="justify"> Autorización <br />de licitación </th>
+                <th align="justify"> Publicación de <br />la convocatoria </th>
+                <th align="justify"> Disposición de bases </th>
+                <th align="justify"> Límite de envío <br />de preguntas por parte <br />del proveedor </th>
+                <th align="justify"> Junta de aclaración de dudas </th>
+                <th align="justify"> Límite de envío de respuesta <br />de manera oficial por parte <br />de la dependencia o entidad </th>
+                <th align="justify"> Fallo </th>
+                <th align="justify"> Número de unidad <br />licitadora </th>
+            </tr>
+        </thead>
+        <tbody height="450px">
+            @foreach (var item in Model.lstInvitacionesAcptadasProveedor)
+            {
+                <tr>
+                    <td align="center">
+                        <div class="button-group">
+                            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" style="color:black !important;"><span class="glyphicon glyphicon-tasks"></span> <span class="caret"></span></button>
+                            <ul class="dropdown-menu" style="color:black !important;">
+                                @switch (Model.IdPerfil)
+                                {
+                                    case 8:
+                                        <li><a href="@Url.Action("ImprimirConvocatoria", "ListadoLicitacionesInvitacionAceptadasProveedor", new { @pIdLic = item.IdLicitacion })" target="_blank" class="small" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-download-alt" style="color:black !important"></span>Descargar convocatoria</a></li>
+                                        <li><a href="@Url.Action("ImprimirBases", "ListadoLicitacionesInvitacionAceptadasProveedor", new { @pIdLic = item.IdLicitacion })" target="_blank" class="small" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-download-alt" style="color:black !important"></span>Descargar bases</a></li>
+
+                                        <li><a href="@Url.Action("Index", "EnviarPagosProveedor", new { @IdInvitacion = item.IdInvitacion })" class="small @(!item.IsNUllFechaJuntaAclaracionDudas ? "disabledClick" : "")" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-usd " style="color:black !important"></span>Envío Pagos</a><hr /></li>
+
+                                        <li><a href="@Url.Action("preguntas", "ListadoLicitacionesInvitacionAceptadasProveedor", new { @id = item.IdInvitacion })" class="small @(item.IdEstatusPago<4 ? "disabledClick" : "")" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-user" style="color:black !important"></span>Junta de aclaración de dudas (preguntas)</a><hr /></li>
+
+                                        <li><a href="@Url.Action("Index", "LicitacionesAclaracionDudas", new { pIdLic = item.IdLicitacion})" class="small @(item.IdEstatusLicitacion < 30?"disabledClick":"")" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-download-alt" style="color:black !important"></span>Descargar acta de junta de aclaración de dudas</a><hr /></li>
+
+                                        <li><a href="@Url.Action("licitacionRequisionTecnica", "ListadoLicitacionesInvitacionAceptadasProveedor", new { Id = item.IdInvitacion })" class="small @(item.IdEstatusLicitacion < 30?"disabledClick":"")" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-th" style="color:black !important"></span>Propuesta técnica</a></li>
+
+                                        <li><a href="@Url.Action("licitacionRequisionEconomica", "ListadoLicitacionesInvitacionAceptadasProveedor", new { Id = item.IdInvitacion })" class="small @(item.IdEstatusLicitacion < 30 || item.IdEstatusEnvioPropuestaTecnica < 2? "disabledClick":"")" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-th" style="color:black !important"></span>Propuesta económica</a><hr /></li>
+
+                                        <li><a href="@Url.Action("DescargarActaPropuestaTecnicaEconomica", "ListadoLicitacionesInvitacionAceptadasProveedor", new { @pIdLic = item.IdLicitacion })" target="_blank"  class="small  @(item.IdEstatusLicitacion < 40?"disabledClick":"")" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-download-alt" style="color:black !important"></span>Descargar acta de propuesta técnica y económica</a></li>
+                                        <li><a href="@Url.Action("Index", "LicitacionesDictamen", new { pIdLic = item.IdLicitacion })" class="small @(item.IdEstatusLicitacion < 50?"disabledClick":"")" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-download-alt" style="color:black !important"></span>Descargar dictamen</a><hr /></li>
+
+                                        <li><a href="@Url.Action("ActaFallo", "ListadoLicitacionesInvitacionAceptadasProveedor", new { pIdLic = item.IdLicitacion })" target="_blank" class="small @(item.IdEstatusLicitacion < 70?"disabledClick":"")" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-download-alt" style="color:black !important"></span>Descargar referencia para acta de fallo</a><hr /></li>
+                                        <li>
+                                            <a href="@Url.Action("liberarPedidoRequisicion", "ListadoLicitacionesInvitacionAceptadasProveedor", new { IdLicitacion = item.IdLicitacion })" class="small  @(item.IdEstatusLicitacion < 100?"disabledClick":"")" style="color:black !important"><span class="glyphicon glyphicon-th" style="color:black !important"></span>Liberar pedido</a><hr />
+                                        </li>
+                                        break;
+                                    case 7:
+                                        <li>
+                                            <a href="@Url.Action("Index", "LicitacionesRequisicionesRevicion", new { pIdLicitacion = item.IdLicitacion, idTipoProveso = 0 })" class="small" style="color:black !important" tabIndex="-1">
+                                                <span class="glyphicon glyphicon-download-alt" style="color:black !important"></span>Validar pagos bases
+                                            </a> <hr />
+                                        </li>
+                                        <li><a href="@Url.Action("licitacionRequisionRespuestas", "ListadoLicitacionesInvitacionAceptadasProveedor", new { IdLicitacion = item.IdLicitacion, IdProceso = 1 })" class="small" style="color:black !important" tabIndex="-1"><span class="fa fa-reply" style="color:black !important"></span>Junta aclaración de dudas(Respuestas)</a><hr /></li>
+                                        <li><a href="@Url.Action("Index", "LicitacionesAclaracionDudas", new { pIdLic = item.IdLicitacion})" class="small" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-download-alt" style="color:black !important"></span>Generar y publicar acta de aclaración de dudas</a><hr /></li>
+                                        <li><a href="@Url.Action("licitacionRequisionTecnicaRevisor", "ListadoLicitacionesInvitacionAceptadasProveedor", new { Id = item.IdLicitacion })" class="small" style="color:black !important" tabIndex="-1"><span class="fa fa-check" style="color:black !important"></span>Recibir propuesta técnica</a></li>
+                                        <li><a href="@Url.Action("licitacionRequisionEconomicaRevisor", "ListadoLicitacionesInvitacionAceptadasProveedor", new { Id = item.IdLicitacion })" class="small" style="color:black !important" tabIndex="-1"><span class="fa fa-check" style="color:black !important"></span>Recibir propuesta económica</a><hr /></li>
+                                        <li><a href="@Url.Action("Index", "LicitacionesActaPropuestas", new { pIdLic = item.IdLicitacion })" class="small" style="color:black !important" tabIndex="-1"><span class="fa fa-external-link" style="color:black !important"></span>Generar y publicar apertura de propuesta técnica y económica</a><hr /></li>
+                                        <li><a href="@Url.Action("licitacionRequisionDictamenPropuestaTecnicaRevisor", "ListadoLicitacionesInvitacionAceptadasProveedor", new { Id = item.IdLicitacion })" class="small  @(item.IdEstatusLicitacion < 40 ? "disabledClick" : "")" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-th" style="color:black !important"></span> Validar dictamen propuesta técnica</a><hr /></li>
+                                        <li><a href="@Url.Action("Index", "LicitacionesDictamen", new { pIdLic = item.IdLicitacion })" class="small  @(item.IdEstatusLicitacion < 40 ? "disabledClick" : "")" style="color:black !important" tabIndex="-1"><span class="fa fa-cogs" style="color:black !important"></span>Generar y publicar dictamen</a><hr /></li>
+                                        <li>
+                                            <a href="@Url.Action("Index", "LicitacionesActaAdjudicacion", new { pIdLic = item.IdLicitacion })" class="small @(item.IdEstatusLicitacion < 50 ? "disabledClick" : "")" style="color:black !important" tabIndex="-1"><span class="fa fa-cogs" style="color:black !important"></span>Generar adjudicación a proveedores</a><hr />
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Index", "LicitacionesActaFallo", new { pIdLic = item.IdLicitacion })" class="small @(item.IdEstatusLicitacion < 60 ? "disabledClick" : "")" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-th" style="color:black !important"></span>Generar y publicar referencia para acta de fallo</a><hr />
+                                        </li>
+                                        <li>
+                                            <a href="#" onclick="generarPedidoConfirm(@item.IdLicitacion,'@item.Licitacion')" class="small @(item.IdEstatusLicitacion == 70 ? "" : "disabledClick")" style="color:black !important" tabIndex="-1"><span class="fa fa-cogs" style="color:black !important"></span>Generar pedido</a><hr />
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("liberarPedidoRequisicion", "ListadoLicitacionesInvitacionAceptadasProveedor", new { IdLicitacion = item.IdLicitacion })" class="small @(item.IdEstatusLicitacion < 100 ? "disabledClick" : "")" style="color:black !important"><span class="glyphicon glyphicon-th" style="color:black !important"></span>Liberar pedido</a><hr />
+                                        </li>
+                                        break;
+                                    case 3:
+                                        <li><a href="@Url.Action("setRepuestas", "ListadoLicitacionesInvitacionAceptadasProveedor", new { @id = item.IdLicitacion })" class="small @(item.PagoRecepcionado==0 ? "disabledClick" : "")" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-download-alt" style="color:black !important"></span>Junta aclaración de dudas(Respuestas)</a></li>
+                                        <li><a href="@Url.Action("licitacionRequisionDictamenPropuestaTecnica", "ListadoLicitacionesInvitacionAceptadasProveedor", new { Id = item.IdLicitacion })" class="small @(item.IdEstatusLicitacion<30 ? "disabledClick" : "")" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-th" style="color:black !important"></span>Dictamen propuesta técnica</a><hr /></li>
+                                        <li><a href="@Url.Action("ImprimirDictamen", "ListadoLicitacionesInvitacionAceptadasProveedor", new { pIdLic = item.IdLicitacion })" target="_blank" class="small @(item.IdEstatusLicitacion<50 ? "disabledClick" : "")" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-th" style="color:black !important"></span>Descarga dictamen</a><hr /></li>
+                                        <li>
+                                            <a href="@Url.Action("liberarPedidoRequisicion", "ListadoLicitacionesInvitacionAceptadasProveedor", new { IdLicitacion = item.IdLicitacion })" class="small @(item.IdEstatusLicitacion<100 ? "disabledClick" : "")" style="color:black !important"><span class="glyphicon glyphicon-th" style="color:black !important"></span>Liberar pedido</a><hr />
+                                        </li>
+                                        break;
+                                    case 4:
+                                    case 5:
+                                        <li>
+                                            <a href="@Url.Action("liberarPedidoRequisicion", "ListadoLicitacionesInvitacionAceptadasProveedor", new { IdLicitacion = item.IdLicitacion })" class="small @(item.IdEstatusLicitacion<100 ? "disabledClick" : "")" style="color:black !important"><span class="glyphicon glyphicon-th" style="color:black !important"></span>Liberar pedido</a><hr />
+                                        </li>
+                                        break;
+                                }
+
+
+                            </ul>
+                        </div>
+                    </td>
+                    @switch (Model.IdPerfil)
+                    {
+                        case 7:
+                        case 3:
+                        case 4:
+                        case 5:
+                            <td>@item.IdLicitacion</td>
+                            <td>@item.Estatus</td>
+                            break;
+                        case 8:
+                            <td>@item.IdInvitacion</td>
+                            <td>@item.EstatusLicitacion</td>
+                            break;
+                    }
+
+                    <td>@item.Licitacion</td>
+                    <td>@item.FolioNumero</td>
+                    <td>@item.Ejercicio</td>
+                    <td>@item.Tiempo</td>
+                    <td>@String.Format("{0:dd/MM/yyyy HH:mm:ss}", item.FechaAutorizacion)</td>
+                    <td>@String.Format("{0:dd/MM/yyyy HH:mm:ss}", item.FechaPublicacion)</td>
+                    <td>@String.Format("{0:dd/MM/yyyy HH:mm:ss}", item.FechaDisposicionBases)</td>
+                    <td>@String.Format("{0:dd/MM/yyyy HH:mm:ss}", item.FechaLimitePreguntas)</td>
+                    <td>@String.Format("{0:dd/MM/yyyy HH:mm:ss}", item.FechaHoraAclaracionDudas)</td>
+                    <td>@String.Format("{0:dd/MM/yyyy HH:mm:ss}", item.FechaLimiteRespuestas)</td>
+                    <td>@String.Format("{0:dd/MM/yyyy HH:mm:ss}", item.FechaFallo)</td>
+                    <td>No aplica</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@section scripts{
+    <script src="~/Scripts/Catalogos/ListadoLicitacionesAceptadasProveedor.js"></script>
+}

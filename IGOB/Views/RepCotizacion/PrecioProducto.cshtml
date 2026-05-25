@@ -1,0 +1,23 @@
+﻿@{ iGob.Entidades.beRptAppEjecutivosLicitaciones obeRep = ViewBag.obeRep;}
+
+<span style="text-align:center;font-weight:bold;">
+    Cotización<br />
+    @obeRep.BienServicio
+</span>
+
+<div id="tabla_datos_Pre" style="width:100%;overflow:auto;">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Precio unitario</th>
+                <th>Presupuesto mejor licitado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@obeRep.PrecioUnitario.ToString("C2")</td>
+                <td>@obeRep.PrecioUnitarioMejorLicitado.ToString("C2")</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

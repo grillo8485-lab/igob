@@ -1,0 +1,319 @@
+﻿@model IGOB.Models.Adjudicacion
+<!-- CONDICIONES DE PAGO -->
+<div id="div_condiciones_pago" class="container-fluid tab-pane fade @(Model.oAdjudicaciones.IdEstatusAdjudicacion != 50 || Model.oAdjudicaciones.IdEstatusAdjudicacion == 70 ? "disabledClick":"")">
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>VALIDAR CONDICIONES DE PAGO</strong>
+        </div>
+    </div>
+    <br />
+    <div id="cargarLoadCondicionesDePgo">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form", @id = "div_condiciones_pagoForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary()
+            <input type="hidden" id="IdAdjudicacionCondicionPago" value="@Model.condicionPago.IdAdjudicacionCondicionPago" />
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Cantidad</label>
+                        <input type="number" required id="PlazoPagoCantidad" name="PlazoPagoCantidad" class="form-control textDerecha" value="@(Model.condicionPago.PlazoPagoCantidad!=0?Model.condicionPago.PlazoPagoCantidad:1)" min="1"><br>
+
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Unidad</label>
+                        @if (ViewBag.lstPlazoTiempoPago != null)
+                        {
+                            @Html.DropDownList("IdPlazoTiempoPago", ViewBag.lstPlazoTiempoPago as SelectList, "Seleccione", new { @class = "form-control ", @Required = "", @id = "IdPlazoTiempoPago" })
+                        }
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Día</label>
+                        @if (ViewBag.lstTipoDiaPago != null)
+                        {
+                            @Html.DropDownList("IdTipoDiaPago", ViewBag.lstTipoDiaPago as SelectList, "Seleccione ", new { @class = "form-control ", @Required = "", @id = "IdTipoDiaPago" })
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4 ml-auto">
+                    <div class="form-group">
+                        <label>Condición de pago</label>
+                        @if (ViewBag.lstCondicionPago != null)
+                        {
+                            @Html.DropDownList("IdCondicionPago", ViewBag.lstCondicionPago as SelectList, "Seleccione", new { @class = "form-control ", @Required = "", @id = "IdCondicionPago" })
+                        }
+                    </div>
+
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Mapa de localización del lugar de firma de pedido, orden de trabajo o contrato </label>
+                        @if (ViewBag.lstLugarPagoFirma != null)
+                        {
+                            @Html.DropDownList("IdLugarEntregaPago", ViewBag.lstLugarPagoFirma as SelectList, "Seleccione", new { @class = "form-control", @Required = "", @id = "IdLugarEntregaPago", @onchange = "getDireccionPago()" })
+                        }
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Mapa</label>
+                        <div id="mapFirmaPago" style="border: 1px #DEDCDD solid;border-radius: 5px;height:200px;"></div>
+                    </div>
+                </div>
+            </div>
+
+
+        }
+    </div>
+    <label>Datos facturación</label>
+    <hr />
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Nombre, denominación o razón social</label>
+                    <input type="text" class="form-control" readonly value="@Model.datosFacturacion.Dependencia">
+
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Clave de registro federal de contribuyentes</label>
+                    <input type="text" class="form-control" readonly value="@Model.datosFacturacion.Rfc">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Calle</label>
+                    <input type="text" class="form-control" readonly value="@Model.datosFacturacion.Calle">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Número exterior</label>
+                    <input type="text" class="form-control textDerecha" readonly value="@Model.datosFacturacion.NoExterior">
+
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Número interior</label>
+                    <input type="text" class="form-control textDerecha" readonly value="@Model.datosFacturacion.NoInterior">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Colonia</label>
+                    <input type="text" class="form-control" readonly value="@Model.datosFacturacion.Colonia">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>País</label>
+                    @if (ViewBag.lstPais != null)
+                    {
+                        @Html.DropDownList("IdPais", ViewBag.lstPais as SelectList, "Seleccione Pais", new { @class = "form-control disabledClick", @Required = "", @id = "IdPais", @readonly = true })
+                    }
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Estado</label>
+                    @if (ViewBag.lstEstado != null)
+                    {
+                        @Html.DropDownList("IdEstado", ViewBag.lstEstado as SelectList, "Seleccione Estado", new { @class = "form-control disabledClick", @Required = "", @id = "IdEstado", @readonly = true })
+                    }
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Municipio</label>
+                    @if (ViewBag.lstMunicipio != null)
+                    {
+                        @Html.DropDownList("IdMunicipio", ViewBag.lstMunicipio as SelectList, "Seleccione Municipio", new { @class = "form-control disabledClick", @Required = "", @id = "IdMunicipio", @readonly = true })
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Localidad</label>
+                    <input type="text" class="form-control" readonly value="@Model.datosFacturacion.Localidad">
+
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Código postal</label>
+                    <input type="text" class="form-control textDerecha" readonly value="@Model.datosFacturacion.CodigoPostal">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Correo electrónico</label>
+                    <input type="text" class="form-control" readonly value="@Model.datosFacturacion.Email">
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="@(ViewBag.IdPerfil == 8 ? "d-none" : "")">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <div class="col-5" style="display: inline-block;">
+                            <label style="text-transform:capitalize !important">Anticipo</label>
+                            <div class="form-group justify-content-center">
+                                <div class="custom-control custom-radio" style="display:inline-block">
+                                    <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" value="1" @(Model.condicionPago.Anticipo == 1 ? "checked" : "") />
+                                    <label class="custom-control-label" for="customRadio1" style="text-transform:uppercase !important">Sí</label>
+                                </div>
+                                <div class="custom-control custom-radio" style="display:inline-block">
+                                    <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" value="0" @(Model.condicionPago.Anticipo == 0 ? "checked" : "") />
+                                    <label class="custom-control-label" for="customRadio2" style="text-transform:uppercase !important">NO</label>
+                                </div>
+                                <input type="hidden" id="IdAnticipoBool" value="@Model.condicionPago.Anticipo" />
+                            </div>
+                        </div>
+                        <div class="col-6" style="display: inline-block;">
+                            <label style="text-transform:capitalize !important">Porcentaje</label>
+                            @if (ViewBag.lstAnticipo != null)
+                            {
+                                @Html.DropDownList("IdAnticipo", ViewBag.lstAnticipo as SelectList, "Seleccione Anticipo", new { @class = "form-control textDerecha", @Required = "", @id = "IdAnticipo", @onchange = "calcularPorcentaje()" })
+                            }
+                            <input type="hidden" value="@Model.condicionPago.PorcentajeAnticipo" class="porcentajeAplicado" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Número de pagos</label>
+                        <input type="number" class="form-control textDerecha" id="numeroPagosAGenerar" value="@Model.condicionPago.NumeroPagos" min="0">
+                    </div>
+                </div>
+                <div class="col-sm-4">
+
+
+                    <div class="form-group">
+                        <label>Periodicidad</label>
+                        <div class="input-group mb-3">
+                            @if (ViewBag.lstPeriodicidad != null)
+                            {
+                                @Html.DropDownList("IdPeriodicidad", ViewBag.lstPeriodicidad as SelectList, "Seleccione", new { @class = "form-control", @Required = "", @id = "IdPeriodicidad" })
+                            }
+                            <div class="input-group-append">
+                                <button class="btn btn-secondary btn-sm" type="button" onclick="getCalculoPartida()">GENERAR PAGOS</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Importe de anticipo</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <input type="text" name="number" class="form-control textDerecha" readonly id="ImporteAnticipo" value="@Model.condicionPago.ImporteAnticipo">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Total de los pagos</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <input type="text" class="form-control importeTotalPagosPendiente textDerecha" readonly name="number" value="@Model.condicionPago.ImporteTotalPagos">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Importe total</label><br>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <input type="text" class="form-control textDerecha" readonly name="number" value="@Model.sumAdjudicacionLote" id="ImporteTotalPago">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Fecha Inicio Pagos</label>
+                        <div class='input-group date' id='datetimepickerPago'>
+                            <input type='text' class="form-control" value="@String.Format("{0:yyyy-MM-dd}", Model.condicionPago.FechaInicioPago)" name="FechaInicioPago" required id="FechaInicioPago" autocomplete="off" onkeydown="return false;" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+
+                </div>
+                <div class="col-sm-4">
+
+                </div>
+            </div>
+        </div>
+        <table id="tablaPagos" class="table">
+            <thead>
+                <tr>
+
+                    <th>Acciones</th>
+                    <th>Pago</th>
+                    <th>Monto</th>
+                    <th>Porcentaje</th>
+                    <th>Mes de pago</th>
+                    <th>Observación</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.condicionPagoDetalle)
+                {
+                    <tr>
+                        <td align="center"><div class="btn-group"><button class="btn btn-secondary btn-sm @(item.bool1 == true ? "" : "disabledClick")" style="margin-right:5px;" onclick="editarCondicionPagoDetalle(@item.id2)"><span class="fa fa-pencil"></span></button></div></td>
+                        <td>@item.id</td>
+                        <td style="text-align:right">@(String.Format("{0:C2}", item.decimal1))</td>
+                        <td style="text-align:right">@(String.Format("{0:N2}", item.decimal2))%</td>
+                        <td>@item.string1</td>
+                        <td>@item.string2</td>
+                    </tr>
+                }
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td></td>
+                    <td>Total</td>
+                    <td style="text-align:right">@(String.Format("{0:C2}", Model.condicionPagoDetalle.Select(c => c.decimal1).Sum()))</td>
+                    <td style="text-align:right">@(String.Format("{0:N2}", Model.condicionPagoDetalle.Select(c => c.decimal2).Sum()))%</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+            </tfoot>
+        </table>
+    </div>
+</div>

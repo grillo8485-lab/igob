@@ -1,0 +1,387 @@
+﻿@model IGOB.Models.Adjudicacion
+
+<!-- CONDICIONES ENTREGA -->
+<div id="div_condiciones_entrega" class="container-fluid tab-pane fade" @( ViewBag.idPerfil == 8  ? "style=opacity:1" : "")>
+
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>VALIDAR CONDICIONES DE ENTREGA </strong>
+        </div>
+    </div>
+    <br />
+    @if (Model.condicionesDeEntrega != null)
+    {
+    <div id="cargarLoadCondicionesDeEntrega">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form", @id = "div_condiciones_entregaForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary()
+            <input type="hidden" id="IdAdjudicacionCondicionEntrega" value="@Model.condicionesDeEntrega.IdAdjudicacionCondicionEntrega" />
+            <input type="hidden" id="IdAdjudicacion" value="@Model.oAdjudicaciones.IdAdjudicacion" />
+            <div class="row @(Model.oAdjudicaciones.IdEstatusAdjudicacion != 50 || Model.oAdjudicaciones.IdEstatusAdjudicacion == 70 ? "disabledClick":"")">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Plazo de entrega</label>
+                        @if (ViewBag.lstPlazoEntrega != null)
+                        {
+                            @Html.DropDownList("IdPlazoEntegra", ViewBag.lstPlazoEntrega as SelectList, "Seleccione", new { @class = "form-control ", @Required = "", @id = "IdPlazoEntegra" })
+                        }
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Cantidad</label>
+                        <input type="number" class="form-control textDerecha" required min="1" value="@(Model.condicionesDeEntrega.PlazoEntregaCantidad == 0 ? Html.Raw("1") : Html.Raw(Model.condicionesDeEntrega.PlazoEntregaCantidad))" name="PlazoEntregaCantidad" id="PlazoEntregaCantidad">
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Unidad</label>
+                        @if (ViewBag.lstPlazoTiempo != null)
+                        {
+                            @Html.DropDownList("IdPlazoTiempo", ViewBag.lstPlazoTiempo as SelectList, "Seleccione", new { @class = "form-control ", @Required = "", @id = "IdPlazoTiempo" })
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="row @(Model.oAdjudicaciones.IdEstatusAdjudicacion != 50 || Model.oAdjudicaciones.IdEstatusAdjudicacion == 70 ? "disabledClick":"")">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Día</label>
+                        @if (ViewBag.lstTipoDia != null)
+                        {
+                            @Html.DropDownList("IdTipoDia", ViewBag.lstTipoDia as SelectList, "Seleccione", new { @class = "form-control ", @Required = "", @id = "IdTipoDia" })
+                        }
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Forma de entrega</label>
+                        @if (ViewBag.lstTiposEntrega != null)
+                        {
+                            @Html.DropDownList("IdTipoEntrega", ViewBag.lstTiposEntrega as SelectList, "Seleccione", new { @class = "form-control ", @Required = "", @id = "IdTipoEntrega" })
+                        }
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Hasta:</label>
+                        <div class='input-group date' id='datetimepicker4'>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                            <input type='text' class="form-control" style="min-width:70%" value="@(Model.condicionesDeEntrega.FechaLimite == new DateTime(DateTime.MinValue.Ticks) ? MvcHtmlString.Create( DateTime.Today.ToString("yyyy-MM-dd")) : MvcHtmlString.Create(String.Format("{0:dd MMMM yyyy}", Model.condicionesDeEntrega.FechaLimite)))" required name="FechaLimite" id="FechaLimite" autocomplete="off" onkeydown="return false;" />
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button type="button" class="btn btn-secondary btn-circle " id="CondicionEntregaNotaEspecial">
+                    <span class="icon-add-3"></span>
+                    NOTA ESPECIAL
+                </button>
+
+            </div>
+            <br />
+
+            if(Model.oAdjudicaciones.IdEstatusAdjudicacion == 70)
+            {
+
+            }
+            else
+            {
+                <div id="idNuevaCondicionDePago" class="@(Model.oAdjudicaciones.IdEstatusAdjudicacion != 50 ? "disabledClick": "")" >
+                    <button type="button" id="btnNuevaCondicionPago" class="btn btn-secondary btn-circle @(Model.condicionesDeEntrega.IsNUll ? "disabledClick" : "")" onclick="nuevaCondicionDePagoDetalle()">
+                        <span class="icon-add-3"></span>
+                        DETALLES CONDICIÓN DE ENTREGA
+                    </button>
+                </div>
+            }
+
+
+            <div class="modal fade" id="modal_condcionesDePago_NotaEspecial">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header text-center">
+                            <h4 class="modal-title">Nota Especial</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <div class="container">
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <textarea id="NotaEspecial" rows="5" class="form-control" @(Model.oAdjudicaciones.IdEstatusAdjudicacion != 50 ? "disabled" : "")>@Model.condicionesDeEntrega.NotaEspecial</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    }
+
+
+    <br />
+
+    <div id="container_condicionesEntrega">
+        
+
+    </div>
+    <table class="table @(Model.oAdjudicaciones.IdEstatusAdjudicacion != 50 || Model.oAdjudicaciones.IdEstatusAdjudicacion == 70 ? "disabledClick":"")" id="condicionesDeEntragaTable">
+        <thead>
+            <tr>
+                <th style="min-width:100px">Acciones</th>
+                <!--<th>Número</th>-->
+                <th>Lote</th>
+                <th>Cantidad Entrega</th>
+                <th>Lugar Entrega</th>
+                <th>Domicilio Entrega</th>
+                <th>Mapa</th>
+                <th>Horario Inicio Entrega</th>
+                <th>Horario Fin Entrega</th>
+                <th>Dias Entrega</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{var i = 1;}
+            @foreach (var item in Model.lstAdjudicacionCondicionesEntregaDetalleConsulta)
+            {
+            <tr>
+                <td style="min-width:100px;vertical-align:middle" align="center">
+                    @*<button class="btn btn-secondary btn-sm" style="margin-right:5px;" onclick="editarCondicinesEntregaDetalle(@item.IdAdCondicionEntregaDetalle)" @(Model.Activar ? "disabled" : "")><span class="fa fa-pencil"></span></button>*@
+                    <button class="btn btn-secondary btn-sm" style="margin-right:5px;" onclick="eliminarCondicinesEntregaDetalle(@item.IdAdCondicionEntregaDetalle)" @(Model.Activar ? "disabled" : "")><span class="fa fa-trash-o"></span></button>
+                </td>
+                <!--<td>item.NumeroEntrega</td>-->
+                <td>@item.NoLote</td>
+                <td>@item.Cantidad</td>
+                <td>@item.Lugar</td>
+                <td>@item.Direccion</td>
+                <td>
+                    <div id="map-@i" class="maps" style="width:150px;height:150px; border: 1px solid rgb(222, 220, 221); border-radius: 5px;position: relative; overflow: hidden;">
+                    </div>
+                    <input type="hidden" class="inpt" value="@item.LocalizacionGoogle" />
+                </td>
+                <td>@item.HorarioInicio</td>
+                <td>@item.HorarioFinal</td>
+                <td>
+                    @if (item.Lunes == 1)
+                    {
+                        <button type="button" class="btn btn-outline-secondary btn-sm" style="margin-bottom: 5px;margin-top: 5px;"><span class="badge">Lunes</span></button>
+                    }
+                    @if (item.Martes == 1)
+                    {
+                        <button type="button" class="btn btn-outline-secondary btn-sm" style="margin-bottom: 5px;margin-top: 5px;"><span class="badge">Martes</span></button>
+                    }
+                    @if (item.Miercoles == 1)
+                    {
+                        <button type="button" class="btn btn-outline-secondary btn-sm" style="margin-bottom: 5px;margin-top: 5px;"><span class="badge">Miercoles</span></button>
+                    }
+                    @if (item.Jueves == 1)
+                    {
+                        <button type="button" class="btn btn-outline-secondary btn-sm" style="margin-bottom: 5px;margin-top: 5px;"><span class="badge">Jueves</span></button>
+                    }
+                    @if (item.Viernes == 1)
+                    {
+                        <button type="button" class="btn btn-outline-secondary btn-sm" style="margin-bottom: 5px;margin-top: 5px;"><span class="badge">Viernes</span></button>
+                    }
+                    @if (item.Sabado == 1)
+                    {
+                        <button type="button" class="btn btn-outline-secondary btn-sm" style="margin-bottom: 5px;margin-top: 5px;"><span class="badge">Sabado</span></button>
+                    }
+                    @if (item.Domingo == 1)
+                    {
+                        <button type="button" class="btn btn-outline-secondary btn-sm" style="margin-bottom: 5px;margin-top: 5px;"><span class="badge">Domingo</span></button>
+                    }
+
+
+                </td>
+            </tr>
+                { i++; }
+            }
+        </tbody>
+    </table>
+
+    <!-- Modal condiciones entrega -->
+                <div class="modal fade" id="modal_condiciones_entrega">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">CONDICIONES DE ENTREGA</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <div class="container">
+                                    <div id="CondicionesDeEntregaDetalleDiv">
+                                        @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form", @id = "CondicionesDeEntregaDetalleForm" }))
+                                        {
+                                            <input type="hidden" id="IdCondicionEntregaDetalle" />
+                                            <input type="hidden" id="diasDelaSemana" />
+                                            <div class="row">
+                                                <div class="col-sm-6 form-group">
+                                                    <label>Lote</label>
+                                                    @if (ViewBag.lstLotesPorAsignar != null)
+                                                    {
+                                                        @Html.DropDownList("IdAdjudicacionLote", ViewBag.lstLotesPorAsignar as SelectList, "Seleccione lote", new { @class = "form-control ", @Required = "", @id = "IdAdjudicacionLote", @onchange = "getCantidad_x_Idlote()" })
+                                                    }
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label>Cantidad Entrega</label>
+                                                        <input type="text" class="form-control textDerecha" id="CantidadDetalle" required min=".01">
+                                                        <input type="hidden" class="form-control" id="CantidadDetalleReal" required>
+                                                        <input type="hidden" class="form-control" id="CantidadLoteXAsignar" required>
+                                                        <input type="hidden" class="form-control" id="CantidadLoteAsignado" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label>Lugar Entrega</label>
+                                                        @if (ViewBag.lstLugarEntregaFirma != null)
+                                                        {
+                                                            @Html.DropDownList("IdLugarEntrega", ViewBag.lstLugarEntregaFirma as SelectList, "Seleccione lugar entrega", new { @class = "form-control ", @Required = "", @id = "IdLugarEntrega", @onchange = "getDireccion()" })
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label>Domicilio Entrega</label>
+                                                        <textarea id="Direccion" class="form-control" rows="6" onkeydown="return false;"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label>Horario Inicio Entrega</label>
+                                                        <div class='input-group date' id='datetimepickerHorarioInicio'>
+                                                            <span class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-time"></span>
+                                                            </span>
+                                                            <input type='text' class="form-control" name="HorarioInicio" id="HorarioInicio" autocomplete="off" style="width:70%" required onkeydown="return false;" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label>Horario Fin Entrega</label>
+                                                        <div class='input-group date' id='datetimepickerHorarioFin'>
+                                                            <span class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-time"></span>
+                                                            </span>
+                                                            <input type='text' class="form-control" name="HorarioFinal" id="HorarioFinal" autocomplete="off" style="width:70%" required onkeydown="return false;" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <label>Días de entrega:</label>
+                                                </div>
+                                                <div class="row col-10 justify-content-center" style="border: #b1bace 1px solid;border-radius: 4px;margin-left: 10%;background-color: #f8f9fa;padding-top: .4vw;padding-bottom: .4vw;">
+
+                                                    <div class="custom-control custom-checkbox custom-control-inline">
+                                                        <input type="checkbox" class="custom-control-input" id="checkLunes">
+                                                        <label class="custom-control-label" false for="checkLunes">Lunes</label>
+                                                    </div>
+
+                                                    <div class="custom-control custom-checkbox custom-control-inline">
+                                                        <input type="checkbox" class="custom-control-input" id="checkMartes">
+                                                        <label class="custom-control-label" false for="checkMartes">Martes</label>
+                                                    </div>
+
+                                                    <div class="custom-control custom-checkbox custom-control-inline">
+                                                        <input type="checkbox" class="custom-control-input" id="checkMiercoles">
+                                                        <label class="custom-control-label" false for="checkMiercoles">Miércoles</label>
+                                                    </div>
+
+                                                    <div class="custom-control custom-checkbox custom-control-inline">
+                                                        <input type="checkbox" class="custom-control-input" id="checkJueves">
+                                                        <label class="custom-control-label" false for="checkJueves">Jueves</label>
+                                                    </div>
+
+                                                    <div class="custom-control custom-checkbox custom-control-inline">
+                                                        <input type="checkbox" class="custom-control-input" id="checkViernes">
+                                                        <label class="custom-control-label" false for="checkViernes">Viernes</label>
+                                                    </div>
+
+                                                    <div style="border-left: 1.4285px solid #d0d6e2">
+                                                        <div class="custom-control custom-checkbox custom-control-inline" style="margin-left:1rem">
+                                                            <input type="checkbox" class="custom-control-input" id="checkSabado">
+                                                            <label class="custom-control-label" false for="checkSabado">Sábado</label>
+                                                        </div>
+
+                                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                                            <input type="checkbox" class="custom-control-input" id="checkDomingo">
+                                                            <label class="custom-control-label" false for="checkDomingo">Domingo</label>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+
+
+                                                @*<div class="col-sm-3">
+                                            <div class="button-group">
+                                                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> <span class="caret"></span>Dias de entrega</button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="#" class="small" style="color:black !important" data-value="Lunes" tabIndex="-1"><input type="checkbox" name="semana" value="Lunes" />&nbsp;Lunes</a></li>
+                                                    <li><a href="#" class="small" style="color:black !important" data-value="Martes" tabIndex="-1"><input type="checkbox" name="semana" value="Martes" />&nbsp;Martes</a></li>
+                                                    <li><a href="#" class="small" style="color:black !important" data-value="Miercoles" tabIndex="-1"><input type="checkbox" name="semana" value="Miercoles" />&nbsp;Miercoles</a></li>
+                                                    <li><a href="#" class="small" style="color:black !important" data-value="Jueves" tabIndex="-1"><input type="checkbox" name="semana" value="Jueves" />&nbsp;Jueves</a></li>
+                                                    <li><a href="#" class="small" style="color:black !important" data-value="Viernes" tabIndex="-1"><input type="checkbox" name="semana" value="Viernes" />&nbsp;Viernes</a></li>
+                                                    <li><a href="#" class="small" style="color:black !important" data-value="Sabado" tabIndex="-1"><input type="checkbox" name="semana" value="Sabado" />&nbsp;Sabado</a></li>
+                                                    <li><a href="#" class="small" style="color:black !important" data-value="Domingo" tabIndex="-1"><input type="checkbox" name="semana" value="Domingo" />&nbsp;Domingo</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-9 text-left">
+                                            <div id="SemanaSelect"></div>
+                                        </div>*@
+
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div id="map" style="width:330px;height:330px;"></div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                                <button type="button" class="btn btn-secondary" id="GuardarCondicionesDeEntrega" onclick="validarFomCondiconesDeEntregaDetalle()">GUARDAR</button>
+                                <button type="button" class="btn btn-secondary" id="ActualizarCondicionesDeEntrega" onclick="validarFomCondiconesDeEntregaDetalle()">ACTUALIZAR</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- fin de modal nuevo lote -->
+</div>

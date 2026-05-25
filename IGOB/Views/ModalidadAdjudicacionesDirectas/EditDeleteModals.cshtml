@@ -1,0 +1,69 @@
+﻿<!-- Modal Edit - New -->
+<div class="modal fade" id="TAModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Editar Tipo de Adjudicación</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+                <div class="modal-body">
+                    <table class="table table-striped">
+                        <tr>
+                            <td><h6><strong> Tipo de Adjudicación: </strong></h6></td>
+                            <td><input type="text" name="TipoAdjudicacion" id="TipoAdjudicacion" class="form-control" required /></td>
+                        </tr>
+                        <tr>
+                            <td><h6><strong> Abreviatura de la Adjudicación: </strong></h6></td>
+                            <td><input type="text" name="Abreviatura" id="Abreviatura" class="form-control" required /></td>
+                        </tr>
+                        <tr>
+                            <td><h6><strong> Monto Mínimo: </strong></h6></td>
+                            <td><input type="number" name="MontoMinimo" id="MontoMinimo" class="form-control" required /></td>
+                        </tr>
+                        <tr>
+                            <td><h6><strong> Monto Máximo: </strong></h6></td>
+                            <td><input type="number" name="MontoMaximo" id="MontoMaximo" class="form-control" required /></td>
+                        </tr>
+                    </table>
+                    <input type="hidden" name="IdTipoAdjudicacion" id="IdTipoAdjudicacion" value="0" /><br /> <br />
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Editar" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->
+
+<!-- Modal Delete -->
+<div class="modal fade" id="DeleteTAModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Eliminar Tipo de Adjudicación</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <br />
+                    <h4 id="titleTA"></h4>
+                    <input type="hidden" class="IdTipoAdjudicacion" id="IdTipoAdjudicacion" /><br />
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Eliminar" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->

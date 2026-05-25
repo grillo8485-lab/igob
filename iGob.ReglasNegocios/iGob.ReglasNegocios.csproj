@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{27B7247F-E192-4B66-990C-39326633E4AF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>iGob.ReglasNegocios</RootNamespace>
+    <AssemblyName>iGob.ReglasNegocios</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="brAcceso.cs" />
+    <Compile Include="brActividadesEconomicas.cs" />
+    <Compile Include="brAdjudicaciones.cs" />
+    <Compile Include="brAdjudicacionConsulta.cs" />
+    <Compile Include="brAdjudicacionesCondicionesEntregas.cs" />
+    <Compile Include="brAdjudicacionesCondicionesEntregasDetalles.cs" />
+    <Compile Include="brAdjudicacionesCondicionesPagos.cs" />
+    <Compile Include="brAdjudicacionesCondicionesPagosDetalles.cs" />
+    <Compile Include="brAdjudicacionesFirmantes.cs" />
+    <Compile Include="brAdjudicacionesLiquidez.cs" />
+    <Compile Include="brAdjudicacionesLotes.cs" />
+    <Compile Include="brAdjudicacionesLugaresFirmas.cs" />
+    <Compile Include="brAdjudicacionesPedidos.cs" />
+    <Compile Include="brAdjudicacionesPedidosConsulta.cs" />
+    <Compile Include="brAdjudicacionesPedidosDetalles.cs" />
+    <Compile Include="brAdjudicacionesPedidosFirmantes.cs" />
+    <Compile Include="brAdjudicacionesPropuestasTecnicaEconomica.cs" />
+    <Compile Include="brAdjudicacionesProveedores.cs" />
+    <Compile Include="brAdjudicacionesSeguimiento.cs" />
+    <Compile Include="brAdjudicacionesSolicitud.cs" />
+    <Compile Include="brAdjudicacionLiberarPedido.cs" />
+    <Compile Include="brAdjudicacionListadoPedidos.cs" />
+    <Compile Include="brAnticipos.cs" />
+    <Compile Include="brBancos.cs" />
+    <Compile Include="brBienesServicios.cs" />
+    <Compile Include="brBienServicioEstudioMercado.cs" />
+    <Compile Include="brCapitulos.cs" />
+    <Compile Include="brCartas.cs" />
+    <Compile Include="brCategoriasScian.cs" />
+    <Compile Include="brCertificaciones.cs" />
+    <Compile Include="brClavesPresupuestalesDetalles.cs" />
+    <Compile Include="brConclusionesEstudioMercado.cs" />
+    <Compile Include="brCondicionesPagosEntrega.cs" />
+    <Compile Include="brCondicionesPedidos.cs" />
+    <Compile Include="brConexion.cs" />
+    <Compile Include="brConfiguracionAdjudicacion.cs" />
+    <Compile Include="brConfiguracionesModalidades.cs" />
+    <Compile Include="brConfiguracionesTiempos.cs" />
+    <Compile Include="brConfiguracionFirmatesPedidos.cs" />
+    <Compile Include="brConfiguracionMailSalida.cs" />
+    <Compile Include="brConfiguracionModalidad.cs" />
+    <Compile Include="brConfiguracionModalidadTipoProceso.cs" />
+    <Compile Include="brCuentasBancariasDependencias.cs" />
+    <Compile Include="brDatosPersonas.cs" />
+    <Compile Include="brDepartamentos.cs" />
+    <Compile Include="brDependencias.cs" />
+    <Compile Include="brDeterminacionPrecios.cs" />
+    <Compile Include="brDiasInhabiles.cs" />
+    <Compile Include="brDispercionMuestraPrecios.cs" />
+    <Compile Include="brDispercionMuestraUE.cs" />
+    <Compile Include="brEF_Colonias.cs" />
+    <Compile Include="brEF_EntidadesFederativas.cs" />
+    <Compile Include="brEF_Municipios.cs" />
+    <Compile Include="brEF_Paises.cs" />
+    <Compile Include="brEjerciciosFiscales.cs" />
+    <Compile Include="brEstatusEstudioMercado.cs" />
+    <Compile Include="brEstatusPagos.cs" />
+    <Compile Include="brEstatusPedidos.cs" />
+    <Compile Include="brEstatusPersonas.cs" />
+    <Compile Include="brEstatusPreguntas.cs" />
+    <Compile Include="brFamilias.cs" />
+    <Compile Include="brFormaAbastecimiento.cs" />
+    <Compile Include="brFormasPago.cs" />
+    <Compile Include="brFrecuencias.cs" />
+    <Compile Include="brGobierno.cs" />
+    <Compile Include="brGobiernoLogoBanner.cs" />
+    <Compile Include="brHistotialPreciosBienServicio.cs" />
+    <Compile Include="brImpuestos.cs" />
+    <Compile Include="brLicitaciones.cs" />
+    <Compile Include="brLicitacionesAclaracionDudas.cs" />
+    <Compile Include="brLicitacionesActaAdjudicacion.cs" />
+    <Compile Include="brLicitacionesActaFallo.cs" />
+    <Compile Include="brLicitacionesActaPropuesta.cs" />
+    <Compile Include="brLicitacionesBases.cs" />
+    <Compile Include="brLicitacionesConvocatoria.cs" />
+    <Compile Include="brLicitacionesDictamen.cs" />
+    <Compile Include="brLicitacionesInvitacionProveedores.cs" />
+    <Compile Include="brLicitacionesPedido.cs" />
+    <Compile Include="brLicitacionesRecepcionPedido.cs" />
+    <Compile Include="brLicitacionesRequisiciones.cs" />
+    <Compile Include="brListadoGenerarLicitacion.cs" />
+    <Compile Include="brListadoLicitacionesInvitacionProveedores.cs" />
+    <Compile Include="brLugaresEntregaFirma.cs" />
+    <Compile Include="brLugaresEntregasPagosCM.cs" />
+    <Compile Include="brManifiestoProveedoresClientes.cs" />
+    <Compile Include="brManifiestoProveedoresDeclaratorias.cs" />
+    <Compile Include="brManifiestos.cs" />
+    <Compile Include="brManifiestosProveedores.cs" />
+    <Compile Include="brMarcas.cs" />
+    <Compile Include="brMeses.cs" />
+    <Compile Include="brModalidades.cs" />
+    <Compile Include="brModalidadesLicitaciones.cs" />
+    <Compile Include="brModalidadesRequisiciones.cs" />
+    <Compile Include="brModificadorProducto.cs" />
+    <Compile Include="brMuestras.cs" />
+    <Compile Include="brNivelesConfianza.cs" />
+    <Compile Include="brOrigenRecurso.cs" />
+    <Compile Include="brPartidas.cs" />
+    <Compile Include="brPartidasActividadesEconomicas.cs" />
+    <Compile Include="brPedidos.cs" />
+    <Compile Include="brPedidosDetalles.cs" />
+    <Compile Include="brPedidosFirmantes.cs" />
+    <Compile Include="brPeriodicidad.cs" />
+    <Compile Include="brPlantillas.cs" />
+    <Compile Include="brPlazosEntregas.cs" />
+    <Compile Include="brPlazosTiempos.cs" />
+    <Compile Include="brPreguntaRespuestaSolicitanteDependencia.cs" />
+    <Compile Include="brPresupuestosPartidas.cs" />
+    <Compile Include="brProductosScian.cs" />
+    <Compile Include="brPropuestasTecnicaEconomicaLotes.cs" />
+    <Compile Include="brProveedores.cs" />
+    <Compile Include="brProveedoresAccionistas.cs" />
+    <Compile Include="brProveedoresActaConstitutiva.cs" />
+    <Compile Include="brProveedoresGirosComerciales.cs" />
+    <Compile Include="brProveedoresPreguntas.cs" />
+    <Compile Include="brProveedoresRequisicionesCartas.cs" />
+    <Compile Include="brProveedoresRequisicionesInvitacion.cs" />
+    <Compile Include="brReactivosConclusionEM.cs" />
+    <Compile Include="brRecepcionesAdjudicacionesPedidosDetalles.cs" />
+    <Compile Include="brRecepcionesPedidosDetalles.cs" />
+    <Compile Include="brRepAdjudicacionPedido.cs" />
+    <Compile Include="brRepCedulaProgramacion.cs" />
+    <Compile Include="brRepRecepcionPedidos.cs" />
+    <Compile Include="brRequisicionConsulta.cs" />
+    <Compile Include="brRequisiciones.cs" />
+    <Compile Include="brRequisicionesCartas.cs" />
+    <Compile Include="brRequisicionesComprasMenores.cs" />
+    <Compile Include="brRequisicionesComprasMenoresLotes.cs" />
+    <Compile Include="brRequisicionesCondicionesEntregas.cs" />
+    <Compile Include="brRequisicionesCondicionesEntregasDetalles.cs" />
+    <Compile Include="brRequisicionesCondicionesPagos.cs" />
+    <Compile Include="brRequisicionesCondicionesPagosDetalles.cs" />
+    <Compile Include="brRequisicionesFirmantes.cs" />
+    <Compile Include="brRequisicionesLiquidez.cs" />
+    <Compile Include="brRequisicionesLotes.cs" />
+    <Compile Include="brRequisicionesProveedoresInvitacionRestringida.cs" />
+    <Compile Include="brRequisicionesSolicitud.cs" />
+    <Compile Include="brRespuestas.cs" />
+    <Compile Include="brRespuestasRechazadas.cs" />
+    <Compile Include="brRptAppEjecutivosLicitaciones.cs" />
+    <Compile Include="brSysBitacoraAcceso.cs" />
+    <Compile Include="brSysFunciones.cs" />
+    <Compile Include="brSysModulos.cs" />
+    <Compile Include="brSysPerfiles.cs" />
+    <Compile Include="brSysPerfilesFunciones.cs" />
+    <Compile Include="brSysUsuarios.cs" />
+    <Compile Include="brTamannoUE.cs" />
+    <Compile Include="brTiempos.cs" />
+    <Compile Include="brTipoPresupuesto.cs" />
+    <Compile Include="brTiposAdjudicacion.cs" />
+    <Compile Include="brTiposCartas.cs" />
+    <Compile Include="brTiposCondiciones.cs" />
+    <Compile Include="brTiposCondicionesPagos.cs" />
+    <Compile Include="brTiposDias.cs" />
+    <Compile Include="brTiposEntregas.cs" />
+    <Compile Include="brTiposLicitaciones.cs" />
+    <Compile Include="brTiposLugar.cs" />
+    <Compile Include="brTiposLugarCM.cs" />
+    <Compile Include="brTiposMonedas.cs" />
+    <Compile Include="brTiposPersonas.cs" />
+    <Compile Include="brTiposProcesos.cs" />
+    <Compile Include="brTiposProductos.cs" />
+    <Compile Include="brTiposRepresentacion.cs" />
+    <Compile Include="brTiposRequisiciones.cs" />
+    <Compile Include="brTiposSolicitud.cs" />
+    <Compile Include="brTmpRequisicionesLicitacion.cs" />
+    <Compile Include="brTokenHistorial.cs" />
+    <Compile Include="brUnidadesEconomicas.cs" />
+    <Compile Include="brUnidadesLicitadoras.cs" />
+    <Compile Include="brUnidadesMedidas.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\iGob.AccesoDatos\iGob.AccesoDatos.csproj">
+      <Project>{124fd62a-fdfd-4a11-8f1e-93b5791c7d9e}</Project>
+      <Name>iGob.AccesoDatos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\iGob.Entidades\iGob.Entidades.csproj">
+      <Project>{56c2f2e1-1d56-4cbd-88bc-2c161f0cc29b}</Project>
+      <Name>iGob.Entidades</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

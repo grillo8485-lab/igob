@@ -1,0 +1,128 @@
+﻿@model IGOB.Models.ListadoLicitacionesInvitacionAceptadasProveedor
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section css{
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.structure.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.theme.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+}
+<style>
+    .error {
+        color: red !important;
+    }
+</style>
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form", @id = "enviarPagosForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="modal-header changeColorModal">
+        <div class="col-6 text-left">
+
+            <label>@Model.Titulo</label>
+        </div>
+        <div class="col-6 text-right">
+            @switch (Model.IdPerfil)
+            {
+                case 8:
+                    <button type="button" class="btn btn-default btn-sm" id="btnGuardar" @(Model.oLicitacionesInvitacionProveedores.IdEstatusPago == 1 ? "" : "disabled")>Enviar</button>
+                    <button type="button" class="btn btn-default btn-sm" onclick="location.href='@Url.Action("Index", "ListadoLicitacionesInvitacionAceptadasProveedor")'">
+                        <span class="glyphicon glyphicon-step-backward"></span> Regresar
+                    </button>
+                    break;
+                case 7:
+                    <button type="button" class="btn btn-default btn-sm" id="btnValido" @(Model.oLicitacionesInvitacionProveedores.IdEstatusPago == 2 ? "" : "disabled")>Válido</button>
+                    <button type="button" class="btn btn-default btn-sm" id="btnNoValido" @(Model.oLicitacionesInvitacionProveedores.IdEstatusPago == 2 ? "" : "disabled")>No válido</button>
+                    <button type="button" class="btn btn-default btn-sm" onclick="location.href='@Url.Action("Index", "LicitacionesRequisicionesRevicion",new { @pIdLicitacion=Model.oLicitacionesInvitacionProveedores.IdLicitacion})'">
+                        <span class="glyphicon glyphicon-step-backward"></span> Regresar
+                    </button>
+                    break;
+
+            }
+
+
+        </div>
+
+    </div>
+    <div class="container col-12">
+        <input type="hidden" readonly id="IdLicitacion" name="IdLicitacion" value="@Model.oLicitacionesInvitacionProveedores.IdLicitacion" class="form-control " />
+        <input type="hidden" readonly id="IdInvitacion" name="IdInvitacion" value="@Model.oLicitacionesInvitacionProveedores.IdInvitacion" class="form-control " />
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>*Fecha Inicio Pagos</label>
+                    @if (Model.oLicitacionesInvitacionProveedores.IdEstatusPago == 1)
+                    {
+                    <div class='input-group date' id='datetimepickerFechaPago'>
+                        <input type='text' class="form-control" value="@String.Format("{0:yyyy-MM-dd}", Model.oLicitacionesInvitacionProveedores.FechaPago)" name="FechaPago" id="FechaPago" autocomplete="off" readonly />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-time"></span>
+                        </span>
+                    </div>
+                    }
+                    else
+                    {
+                    <input type='text' class="form-control" value="@String.Format("{0:yyyy-MM-dd}", Model.oLicitacionesInvitacionProveedores.FechaPago)" name="FechaPago" id="FechaPago" autocomplete="off" readonly />
+                    }
+                    
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>*Folio Pago</label>
+                    <input type="text" @(Model.oLicitacionesInvitacionProveedores.IdEstatusPago == 1 ? "" : "readonly") id="FolioOficial" name="FolioOficial" value="@Model.oLicitacionesInvitacionProveedores.FolioPago" class="form-control " required/>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <span>*Recibo pago (jpg,png,pdf)</span>
+                <div class="custom-file mb-3">
+                    <input type="file" class="form-control-file border" id="FileUpload1" name="FileUpload1" accept="image/*,application/pdf" @(Model.oLicitacionesInvitacionProveedores.IdEstatusPago == 2 ? "disabled" : "") required>
+                </div>
+                @if (Model.extencionArvhico != ".pdf")
+                {
+                    <a href="~/Files/EnvioPagoProvedor/@Model.oLicitacionesInvitacionProveedores.UrlRecibo" target="_blank">
+                        <img src="~/Files/EnvioPagoProvedor/@Model.oLicitacionesInvitacionProveedores.UrlRecibo" width="200" height="200" alt="" />
+                    </a>
+                }
+                else
+                {
+                    <a href="~/Files/EnvioPagoProvedor/@Model.oLicitacionesInvitacionProveedores.UrlRecibo" target="_blank">
+                        <img src="~/Files/EnvioPagoProvedor/pdf.jpg" width="160" height="100" alt="" />
+                    </a>
+                }
+
+
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Estatus</label>
+                    @Html.DropDownList("IdEstatusPago", Model.lstEstatusPagos as SelectList, "Seleccione estatus pago", new { @class = "form-control disabledClick", @Required = "", @id = "IdEstatusPago" })
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Estatus</label>
+                    @Html.DropDownList("IdEstatusPago", Model.lstMotivoRechazo as SelectList, "Seleccione motivo rechazo", new { @class = "form-control disabledClick", @id = "IdEstatusPago" })
+
+                </div>
+            </div>
+            <div class="col-sm-6">
+
+            </div>
+        </div>
+
+    </div>
+}
+@section scripts{
+    <script src="~/Scripts/Catalogos/ListadoLicitacionesAceptadasProveedor.js"></script>
+}

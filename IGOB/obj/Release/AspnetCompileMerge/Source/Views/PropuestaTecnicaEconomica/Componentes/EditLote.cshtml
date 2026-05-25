@@ -1,0 +1,253 @@
+﻿@model IGOB.Models.Requisicion
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form", @id = "div_LotesForm" }))
+{
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+    <input type="hidden" id="IdPropuestaTecnicaEconomica" value="@Model.oLotePropuestaTecnicaEconomica.IdPropuestaTecnicaEconomica" />
+    <input type="hidden" id="PrecioUnitarioRefencia" value="@String.Format("{0:C2}", Model.oLotePropuestaTecnicaEconomica.PrecioUnitarioRefencia)" />
+    <input type="hidden" id="IdMuestra" value="@Model.oLotePropuestaTecnicaEconomica.IdMuestra" />
+
+    <div class="row form-group @Model.visibleEconimica">
+        <div class="col-md-12 text-left"><h4><label>Precio de referencia sin IVA:  @String.Format("{0:C2}", Model.oLotePropuestaTecnicaEconomica.PrecioUnitarioRefencia)</label></h4></div>
+    </div>
+    <div class="col-md-12 text-left"><h4><label>No lote:  @Model.oLotePropuestaTecnicaEconomica.NoLote</label></h4></div>
+    if (Model.oRequisicones.IdTipoSolicitud == 2)
+    {
+        <div class="row form-group @((Model.visibleEconimica != "" && Model.visibleTecnicaSolicitante =="")?Model.visibleTecnicaSolicitante: Model.visibleEconimica)" id="DivServicios">
+            <div class="col-md-1 text-right">Mes Inicio:</div>
+            <div class="col-md-2 text-left">
+                @Html.DropDownList("De", ViewBag.lstMesesDe as SelectList, "Seleccione Desde", new { @class = "form-control readonly disabledClick", @Required = "", @onchange = "mesesActivos()" })
+
+            </div>
+            <div class="col-md-1 text-right">Mes Fin:</div>
+            <div class="col-md-2 text-left">
+                @Html.DropDownList("Al", ViewBag.lstMesesAl as SelectList, "Seleccione Hasta", new { @class = "form-control readonly disabledClick", @Required = "", @onchange = "mesesActivos()" })
+            </div>
+            <div class="col-md-2 text-right">Meses:</div>
+            <div class="col-md-4 text-left"> <input type="number" class="form-control" id="Meses" placeholder="" readonly></div>
+        </div>
+    }
+    else
+    {
+        @Html.TextBox("De", "0", new { @type = "hidden", @id = "De" })
+        @Html.TextBox("Al", "0", new { @type = "hidden", @id = "Al" })
+        @Html.TextBox("Meses", "0", new { @type = "hidden", @id = "Meses" })
+    }
+
+
+    <div class="row form-group @((Model.visibleEconimica != "" && Model.visibleTecnicaSolicitante =="")?Model.visibleTecnicaSolicitante: Model.visibleEconimica)">
+        <div class="col-md-2 text-right">Producto o servicio:</div>
+        <div class="col-md-4 text-left">
+            <textarea id="Caracteristica" rows="3" readonly cols="33" class="form-control">@Model.oLotePropuestaTecnicaEconomica.BienServicio</textarea>
+
+        </div>
+        <div class="col-md-2 text-right">Unidad:</div>
+        <div class="col-md-4 text-left"> <input type="text" class="form-control" id="Unidad" readonly value="@Model.oLotePropuestaTecnicaEconomica.UnidadMedida"></div>
+    </div>
+    <div class="row form-group @((Model.visibleEconimica != "" && Model.visibleTecnicaSolicitante =="")?Model.visibleTecnicaSolicitante: Model.visibleEconimica)" id="FrecuenciaServicio">
+        @if (Model.oRequisicones.IdTipoSolicitud == 2)
+        {
+            <div class="col-md-2 text-right">Frecuencia:</div>
+            <div class="col-md-4 text-left">
+                @Html.DropDownList("Frecuencia", ViewBag.lstFrecuencias as SelectList, "Seleccione Frecuencia", new { @class = "form-control disabledClick", @Required = "", @id = "Frecuencia" })
+            </div>
+        }
+        else
+        {
+            @Html.TextBox("Frecuencia", "0", new { @type = "hidden", @id = "Frecuencia" })
+        }
+        <div class="col-md-2 text-right">Requerimiento:</div>
+        <div class="col-md-4 text-left">
+            @Html.DropDownList("Requerimiento", ViewBag.lstRequerimiento as SelectList, "Seleccione Requerimiento", new { @class = "form-control disabledClick", @Required = "", @id = "Requerimiento" })
+        </div>
+    </div>
+    <div class="row form-group @((Model.visibleEconimica != "" && Model.visibleTecnicaSolicitante =="")?Model.visibleTecnicaSolicitante: Model.visibleEconimica)">
+        <div class="col-md-2 text-right">Características:</div>
+        <div class="col-md-4 text-left"> <textarea id="Caracteristica" rows="3" readonly cols="33" class="form-control">@Model.oLotePropuestaTecnicaEconomica.Descripcion</textarea></div>
+        <div class="col-md-2 text-right">Clave Pantone:</div>
+        <div class="col-md-4 text-left"> <input type="text" class="form-control" id="ClavePantone" value="@Model.oLotePropuestaTecnicaEconomica.Pantone" readonly></div>
+    </div>
+    <div class="row form-group @Model.visibleEconimica">
+        <div class="col-md-2 text-right">Impuesto:</div>
+        <div class="col-md-4 text-left">
+            <input type="text" class="form-control" id="Impuesto" readonly value="@Model.oLotePropuestaTecnicaEconomica.Impuesto">
+            <input type="hidden" id="TasaImpuesto" value="@Model.oLotePropuestaTecnicaEconomica.ImpuestoPorcentaje" />
+        </div>
+        <div class="col-md-2 text-right">Precio unitario de lista sin impuesto@(Model.oRequisicones.IdTipoSolicitud == 2 ? " mensual" : "" ):</div>
+        <div class="col-md-4 text-left @Model.activar">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
+                <input type="text" name="number" class="form-control required number" max="@Model.oLotePropuestaTecnicaEconomica.PrecioUnitarioRefencia" id="PrecioUnitarioListaSinImpuestoMensual" value="@String.Format("{0:N2}", Model.oLotePropuestaTecnicaEconomica.PrecioUnitarioOfertado)" onkeyup='return runScript(event)' min="1" required>
+            </div>
+
+            <input type="hidden" id="importeConImpuesto" value="@(Model.oLotePropuestaTecnicaEconomica.ImporteOfertado+Model.oLotePropuestaTecnicaEconomica.ImporteOfertado)" />
+        </div>
+    </div>
+    <div class="row form-group @Model.visibleEconimica">
+        <div class="col-md-2 text-right">Cantidad:</div>
+        <div class="col-md-4 text-left">
+            <input type="text" name="number" class="form-control" id="Cantidad" min="1" value="@Model.oLotePropuestaTecnicaEconomica.Cantidad" readonly>
+        </div>
+        <div class="col-md-2 text-right">Importe sin impuesto @(Model.oRequisicones.IdTipoSolicitud == 2 ? " mensual" : "" ):</div>
+        <div class="col-md-4 text-left">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
+                <input type="text" name="number" class="form-control" id="ImporteSinImpuestoMensual" readonly value="@Model.oLotePropuestaTecnicaEconomica.ImporteOfertado" />
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row form-group @Model.visibleEconimica">
+        <div class="col-md-2 text-right">Importe con impuesto @(Model.oRequisicones.IdTipoSolicitud == 2 ? " mensual" : "" ):</div>
+        <div class="col-md-4 text-left">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
+                <input type="text" name="number" class="form-control" id="ImporteConImpuestoMensual" readonly value="@Model.oLotePropuestaTecnicaEconomica.TotalPeriodo">
+            </div>
+        </div>
+        <div class="col-md-2 text-right">Importe total@(Model.oRequisicones.IdTipoSolicitud == 2 ? " periodo" : "" ):</div>
+        <div class="col-md-4 text-left">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
+                <input type="text" name="number" class="form-control" id="ImporteTotalPeriodo" readonly value="@Model.oLotePropuestaTecnicaEconomica.TotalOfertado">
+            </div>
+        </div>
+    </div>
+    <div class="row form-group @Model.visibleTecnica">
+        @if (Model.oLotePropuestaTecnicaEconomica.IdMuestra != 3)
+        {
+
+
+            <div class="col-md-2 text-right">Adjuntar comprobante de muestra y/o catalogo(pdf):</div>
+            <div class="col-md-4 text-left">
+                <div class="custom-file mb-3">
+                    <input type="file" class="form-control-file" id="URLFileMuestraCatalogo" name="URLFileMuestraCatalogo" accept="image/*,application/pdf" value="@Model.oLotePropuestaTecnicaEconomica.URLFileMuestraCatalogo">
+                    <input type="hidden" id="URLFileMuestraCatalogoLabel" value="@Model.oLotePropuestaTecnicaEconomica.URLFileMuestraCatalogo" />
+                </div>
+                @if (Model.oLotePropuestaTecnicaEconomica.URLFileMuestraCatalogo != "")
+                {
+                    if (Model.extencionArchivoCatalogo != ".pdf")
+                    {
+                        <a href="~/Files/EnvioPagoProvedor/@Model.oLotePropuestaTecnicaEconomica.URLFileMuestraCatalogo" target="_blank">
+                            <img src="~/Files/EnvioPagoProvedor/@Model.oLotePropuestaTecnicaEconomica.URLFileMuestraCatalogo" width="200" height="200" alt="" />
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="~/Files/EnvioPagoProvedor/@Model.oLotePropuestaTecnicaEconomica.URLFileMuestraCatalogo" target="_blank">
+                            <img src="~/Files/EnvioPagoProvedor/pdf.jpg" width="160" height="100" alt="" />
+                        </a>
+                    }
+                }
+
+            </div>
+        }
+        else
+        {
+            <div class="col-md-2 text-right"></div>
+            <div class="col-md-4 text-left">
+
+            </div>
+        }
+        <div class="col-md-2 text-right">Adjuntar certificado(pdf):</div>
+        <div class="col-md-4 text-left">
+            <div class="custom-file mb-3">
+                <input type="file" class="form-control-file border" id="URLFileCertificacion" name="URLFileCertificacion" accept="image/*,application/pdf" value="@Model.oLotePropuestaTecnicaEconomica.URLFileCertificacion">
+                <input type="hidden" id="URLFileCertificacionLabel" value="@Model.oLotePropuestaTecnicaEconomica.URLFileCertificacion" />
+            </div>
+            @if (Model.oLotePropuestaTecnicaEconomica.URLFileCertificacion != "")
+            {
+                if (Model.extencionArchivoCertificacicon == ".pdf")
+                {
+                    <a href="~/Files/EnvioPagoProvedor/@Model.oLotePropuestaTecnicaEconomica.URLFileCertificacion" target="_blank">
+                        <img src="~/Files/EnvioPagoProvedor/pdf.jpg" width="160" height="100" alt="" />
+                    </a>
+
+                }
+                else
+                {
+                    <a href="~/Files/EnvioPagoProvedor/@Model.oLotePropuestaTecnicaEconomica.URLFileCertificacion" target="_blank">
+                        <img src="~/Files/EnvioPagoProvedor/@Model.oLotePropuestaTecnicaEconomica.URLFileCertificacion" width="200" height="200" alt="" />
+                    </a>
+                }
+            }
+
+        </div>
+    </div>
+    <div class="row form-group @Model.visibleTecnica">
+        <div class="col-md-2 text-right">Mejora:</div>
+        <div class="col-md-4 text-left">
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" name="EstatusMejora" value="0" id="EstatusMejora" @(Model.oLotePropuestaTecnicaEconomica.EstatusMejora == 1 ? "checked" : "" ) onclick="activarMejora()">
+                <label class="custom-control-label" for="EstatusMejora"></label>
+            </div>
+        </div>
+        <div class="col-md-2 text-right">Observaciones de mejora:</div>
+        <div class="col-md-4 text-left">
+            <textarea id="Mejora" rows="3" cols="33" class="form-control" readonly>@Model.oLotePropuestaTecnicaEconomica.Mejora</textarea>
+        </div>
+    </div>
+    <div class="row form-group @Model.visibleTecnica">
+        <div class="col-md-2 text-right">Lote Ofertado:</div>
+        <div class="col-md-4 text-left">
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" name="LoteOfertado" value="0" id="LoteOfertado" @(Model.oRequisicones.IdFormaAbastecimiento == 1 ? Model.oLotePropuestaTecnicaEconomica.LoteOfertado ? "checked" : "" : Model.oLotePropuestaTecnicaEconomica.LoteOfertado ? "checked" : "") onclick="validaLoteOfertado()">
+                <label class="custom-control-label" for="LoteOfertado"></label>
+            </div>
+        </div>
+        <div class="col-md-2 text-right"></div>
+        <div class="col-md-4 text-left">
+
+        </div>
+    </div>
+
+    <div class="row form-group @Model.visibleTecnicaSolicitante @Model.activarTecnicaSolicitante">
+        <div class="col-md-3 text-right">Cumple con lo ofertado (lote):</div>
+        <div class="col-md-2 text-left  input-group">
+            <div class="custom-control custom-checkbox">
+                <input type="radio" class="custom-control-input" name="DependenciaCumple" value="1" id="DependenciaCumple1" @(Model.oLotePropuestaTecnicaEconomica.DependenciaCumple ? "checked" : "") onclick="validaDependenciaCumple('DependenciaCumple','FundamentoLegal')">Si
+                <label class="custom-control-label" for="DependenciaCumple1"></label>
+
+            </div>
+            <div class="custom-control custom-checkbox">
+                <input type="radio" class="custom-control-input" name="DependenciaCumple" value="0" id="DependenciaCumple2" @(!Model.oLotePropuestaTecnicaEconomica.DependenciaCumple ? "checked" : "") onclick="validaDependenciaCumple('DependenciaCumple','FundamentoLegal')">No
+                <label class="custom-control-label" for="DependenciaCumple2"></label>
+            </div>
+        </div>
+        <div class="col-md-2 text-right">Observaciones y fundamentación legal:</div>
+        <div class="col-md-5 text-left">
+            <textarea id="FundamentoLegal" name="FundamentoLegal" rows="3" cols="33" class="form-control" @(Model.oLotePropuestaTecnicaEconomica.DependenciaCumple ? "disabled" : "")>@Model.oLotePropuestaTecnicaEconomica.FundamentoLegal</textarea>
+        </div>
+    </div>
+    <div class="row form-group @Model.visibleTecnicaRevisor @Model.activarTecnicaRevisor">
+        <div class="col-md-3 text-right">Rechazar:</div>
+        <div class="col-md-2 text-left input-group">
+            <div class="custom-control custom-checkbox">
+                <input type="radio" class="custom-control-input" name="AdquisicionCumple" value="1" id="AdquisicionCumple1" @(Model.oLotePropuestaTecnicaEconomica.AdquisicionCumple ? "checked" : "") onclick="validaCumpleRevisor('AdquisicionCumple','AdquisicionObserva')">Si
+                <label class="custom-control-label" for="AdquisicionCumple1"></label>
+
+            </div>
+            <div class="custom-control custom-checkbox">
+                <input type="radio" class="custom-control-input" name="AdquisicionCumple" value="0" id="AdquisicionCumple2" @(!Model.oLotePropuestaTecnicaEconomica.AdquisicionCumple ? "checked" : "") onclick="validaCumpleRevisor('AdquisicionCumple','AdquisicionObserva')">No
+                <label class="custom-control-label" for="AdquisicionCumple2"></label>
+            </div>
+        </div>
+        <div class="col-md-2 text-right">Observaciones adquisición</div>
+        <div class="col-md-5 text-left">
+            <textarea id="AdquisicionObserva" name="AdquisicionObserva" rows="3" cols="33" class="form-control" @(!Model.oLotePropuestaTecnicaEconomica.AdquisicionCumple ? "disabled" : "")>@Model.oLotePropuestaTecnicaEconomica.AdquisicionObserva</textarea>
+        </div>
+    </div>
+
+}

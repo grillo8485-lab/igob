@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.AntiForgeryToken()
+@Html.ValidationSummary(true)
+<div class="modal-header changeColorModal">
+    <div class="col-6 text-left">
+        <label>@ViewBag.Titulo</label>
+    </div>
+    <div class="col-6 text-right">
+        <button type="button" class="btn btn-default btn-sm" onclick="location.href='@Url.Action("Index", "ListadoLicitacionesInvitacionAceptadasProveedor")'">
+            <span class="glyphicon glyphicon-step-backward"></span> Regresar
+        </button>
+    </div>
+
+</div>
+<input type="hidden" name="conteo" id="conteo" value="@ViewBag.count" />
+@switch ((int)ViewBag.idTipoProveso)
+{
+    case 100:
+        {
+
+            Html.RenderPartial("ListadoLicitacionRequisicionLiberarPedido");
+        }
+        break;
+    default:
+        {
+
+            Html.RenderPartial("ListadoLicitacionRequisiciones");
+        }
+        break;
+}
+
+
+
+@section scripts{
+    <script src="~/Scripts/Catalogos/ListadoRequisicionLicitacion.js"></script>
+}

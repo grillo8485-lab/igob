@@ -1,0 +1,165 @@
+﻿@model IGOB.Models.Requisicion
+
+<div id="DatosGenerales" class="tab-pane active @(Model.oRequisicones.IdEstatusRequisicion==60?"disabledClick":"")">
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>DATOS GENERALES</strong>
+        </div>
+    </div>
+    <div class="container-fluid">
+
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form", id = "DatosGeneralesForm" }))
+        {
+            if (ViewBag.tipoRequisicion != null)
+            {
+                if (ViewBag.tipoRequisicion == 1)
+                {
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="Requisicion">Requisición</label>
+                                @if (ViewBag.lstRequisicionesAbiertas != null)
+                                {
+                                    @*@Html.DropDownListFor(m => m.oRequisicones.IdTipoRequisicion, new System.Web.Mvc.SelectListItem { ViewBag.lstRequisicionesAbiertas  }, "Seleccione Perfil", new { @class = "form-control", @Required = "",@id= "Requisicion" })*@
+                                    @Html.DropDownList("Requisicion", ViewBag.lstRequisicionesAbiertas as SelectList, "Seleccione requisición", new { @class = "form-control " + (ViewBag.idRequisicion != 0 ? "disabledClick" : ""), @Required = "" })
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    @Html.TextBox("Requisicion", "2", new { @type = "hidden", @id = "Requisicion" })
+                }
+            }
+
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="NumeroOficioSolicitud">Número Oficio de Solicitud</label>
+                        @Html.TextBox("NumeroOficioSolicitud", Model.oRequisicones.NumeroOficioSolicitud, new { @type = "text", @class = "form-control " + (ViewBag.idRequisicion != 0 ? "disabledClick" : ""), @id = "NumeroOficioSolicitud", @placeholder = "Válido en el ejercicio fiscal vigente", @Required = "" })
+
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="NumeroLicitacion">Número de licitación</label>
+                        @Html.TextBox("NumeroLicitacion", (Model.oRequisicones.NumeroLicitacion == 1 ? "Primera Licitación" : "Segunda Licitación"), new { @type = "text", @class = "form-control ", @id = "NumeroLicitacion", @placeholder = "Válido en el ejercicio fiscal vigente", @readonly = true, @Required = "" })
+
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="Solicitud">Solicitud</label>
+                        @if (ViewBag.lstRequisicionesAbiertas != null)
+                        {
+                            @Html.DropDownList("Solicitud", ViewBag.lstSolicitud as SelectList, "Seleccione Solicitud", new { @class = "form-control " + (ViewBag.idRequisicion != 0 ? "disabledClick" : ""), @Required = "" })
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="Abastecimiento">Abastecimiento</label>
+                        @if (ViewBag.lstAbastecimiento != null)
+                        {
+                            @Html.DropDownList("Abastecimiento", ViewBag.lstAbastecimiento as SelectList, "Seleccione Abastecimiento", new { @class = "form-control " + (ViewBag.idRequisicion != 0 ? "disabledClick" : ""), @Required = "" })
+                        }
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="Capitulos">Capítulos</label>
+                        @if (ViewBag.lstRequisicionesAbiertas != null)
+                        {
+                            @Html.DropDownList("Capitulos", ViewBag.lstCapitulos as SelectList, "Seleccione Capitulos", new { @class = "form-control " + (ViewBag.idRequisicion != 0 ? "disabledClick" : ""), @Required = "", @onchange = "getAllPartida_x_IdCapitulo()" })
+                        }
+
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="Partida">Partida</label>
+                        @if (ViewBag.lstPartidas != null)
+                        {
+                            @Html.DropDownList("Partida", ViewBag.lstPartidas as SelectList, "Seleccione Partida", new { @class = "form-control " + (ViewBag.idRequisicion != 0 ? "disabledClick" : ""), @Required = "", @onchange = "getPresupuestoPartida()" })
+                        }
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="Estatal">Origen de recursos</label>
+                        @Html.TextBox("OrigenRecursos", "Estatal", new { @type = "text", @class = "form-control " + (ViewBag.idRequisicion != 0 ? "disabledClick" : ""), @id = "OrigenRecursos", @readonly = true, @Required = "" })
+
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="ValorAproximado">Valor aproximado</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <input type="text" class="form-control required number @((ViewBag.idRequisicion) != 0 ? Model.oRequisicones.IdEstatusRequisicion==20? "": "disabledClick" : "") " style="text-align:right;width:70%" id="ValorAproximado" value="@((ViewBag.idRequisicion) == 0 ? "" : String.Format("{0:N2}", Model.oRequisicones.MontoAproximadoAutorizado))" @((ViewBag.idRequisicion) == 0 ? "" :  Model.oRequisicones.IdEstatusRequisicion==20? "": "readonly") />
+                            @*@Html.TextBox("ValorAproximado", Model.oRequisicones.MontoAproximado, new { @type = "number", @class = "form-control required number " + ((ViewBag.idRequisicion) != 0 ? "disabledClick" : ""), @id = "ValorAproximado", @Required = "", @readonly = ((ViewBag.idRequisicion) != 0 ? "" : "readonly") })*@
+                            <input type="hidden" id="ValorAproximadoReal">
+                            <input type="hidden" id="IdPresupuestoPartida">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="NumeroOficioCertificacion">Número de oficio de certificación de recurso</label>
+                        @*<input type="text" class="form-control required @((ViewBag.idRequisicion) != 0 ? "disabledClick" : "")" required id="NumeroOficioCertificacion" value="@Model.oRequisicones.NumeroOficioCertificacion" @((ViewBag.idRequisicion) == 0 ? "" : "readonly") />*@
+                        @Html.TextBox("NumeroOficioCertificacion", Model.oRequisicones.NumeroOficioCertificacion, new { @type = "text", @class = "form-control required " + (ViewBag.idRequisicion != 0 ? "disabledClick" : ""), @id = "NumeroOficioCertificacion", @Required = ""})
+                        @*@Html.TextBox("NumeroOficioCertificacion", Model.oRequisicones.NumeroOficioCertificacion, new { @type = "text", @class = "form-control required " + (ViewBag.idRequisicion != 0 ? "disabledClick" : ""), @id = "NumeroOficioCertificacion", @placeholder = "Número de oficio de certificación de recurso", @Required = "" })*@
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="Tiempo">Tiempos</label>
+                        @if (ViewBag.lstRequisicionesAbiertas != null)
+                        {
+                            @Html.DropDownList("Tiempo", ViewBag.lstTiempos as SelectList, "Seleccione Tiempo", new { @class = "form-control " + (ViewBag.idRequisicion != 0 ? "disabledClick" : ""), @Required = "" })
+                        }
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="Ejercicio">Ejercicio</label>
+                        <input type="text" class="form-control" readonly id="Ejercicio" value="@ViewBag.ejercicioActual.Ejercicio">
+                        <input type="hidden" id="IdEjercicioFiscal" value="@ViewBag.ejercicioActual.IdEjercicioFiscal">
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-12 text-left">
+                    <div class="form-group">
+                        <label for="Observacion">Observaciones dependencias</label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-12 text-left">
+                    <div class="form-group">
+                        <textarea class="form-control" style="resize: none;" id="Observacion" , @( ViewBag.idRequisicion == 0 ? "" : "disabled")>@Model.oRequisicones.Observaciones</textarea>
+                    </div>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>

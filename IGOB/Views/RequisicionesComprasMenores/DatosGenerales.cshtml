@@ -1,0 +1,95 @@
+﻿<div id="DatosGenerales" class="tab-pane active">
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>DATOS GENERALES</strong>
+        </div>
+    </div>
+    <div class="" id="DatosGeneralesDiv">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form", id = "DatosGeneralesForm" }))
+        {
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Folio de Compra</label>
+                        <input type="text" class="form-control" id="RequisicionFolio" readonly>
+                        <input type="hidden" id="IdRequisicionCompraMenor" class="form-control" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Solicitud</label>
+                        @Html.DropDownList("IdTipoSolicitud", ViewBag.lstSolicitud as SelectList, "Seleccione Solicitud", new { @class = "form-control", @Required = "" })
+                    </div>
+                </div>
+
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <label>Área solicitante</label>
+                        @Html.DropDownList("IdDepartamento", ViewBag.lstDepartamentos as SelectList, "Seleccione Área", new { @class = "form-control", @Required = "" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Capítulo</label>
+                        @Html.DropDownList("IdCapitulo", ViewBag.lstCapitulos as SelectList, "Seleccione Capítulo", new { @class = "form-control", @Required = "", @onchange = "getAllPartida_x_IdCapitulo()" })
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Partida</label>
+                        @if (ViewBag.lstPartidas != null)
+                        {
+                            @Html.DropDownList("IdPartida", ViewBag.lstPartidas as SelectList, "Seleccione Partida", new { @class = "form-control", @Required = "", @onchange = "checkMonto(this.value);" })
+                        }
+                        <input type="hidden" readonly id="SaldoPartida" value="" />
+                        <input type="hidden" readonly id="total" value="" />
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Origen de recurso</label>
+                        <input type="text" class="form-control" readonly id="OrigenRecurso" value="@ViewBag.origenRecurso.OrigenRecurso">
+                        <input type="hidden" class="form-control" readonly id="IdOrigenRecurso" value="@ViewBag.origenRecurso.IdOrigenRecurso">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <label>Proveedor</label>
+                        @Html.DropDownList("IdProveedor", ViewBag.lstProveedores as SelectList, "Seleccione Proveedor", new { @class = "form-control", @Required = "" })
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Ejercicio</label>
+                        <input type="text" class="form-control" readonly id="Ejercicio" value="@ViewBag.ejercicioActual.Ejercicio">
+                        <input type="hidden" class="form-control" readonly id="IdEjercicioFiscal" value="@ViewBag.ejercicioActual.IdEjercicioFiscal">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Justificación *</label>
+                        <textarea id="Justificacion" class="form-control" style="resize: none;" required></textarea>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Observaciones</label>
+                        <textarea id="Observaciones" class="form-control" style="resize: none;"></textarea>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

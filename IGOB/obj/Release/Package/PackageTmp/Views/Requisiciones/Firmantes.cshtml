@@ -1,0 +1,95 @@
+﻿@model IGOB.Models.Requisicion
+@{ var activar = ""; var dishabilitado50 = "";}
+@switch (Model.oRequisicones.IdEstatusRequisicion)
+{
+    case 50:
+    case 85:
+    case 75:
+        if (ViewBag.IdPerfil == 4)
+        {
+            activar = "disabledClick";
+        }
+        else
+        {
+            activar = "";
+            dishabilitado50 = "disabled";
+        }
+        break;
+    case 60:
+        activar = "";
+        break;
+    default:
+        { activar = "disabledClick"; }
+        break;
+}
+<div id="div_firmantes" class="container-fluid tab-pane fade @(activar)">
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>FIRMANTES</strong>
+        </div>
+    </div>
+    <br />
+
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form", @id = "RequFirm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+        <div class="row col-12">
+            <input type="hidden" name="IdRqFirmante" id="IdRqFirmante" value="1">
+            <input type="hidden" name="IdRequisicion" id="IdRequisicion" value="@ViewBag.idRequisicion">
+            <input type="hidden" name="IdEstatusRequisicion" id="IdEstatusRequisicion" value="0">
+            <input type="hidden" name="IdUsuarioSolicitante" id="IdUsuarioSolicitante" value="@ViewBag.idUsrSol">
+            <input type="hidden" name="IdUsuarioAutoriza" id="IdUsuarioAutoriza" value="@ViewBag.idUrsAut">
+
+            <input type="hidden" name="ObservacionLotesRevisor" id="ObservacionLotesRevisor" value=" ">
+            <input type="hidden" name="ValidaLotesRevisor" id="ValidaLotesRevisor" value="false">
+            <input type="hidden" name="ObservacionConEntregaRevisor" id="ObservacionConEntregaRevisor" value=" ">
+            <input type="hidden" name="ValidaCondicionEntregaRevisor" id="ValidaCondicionEntregaRevisor" value="false">
+            <input type="hidden" name="ObservacionCondPagoRevisor" id="ObservacionCondPagoRevisor" value=" ">
+            <input type="hidden" name="ValidaCondicionPagoRevisor" id="ValidaCondicionPagoRevisor" value="false">
+            <input type="hidden" name="ObservacionDoctosRevisor" id="ObservacionDoctosRevisor" value=" ">
+            <input type="hidden" name="ValidaDocumentosRevisor" id="ValidaDocumentosRevisor" value="false">
+
+            <div class="col-md-6 col-sm-12"><h6><strong> Nombre de quien solicita: </strong></h6><input type="text" name="UsuarioSolicitante" id="UsuarioSolicitante" class="form-control" value="@ViewBag.NameSol" readonly></div>
+            <div class="col-md-6 col-sm-12"><h6><strong> Nombre de quien autoriza: </strong></h6><input type="text" name="UsuarioAutoriza" id="UsuarioAutoriza" class="form-control" value="@Session["Perfil"]" readonly></div>
+            <div class="col-md-6 col-sm-12">
+                <h6><strong> Autorizar lotes: </strong></h6>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" name="ValidaLotes" id="ValidaLotes" value="true" class="custom-control-input" @dishabilitado50 @ViewBag.inactivo @((ViewBag.reqFirm == null) ? "" : ((ViewBag.reqFirm.ValidaLotes == true) ? "checked" : ""))>
+                    <label class="custom-control-label" for="ValidaLotes">Si</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" name="ValidaLotes" id="ValidaLotes1" value="false" class="custom-control-input" @dishabilitado50 @ViewBag.inactivo @((ViewBag.reqFirm == null) ? "checked" : (ViewBag.reqFirm.ValidaLotes == false ? "checked" : ""))>
+                    <label class="custom-control-label" for="ValidaLotes1">No</label>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12"><h6><strong> Observaciones de lotes: </strong></h6><textarea class="form-control" cols="4" name="ObservacionLotes" id="ObservacionLotes" @dishabilitado50 @((ViewBag.reqFirm==null) ? ViewBag.inactivo : "readonly")>@((ViewBag.reqFirm==null) ? "" : ViewBag.reqFirm.ObservacionLotes)</textarea></div>
+            <div class="col-md-6 col-sm-12">
+                <h6><strong> Autorizar condiciones de entrega: </strong></h6>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" name="ValidaCondicionEntrega" id="ValidaCondicionEntrega" value="true" class="custom-control-input" @dishabilitado50 @ViewBag.inactivo @((ViewBag.reqFirm == null) ? "" : (ViewBag.reqFirm.ValidaCondicionEntrega == true ? "checked" : ""))>
+                    <label class="custom-control-label" for="ValidaCondicionEntrega">Si</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" name="ValidaCondicionEntrega" id="ValidaCondicionEntrega1" value="false" class="custom-control-input" @dishabilitado50 @ViewBag.inactivo @((ViewBag.reqFirm == null) ? "checked" : (ViewBag.reqFirm.ValidaCondicionEntrega == false ? "checked" : ""))>
+                    <label class="custom-control-label" for="ValidaCondicionEntrega1">No</label>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12"><h6><strong> Observaciones de condiciones de entrega: </strong></h6><textarea class="form-control" cols="4" name="OnservacionCondicionEntrega" id="OnservacionCondicionEntrega" @dishabilitado50 @((ViewBag.reqFirm==null) ? ViewBag.inactivo : "readonly")>@((ViewBag.reqFirm==null) ? "" : ViewBag.reqFirm.OnservacionCondicionEntrega)</textarea></div>
+            <div class="col-md-6 col-sm-12">
+                <h6><strong> Autorizar condiciones de pago: </strong></h6>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" name="ValidaCondicionPago" id="ValidaCondicionPago" value="true" class="custom-control-input" @dishabilitado50 @ViewBag.inactivo @((ViewBag.reqFirm == null) ? "" : (ViewBag.reqFirm.ValidaCondicionPago == true ? "checked" : ""))>
+                    <label class="custom-control-label" for="ValidaCondicionPago">Si</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" name="ValidaCondicionPago" id="ValidaCondicionPago1" value="false" class="custom-control-input" @dishabilitado50 @ViewBag.inactivo @((ViewBag.reqFirm == null) ? "checked" : (ViewBag.reqFirm.ValidaCondicionPago == false ? "checked" : ""))>
+                    <label class="custom-control-label" for="ValidaCondicionPago1">No</label>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12"><h6><strong> Observaciones de condiciones de pago: </strong></h6><textarea class="form-control" cols="4" name="ObservacionCondicionPago" id="ObservacionCondicionPago" @dishabilitado50 @((ViewBag.reqFirm==null) ? ViewBag.inactivo : "readonly")>@((ViewBag.reqFirm==null) ? "" : ViewBag.reqFirm.ObservacionCondicionPago)</textarea></div>
+        </div>
+    }
+
+</div>

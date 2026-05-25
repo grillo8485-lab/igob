@@ -1,0 +1,123 @@
+﻿@model iGob.Entidades.beBienesServicios
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @Id = "form-BS" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="modal-body">
+        <input type="hidden" id="CodigoScian" name="CodigoScian" value="@Model.CodigoScian" />
+        <div class="row col-12">
+            <div class="col-12">
+                <label> Codigo scian: </label>
+                <input type="text" name="DescripcionScian" id="DescripcionScian"  class="form-control" autocomplete="off" required>
+            </div>
+        </div>
+        <div class="row col-12">
+            <div class="col-6">
+                <label> Capítulo: </label>
+                @Html.DropDownList("IdCapitulo", ViewBag.capitulosList as SelectList, "Seleccionar capitulo", new { @class = "form-control", @Required = "", @id = "IdCapitulo" })
+            </div>
+            <div class="col-6">
+                <label> Partida: </label>
+                @Html.DropDownList("IdPartida", ViewBag.partidaLst as SelectList, "Seleccionar partida", new { @class = "form-control", @Required = "", @id = "IdPartida" })
+            </div>
+        </div>
+        <div class="row col-12">
+            <div class="col-8">
+                <label> Familia: </label>
+                @if (ViewBag.FamiliasList != null)
+                {
+                    @Html.DropDownList("IdFamilia", ViewBag.FamiliasList as SelectList, "Seleccionar", new { @class = "form-control", @Required = "", @id = "IdFamilia" })
+                }
+            </div>
+            <div class="col-4">
+                <label> Producto: </label>
+                @if (ViewBag.TPList != null)
+                {
+                    @Html.DropDownList("IdTipoProducto", ViewBag.TPList as SelectList, "Seleccionar tipo producto", new { @class = "form-control", @Required = "", @id = "IdTipoProducto" })
+                }
+            </div>
+        </div>
+        <div class="row col-12">
+            <div class="col-4">
+                <label> Marca: </label>
+                @if (ViewBag.MarcaList != null)
+                {
+                    @Html.DropDownList("IdMarca", ViewBag.MarcaList as SelectList, "Seleccione la Marca", new { @class = "form-control", @Required = "", @id = "IdMarca" })
+                }
+            </div>
+            <div class="col-md-4">
+                <label> Unidad de Medida: </label>
+                @if (ViewBag.UMList != null)
+                {
+                    @Html.DropDownList("IdUnidadMedida", ViewBag.UMList as SelectList, "Seleccione la Medida", new { @class = "form-control", @Required = "" })
+                }
+            </div>
+            <div class="col-4">
+                <label> Modificador: </label>
+                @if (ViewBag.ModificadorList != null)
+                {
+                    @Html.DropDownList("IdModificador", ViewBag.ModificadorList as SelectList, "Seleccione el Modificador", new { @class = "form-control", @Required = "" })
+                }
+            </div>
+        </div>
+        <div class="row col-12">
+            <div class="col-4">
+                <label> Divisa: </label>
+                @if (ViewBag.TMList != null)
+                {
+                    @Html.DropDownList("IdTipoMoneda", ViewBag.TMList as SelectList, "Seleccione la divisa", new { @class = "form-control", @Required = "" })
+                }
+            </div>
+            <div class="col-4">
+                <label> Precio unitario de lista sin IVA: </label>
+                <input type="number" min="0" id="PrecioUnitario" required name="PrecioUnitario" class="form-control" value="@Model.PrecioUnitario" />
+            </div>
+            <div class="col-4">
+                <label> Impuesto: </label>
+                @if (ViewBag.ImpList != null)
+                {
+                    @Html.DropDownList("IdImpuesto", ViewBag.ImpList as SelectList, "Seleccione el tipo de Impuesto", new { @class = "form-control", @Required = "" })
+                }
+            </div>
+        </div>
+        <div class="row col-12">
+            <div class="col-8">
+                <label> Bien o Servico: </label>
+                <input type="text" class="form-control" id="BienServicio" required name="BienServicio" value="@Model.BienServicio" />
+            </div>
+            <div class="col-4">
+                <label> Clave Producto: </label>
+                <input type="text" @(Model.IdBienServicio == 0 ? "" : "disabled") class="form-control" id="ClaveCubs" name="ClaveCubs" value="@Model.ClaveCubs" />
+            </div>
+        </div>
+        <div class="row col-12">
+            <div class="col-8">
+                <label> Características: </label>
+                <textarea id="Descripcion" name="Descripcion" required class="form-control" rows="4" style="resize: none;">@Model.Descripcion</textarea>
+            </div>
+            <div class="col-4">
+                <label> Certificación: </label>
+                @if (ViewBag.CertList != null)
+                {
+                    @Html.DropDownList("IdCertificacion", ViewBag.CertList as SelectList, "Seleccione la certificación", new { @class = "form-control", @Required = "" })
+                }
+            </div>
+
+        </div>
+
+        <input type="hidden" name="PrecioUnitarioMejorLicitado" value="@Model.PrecioUnitarioMejorLicitado" />
+        <input type="hidden" id="IdBienServicio" name="IdBienServicio" value="@Model.IdBienServicio" />
+        <input type="hidden" name="Codigo" value="@Model.Codigo" />
+        <input type="hidden" name="FechaRegistro" id="FechaRegistro" value="@Model.FechaRegistro" />
+        <input type="hidden" name="IdUsuarioRegistro" value="@Model.IdUsuarioRegistro" />
+        @if (Model.IdBienServicio != 0)
+        {
+            <input type="hidden" name="ClaveCubs" value="@Model.ClaveCubs" />
+        }
+
+
+        <input type="hidden" name="Activo" value="true" />
+    </div>
+
+}

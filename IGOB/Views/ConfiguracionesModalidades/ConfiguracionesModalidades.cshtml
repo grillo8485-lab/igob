@@ -1,0 +1,82 @@
+﻿@model IGOB.Models.ConfiguracionesModalidades
+<div>
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form", @id = "configuracionesModalidadesForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+        @*<input type="hidden" id="IdConfiguracionModalidad" value="@Model.oConfiguracionesModalidades.IdConfiguracionModalidad" />*@
+        @Html.Hidden("IdConfiguracionModalidad", Model.oConfiguracionesModalidades.IdConfiguracionModalidad) 
+        <div class="row">
+            <div class="col-md-2 text-right">Tiempo:</div>
+            <div class="col-md-4 text-left">
+                @Html.DropDownList("IdTiempo", ViewBag.lstTiempos as SelectList, "Seleccione tiempo", new { @class = "form-control ", @Required = "", @id = "IdTiempo" })
+
+            </div>
+            <div class="col-md-2 text-right">Licitación:</div>
+            <div class="col-md-4 text-left">
+                @Html.DropDownList("IdTipoLicitacion", ViewBag.lstTiposLicitaciones as SelectList, "Seleccione licitacion", new { @class = "form-control ", @Required = "", @id = "IdTipoLicitacion" })
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2 text-right">Modalidad licitacion:</div>
+            <div class="col-md-4 text-left">
+
+                @Html.DropDownList("IdModalidadLicitacion", ViewBag.lstModalidadesLicitaciones as SelectList, "Seleccione Modalidad Licitacion", new { @class = "form-control ", @Required = "", @id = "IdModalidadLicitacion" })
+
+            </div>
+            <div class="col-md-2 text-right">Días para publicación de convocatorias:</div>
+            <div class="col-md-4 text-left">
+                @Html.TextBox("PublicacionConvocatoriaDia", Model.oConfiguracionesModalidades.PublicacionConvocatoriaDia, new { @class = "form-control ", @id = "PublicacionConvocatoriaDia", @placeholder = "Introduce dias", @Required = "", @type = "number" })
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2 text-right">Días disposición de bases:</div>
+            <div class="col-md-4 text-left">
+                @Html.TextBox("DisposicionBasesDias", Model.oConfiguracionesModalidades.DisposicionBasesDias, new { @class = "form-control ", @id = "DisposicionBasesDias", @placeholder = "Introduce dias base", @Required = "", @type = "number" })
+
+            </div>
+            <div class="col-md-2 text-right">Hora limites de envio de preguntas:</div>
+            <div class="col-md-4 text-left">
+                @Html.TextBox("LimiteEnvioPreguntasHoras", Model.oConfiguracionesModalidades.LimiteEnvioPreguntasHoras, new { @class = "form-control ", @id = "LimiteEnvioPreguntasHoras", @placeholder = "hora limite preguntas", @Required = "", @type = "number" })
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 text-right">Hora limites de envio de Respuestas:</div>
+            <div class="col-md-4 text-left">
+                @Html.TextBox("LimiteEnvioRespuestasHoras", Model.oConfiguracionesModalidades.LimiteEnvioRespuestasHoras, new { @class = "form-control ", @id = "LimiteEnvioRespuestasHoras", @placeholder = "Hora limite respuesta", @Required = "", @type = "number" })
+
+            </div>
+            <div class="col-md-2 text-right">Días para la junta de aclaración de dudas:</div>
+            <div class="col-md-4 text-left">
+                @Html.TextBox("AclaracionDudasDias", Model.oConfiguracionesModalidades.AclaracionDudasDias, new { @class = "form-control ", @id = "AclaracionDudasDias", @placeholder = "Dias aclaración junta", @Required = "", @type = "number" })
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 text-right">Días para el envio de propuestas técnicas:</div>
+            <div class="col-md-4 text-left">
+                @Html.TextBox("EnvioProuestaTecEcoDias", Model.oConfiguracionesModalidades.EnvioProuestaTecEcoDias, new { @class = "form-control ", @id = "EnvioProuestaTecEcoDias", @placeholder = "Días envio Proc. Tec.", @Required = "", @type = "number" })
+
+            </div>
+            <div class="col-md-2 text-right">Días para entrega de dictamen:</div>
+            <div class="col-md-4 text-left">
+                @Html.TextBox("EntregaDictamenDias", Model.oConfiguracionesModalidades.EntregaDictamenDias, new { @class = "form-control ", @id = "EntregaDictamenDias", @placeholder = "Dias entrega dictamen", @Required = "", @type = "number" })
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 text-right">Días para el envio de propuestas técnicas:</div>
+            <div class="col-md-4 text-left">
+                @Html.TextBox("FalloDias", Model.oConfiguracionesModalidades.FalloDias, new { @class = "form-control ", @id = "FalloDias", @placeholder = "Días fallo", @Required = "", @type = "number" })
+
+            </div>
+            <div class="col-md-6 ">
+            </div>
+        </div>
+    }
+</div>

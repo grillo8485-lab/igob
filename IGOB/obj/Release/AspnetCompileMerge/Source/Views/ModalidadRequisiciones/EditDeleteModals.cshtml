@@ -1,0 +1,70 @@
+﻿<!-- Modal Edit - New -->
+<div class="modal fade" id="ModalidadRequisicionModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Editar Modalidad Licitación</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Id = "form-MR" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <div class="row container-fluid">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5"><h6><strong> Modalidad Requisición: </strong></h6></div>
+                                <div class="col-7">
+                                    <input type="text" name="ModalidadRequisicion" id="ModalidadRequisicion" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5"><h6><strong> Abreviatura: </strong></h6></div>
+                                <div class="col-7">
+                                    <input type="text" name="Abreviatura" id="Abreviatura" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="IdModalidadRequisicion" id="IdModalidadRequisicion" value="0" />
+                    <input type="hidden" name="Activo" value="true" />
+                    <br /> <br />
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Editar" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->
+<!-- Modal Delete -->
+<div class="modal fade" id="DeleteModalidadRequisicionModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Eliminar Registro</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <br />
+                    <h4 id="titleModalidadRequisicion" ></h4>
+                    <input type="hidden" id="IdModalidadRequisicion" class="IdModalidadRequisicion" />
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Eliminar" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->

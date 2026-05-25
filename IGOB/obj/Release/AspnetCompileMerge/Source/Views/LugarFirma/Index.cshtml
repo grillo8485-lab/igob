@@ -1,0 +1,160 @@
+﻿@model IEnumerable<iGob.Entidades.beLugaresEntregaFirma>
+@section css
+{
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <style>
+        #map {
+            width: 100% !important;
+            height: 15vw !important;
+        }
+        .col-12 {
+            margin: 5px;
+        }
+    </style>
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<input type="button" id="create-item" class="btn btn-secondary" value="Nuevo Lugar Firma" />
+<br /><br />
+<table class="table-bordered hover" id="tableCatalogos">
+    <thead align="justify">
+        <tr>
+            <th style="min-width:100px;width:110px">Acciones </th>
+            <th> Lugar de entrega </th>
+            <th>Estado</th>
+            <th>Dependecia</th>
+            <th>Telefono</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td align="center" valign="middle">
+                    <div class="form-group" style="min-width:100px;width:110px">
+                        <a title="Eliminar registro" class="btn btn-secondary btn-circle delet-item btn-sm"
+                           data-idlef="@item.IdLugarEntregaFirma"
+                           data-lugar="@item.Lugar"
+                           ><span class="icon-garbage-2"></span></a>
+                        <a title="Editar registro"
+                           data-idlef="@item.IdLugarEntregaFirma"
+                           data-idep="@item.IdDependencia"
+                           data-idmp="@item.IdMunicipio"
+                           data-idtl="@item.IdTipoLugar"
+                           data-idur="@item.IdUsuarioRegistro"
+                           data-lg="@item.Lugar"
+                           data-est="@item.Estado"
+                           data-mun="@item.Municipio"
+                           data-dir="@item.Direccion"
+                           data-col="@item.Colonia"
+                           data-cp="@item.CodigoPostal"
+                           data-tel="@item.Telefono"
+                           data-locg="@item.LocalizacionGoogle"
+                           data-fereg="@item.FechaRegistro"
+                           data-clest="@item.ClaveEstado"
+                           class="btn btn-secondary btn-circle edit-item btn-sm"><span class="icon-edit"></span></a>
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lugar)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Estado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Dependencia)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telefono)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="modalform" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title"><span id="formEditCreate"></span> Lugar Firma</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div align="center"><strong id="MensajeForm"></strong></div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, htmlAttributes: new { @class = "lugarEntrega" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <div class="row col-12">
+                        <div class="col-7">
+                            <label> Dependencia: </label>
+                            @Html.DropDownList("IdDependencia", ViewBag.ListDep as SelectList, "Seleccione una Dependencia", new { @class = "form-control", @Required = "" })
+                        </div>
+                        <div class="col-5">
+                            <label> Estado: </label>
+                            @Html.DropDownList("Estado", ViewBag.ListEnt as SelectList, "Seleccione una Entidad", new { @class = "form-control Entidad", @Required = "" })
+                        </div>
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-6">
+                            <label> Municipio: </label>
+                            <select id="IdMunicipio" name="IdMunicipio" class="form-control"></select>
+                        </div>
+                        <div class="col-6">
+                            <label> Lugar: </label>
+                            <input type="text" id="Lugar" name="Lugar" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-7">
+                            <label> Dirección: </label>
+                            <input type="text" id="Direccion" name="Direccion" class="form-control" required />
+                        </div>
+                        <div class="col-5">
+                            <label> Colonia: </label>
+                            <input type="text" id="Colonia" name="Colonia" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-4">
+                            <label> Código Postal: </label>
+                            <input type="number" min="0" id="CodigoPostal" name="CodigoPostal" class="form-control textDerecha" required />
+                        </div>
+                        <div class="col-4">
+                            <label> Teléfono: </label>
+                            <input type="text" id="Telefono" name="Telefono" class="form-control textDerecha" required />
+                        </div>
+                    </div>
+                    <div class="row col-12">
+                        <label> Geo-localización:  </label><br />
+                        <div id="map" style="width:390px;height:330px;position:relative"></div>
+                        <input type="hidden" id="LocalizacionGoogle" name="LocalizacionGoogle" class="form-control" required />
+                    </div>
+
+                    <input type="hidden" name="IdLugarEntregaFirma" id="IdLugarEntregaFirma" class="form-control" />
+                    <input type="hidden" name="IdTipoLugar" id="IdTipoLugar" class="form-control" value="2" />
+                    <input type="hidden" name="IdUsuarioRegistro" id="IdUsuarioRegistro" class="form-control" value="1" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <input type="submit" value="Guardar" id="submit" class="btn btn-secondary" />
+                </div>
+
+            }
+        </div>
+
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZRXUq794gmdIcVRUS0toiAQD9MnQEFYg&libraries=places&callback=initAutocomplete" async defer></script> <!--Modal-->
+    <script src="~/Scripts/inputMapLugEntFirm.js"></script>
+    <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+    <script src="~/Scripts/Catalogos/AccionesLugarEntrega.js"></script>
+}
+

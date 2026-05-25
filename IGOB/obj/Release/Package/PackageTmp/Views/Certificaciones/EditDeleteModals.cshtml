@@ -1,0 +1,35 @@
+﻿<!-- Modal Edit - New -->
+<div class="modal fade" id="CertModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Editar Certificación</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { Id = "form-Cert" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+                <div class="modal-body">
+                    <div class="row col-12">
+                        <div class="col-8">
+                            <label> Nombre de la certificación: </label>
+                            <input type="text" name="Certificacion" id="Certificacion" class="form-control" required />
+                        </div>
+                        <div class="col-4">
+                            <label> No. certificación: </label>
+                            <input type="text" name="NoCertificacion" id="NoCertificacion" class="form-control textDerecha" required />
+                        </div>
+                    </div>
+                    <input type="hidden" name="FechaRegistro" id="FechaRegistro" value="" />
+                    <input type="hidden" name="IdCertificacion" id="IdCertificacion" value="0"/><br /> <br />
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Editar" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->

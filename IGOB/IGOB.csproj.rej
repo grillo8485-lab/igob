@@ -1,0 +1,5 @@
+
+      <Compile Include="Controllers\CuentasBancariasController.cs" />
+      <Compile Include="Controllers\DependenciasController.cs" />
+      <Compile Include="Controllers\DiasInhabilesController.cs" />
+      <Compile Include="Controllers\GobiernoController.cs" />

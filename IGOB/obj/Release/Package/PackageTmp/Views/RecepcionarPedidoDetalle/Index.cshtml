@@ -1,0 +1,94 @@
+﻿
+@model List<iGob.Entidades.beListadoPedidosLicitaciones>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .dataTables_scrollBody {
+        position: unset !important;
+        z-index: 1 !important;
+    }
+
+    .dataTables_wrapper {
+        z-index: 2 !important;
+        position: unset !important;
+    }
+
+    hr {
+        margin-top: 0rem !important;
+        margin-bottom: 0rem !important;
+    }
+    .hide {
+        display: none;
+    }
+</style>
+<div class="pos-f-t">
+    <nav class="navbar bg-secondary text-white navbar-light bg-light changeColorModal">
+        <div class="col-9 text-left">
+            <h6>@ViewBag.Titulo</h6>
+        </div>
+        <div class="col-3 text-right" style="text-align: right;">
+
+            <button class="btn btn-default btn-circle  btn-sm" type="button" onclick="recepcionPedidoFirmaConfirm()" id="btnRecepcionarPedidoDetalle">RECIBIR</button>
+            <button type="button" class="btn btn-default btn-sm" onclick="location.href='@Url.Action("Index", "LiberarPedido")'">
+                <span class="glyphicon glyphicon-step-backward"></span> Regresar
+            </button>
+        </div>
+    </nav>
+</div>
+<div class="container-fluid">
+    @using (Html.BeginForm("", "", FormMethod.Post, new { @id = "formGenerarPedido" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+        <table class="table" id="LiberarPedidoDetalleCaptura" width="100%">
+            <thead>
+                <tr style="text-align:center">
+                    <th align="justify"> Lote </th>
+                    <th align="justify"> Descripción </th>
+
+                    <th align="justify"> Unidad  <br />de medida </th>
+                    <th align="justify"> Cantidad total </th>
+                    <th align="justify"> Cantidad  <br />pendiente <br />por recibir</th>
+                    <th align="justify"> Cantidad  <br />total recibida </th>
+                    <th align="justify"> Cantidad a recibir </th>
+
+                    <th align="justify"> Lugar entrega </th>
+                    <th align="justify"> Observación </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td align="center">
+                        @item.NoLote
+                        <input type="hidden" name="IdPedidoDetalle" id="IdPedidoDetalle" value="@item.IdPedidoDetalle" />
+                        <input type="hidden" name="IdCondicionEntregaDetalle" id="IdCondicionEntregaDetalle" value="@item.IdCondicionEntregaDetalle" />
+                    </td>
+
+                    <td>@item.BienServicio</td>
+                    <td>@item.UnidadMedida</td>
+                    <td align="right">@item.Cantidad</td>
+                    <td align="right">@item.CantidadxRecibir</td>
+                    <td align="right">@item.CantidadRecibida</td>
+                    <td align="right" style="width:150px;">
+                        <input type="number" style="text-align:right;width:100%;" max="@item.CantidadxRecibir" class="form-control " min="1" name="CantidadRecibida" id="CantidadRecibida" value="0" @(item.CantidadxRecibir == 0 ? "disabled":"")/>
+                    </td>
+                    <td>
+                        @Html.DropDownList("IdLugarEntrega", new SelectList(ViewBag.lstLugarEntregaFirma as List<iGob.Entidades.beLugaresEntregaFirma>, "IdLugarEntregaFirma", "Lugar", item.IdLugarEntrega), "Seleccione lugar entrega", new { @class = "form-control "+(item.CantidadxRecibir == 0 ? "disabledClick" : ""), @Required = "", @id = "IdLugarEntrega" })
+                    </td>
+                    <td>
+                        <textarea name="Observaciones" id="Observaciones" class="form-control" @(item.CantidadxRecibir == 0 ? "disabled" : "")></textarea>
+                        <input type="hidden" name="CantidadxRecibir" value="@item.CantidadxRecibir" id="CantidadxRecibir" />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+@section scripts{
+    <script src="~/Scripts/Catalogos/LiberarPedidoLicitacion.js"></script>
+}

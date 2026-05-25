@@ -1,0 +1,72 @@
+﻿@model List<IGOB.Areas.Catalogos.Models.ClsGenerica>
+@{
+    ViewBag.Title = "Uusuarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<input type="hidden" name="IdUsuario" id="IdUsuario_" value="0" />
+
+<div class="banner-color"></div>
+<button type="button" class="btn btn-secondary btn-circle " onclick="nuevoUsuario()"><span class="icon-add-3"></span>
+   NUEVO USUARIO
+   </button>
+<br />
+    <table class="table" id="UsuarioTabla">
+        <thead align="">
+            <tr>
+                <th> Acciones </th>
+                <th> # </th>
+                <th> Usuario </th>
+                <th> Nombre </th>
+                <th> Perfil</th>
+                <th> Dependencia </th>
+                <th> Proveedor </th>
+                <th> Activo</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{var i = 1;}
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    <div class="form-group" style="min-width:80px;">
+                        <button type="button" class="btn btn-secondary btn-circle btn-sm" onclick="elimnarUsuario(@item.id,'@item.string1')"><span class="icon-garbage-2"></span></button>
+                        <button type="button" class="btn btn-secondary btn-circle btn-sm" onclick="editarUsuario(@item.id)"><span class="icon-edit"></span></button>
+
+                    </div>
+                </td>
+                <td>
+                    @i
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.string1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.string2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.string3)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.string5)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.string6)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.string4)
+                </td>
+            </tr>
+                { i++; }
+            }
+        </tbody>
+    </table>
+@{
+    Html.RenderPartial("EditUsuario");
+    Html.RenderPartial("BuscarPersona");
+    
+}
+@section scripts{
+    <script src="~/Scripts/Catalogos/Usuarios.js"></script>
+}

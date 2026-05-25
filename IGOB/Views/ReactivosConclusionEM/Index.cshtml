@@ -1,0 +1,94 @@
+﻿@model List<iGob.Entidades.beReactivosConclusionEM>
+@{
+    ViewBag.Title = "Catalogo de estudio de mercado";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form" }))
+{
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+    <button type="button" class="btn btn-secondary btn-circle" onclick="editReactivo(0)">
+        <span class="icon-add-3"></span>
+        NUEVO REACTIVO
+    </button>
+    <br />
+    <br />
+    <div id="ReactivosConclusionEMLoad">
+        <table class="table" id="ReactivosConclusionEMTable" width="100%">
+            <thead align="center">
+                <tr>
+                    <th># </th>
+                    <th>Acciones </th>
+                    <th>Reactivo </th>
+                    <th>Activo</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{var i = 1;}
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.IdReactivoConclusionEM
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-secondary btn-circle edit-marca btn-sm" onclick="editReactivo(@item.IdReactivoConclusionEM)">
+                                    <span class="icon-edit"></span>
+                                </button>
+                            </div>
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Reactivo)
+                        </td>
+
+                        <td>
+                            @(item.Activo ? "Si" : "No")
+                        </td>
+                    </tr>
+                    { i++; }
+                }
+            </tbody>
+        </table>
+
+
+
+    </div>
+}
+<!-- Modal nuevo reactivo -->
+<div class="modal fade" id="modal_nuevo_reactivo">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title" id="modal-title">Reactivo</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container">
+                    <div id="CargarReactivoResultado">
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                <button type="button" class="btn btn-secondary" id="GuardarLote" onclick="saveEditLoteConfirm()">GUARDAR</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/Catalogos/Reactivo.js"></script>
+}
+

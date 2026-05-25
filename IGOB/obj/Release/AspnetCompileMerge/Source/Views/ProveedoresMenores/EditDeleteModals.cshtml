@@ -1,0 +1,153 @@
+﻿<!-- Modal Edit - New -->
+<div class="modal fade" id="ProvModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title" id="formEditCreate">Editar Proveedor</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div id="MensajeForm"></div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Id = "formProvMen" }))
+             {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <div class="row col-12">
+                        <div class="col-md-8 col-sm-12">
+                            <label> Nombre Proveedor: </label>
+                            <input type="text" name="NombreComercial" id="NombreComercial" required class="form-control" />
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <input type="hidden" id="IdProveedor" name="IdProveedor" value="0" />
+                            <input type="hidden" id="EstatusProveedor" name="EstatusProveedor" value="1" />
+                            <input type="hidden" id="TipoProveedor" name="TipoProveedor" value="@((ViewBag.Tipo == 0 || ViewBag.Tipo == 1) ? ViewBag.Tipo : 0)" />
+                            <input type="hidden" name="IdGobierno" value="@((ViewBag.gob != null) ? ViewBag.gob : 0)" />
+                            <label> Tipo de Persona: </label>
+                            <select name="TipoPersona" id="TipoPersona" class="form-control" required>
+                                <option value="" selected="selected" disabled>Seleccionar</option>
+                                <option value="1">Moral</option>
+                                <option value="2">Fisica</option>
+                            </select>
+                        </div>
+                        <div class="col-md-8 col-sm-12">
+                            <label> Razon Social: </label>
+                            <input type="text" name="RazonSocial" id="RazonSocial" required class="form-control" />
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label> Nombre Contacto: </label>
+                            <input type="text" id="NombreContacto" name="NombreContacto" class="form-control" required />
+                        </div>
+                    
+                        <div class="col-md-4 col-sm-6">
+                            <label> Teléfono: </label>
+                            <input type="tel" id="Telefono" name="Telefono" class="form-control" required />
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <label> Contacto Celular: </label>
+                            <input type="text" id="CelularContacto" name="CelularContacto" class="form-control" required />
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <label> Curp: </label>
+                            <input type="text" id="Curp" name="Curp" class="form-control" required />
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <label style="text-transform:uppercase"> RFC: </label>
+                            <input type="text" id="Rfc" name="Rfc" onblur="rfcValido(this.value)" required class="form-control" />
+                        </div>
+                        <div class="col-md-8 col-sm-12">
+                            <label> Correo electrónico: </label>
+                            <input type="email" id="Email" name="Email" class="form-control" required />
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label> Banco: </label>
+                            @if (ViewBag.BancList != null)
+                            {
+                                @Html.DropDownList("IdBanco", ViewBag.BancList as SelectList, "Seleccione un Banco", new { @class = "form-control", @Required = "" })
+                            }
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label> Cuenta: </label>
+                            <input type="text" id="Cuenta" name="Cuenta" class="form-control" required />
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label> Titular : </label>
+                            <input type="text" id="Titular" name="Titular" class="form-control" required />
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label> CLABE: </label>
+                            <input type="text" id="CLABE" name="CLABE" class="form-control" required />
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label> Estado: </label>
+                            @if (ViewBag.EFList != null)
+                            {
+                                @Html.DropDownList("ClaveEstado", ViewBag.EFList as SelectList, "Seleccione el Estado", new { @class = "form-control", @Required = "" })
+                            }
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label> Municipio: </label>
+                            @Html.DropDownList("IdMunicipio", new SelectList(" "), "Seleccione el Municipio", new { @class = "form-control", @Required = "" })
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label> Número Exterior: </label>
+                            <input type="text" id="NoExterior" name="NoExterior" class="form-control" required />
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label> Número Interior: </label>
+                            <input type="text" id="NoInterior" name="NoInterior" class="form-control" />
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <label> Código Postal: </label>
+                            <input type="number" id="CodigoPostal" name="CodigoPostal" class="form-control" min="1" required />
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label> Colonia: </label>
+                            <input type="text" id="Colonia" name="Colonia" class="form-control" required />
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label> Calle (Proveedor): </label>
+                            <input type="text" id="Calle" name="Calle" required class="form-control" />
+                        </div>
+                        <div class="col-md-12 col-sm-12">
+                            <label> Página Web: </label>
+                            <input type="url" name="Sitiooficial" id="Sitiooficial" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Editar" id="submitform" class="btn btn-secondary" />
+                </div>
+             }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->
+<!-- Modal Delete -->
+<div class="modal fade" id="DeleteProvMenModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title" id="DeleteTitle">Eliminar Proveedor</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <br />
+                    <h4 id="titleprovmen"></h4>
+                    <input type="hidden" id="deleteId" />
+                </div>
+                <div class="modal-footer">
+
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Eliminar" class="btn btn-secondary" id="submit_delete" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->

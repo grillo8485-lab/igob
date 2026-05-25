@@ -1,0 +1,54 @@
+﻿@model IEnumerable<iGob.Entidades.beDiasInhabiles>
+@section css
+{
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<button class="btn btn-secondary new-DI">Nuevo Día Inhabil</button>
+<br /><br />
+
+<table class="table hover " id="tableDI">
+    <thead align="justify">
+        <tr>
+            <th>
+                Acciones
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Evento)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <div class="form-group" style="min-width:100px;">
+                        <a title="Eliminar registro" id="@item.IdDiaInhabil" data-title="@item.Evento" class="btn btn-secondary btn-circle btn-sm delete-DI"><span class="icon-garbage-2"></span></a>
+                        <a title="Editar registro" id="@item.IdDiaInhabil" data-title="@item.Evento" data-abreviatura="@item.Fecha" class="btn btn-secondary btn-circle btn-sm edit-DI"><span class="icon-edit"></span></a>
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Evento)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    Html.RenderPartial("EditDeleteModals");
+}
+
+@section scripts{
+    <script src="~/Scripts/Catalogos/AccionesDI.js"></script>
+}

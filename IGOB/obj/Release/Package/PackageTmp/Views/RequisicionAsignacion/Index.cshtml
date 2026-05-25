@@ -1,0 +1,92 @@
+﻿@model IGOB.Models.Requisicion
+
+@{
+    ViewBag.Title = "Requisiciones Menores";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section css{
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.structure.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.theme.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <!-- estilo pills personalizado -->
+    <style>
+        #pac-input {
+            width: 100%;
+        }
+
+        .pac-container {
+            z-index: 9999;
+        }
+
+        #map {
+            width: 100% !important;
+            height: 15vw !important;
+        }
+
+        .dataTables_filter {
+            text-align: right;
+        }
+
+        .error {
+            color: red !important;
+        }
+
+        .sub_banner {
+            padding: 10.5px;
+        }
+
+        .sub_banner strong {
+            font-size: 9.94pt;
+        }
+
+        input[type=number] {
+            text-align: right;
+        }
+
+        input[name=number] {
+            text-align: right;
+        }
+        /**nav fijo**/
+        #encabezado{
+            overflow: hidden;
+        }
+        .sticky {
+            position: fixed;
+            top: 0;
+            z-index: 2;
+        }
+        .sticky + #DatosGenerales {
+            padding-top: 10px;
+            width: 100%;
+        }
+    </style>
+}
+<div class="">
+    <input type="hidden" id="Formulario" value="@ViewBag.formulario" />
+    <input type="hidden" id="IdRequisicion" value="@ViewBag.idRequisicion" />
+    <input type="hidden" id="tipoRequisicion" value="@ViewBag.tipoRequisicion" />
+    <input type="hidden" id="IdTipoSolicitud" value="@Model.oRequisicones.IdTipoSolicitud" />
+    <input type="hidden" id="cartaActivo" value="@Model.Activar" />
+    <div class="pos-f-t">
+        <div class="mainMenuBarAnchor"></div>
+        <div class="text-white sub_banner changeColorModal mainMenuBar">
+            <div class="row">
+                <div class="col-9 text-center">
+                    <h6>@Model.Titulo</h6>
+                </div>
+                <div class="col-3 text-right">
+                    <button type="button" class="btn btn-default btn-sm @((ViewBag.idEstatusreq != 0 ? (ViewBag.idEstatusreq == 70 ? "" : "disabledClick") : "disabledClick")) " id="btnAsignarRev">GUARDAR</button>
+                    <button class="btn btn-default  btn-sm" onclick="retornarPagina(@ViewBag.tipoRequisicion)">REGRESAR</button>
+                </div>
+            </div>
+        </div>
+        @{
+            Html.RenderPartial("DatosGenerales");
+        }
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/Catalogos/RequisicionPorAsignacion.js"></script>
+}

@@ -1,0 +1,51 @@
+﻿@model IEnumerable<iGob.Entidades.beBienServicioEstudioMercado>
+
+@{
+    ViewBag.Title = "Historial";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<a class="btn btn-secondary" href="/EstudioMercado/">Nuevo estudio mercado</a>
+<br /><br />
+<table class="table-bordered hover" id="tableHistorialEstudioMercado">
+    <thead>
+        <tr>
+            <th>Acciones</th>
+            <th>Bien servicio</th>
+            <th>Codigo scian</th>
+            <th>Estatus</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <div class="form-group" style="min-width:100px;">
+                        <a class="btn btn-secondary" href="/EstudioMercado?id=@item.IdDatoEstudioMercado"><span class="icon-view"></span></a>
+                    </div>
+                </td>
+                <td>
+                    @item.BienServicio
+                </td>
+                <td>
+                    @item.CodigoScian
+                </td>
+                <td>
+                    @item.EstatusEstudioMercado
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#tableHistorialEstudioMercado').DataTable({
+                scrollY: 340,
+                scrollCollapse: true,
+                sort: false
+            });
+        });
+    </script>
+}

@@ -1,0 +1,153 @@
+﻿@model IEnumerable<iGob.Entidades.beUnidadesMedidas>
+@section css
+{
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <style>
+        #UnidadesMedidaModal .row {
+            margin-bottom: 15px;
+        }
+        .datetimepicker-inline {
+            display: none !important;
+        }
+    </style>
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<input type="button" id="create-item" class="btn btn-secondary" value="Nueva Unidad de Medida" />
+<br /><br />
+<table class="table-bordered hover" id="tableUM">
+    <thead align="justify">
+        <tr>
+            <th> Acciones </th>
+            <th> Clave </th>
+            <th> Unidad de Medida </th>
+            <th> Descripción </th>
+            <th> Formato </th>
+            <th> Símbolo </th>
+            <th> Versión </th>
+            <th> Fecha Vigencia </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td align="center" valign="middle">
+                    <div class="form-group" style="min-width:100px;">
+                        <a title="Eliminar registro" class="btn btn-secondary btn-circle delet-item btn-sm"
+                           data-id="@item.IdUnidadMedida"
+                           data-clave="@item.ClaveUnidadMedida"
+                           data-um="@item.UnidadMedida"><span class="icon-garbage-2"></span></a>
+                        <a title="Editar registro"
+                           data-id="@item.IdUnidadMedida"
+                           data-clave="@item.ClaveUnidadMedida"
+                           data-um="@item.UnidadMedida"
+                           data-descripcion="@item.Descripcion"
+                           data-fechavigencia="@item.FechaVigenciaInicial"
+                           data-simbolo="@item.Simbolo"
+                           data-version="@item.Version"
+                           data-formato="@item.Formato"
+                           data-activo="@item.Activo" class="btn btn-secondary btn-circle edit-item btn-sm"><span class="icon-edit"></span></a>
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClaveUnidadMedida)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnidadMedida)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Formato)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Simbolo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Version)
+                </td>
+                <td>
+                    @Html.DisplayFor(mdoelItem => item.FechaVigenciaInicial)
+                </td>
+            </tr>
+
+        }
+
+    </tbody>
+
+</table>
+
+<br /><br />
+
+<!-- Modal -->
+<div class="modal fade" id="UnidadesMedidaModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title" id="formEditCreate"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, htmlAttributes: new { @class = "UMForm" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <div class="row col-12">
+                        <div class="col-4">
+                            <label> Clave de la unidad de Medida: </label>
+                            <input type="text" id="ClaveUnidadMedida" name="ClaveUnidadMedida" class="form-control" maxlength="5" required />
+                        </div>
+                        <div class="col-8">
+                            <label> Nombre de la unidad de medida: </label>
+                            <input type="text" id="UnidadMedida" name="UnidadMedida" class="form-control" maxlength="150" required />
+                        </div>
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-8">
+                            <label> Descripción: </label>
+                            <textarea id="Descripcion" name="Descripcion" class="form-control" maxlength="255" required style="resize:none"></textarea>
+                        </div>
+                        <div class="col-4">
+                            <label> Formato de la unidad de Medida: </label>
+                            <select id="Formato" name="Formato" class="form-control" required>
+                                <option value="Entero">Entero</option>
+                                <option value="Decimal">Decimal</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="row col-12" id="rowEdit">
+                        <div class="col-4">
+                            <label> Simbolo de la unidad de Medida: </label>
+                            <input type="text" id="Simbolo" name="Simbolo" class="form-control" maxlength="10" required />
+                        </div>
+                        <div class="col-4">
+                            <label> Versión de la unidad de Medida: </label>
+                            <input type="text" id="Version" name="Version" class="form-control" maxlength="5" required />
+                        </div>
+                        <div class="col-4">
+                            <label> Fecha de Vigencia Inicial: </label>
+                            <input type="text" onkeydown="return false;" class="form-control" id="FechaVigenciaInicial" name="FechaVigenciaInicial" data-date-format="dd MM yyyy" required />
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="Activo" name="Activo" />
+                <input type="hidden" id="IdUnidadMedida" name="IdUnidadMedida" />
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <input type="submit" value="Guardar" id="submit" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+    <script src="~/Scripts/Catalogos/AccionesUM.js"></script>
+}

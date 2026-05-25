@@ -1,0 +1,51 @@
+﻿@model List<iGob.Entidades.beModalidadesLicitaciones>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<button class="btn btn-secondary new-modalidadlicitacion">Nueva modalidad de licitación</button>
+<br /><br />
+<div>
+    <table class="table table-bordered table-hover" id="tableML">
+        <thead align="center">
+            <tr>
+                <td> Acciones </td>
+                <td> Número </td>
+                <td> Modalidad  </td>
+                <td> Abreviatura</td>
+            </tr>
+        </thead>
+        <tbody>
+            @{var i = 1;}
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th>
+                        <div class="form-group" style="min-width:100px;">
+                            <a title="Eliminar modalidad de licitación" id="@item.IdModalidadLicitacion" data-title="@item.ModalidadLicitacion" class="btn btn-secondary btn-circle delete-modalidadlicitacion"><span class="icon-garbage-2"></span></a>
+                            <a title="Editar modalidad de licitación" id="@item.IdModalidadLicitacion" data-title="@item.ModalidadLicitacion" data-abreviatura="@item.Abreviatura" data-activo="@item.Activo" class="btn btn-secondary btn-circle edit-modalidadlicitacion"><span class="icon-edit"></span></a>
+                        </div>
+                    </th>
+                    <th>
+                        @i
+                    </th>
+                    <th>
+                        @Html.DisplayFor(modelItem => item.ModalidadLicitacion)
+                    </th>
+                    <th>
+                        @Html.DisplayFor(modelItem => item.Abreviatura)
+                    </th>
+
+                </tr>
+                { i++; }
+            }
+        </tbody>
+    </table>
+</div>
+@{
+    Html.RenderPartial("EditDeleteModals");
+}
+
+@section scripts{
+    <script src="~/Scripts/Catalogos/AccionesModalidadLicitacion.js"></script>
+}

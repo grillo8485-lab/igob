@@ -1,0 +1,282 @@
+﻿@inherits System.Web.Mvc.WebViewPage
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Last-Modified" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache, mustrevalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/Img/favicon.ico">
+
+    <title>i Gob</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+        .stick {
+            position: fixed;
+            top: 0;
+            z-index: 9;
+            width: 75%;
+            border-radius: 0px 0px 7px 4px;
+        }
+        .modal {
+            overflow-y: scroll;
+        }
+        label, .custom-control-label {
+            text-transform: lowercase !important;
+        }
+            label::first-letter, .custom-control-label::first-letter {
+                text-transform: uppercase !important;
+                user-select: none !important;
+                pointer-events: none
+            }
+        body {
+            padding-right: 0 !important
+        }
+        .hide {
+            display: none;
+        }
+        nav {
+            margin-left: -15px !important;
+        }
+    </style>
+    @RenderSection("css", required: false)
+    <link href="~/fonts/Avenir-Roman.ttf" rel="stylesheet" />
+
+
+</head>
+<body onload="window.history.forward()"  onunload="bodyUnload();">
+    <input type="hidden" name="attemptResponseCode" id="attemptResponseCode" value="" />
+    <input type="hidden" name="authnAttemptId" id="authnAttemptId" value="" />
+    <input type="hidden" id="USER" value="admincdmx@igob.com.mx">
+    <div class="miContainer container-fluid pr-0">
+
+        <div class="row align-items-center row_top">
+            <div class="col-11 d-none d-xl-block">
+                <div class="row text-center justify-content-center align-items-center">
+                    <div class="col-auto">
+                        <a>
+                           AUDITORIA SUPERIOR DE LA FEDERACION
+                            @*Gobierno de México*@
+                            @*@if (Session["Gobierno"] != null)
+                            {
+                                @Session["Gobierno"];
+                            }*@
+                        </a>
+                    </div>
+                    <div class="col-auto">|</div>
+                    <div class="col-auto">
+                        <a>
+                            Bienvenido:
+                            @if (Session["Usuario"] != null)
+                            {
+                                @Session["Usuario"];
+                            }
+
+
+                        </a>
+                    </div>
+                    <div class="col-auto">|</div>
+                    <div class="col-auto">
+                        <a>
+                            Perfil:
+                            @if (Session["Perfil"] != null)
+                            {
+                                @Session["Perfil"];
+                            }
+                        </a>
+                        <input type="hidden" name="PerfilText" id="PerfilText" value="@Session["Perfil"]" />
+                    </div>
+                    <div class="col-auto">|</div>
+                    <div class="col-auto ">
+                        <a>
+                            <div class="row text-center justify-content-center align-items-center">
+                           @* <div class="align-items-center">*@
+                                @*<div class="col-auto">GOBIERNO DE CHIAPAS</div>*@
+                                <p class="capitalize"><h7> GOBIERNO DE CHIAPAS.</h7></p>
+                                @* <label>GOBIERNO DE CHIAPAS</label>*@
+                                @*<label>Grupo Aeroportuario Ferroviario y Servicios Auxiliares Olmeca-Maya-Mexica</label>*@
+                                @*  *@
+                            </div>
+                            @* <!-- Usuario: -->*@
+                            @*  @if (Session["Dependencia"] != null)*@
+                            @* {*@
+                            @*       @Session["Dependencia"];*@
+                            @*  }*@
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2 d-xl-none">
+                <a id="btnMenu" class="navbar-toggler" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <i style="color: white; font-size:30px;" class="fa fa-bars"></i>
+                </a>
+            </div>
+            <script>
+                let btnMenu = document.getElementById('btnMenu');
+                let b = document.getElementById('lateralcolum');
+                btnMenu.addEventListener("click", () => {
+                    // lateralColumn.classList.add('d-none d-xl-block');
+                    console.log(b);
+                    console.log(btnMenu);
+                });
+            </script>
+            <div class="col-1 d-none d-xl-block">
+                <div class="row justify-content-center">
+                    <div class="col-auto">
+                        <div class="dropdown menu_session">
+                            <a class="btn" role="button" id="menu_Session" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <h2 class="icon-user m-0 avatar"></h2>
+                            </a>
+                            <div class="dropdown-menu menu-login" aria-labelledby="menu_Session" x-placement="bottom-start" style="position: absolute; transform: translate3d(-120px, 46px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                <a class="dropdown-item" href="/PerfilUsuario/">
+                                    <span class="icon-user"></span><strong>Perfil del usuario</strong>
+                                </a>
+                                <a class="dropdown-item" href="/PerfilUsuario/ChangePassword/">
+                                    <span class="icon-locked-4"></span><strong>Cambiar contraseña</strong>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="@Url.Action("CerrarSecision","Home")">
+
+                                    <span class="icon-exit-2"></span><strong>Salir del sistema</strong>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-7 d-xl-none">
+                <a class="custom-button-log" style="font-family:Avenir Roman; color:white;">
+                    Admin  CdMx Igob Igob
+                </a>
+            </div>
+            <div class="col d-xl-none">
+                <div class="dropdown show ">
+                    <a class="more_options" id="menu_Session" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-right: 15px;">
+                        <i style="color:white; font-size:30px; margin-right:0%; float: right;" class="fa fa-ellipsis-v"></i>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="menu_Session" style="position: relative; transform: translate3d(19px, 30px, 0px); top: 0px; left: 0px; will-change: transform;">
+                        <a class="dropdown-item" href="">
+                            <span class="icon-user"></span>Perfil del usuario
+                        </a>
+                        <a class="dropdown-item" href="">
+                            <span class="icon-locked-4"></span>Configuración
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="@Url.Action("CerrarSecision","Home")">
+                            <span class="icon-exit-2"></span>Salir del sistema
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row_banner">
+            <div class="col-3 px-0">
+                <div class="columna-center container-logo">
+   
+                    <a style="cursor:pointer">
+                        @*<img class="img-fluid" src="~/Img/banners/LogoMXIMSS4.png">*@
+                        @*<img class="img-fluid" src="~/Img/banners/LogoGobMX2.png">*@
+                        @*<img class="img-fluid" src="~/Img/banners/logoEscudo4.png">*@
+                        <img class="img-fluid" src="~/Img/banners/Escudo8.png">
+                    </a>
+                </div>
+            </div>
+            <div class="col-9 px-0 grayborder d-none d-xl-block">
+                <figure>
+                    <img class="img_banner" src="~/Img/banners/lipe_jaguar2.png">
+                </figure>
+            </div>
+        </div>
+
+        <div class="row row_navega align-items-center">
+            <div class="col-1">
+                <div class=" container-search">
+                    <!-- <div class="input-group search-form">
+        <input type="search" class="form-control" name="buscForm" id="buscForm" placeholder="Buscar:" style="color: #aaaaaa; font-size: 16.21px;" onkeyup="SearchMenu(&#39;&#39;)">
+        <span class="input-group-btn">
+            <button type="button" class="btn fix btn-sm">
+                <h2 style="font-size:16.21px;" class="icon-search-1"></h2>
+            </button>
+        </span>
+    </div>-->
+                </div>
+            </div>
+            <div class="col-9 d-none d-xl-block">
+                <nav aria-label="breadcrumb" role="navigation">
+                    <ul class="breadcrumb m-0 menu_navegacion" style="padding:0;">
+                        <li class="breadcrumb-item" style="color:#8b898b;">
+                            Ir a: &nbsp;
+                            <a href="">
+                                <strong style="color:#8b898b;">Inicio</strong>
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item pppp">
+                            <a style="color:#8b898b;" href="">
+                                <strong> @Session["nombreModulo"]</strong><!--  -->
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item pppp active" aria-current="page">
+                            <a style="color:#8b898b;" href="">
+                                <strong> @Session["nombreVista"]</strong><!--  -->
+                            </a>
+
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <div class="row">
+            @Html.Action("Index", "Menu")
+            <div class="col-9" id="container__area" style="padding-right:0px;border: 1px solid gray;border-radius: 5px;">
+                <div class="row">
+                    <div class="col-12 px-0">
+                        <div class="container-fluid" style="overflow:auto;padding-right:0px;padding-left: 0px;">
+                            <div class="ml-2 mr-2">
+                                @RenderBody()
+                            </div>
+                        </div>
+                        <!--  -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <script>
+        $(document).ready(function () {
+
+            $('[data-toggle="tooltip"]').tooltip()
+
+            bootbox.setDefaults({
+                locale: "es",
+                backdrop: true,
+            });
+
+            $('.datetimepicker').datetimepicker({
+                language: 'es',
+                todayHighlight: true,
+                todayBtn: true,
+                autoclose: true
+            });
+
+        });
+        
+    </script>
+
+    @RenderSection("scripts", required: false)
+    <script src="~/Scripts/bootstrap-datetimepicker.es.js"></script>
+    <script src="~/Scripts/acceso.js"></script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+﻿<!-- Modal Edit - New -->
+<div class="modal fade" id="AEModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title modal-AE">Editar Actividad Económica</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Id = "form-AE" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <div class="row col-12">
+                        <div class="col-10">
+                            <label> Descripción: </label>
+                            <input type="text" name="Descripcion" id="Descripcion" class="form-control" required />
+                        </div>
+                        <div class="col-md-2">
+                            <label> Código: </label>
+                            <input type="text" name="Codigo" id="Codigo" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-11">
+                            <label> seleccione la Partida: </label>
+                            @Html.DropDownList("IdPartida", ViewBag.Partidas as SelectList, "Seleccione la partida", new { @class = "form-control", @disabled = "" })
+                        </div>
+                        <div class="col-1" style="margin-top: 3%;">
+                            <button type="button" class="btn btn-outline-secondary expand" disabled onclick="addPartida();">
+                                <span class="icon-add-1" style="vertical-align:middle"></span>
+                            </button>
+                        </div>
+
+                    </div>
+                    <br /><br />
+                    <table class="hover table-bordered tableDetails">
+                        <thead align="center">
+                            <tr>
+                                <th>Acciones</th>
+                                <th>Partida</th>
+                            </tr>
+                        </thead>
+                        <tbody align="justify"></tbody>
+                    </table>
+
+
+                    <input type="hidden" name="Activo" id="Activo" value="true" />
+                    <input type="hidden" name="IdActividadEconomica" id="IdActividadEconomica" value="0" />
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Editar" id="saveEdit" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->
+
+<!-- Modal Delete ClavesPresupuestalesDetalles-->
+<div class="modal fade" id="EliminarModalDetalles" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Eliminar Partida</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <br />
+                    <h4 id="titleIdPartidaActEconomica"></h4>
+                    <input type="hidden" class="IdPartidaActEconomica" id="IdPartidaActEconomica" /><br />
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Eliminar" class="btn btn-secondary DeleteDetails" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Delete ClavesPresupuestalesDetalles-->

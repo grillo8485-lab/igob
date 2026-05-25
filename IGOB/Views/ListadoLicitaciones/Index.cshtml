@@ -1,0 +1,97 @@
+﻿@model IEnumerable<iGob.Entidades.beListadoGenerarLicitacion>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="">
+    <div class="pos-f-t">
+        <div class="text-white sub_banner changeColorModal" style="padding:10px; margin:0px;">
+            <div class="row">
+                <div class="col-9 text-center">
+                    <h6></h6>
+                </div>
+                <div class="col-3 text-right">
+                    <button type="button" class="btn btn-default btn-sm" id="btnGenLicitacion">Generar licitación</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<input type="hidden" name="errorLicitacion" id="errorLicitacion" value="@ViewBag.Error" />
+<div class="row col-12">
+    <div class="col-2">
+        <h6><strong>Tipo requisición</strong></h6>
+        @if (ViewBag.licitaciones != null)
+        {
+            @Html.DropDownList("IdTipoRequisicion", ViewBag.TiposRequisiciones as SelectList, "Seleccione", new { @class = "form-control", @required = "" });
+        }
+    </div>
+    <div class="col-3">
+        <h6><strong>Licitación</strong></h6>
+        @if (ViewBag.licitaciones != null)
+        {
+            @Html.DropDownList("IdTipoLicitacion", ViewBag.licitaciones as SelectList, "Seleccione", new { @class = "form-control", @required = "" });
+        }
+    </div>
+    <div class="col-3">
+        <h6><strong>Año fiscal</strong></h6>
+        @if (ViewBag.ejerciciofiscal != null)
+        {
+            @Html.DropDownList("IdEjercicioFiscal", ViewBag.ejerciciofiscal as SelectList, "Seleccione", new { @class = "form-control", @required = "" });
+        }
+    </div>
+    <div class="col-3">
+        <h6><strong>Empleado revisor</strong></h6>
+        @if (ViewBag.empleadoRevisor != null)
+        {
+            @Html.DropDownList("IdUsuario", ViewBag.empleadoRevisor as SelectList, "Seleccione", new { @class = "form-control", @required = "" });
+        }
+    </div>
+    <div class="col-1" style="margin-top: 25px;">
+        <button class="btn btn-secondary " style="bottom:0;" id="ConsularListado"><span class="glyphicon glyphicon-search"></span></button>
+    </div>
+    <input type="hidden" id="IdLicitacion" name="IdLicitacion" value="@ViewBag.IdLicitacion" />
+</div>
+
+<div id="divListado" class="" style="margin-top: 50px">
+    <table class="table-bordered hover" id="ListadoLicitacion">
+        <thead>
+            <tr>
+                <th>Folio</th>
+                <th>Número licitación</th>
+                <th>Dependencia</th>
+                <th>Solicitud</th>
+                <th>Partida</th>
+                <th>Monto apróximado autorizado</th>
+                <th>Licitar</th>
+            </tr>
+        </thead>
+        @if (ViewBag.table != null)
+        {
+            <tbody>
+                @foreach (var item in ViewBag.table)
+                {
+                <tr>
+                    <td>@item.RequisicionFolio</td>
+                    <td>@item.Licitacion</td>
+                    <td>@item.Dependencia</td>
+                    <td>@item.TipoSolicitud</td>
+                    <td>@item.Partida</td>
+                    <td class="textDerecha">@(item.MontoAproximadoAutorizado != 0 ? String.Format("{0:C2}", item.MontoAproximadoAutorizado) : "0.00" )</td>
+                    <td>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" name="id" dataTypeLicitacion="@item.NumeroLicitacion" datatype="@item.TipoSolicitud" value="@item.IdRequisicion" id="@item.IdRequisicion" @(item.Seleccionada == 1 ? "checked" : "")>
+                            <label class="custom-control-label" for="@item.IdRequisicion"></label>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        }
+    </table>
+</div>
+<div id="modaldiv"></div>
+@section scripts{
+    <script src="~/Scripts/Catalogos/ListadoGenerarLicitaciones.js"></script>
+}

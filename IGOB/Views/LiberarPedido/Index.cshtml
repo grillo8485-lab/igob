@@ -1,0 +1,69 @@
+﻿@model List<iGob.Entidades.beListadoPedidosLicitaciones>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .dataTables_scrollBody {
+        position: unset !important;
+        z-index: 1 !important;
+    }
+
+    .dataTables_wrapper {
+        z-index: 2 !important;
+        position: unset !important;
+    }
+
+    hr {
+        margin-top: 0rem !important;
+        margin-bottom: 0rem !important;
+    }
+    .hide {
+        display: none;
+    }
+</style>
+<script></script>
+
+@using (Html.BeginForm("licitacionRequision", "", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+    <table class="table" id="liberarPedidoDetalle" width="100%">
+        <thead>
+            <tr>
+                <th align="justify"> Menú </th>
+                <th align="justify"> Estatus de la recepción </th>
+                <th align="justify"> Folio del pedido </th>
+                <th align="justify"> Licitación </th>
+                <th align="justify"> Partida </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td align="center">
+                        <div class="button-group">
+                            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" style="color:black !important;"><span class="glyphicon glyphicon-tasks"></span> <span class="caret"></span></button>
+                            <ul class="dropdown-menu" style="color:black !important;">
+                                <li><a href="@Url.Action("PedidoDetalle", "LiberarPedido", new { @IdPedido = item.IdPedido })" class="small" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-download-alt" style="color:black !important"></span>Recepcionar</a></li>
+
+                                <li><a href="@Url.Action("PedidoDetalleRecepcion", "LiberarPedido", new { @IdPedido = item.IdPedido })" class="small" style="color:black !important" tabIndex="-1"><span class="glyphicon glyphicon-usd " style="color:black !important"></span>Detalle recepción del pedido</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                    
+                    <td>@item.EstatusPedido</td>
+                    <td>@item.Folio</td>
+                    <td>@item.FolioOficial</td>
+                    <td>@item.Partida</td>
+                    
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@section scripts{
+    <script src="~/Scripts/Catalogos/LiberarPedidoLicitacion.js"></script>
+}

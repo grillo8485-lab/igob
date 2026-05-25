@@ -1,0 +1,60 @@
+﻿@model IEnumerable<iGob.Entidades.beDepartamentos>
+@{
+    ViewBag.Title = "Consulta de Departamentos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="banner-color"></div>
+<br />
+<button type="button" class="btn btn-secondary" id="create-item">
+    <span class="icon-add-3"></span>
+    NUEVO
+</button>
+<br /><br />
+<div>
+    <table class="table table-bordered hover" id="tableDeptos" style="width:100%;">
+        <thead align="center">
+            <tr>
+                <th> Acciones </th>
+                <th> Departamento </th>
+                <th> Responsable </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td style="text-align:center;">
+                        <button title="Eliminar registro" class="btn btn-secondary btn-circle delete-depto btn-sm" data-IdDepartamento="@item.IdDepartamento" data-Departamento="@item.Departamento">
+                            <span class="icon-garbage-2"></span>
+                        </button>
+                        <button title="Editar registro" class="btn btn-secondary btn-circle edit-depto btn-sm" data-IdDepartamento="@item.IdDepartamento">
+                            <span class="icon-edit"></span>
+                        </button>
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Departamento)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Responsable)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@{
+    Html.RenderPartial("EditDeleteModals");
+}
+
+@{
+    string fecha = DateTime.Now.ToString("yyyyMMddHHmmssFFF");
+}
+
+@section scripts{
+    <!--<script src="~/Scripts/jquery-ui.js"></script>-->
+    <script src="~/Scripts/Catalogos/AccionesDepartamentos.js?id=@(fecha)"></script>
+}

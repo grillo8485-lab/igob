@@ -1,0 +1,117 @@
+﻿@model IEnumerable<iGob.Entidades.beAdjudicacionConsulta>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<table class="table" id="tableAdjAut">
+    <thead align="justify">
+        <tr>
+            <th> Acciones </th>
+            <th> Adjudicación </th>
+            <th> Número Adjudicación por modalidad </th>
+            <th> Ejercicio </th>
+            <th> Número Oficial </th>
+            <th> Fecha de Autorización de la Adjudicación </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td align="center" style="vertical-align:middle">
+                @switch (ViewBag.IdPerfil)
+                {
+                    case 5:
+                        if (item.IdEstatusAdjudicacion == 130 || item.IdEstatusAdjudicacion == 80 || item.IdEstatusAdjudicacion == 90)
+                        {
+                            <div class="button-group">
+                                <a href="@Url.Action("AsignarRevisorIndex", "AdjudicacionesAutorizadasConsulta", new { id = item.IdAdjudicacion, tipo = item.IdTipoAdjudicacion })" title="@(item.IdEstatusAdjudicacion == 130?"Asignar revisor":"Asignar número de acuerdo de autorización de comité")" class="btn btn-secondary btn-sm"><span class="fa fa-file-text-o"></span></a>
+                            </div>
+                        }
+                        else if (item.IdEstatusAdjudicacion == 140)
+                        {
+                            <div class="button-group">
+                                <a href="@Url.Action("ElaborarPedido", "AdjudicacionesAutorizadasConsulta", new { @id = item.IdAdjudicacion })" title="Firmar liberación" class="btn btn-secondary btn-sm"><span class="glyphicon glyphicon-check"></span></a>
+                            </div>
+                        }
+                        break;
+                    case 7:
+                        if (item.IdEstatusAdjudicacion == 80 || item.IdEstatusAdjudicacion == 90)
+                        {
+                            <div class="button-group">
+                                <a href="@Url.Action("AsignarRevisorIndex", "AdjudicacionesAutorizadasConsulta", new { id = item.IdAdjudicacion, tipo = item.IdTipoAdjudicacion })" title="Revisar cotización" class="btn btn-secondary btn-sm"><span class="fa fa-file-text-o"></span></a>
+                            </div>
+                        }
+                        break;
+                    case 8:
+                        if (item.IdEstatusAdjudicacion == 70)
+                        {
+                            <div class="button-group">
+                                <a href="@Url.Action("Index","AdjudicacionesPropuestas",new { Id=item.IdAdjudicacion})" title="Enviar propuestas" class="btn btn-secondary btn-sm"><span class="fa fa-file-text-o"></span></a>
+                            </div>
+                        }
+                        else if (item.IdEstatusAdjudicacion == 140)
+                        {
+                            <div class="button-group">
+                                <a href="@Url.Action("ElaborarPedido", "AdjudicacionesAutorizadasConsulta", new { @id = item.IdAdjudicacion })" title="Firmar liberación de pedido cotización" class="btn btn-secondary btn-sm"><span class="glyphicon glyphicon-check"></span></a>
+                            </div>
+                        }
+                        break;
+                    case 3:
+                        if (item.IdEstatusAdjudicacion == 70 || item.IdEstatusAdjudicacion == 120)
+                        {
+                            <div class="button-group">
+                                <a href="@Url.Action("Index","AdjudicacionesPropuestas",new { Id=item.IdAdjudicacion})" title="Recibir cotización" class="btn btn-secondary btn-sm"><span class="fa fa-file-text-o"></span></a>
+                            </div>
+                        }
+                        else if (item.IdEstatusAdjudicacion == 100 || item.IdEstatusAdjudicacion == 140)
+                        {
+                            <div class="button-group">
+                                <a href="@Url.Action("ElaborarPedido", "AdjudicacionesAutorizadasConsulta", new { @id = item.IdAdjudicacion })" title="Firmar liberación" class="btn btn-secondary btn-sm"><span class="glyphicon glyphicon-check"></span></a>
+                            </div>
+                        }
+                        break;
+                    case 4:
+                        if (item.IdEstatusAdjudicacion == 120)
+                        {
+                            <div class="button-group">
+                                <a href="@Url.Action("Index","AdjudicacionesPropuestas",new { Id=item.IdAdjudicacion})" title="Autorizar cotización" class="btn btn-secondary btn-sm"><span class="fa fa-file-text-o"></span></a>
+                            </div>
+                        }
+                        else if (item.IdEstatusAdjudicacion == 140)
+                        {
+                            <div class="button-group">
+                                <a href="@Url.Action("ElaborarPedido", "AdjudicacionesAutorizadasConsulta", new { @id = item.IdAdjudicacion })" title="Firmar liberación de pedido" class="btn btn-secondary btn-sm"><span class="glyphicon glyphicon-check"></span></a>
+                            </div>
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+            </td>
+            <td>@item.TipoAdjudicacion <hr /> @item.AdjudicacionFolio</td>
+            <td>@item.ConsecutivoAdjudicacion</td>
+            <td>@item.Ejercicio</td>
+            <td>@item.NumeroOficioSolicitud</td>
+            <td>@item.FechaAutorizacion</td>
+        </tr>
+        }
+
+    </tbody>
+</table>
+<br /><br />
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#tableAdjAut").DataTable({
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+                },
+                sort: false
+            });
+        });
+    </script>
+}

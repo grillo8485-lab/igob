@@ -1,0 +1,85 @@
+﻿@model List<iGob.Entidades.beRequisicionesComprasMenores>
+@{
+    ViewBag.Title = "Consulta de requisiciones compras menores";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<div class="banner-color"></div>
+<button type="button" class="btn btn-secondary btn-circle " onclick="retornarPagina()">
+    <span class="icon-add-3"></span>
+     NUEVA COMPRA MENOR
+</button>
+<br /><br />
+
+<div>
+    <table class="table" style="width:100%" id="tablaRequisiconComprasMenores">
+        <thead align="center">
+            <tr>
+
+                <th> Acciones </th>
+                <th> Estatus </th>
+                <th> Fecha Hora Creación </th>
+                <th> Número de <br />requisición/servicio </th>
+                <th> Valor aproximado</th>
+                <th> Origen de recurso</th>
+                <th> Capítulos</th>
+                <th> Partida</th>
+                <th> Ejercicio</th>
+                <th> Observación</th>
+                <th>Fecha de<br /> Entrega</th>
+                <th>Fecha de<br /> Pago</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td style="text-align:center;">
+                        <a href='@Url.Action("Index", "RequisicionesComprasMenores",new { IdCompramenor = item.IdRequisicionCompraMenor})' class="btn btn-secondary btn-circle edit-marca btn-sm">
+                            <span class="icon-edit"></span>
+                        </a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Estatus)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaRequisicion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RequisicionFolio)
+                    </td>
+                    <td style="text-align:center;">
+                        @Html.DisplayFor(modelItem => item.MontoAproximado)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrigenRecurso)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Capitulo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Partida)
+                    </td>
+                    <td style="text-align:center;">
+                        @Html.DisplayFor(modelItem => item.Ejercicio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Observaciones)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaEntrega)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaPago)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/Catalogos/RequisicionesComprasMenores.js"></script>
+}

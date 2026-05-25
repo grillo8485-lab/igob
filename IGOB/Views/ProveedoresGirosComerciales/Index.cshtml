@@ -1,0 +1,78 @@
+﻿@model IEnumerable<iGob.Entidades.beProveedoresGirosComerciales>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section css{
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.structure.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.theme.css" rel="stylesheet" />
+    <style>
+        .col-12 {
+            margin-bottom: 15px;
+        }
+    </style>
+}
+
+<div class="container col-12">
+    <ul class="nav nav-pills mt-2" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link" href="/ProveedoresMenores/Index/@ViewBag.Tipo">PROVEEDORES</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link addIdProv" href="/ProveedoresAccionistas/Index/@ViewBag.IdProveedor">ACCIONISTAS / REPRESENTANTES LEGALES</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn-secondary btn active disabled" href="/ProveedoresGirosComerciales/Index/@ViewBag.IdProveedor">GIROS PREPONDERANTES</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link addIdProv" href="/ProveedoresActaConstitutiva/Index/@ViewBag.IdProveedor">ACTA CONSTITUTIVA</a>
+        </li>
+    </ul>
+</div>
+<br />
+<div class="container-fluid">
+    <input type="button" value="Crear Nuevo Giro Comercial" class="btn btn-secondary create-item" />
+    <br /><br />
+
+    <table class="table-bordered hover" id="tabla_pgc">
+        <thead align="justify">
+            <tr>
+                <th> Acciones </th>
+                <th> Razón Social </th>
+                <th> Descripción </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <div>
+                            <a title="Eliminar registro" class="btn btn-secondary btn-circle delet-item btn-sm" data-idpgc="@item.IdProveedorGiroComercial" data-idpro="@item.IdProveedor"
+                               data-idace="@item.IdActividadEconomica"
+                               data-rasoc="@item.RazonSocial"
+                               data-descr="@item.Descripcion"><span class="icon-garbage-2"></span></a>
+                            <a title="Editar registro"
+                               data-idpgc="@item.IdProveedorGiroComercial"
+                               data-idpro="@item.IdProveedor"
+                               data-idace="@item.IdActividadEconomica"
+                               data-rasoc="@item.RazonSocial"
+                               data-descr="@item.Descripcion"
+                               class="btn btn-secondary btn-circle edit-item btn-sm"><span class="icon-edit"></span></a>
+                        </div>
+                    </td>
+                    <td>@item.RazonSocial</td>
+                    <td>@item.Descripcion</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @{
+        Html.RenderPartial("EditDeleteModals");
+    }
+</div>
+@section Scripts{
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/Catalogos/AccionesProveedoresGirosComerciales.js"></script>
+}

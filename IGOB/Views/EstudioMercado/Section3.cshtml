@@ -1,0 +1,91 @@
+﻿@{
+    var activo = true;
+    var listado = false;
+    if (ViewBag.determinacionP != null)
+    {
+        activo = false;
+    }
+}
+<fieldset style="overflow:auto">
+    <legend class="row col-md-6 co-xs-12">Precios Cotizados</legend>
+    <legend class="row col-md-6 co-xs-12">Precios</legend>
+    @if (ViewBag.BSEM != null)
+    {
+        if (ViewBag.BSEM.TipoDeterminacion == 1)
+        {
+            listado = ViewBag.DispMP != null ? true : false;
+        }
+        else
+        {
+            listado = ViewBag.DispMUE != null ? true : false;
+        }
+    }
+
+    <button class="btn btn-secondary @(listado ? "disabledClick" : "")" type="button" onclick="generarlistaUE()" id="genListProb" @(!listado ? (ViewBag.BSEM != null ? (ViewBag.BSEM.TipoDeterminacion == 1 ? "" : "hidden") : "hidden") : "hidden") >Generar lista</button><br />
+    <button class="btn btn-secondary @(listado ? "disabledClick" : "")" type="button" onclick="generarListaNoProbabilistica()" id="genListNotProb" @(!listado ? (ViewBag.BSEM != null ? (ViewBag.BSEM.TipoDeterminacion == 0 ? "" : "hidden") : "hidden") : "hidden")>Generar lista</button><br />
+    <div class="row col-12">
+        <div class=" col-md-6 col-xs-12 listaProveedores" id="listaProveedoresPreciosProb">
+            @if (ViewBag.DispMP != null)
+            {
+                foreach (var item in ViewBag.DispMP)
+                {
+                    <label for="UE_@item.IdDispercionMuestraPrecio">Proveedor: @item.NombreUnidadEconomica</label>
+                    <input type="text" name="" value="@(item.PrecioSinImpuesto != 0 ? item.PrecioSinImpuesto : "")" id="UE_@item.IdDispercionMuestraPrecio" placeholder="Inserte precio con impuesto" class="form-control @(item.Precio != 0 ? "disabledClick" : "")" /><br />
+                    <button type="button" onclick="savecotizacionindividual(@item.IdDispercionMuestraPrecio)" class="btn btn-secondary @(item.Precio != 0 ? "disabledClick" : "")">Guardar cotización</button><br /><br />
+                }
+                <br /><button type="button" class="btn btn-secondary @(ViewBag.determinacionP.PrecioAplicado != 0 ? "disabledClick" : "")" onclick="calcularCotizacionesMMM()">Calcular</button>
+            }
+
+            @if (ViewBag.DispMUE != null)
+            {
+                var i = 1;
+                foreach (var item in ViewBag.DispMUE)
+                {
+                    <label for="UE_@item.IdDispercionMuestraUE">Proveedor @(item.UnidadEconomica=="--"? i: item.UnidadEconomica):</label>
+                    <input type="text" name="" value="@(item.PrecioSinImpuesto != 0 ? item.PrecioSinImpuesto : "")" id="UE_@item.IdDispercionMuestraUE" placeholder="Inserte precio con impuesto" class="form-control @(item.Precio != 0 ? "disabledClick" : "")" /><br />
+                    <button type="button" onclick="savecotizacionindividual(@item.IdDispercionMuestraUE)" class="btn btn-secondary @(item.Precio != 0 ? "disabledClick" : "")">Guardar cotización</button><br /><br />
+                    i++;
+                }
+                <br /><button type="button" class="btn btn-secondary @(!activo ? (ViewBag.determinacionP.PrecioAplicado != 0 ? "disabledClick" : ""):"")" onclick="calcularCotizacionesMMM()" id="btncalcularcotizacionesMMM">Calcular</button>
+            }
+        </div>
+
+        <div class="col-md-6 col-xs-12 @(!activo ? (ViewBag.determinacionP.PrecioAplicado != 0 ? "disabledClick" : ""):"")" id="DatosEstadisticosEstMerc">
+
+            <br />
+            <br /><br />
+
+            <div class="row col-12">
+                <label for="Mediana" class=" col-md-2 col-xs-12">Mediana: </label>
+                <input type="text" name="Mediana" id="Mediana" value="@(!activo ? (ViewBag.determinacionP.Mediana != 0 ? ViewBag.determinacionP.Mediana : "") : "")" class="form-control col-md-3 col-xs-12" disabled />
+                <input type="radio" name="NuevoPrecio" value="" @(!activo ? (ViewBag.determinacionP.Mediana != 0 ? (ViewBag.determinacionP.Mediana == ViewBag.determinacionP.PrecioAplicado ? "checked" : "") : "") : "") />
+            </div>
+
+            <div class="row col-12">
+                <label for="Promedio" class=" col-md-2 col-xs-12">Promedio: </label>
+                <input type="text" name="Promedio" id="Promedio" value="@(!activo ? (ViewBag.determinacionP.Promedio != 0 ? ViewBag.determinacionP.Promedio : "") : "")" class="form-control col-md-3 col-xs-12" disabled />
+                <input type="radio" name="NuevoPrecio" value="" @(!activo ? (ViewBag.determinacionP.Promedio != 0 ? (ViewBag.determinacionP.Promedio == ViewBag.determinacionP.PrecioAplicado ? "checked" : "") : "") : "") />
+            </div>
+            <div class="row col-12">
+                <label for="Moda" class=" col-md-2 col-xs-12">Moda: </label>
+                <input type="text" name="Moda" id="Moda" value="@(!activo ? (ViewBag.determinacionP.Moda != 0 ? ViewBag.determinacionP.Moda : "") : "")" class="form-control col-md-3 col-xs-12" disabled />
+                <input type="radio" name="NuevoPrecio" value="" @(!activo ? (ViewBag.determinacionP.Moda != 0 ? (ViewBag.determinacionP.Moda == ViewBag.determinacionP.PrecioAplicado ? "checked" : "") : "") : "") />
+            </div>
+            <div class="row col-12">
+                <label for="Maximo" class=" col-md-2 col-xs-12">Máximo: </label>
+                <input type="text" name="Maximo" id="Maximo" value="@(!activo ? (ViewBag.determinacionP.Maximo != 0 ? ViewBag.determinacionP.Maximo : "") : "")" class="form-control col-md-3 col-xs-12" disabled />
+                <input type="radio" name="NuevoPrecio" value="" @(!activo ? (ViewBag.determinacionP.Maximo != 0 ? (ViewBag.determinacionP.Maximo == ViewBag.determinacionP.PrecioAplicado ? "checked" : "") : "") : "") />
+            </div>
+            <div class="row col-12">
+                <label for="Minimo" class=" col-md-2 col-xs-12">Mínimo: </label>
+                <input type="text" name="Minimo" id="Minimo" value="@(!activo ? (ViewBag.determinacionP.Minimo != 0 ? ViewBag.determinacionP.Minimo : "") : "")" class="form-control col-md-3 col-xs-12" disabled />
+                <input type="radio" name="NuevoPrecio" value="" @(!activo ? (ViewBag.determinacionP.Minimo != 0 ? (ViewBag.determinacionP.Minimo == ViewBag.determinacionP.PrecioAplicado ? "checked" : "") : "") : "") />
+            </div>
+
+            <button type="button" class="btn btn-secondary" id="actualizarPrecio" value="" disabled>Actualizar Precio</button>
+
+        </div>
+    </div>
+
+</fieldset>
+

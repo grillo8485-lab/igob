@@ -1,0 +1,193 @@
+﻿@model IGOB.Models.Requisicion
+
+<style>
+    #ui-id-1 {
+        z-index: 9999 !important;
+    }
+</style>
+<div id="div_lotes" class="container-fluid tab-pane fade active show">
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>COTIZAR LOTES</strong>
+        </div>
+    </div>
+    <br />
+
+    <div class="form-group row @Model.visibleTecnica">
+        <div class="col-6">
+        </div>
+        <label class="col-2 col-form-label text-right">Tipo Abastecimiento:</label>
+        <div class="col-4">
+            @if (ViewBag.lstAbastecimiento != null)
+            {
+                @Html.DropDownList("Abastecimiento", ViewBag.lstAbastecimiento as SelectList, "Seleccione Abastecimiento", new { @class = "form-control disabledClick", @Required = "" })
+            }
+        </div>
+    </div>
+    <br />
+    <div id="cargarLotesTable">
+        <table class="table" id="LotesTable" width="100%">
+            <thead>
+                <tr>
+                    <th>Acciones</th>
+                    <th class="@Model.visibleTecnica">Lote ofertado</th>
+                    <th class="@Model.visibleTecnicaSolicitante">Cumple con lo ofertado (lote)</th>
+                    <th class="@Model.visibleTecnicaSolicitante">Observaciones y fundamentación legal</th>
+                    <th class="@Model.visibleTecnicaRevisor ">Rechazado</th>
+                    <th class="@Model.visibleTecnicaRevisor ">Observaciones adquisición</th>
+                    <th>Lote</th>
+                    <th>Cantidad</th>
+                    <th>Productos o servicios</th>
+                    <th>Características</th>
+                    <th>Unidad</th>
+                    <th class="@Model.visibleEconimica">Precio de referencia sin iva</th>
+                    <th class="@Model.visibleEconimica">Precio ofertado sin iva</th>
+                    <th class="@Model.visibleTecnica">Requerimiento</th>
+                    <th class="@Model.visibleTecnica">Adjuntar comprobante <br />de muestra y/o catalogo</th>
+                    <th class="@Model.visibleTecnica">Adjuntar certificado(pdf)</th>
+                    <th class="@Model.visibleTecnica">Clave Pantone</th>
+                    <th class="@Model.visibleTecnica">Mejorar</th>
+                    <th class="@Model.visibleTecnica">Observaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.lstRequisicionLotesIdRequisicion)
+                {
+                    <tr>
+                        <td>
+                            <div class="input-group @Model.activarLotes">
+                                <button class="btn btn-secondary btn-sm" onclick="editarLote(@item.IdPropuestaTecnicaEconomica,@item.IdProveedorRqInvitacion)"><span class="fa fa-pencil"></span></button>
+                            </div>
+                        </td>
+                        <td class="@Model.visibleTecnica">
+                            @(Model.oRequisicones.IdFormaAbastecimiento == 1 ? item.LoteOfertado ? "Si" : "No" : item.LoteOfertado ? "Si" : "No")
+
+                        </td>
+                        <td class=" @Model.visibleTecnicaSolicitante">
+                            @(item.DependenciaCumple ? "Si" : "No")
+
+                        </td>
+                        <td class="@Model.visibleTecnicaSolicitante">
+                            @(item.FundamentoLegal)
+
+                        </td>
+                        <td class="@Model.visibleTecnicaRevisor">
+                            @(item.AdquisicionCumple ? "Si" : "No")
+
+                        </td>
+                        <td class="@Model.visibleTecnicaRevisor">
+                            @(item.AdquisicionObserva)
+                        </td>
+                        <td>@item.NoLote</td>
+                        <td align="right">@item.Cantidad</td>
+                        <td>
+                            <div class="a">
+                                @Html.DisplayFor(modelItem => item.BienServicio)
+                            </div>
+                        </td>
+                        <td>
+                            <div class="a">
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </div>
+
+                        </td>
+                        <td>@item.UnidadMedida</td>
+                        <td class="@Model.visibleEconimica" align="right">@String.Format("{0:C2}", item.PrecioUnitario)</td>
+                        <td class="@Model.visibleEconimica" align="right">@String.Format("{0:C2}", item.PrecioUnitarioOfertado)</td>
+                        <td class="@Model.visibleTecnica">@item.Muestra</td>
+                        <td class="@Model.visibleTecnica">@item.URLFileMuestraCatalogo</td>
+                        <td class="@Model.visibleTecnica">@item.URLFileCertificacion</td>
+                        <td class="@Model.visibleTecnica">@item.Pantone</td>
+                        <td class="@Model.visibleTecnica">@(item.EstatusMejora == 1 ? "Si" : "No")</td>
+                        <td class="@Model.visibleTecnica">@item.Mejora</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="row verSeccion">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Monto presupuestado autorizado</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input type="text" name="number" value="@Model.oRequisicones.MontoAproximadoAutorizado" id="MontoPresupuestoAutorizado" class="form-control" readonly />
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Liquidez</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input type="text" name="number" value="@Model.sumLiquidez" id="liquidez" class="form-control" readonly>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group" id="ImporteTotalConImpuestoDiv">
+                <label>Importe total con impuestos</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input type="text" name="number" value="@Model.sumRequisicionLote" id="ImporteTotalConImpuesto" class="form-control" readonly>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal nuevo lote -->
+    <div class="modal fade" id="modal_nuevo_lote">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header changeColorModal">
+                    @switch (ViewBag.idPerfil)
+                    {
+                        case 3:
+                        case 7:
+                            <h4 class="modal-title">Validar cumplimiento</h4>
+                            break;
+                        default:
+                            <h4 class="modal-title">Editar lote</h4>
+                            break;
+                    }
+
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="container">
+                        <input type="hidden" name="IdProveedorRqInvitacion" id="IdProveedorRqInvitacion" value="" />
+                        <div id="CargarLotePropuestaTecnicaEconomica">
+                            @{
+
+                                Html.RenderPartial("Componentes/EditLote");
+                            }
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                    <button type="button" class="btn btn-secondary" id="GuardarLote" onclick="saveEditLoteConfirm(@Model.oProveedoresRequisicionesInvitacion.IdEstatusEnvioPropuestaTecnica)">GUARDAR</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>

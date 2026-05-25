@@ -1,0 +1,38 @@
+﻿@model IEnumerable<iGob.Entidades.beActividadesEconomicas>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .col-12 {
+        margin-bottom: 15px;
+    }
+    .tableDetails {
+        width: 100% !important;
+    }
+</style>
+
+<br />
+    <button class="btn btn-secondary new-AE">Nueva Actividad Económica</button>
+<br /><br>
+<table id="tableAE" class="table table-bordered table-hover">
+    <thead  align="center">
+        <tr>
+            <th> Acciones </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Codigo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+        </tr>
+    </thead>
+</table>
+@{
+    Html.RenderPartial("EditDeleteModals");
+}
+
+@section scripts{
+    <script src="~/Scripts/Catalogos/AccionesAE.js"></script>
+}

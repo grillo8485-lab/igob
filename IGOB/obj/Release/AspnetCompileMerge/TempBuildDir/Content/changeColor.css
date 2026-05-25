@@ -1,0 +1,110 @@
+﻿.custom-file-label::after {
+    text-transform: initial !important;
+    content: "Seleccione archivo" !important;
+}
+
+.changeColorModal {
+    background-color: #adcb60 !important;
+    color: white;
+    font-weight: bolder !important;
+}
+
+.modal-content > * {
+    font-size: 14px !important;
+}
+.modal-header {
+    background-color: #adcb60;
+    /*background-color: #28574d;*/
+    color: #fff;
+}
+.btn-ChangeColor {
+    background-color: #adcb60 !important;
+    color: #fff !important;
+    height: 35px !important;
+    font-size: 14px;
+}
+
+.btn-ChangeColor:hover {
+    color: #000;
+    text-decoration: none;
+}
+.btn-seconday, .btn-seconday:hover {
+    color: #fff !important;
+}
+
+.bootbox .modal-header {
+    display: block;
+}
+
+.row_top > div > div > div > a, .userSelectnone {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+/* MEDIA - QUERIES*/
+@media (max-width: 991px) {
+    #container__area{
+        max-width: 100%;
+        flex-basis:100%;
+    }
+    .mainMenuBar{
+        width:100%;
+    }
+}
+
+
+table {
+    font-family: "Avenir Roman" !important;
+    font-size: 11px;
+    color: #333333;
+    border-collapse: collapse !important;
+    border: 1px solid gray !important;
+}
+
+    table tbody tfoot {
+        font-family: "Avenir Roman" !important;
+        color: #8b898b !important;
+        font-size: 9.7pt;
+    }
+
+    table th {
+        border-width: .5px !important;
+        padding: 8px;
+        background-color: #dedede;
+        white-space: nowrap !important;
+    }
+
+tbody tr:hover {
+    background-color: #CCD1D1 !important;
+}
+
+table td {
+    border-width: 0.5px !important;
+    padding: 8px;
+    border: 1px solid #dee2e6 !important;
+}
+
+.btn-secondary {
+    color: #fff !important;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+div.a {
+    white-space: nowrap;
+    width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+    div.a:hover {
+        overflow: visible;
+        white-space: normal;
+    }
+.verSeccion {
+    display: none;
+}
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #aaa;
+}

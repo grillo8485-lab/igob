@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "Perfil de usuario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<div class="userSelectnone" style="text-align:center">
+    <div class="icon-user-3" style="font-size:150px; color:#8b898b;"></div>
+    <span style="color:#8b898b;"><strong>@ViewBag.Nombre</strong></span><br />
+    <span style="color:#8b898b;"><i class="icon-placeholder-3" ></i>@ViewBag.Municipio, @ViewBag.Estado, @ViewBag.Pais</span><br />
+    <span style="color:#8b898b;"><i class="icon-briefcase"></i>Usuario<strong> @ViewBag.Empresa</strong></span> 
+</div>
+<hr />
+<div class="userSelectnone" style="text-align:center;color:#8b898b;">
+    <div class="row">
+        <div class="col-12"><label>Información de Usuario</label></div>
+
+        <div class="col-6"><div class="row offset-6"><i class="icon-worldwide ph-5"></i> Correo</div></div>
+        <div class="col-6"><div class="row offset-4">@ViewBag.Correo</div></div>
+
+        <div class="col-6"><div class="row offset-6"><i class="icon-smartphone-6"></i> Teléfono</div></div>
+        <div class="col-6"><div class="row offset-4">@ViewBag.Telefono</div></div>
+
+        <div class="col-6"><div class="row offset-6"><i class="icon-user"></i> Perfil</div></div>
+        <div class="col-6"><div class="row offset-4">@ViewBag.Perfil</div></div>
+    </div>
+</div>
+<hr />

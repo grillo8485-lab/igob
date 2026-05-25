@@ -1,0 +1,257 @@
+﻿@model List<iGob.Entidades.beAdjudicacionesPropuestasTecnicaEconomica>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="mainMenuBarAnchor"></div>
+<nav class="navbar text-white navbar-light changeColorModal mainMenuBar">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="col-sm-7">
+        <h5 style="font-size:16px;color: #fff;font-weight:bolder;">
+            @ViewBag.Adjudicacion.TipoAdjudicacion - @ViewBag.AdjudicacionFolio - @ViewBag.Adjudicacion.RazonSocial
+        </h5>
+    </div>
+    <div class="col-sm-4" align="right" id="controls__Confirmar" style="display: inline;">
+
+        <input type="button" onclick="confirmar(true)" value="Recibir" class="btn btn-secondary ml-auto" @(ViewBag.hasAConfirm ? "disabled" : "")>
+        <input type="button" onclick="confirmar(false)" value="Rechazar" class="btn btn-secondary ml-auto" @(ViewBag.hasAConfirm ? "disabled" : "")>
+        <a href="#" onclick="retornarPagina();" title="Regresar a la lista" class="btn btn-secondary">Regresar</a>
+    </div>
+</nav>
+
+
+<div class="row bg-secondary text-white sub_banner">
+    <div class="col-12" align="center">
+        <strong>VALIDAR PROPUESTA TÉCNICA</strong>
+    </div>
+</div>
+<br />
+<table id="tablerevLotes" class="table">
+
+    <thead align="center">
+        <tr>
+            <th>Acciones</th>
+            <th>Lote</th>
+            <th>Bien o servicio</th>
+            <th>Cantidad</th>
+            <th>Características</th>
+            <th>Unidad</th>
+            <th>Requerimiento</th>
+            <th>Certificación</th>
+            <th>Clave pantone</th>
+            <th>Mejora</th>
+            <th>Observación de mejora</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td align="center">
+                    <div class="button-group">
+                        <button type="button" class="btn btn-sm btn-secondary" onclick="detallesPropuestaTecnica(@item.IdAdjudicionPropuestaTecEco)"><span class="fa fa-file-text-o"></span></button>
+                    </div>
+                </td>
+                <td>@item.NoLote</td>
+                <td>@item.BienServicio</td>
+                <td>@item.Cantidad</td>
+                <td>@item.DescripcionBienServicio</td>
+                <td>@item.UnidadMedida</td>
+                <td>
+                    @(item.URLFileMuestraCatalogo.IsEmpty() ? "No":"Si")
+                </td>
+                <td>
+                    @(item.URLFileCertificacion.IsEmpty() ? "No" : "Si")
+                </td>
+                <td>
+                    @(item.Pantone.IsEmpty() ? Html.Raw("No contiene clave Pantone") : Html.Raw("<div style=background-color:" + @item.Pantone.Trim() + ";height:1.3vw;> </div>") )
+                </td>
+                <td>@(item.EstatusMejora == 1 ? "Sí" : "No")</td>
+                <td>@item.Mejora</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br /> <br />
+
+
+<div class="modal fade" id="DetallesPropuestaTecnicaModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Detalles propuesta técnica</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Id = "DetailsTecForm" }))
+            {
+                <div class="modal-body">
+                    <div class="col-12 row">
+                        <div class="col-6">
+                            <label> Muestra: </label>
+                            <div class="input-group mb-3">
+                                <div class="custom-file">
+                                    <a href="#" target="_blank" id="URLFileMuestraCatalogo" name="URLFileMuestraCatalogo" class="custom-file-input">content</a>
+                                    <label class="custom-file-label text-long" id="lblURLFileMuestraCatalogo">Abrir Archivo</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <label> Certificación: </label>
+                            <div class="input-group mb-3">
+                                <div class="custom-file">
+                                    <a target="_blank" href="#" id="URLFileCertificacion" name="URLFileCertificacion" class="custom-file-input">content</a>
+                                    <label class="custom-file-label text-long" id="lblURLFileCertificacion">Abrir Archivo</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 row">
+
+                        <div class="col-2" style="text-align:center">
+                            <label>Mejora</label>
+                            <div class="custom-control custom-checkbox" style="left: 47%;width:30px">
+                                <input type="checkbox" class="custom-control-input" id="EstatusMejora" disabled />
+                                <label class="custom-control-label" for="EstatusMejora"></label>
+                            </div>
+                        </div>
+                        <div class="col-10">
+                            <label for="Obsmejora">Observación de la Mejora</label>
+                            @Html.TextArea("Mejora", null, new { @Class = "form-control", @readonly = "", @style = "resize:none", @rows = 5 })
+                        </div>
+                    </div>
+                    <input type="hidden" name="IdAdjudicionPropuestaTecEco" id="IdAdjudicionPropuestaTecEco" value="" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    @*<button type="submit" class="btn btn-secondary" id="revisado">Revisado</button>*@
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            // Cache selectors for faster performance.
+            var $window = $(window),
+                $mainMenuBar = $('.mainMenuBar'),
+                $mainMenuBarAnchor = $('.mainMenuBarAnchor');
+
+            // Run this on scroll events.
+            $window.scroll(function () {
+                var window_top = $window.scrollTop();
+                var div_top = $mainMenuBarAnchor.offset().top;
+                var diff = (Math.abs((window_top - 9) - (div_top)));
+
+                if (diff < 9) {
+                    return false;
+                } else if (window_top > div_top) {
+                    // Make the div sticky.
+                    $mainMenuBar.addClass('stick');
+                    $mainMenuBarAnchor.height($mainMenuBar.height());
+                }
+                else {
+                    // Unstick the div.
+                    $mainMenuBar.removeClass('stick');
+                    $mainMenuBarAnchor.height(0);
+                }
+            });
+        });
+
+
+        $('#tablerevLotes').DataTable({
+            scrollCollapse: true,
+            scrollY: 340,
+            sort: false,
+            "language": {
+                "emptyTable": ""
+            },
+            initComplete: function (settings, json) {
+                setTimeout(function () { $("#tablerevLotes").DataTable().draw(); }, 200);
+            }
+        }).draw();
+
+        $("#Recibido").on("click", function () {
+            bootbox.alert({
+                size: "small",
+                title: `<div class="text-center">Aviso</div>`,
+                message: "Se recibió propuesta técnica",
+                callback: function () { /* */ }
+            })
+
+        });
+
+        function retornarPagina() {
+            location.href = '/AdjudicacionesPropuestas/Index/' + @ViewBag.Adjudicacion.IdAdjudicacion;
+        }
+
+        function detallesPropuestaTecnica(IdAdjudicionPropuestaTecEco) {
+
+            var parametros = {
+                __RequestVerificationToken: $("[name='__RequestVerificationToken']").val(),
+                IdAdjudicionPropuestaTecEco: IdAdjudicionPropuestaTecEco
+            }
+
+            $.post("/AdjudicacionesPropuestas/detallesPropuesta/", parametros, "JSON")
+                .done(function (data) {
+                    if (data.success) {
+
+                        (data.m.IdEstatusPropuesta == 20 ? $("#revisado").attr("disabled", "disabled") : $("#revisado").removeAttr('disabled'));
+
+                        $("#URLFileMuestraCatalogo").attr("href", data.m.URLFileMuestraCatalogo);
+                        $("#lblURLFileMuestraCatalogo").html((data.m.URLFileMuestraCatalogo).substring(34));
+
+                        console.log((data.m.URLFileMuestraCatalogo));
+
+                        $("#URLFileCertificacion").attr("href", data.m.URLFileCertificacion);
+                        $("#lblURLFileCertificacion").html((data.m.URLFileCertificacion).substring(32));
+                        (data.m.EstatusMejora == 1 ? $("#EstatusMejora").attr("checked", "checked") : $("#Mejora").removeAttr('checked') );
+                        $("#Mejora").val(data.m.Mejora);
+                        $("#IdAdjudicionPropuestaTecEco").val(data.m.IdAdjudicionPropuestaTecEco);
+
+                        $("#DetallesPropuestaTecnicaModal").modal("show");
+
+                    }
+
+                }).fail(function (data) {
+                    //console.log(data)
+                })
+        }
+
+        function confirmar(value) {
+            bootbox.confirm({
+                title: `<div class="text-center">Aviso</div>`,
+                size: "small",
+                message: `¿Desea ${value ? "recibir" : "rechazar"} propuesta técnica?`,
+                callback: function (res) {
+                    if (res) {
+                        traerTokenCapturaGenerico({ title: "Introduce token", CallBack: validarTokenGenerico, CallBackPersonalizado: saveRevicirPropuestaTecnica, b: value })
+                    }
+                }
+            })
+        }
+
+        function saveRevicirPropuestaTecnica(value) {
+            var parametros = {
+                            __RequestVerificationToken: $("[name='__RequestVerificationToken']").val(),
+                            IdAdjudicacionProveedor: @ViewBag.Adjudicacion.IdAdjudicacionProveedor,
+                            isApprove: value
+                        }
+
+            $.post("/AdjudicacionesPropuestas/Confirmar", parametros, "JSON").done(function (data) {
+                mensajeGenerico("Aviso", data.mensaje,"1");
+
+                        }).fail(function (data) {
+                            //console.log(data)
+                        })
+        }
+    </script>
+
+}

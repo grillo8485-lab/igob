@@ -1,0 +1,178 @@
+﻿@model IGOB.Models.Requisicion
+
+<div id="div_presupuesto_liquidez" class="container-fluid tab-pane fade @(Model.oRequisicones.IdEstatusRequisicion==60?" disabledClick":Model.oRequisicones.IdEstatusRequisicion==50? "":" disabledClick")">
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>PRESUPUESTO</strong>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Partida</label>
+                <input type="text" class="form-control" readonly value="@Model.presupuestoLiquidez.Partida">
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Monto solicitado</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input type="text" class="form-control textDerecha" readonly value="@String.Format("{0:N2}", Model.presupuestoLiquidez.MontoSolicitado)">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Saldo partida</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input type="text" class="form-control textDerecha" readonly value="@String.Format("{0:N2}", Model.presupuestoLiquidez.SaldoPatida)">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Monto presupuestal autorizado</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input type="text" class="form-control textDerecha" readonly value="@String.Format("{0:N2}", Model.presupuestoLiquidez.MontoPresupuestoAutorizado)">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Saldo presupuestado autorizado</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input type="text" class="form-control textDerecha" readonly value="@String.Format("{0:N2}", Model.presupuestoLiquidez.SaldoPresupuestoAutorizado)">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Origen de recurso</label>
+                <input type="text" class="form-control" readonly value="@Model.presupuestoLiquidez.OrigenRecurso">
+            </div>
+        </div>
+    </div>
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>CLAVES PRESUPUESTALES</strong>
+        </div>
+    </div>
+
+
+    <table class="table" id="PresupuestoTabla">
+        <thead>
+            <tr>
+                <th>Origen de recurso</th>
+                <th>Clave presupuestal</th>
+                <th>Número Ministración</th>
+                <th>De</th>
+                <th>Al</th>
+                <th>Monto presupuestado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.presupuestoLiquidez.ClavesPresupuestalesDetalles)
+            {
+                <tr>
+                    <td>@item.OrigenRecurso</td>
+                    <td>@item.ClavesPresupuestal</td>
+                    <td>@item.NumeroMinistracion</td>
+                    <td>@item.De</td>
+                    <td>@item.Al</td>
+                    <td align="right">@String.Format("{0:C2}", item.MontoPresupuestado)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <br />
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>LIQUIDEZ</strong>
+        </div>
+    </div>
+    <table class="table" id="liquidezTable">
+        <thead>
+            <tr>
+                <th>Origen de recurso</th>
+                <th>Cuenta</th>
+                <th>Nombre de la cuenta</th>
+                <th>Banco</th>
+                <th>Número de operación bancaria</th>
+                <th>Saldo i <span>G</span>ob</th>
+                <th>Saldo en cuenta</th>
+                <th>Monto comprometido</th>
+                <th>Fecha autorización <a href="#" data-toggle="tooltip" data-placement="top" title="Registrar la fecha del último depósito del estado de cuenta que se anexa."><i class="fa fa-question-circle-o"></i></a> </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.lstLiquidez)
+            {
+                <tr>
+                    <td>@item.OrigenRecurso</td>
+                    <td>@item.NumeroCuenta</td>
+                    <td>@item.NombreCuenta</td>
+                    <td>@item.NombreCorto</td>
+                    <td>@item.NumeroOperacion</td>
+                    <td align="right">@String.Format("{0:C2}",@item.SaldoIgob)</td>
+                    <td align="right">@String.Format("{0:C2}",@item.SaldoCuenta)</td>
+                    <td align="right">@String.Format("{0:C2}",@item.MontoComprometido)</td>
+                    <td> @String.Format("{0:MM/dd/yyyy}", @item.FechaDeposito.ToShortDateString())</td>
+                </tr>
+            }
+            </tbody>
+    </table>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Valor aproximado <a href="#" data-toggle="tooltip" data-placement="top" title="Valor aproximado es igual al presupuesto autorizado más ingresos propios."><i class="fa fa-question-circle-o"></i></a></label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input type="text" class="form-control currency textDerecha" readonly value="@String.Format("{0:N2}", Model.oRequisicones.MontoAproximadoAutorizado)">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Liquidez</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input type="text" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="10" class="form-control currency textDerecha" readonly value="@String.Format("{0:N2}", Model.sumLiquidez)">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label>Observaciones presupuesto y liquidez</label>
+                <textarea class="form-control" style="resize: none;" readonly></textarea>
+            </div>
+        </div>
+    </div>
+
+</div>

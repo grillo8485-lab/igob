@@ -1,0 +1,38 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel-heading panel-fixed-heading">
+    <div class="row">
+        <div class="col-sm-8">
+            <h5>
+                <b style="color: #fff;">
+                    Solicitud: Primera Licitación - REQ/SSP/020/9/2018/B - Enviada  - Secretaría de Seguridad Pública
+                </b>
+            </h5>
+        </div>
+        <div class="col-sm-4" align="right">
+
+
+            <button id="btnAutoriza" name="btnAccion" title="Autorizar" onclick="setTitleBtn(this);" value="AUTORIZA" disabled="" class="btn btn-info">
+                Autorizar
+            </button>
+
+
+            <button id="btnRechaza" onclick="setTitleBtn(this);" title="Rechazar" name="btnAccion" value="RECHAZA" type="submit" class="btn btn-primary">
+                Rechazar
+            </button>
+
+            <a href="index.php?ID=43&amp;IDF=353" id="cancelar" title="Regresar a la lista" class="btn btn-primary">Regresar</a>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+<div class="row col-12 bg-secondary text-white ">
+    <strong align="center">PRESUPUESTO</strong>
+
+</div>

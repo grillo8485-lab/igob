@@ -1,0 +1,489 @@
+﻿@model List<iGob.Entidades.beLicitacionesDictamen>
+@{
+    ViewBag.Title = "Acta de Propuestas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    /* Ensure that the demo table scrolls */
+
+    .data_table > tbody > tr > td {
+        white-space: nowrap;
+        
+        
+    }
+
+    /*
+    .data_table > tbody > tr > td {
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    */
+
+</style>
+
+@Html.AntiForgeryToken()
+@Html.ValidationSummary()
+<input type="hidden" class="form-control" readonly id="IdLic_" value="@ViewBag.pIdLic">
+<div class="">
+    <div class="pos-f-t">
+        <div class="mainMenuBarAnchor" style="height: 0px;"></div>
+        <nav class="navbar bg-secondary text-white navbar-light bg-light changeColorModal mainMenuBar">
+            <div class="col-sm-4">
+                <label>@ViewBag.FolioLicitacion</label>
+            </div>
+
+            <div class="col-sm-8" style="text-align: right;">
+                <button class="btn btn-default btn-circle  btn-sm " type="button" onclick="ImprimirDictamen()" @(ViewBag.Licitacion.IdEstatusLicitacion != 40 ? "" : "disabled")>DESCARGAR DICTAMEN</button>
+                @switch (ViewBag.IdPerfil)
+                {
+                    case 7:
+                <button class="btn btn-default btn-circle  btn-sm" type="button" onclick="validarGenerarPublicarPropuestaTecnicaEconomica()" @(ViewBag.Licitacion.IdEstatusLicitacion == 40 ? "" : "disabled")>PUBLICAR DICTAMEN</button>
+                        break;
+                    default:
+                        break;
+                }
+                
+                <button type="button" class="btn btn-default btn-sm" onclick="location.href='@Url.Action("Index", "ListadoLicitacionesInvitacionAceptadasProveedor")'">
+                    <span class="glyphicon glyphicon-step-backward"></span> Regresar
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <div style="color: #fff;background-color: #455407;text-align:center;padding:5px;">Dictamen propuesta técnica</div>
+
+    <div id="ResultadoBuscar"></div>
+
+
+
+    @foreach (var Pro in Model)
+    {
+        string aceptada = "NO";
+        if (Pro.ManifiestoAdquisicionCumple != true) { aceptada = "SI"; }
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Requisición</th>
+                    <th>@Pro.RequisicionFolio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Dependencia solicitante:</td>
+                    <td>@Pro.Dependencia</td>
+                </tr>
+                <tr>
+                    <td>Proveedor:</td>
+                    <td>@Pro.RazonSocial</td>
+                </tr>
+                <tr>
+                    <td>Oferta total</td>
+                    <td>@Pro.OfertaTotal.ToString("C2")</td>
+                </tr>
+                <tr>
+                    <td>Tipo de abastecimiento</td>
+                    <td>@Pro.FormaAbastecimiento</td>
+                </tr>
+                <tr>
+                    <td>Aceptada:</td>
+                    <td>@aceptada</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div style="color: #fff;background-color: #999;text-align:center;padding:5px;">LOTES</div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Cumple con lo ofertado</th>
+                    <th>Fundamentación legal</th>
+                    <th>Lote ofertado</th>
+                    <th>Lote</th>
+                    <th>Productos y servicios</th>
+                    <th>Cantidad</th>
+                    <th>Unidad</th>
+                    <th>Clave pantone</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var Lote in ((List<iGob.Entidades.beLicitacionesDictamen>)ViewBag.ListaLotes).Where(x => x.IdProveedorRqInvitacion == Pro.IdProveedorRqInvitacion))
+                {
+                    string AdquisicionCumple = "NO";
+                    string LoteOfertado = "NO";
+                    if (Lote.AdquisicionCumple != true) { AdquisicionCumple = "SI"; }
+                    if (Lote.LoteOfertado == true) { LoteOfertado = "SI"; }
+                    <tr>
+                        <td>@AdquisicionCumple</td>
+                        <td>@Lote.FundamentoLegal</td>
+                        <td>@LoteOfertado</td>
+                        <td>@Lote.NoLote</td>
+                        <td>@Lote.BienServicio</td>
+                        <td>@Lote.Cantidad</td>
+                        <td>@Lote.UnidadMedida</td>
+                        <td>@Lote.Pantone</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div style="color: #fff;background-color: #999;text-align:center;padding:5px;">CARTAS</div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Inciso</th>
+                    <th>Nombre carta</th>
+                    <th>Carta</th>
+                    <th>Acepto</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var Carta in ((List<iGob.Entidades.beLicitacionesDictamen>)ViewBag.ListaCartas).Where(x => x.IdProveedorRqInvitacion == Pro.IdProveedorRqInvitacion))
+                {
+                    string AceptacionCarta = "NO";
+                    if (Carta.AceptacionCarta == true) { AceptacionCarta = "SI"; }
+                    <tr>
+                        <td>@Carta.Inciso</td>
+                        <td>@Carta.Nombre</td>
+                        <td>@Carta.Carta</td>
+                        <td>@AceptacionCarta</td>
+                    </tr>
+
+                }
+
+            </tbody>
+        </table>
+
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Cumple con lo ofertado</th>
+                    <th>Fundamento Legal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ 
+                    string CartaAdquisicionCumple = "NO";
+                    if (Pro.CartaAdquisicionCumple != true) { CartaAdquisicionCumple = "SI"; }
+                }
+                <tr>
+                    <td>@CartaAdquisicionCumple</td>
+                    <td>@Pro.CartaFundamento</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div style="color: #fff;background-color: #999;text-align:center;padding:5px;">CONDICIONES DE ENTREGA</div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Plazo de entrega</th>
+                    <th>Cantidad</th>
+                    <th>Unidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Pro.PlazoEntrega</td>
+                    <td>@Pro.PlazoEntregaCantidad</td>
+                    <td>@Pro.PlazozTiempoEntrega</td>
+                </tr>
+            </tbody>
+            <thead>
+                <tr>
+                    <th>Tipo de día</th>
+                    <th>Forma de entrega</th>
+                    <th>Hasta</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Pro.TipoDiaEntrega</td>
+                    <td>@Pro.TipoEntrega</td>
+                    <td>@Pro.FechaLimite</td>
+                </tr>
+            </tbody>
+            <thead>
+                <tr>
+                    <th colspan="3">Nota especial</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="3">@Pro.NotaEspecial</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Lote</th>
+                    <th>Cantidad a entregar</th>
+                    <th>Lugar de entrega</th>
+                    <th>Domicilio</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var Cond in ((List<iGob.Entidades.beLicitacionesDictamen>)ViewBag.ListaCondicionesEntrega).Where(x => x.IdProveedorRqInvitacion == Pro.IdProveedorRqInvitacion))
+                {
+                    <tr>
+                        <td>@Cond.NoLote</td>
+                        <td>@Cond.Cantidad</td>
+                        <td>@Cond.Lugar</td>
+                        <td>@Cond.Direccion</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Cumple con lo ofertado</th>
+                    <th>Fundamento Legal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    string CondicionEntregaAdquisicionCumple = "NO";
+                    if (Pro.CondicionEntregaAdquisicionCumple != true) { CondicionEntregaAdquisicionCumple = "SI"; }
+                }
+                <tr>
+                    <td>@CondicionEntregaAdquisicionCumple</td>
+                    <td>@Pro.CondicionEntregaFundamento</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div style="color: #fff;background-color: #999;text-align:center;padding:5px;">CONDICIONES DE PAGO</div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Cantidad</th>
+                    <th>Unidad</th>
+                    <th>Tipo de día</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Pro.PlazoPagoCantidad</td>
+                    <td>@Pro.PlazosTiempoPago</td>
+                    <td>@Pro.TipoDiaPago</td>
+                </tr>
+            </tbody>
+            <thead>
+                <tr>
+                    <th>Condición de pago</th>
+                    <th>Anticipo</th>
+                    <th>Porcentaje anticipo</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    string Anticipo = "NO";
+                    if (Pro.Anticipo == true)
+                    {
+                        Anticipo = "SI";
+                    }
+                }
+                <tr>
+                    <td>@Pro.TipoCondicionPago</td>
+                    <td>@Anticipo</td>
+                    <td>@Pro.PorcentajeAnticipo.ToString("P2")</td>
+                </tr>
+            </tbody>
+            <thead>
+                <tr>
+                    <th>Número de pagos</th>
+                    <th>Periodicidad</th>
+                    <th><!--Anticipo--></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Pro.NumeroPagos</td>
+                    <td>@Pro.Periodicidad</td>
+                    <td><!--@Pro.ImporteAnticipo--></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Cumple con lo ofertado</th>
+                    <th>Fundamento Legal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    string CondicionPagoAdquisicionCumple = "NO";
+                    if (Pro.CondicionPagoAdquisicionCumple != true) { CondicionPagoAdquisicionCumple = "SI"; }
+                }
+                <tr>
+                    <td>@CondicionPagoAdquisicionCumple</td>
+                    <td>@Pro.CondicionPagoFundamento</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div style="color: #fff;background-color: #999;text-align:center;padding:5px;">REQUISITOS ADICIONALES</div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Descripción de infraestructura</th>
+                    <th>Experiencia adquirida en el ramo</th>
+                    <th>Número de empleados</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>@Pro.Infraestructura</td>
+                    <td>@Pro.AnnioExperiencia</td>
+                    <td>@Pro.NumeroEmpleados</td>
+                </tr>
+            </tbody>
+            <thead>
+                <tr>
+                    <th>Domicilio para oir y recibir notificaciones</th>
+                    <th>Capital contable</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>@Pro.Domicilio</td>
+                    <td>@Pro.CapitalContable.ToString("C2")</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Dirección</th>
+                    <th>Teléfono</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cte in ((List<iGob.Entidades.beLicitacionesDictamen>)ViewBag.ListaClientes).Where(x => x.IdProveedorRqInvitacion == Pro.IdProveedorRqInvitacion))
+                {
+                    <tr>
+                        <td>@cte.NombreCliente</td>
+                        <td>@cte.DirecionCliente</td>
+                        <td>@cte.TelefonoCliente</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Manifiesto</th>
+                    <th>Aceptar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var Man in ((List<iGob.Entidades.beLicitacionesDictamen>)ViewBag.ListaManifiestos).Where(x => x.IdProveedorRqInvitacion == Pro.IdProveedorRqInvitacion))
+                {
+                    string Aceptacion = "NO";
+                    if (Man.Aceptacion == true)
+                    {
+                        Aceptacion = "SI";
+                    }
+                    <tr>
+                        <td>@Man.Manifiesto</td>
+                        <td>@Aceptacion</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Cumple con lo ofertado</th>
+                    <th>Fundamento Legal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    string ManifiestoAdquisicionCumple = "NO";
+                    if (Pro.ManifiestoAdquisicionCumple != true) { ManifiestoAdquisicionCumple = "SI"; }
+                }
+                <tr>
+                    <td>@ManifiestoAdquisicionCumple</td>
+                    <td>@Pro.ManifiestoFundamento</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+    }
+
+
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            // Cache selectors for faster performance.
+            var $window = $(window),
+                $mainMenuBar = $('.mainMenuBar'),
+                $mainMenuBarAnchor = $('.mainMenuBarAnchor');
+
+            // Run this on scroll events.
+            $window.scroll(function () {
+                var window_top = $window.scrollTop();
+                var div_top = $mainMenuBarAnchor.offset().top;
+                var diff = (Math.abs((window_top - 9) - (div_top)));
+
+                if (diff < 9) {
+                    return false;
+                } else if (window_top > div_top) {
+                    // Make the div sticky.
+                    $mainMenuBar.addClass('stick');
+                    $mainMenuBarAnchor.height($mainMenuBar.height());
+                }
+                else {
+                    // Unstick the div.
+                    $mainMenuBar.removeClass('stick');
+                    $mainMenuBarAnchor.height(0);
+                }
+            });
+        });
+    </script>
+    <script src="~/Scripts/Catalogos/LicitacionesDictamen.js"></script>
+}
+
+<!-- Modal loading -->
+<div class="modal fade" id="modal_loading">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header" style="text-align:center;">
+                <h4 class="modal-title">Generando Documento</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container" style="text-align:center;">
+                    <img style="width:100%;" src="~/Img/loading.gif">
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <!--<div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+            </div>-->
+
+        </div>
+    </div>
+</div>

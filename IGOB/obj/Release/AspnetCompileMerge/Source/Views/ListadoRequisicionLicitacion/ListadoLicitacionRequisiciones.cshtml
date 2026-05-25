@@ -1,0 +1,167 @@
+﻿<table class="table-bordered hover" id="tablaListadoRequisicionLicitacion" width="100%">
+    <thead align="justify">
+        <tr>
+            <th> Acciones </th>
+            @switch ((int)ViewBag.IdPerfil)
+            {
+
+                case 3:
+                    <!--<th> Proveedor </th>-->
+                    <th> Estatus @(ViewBag.idTipoProveso == 1 || ViewBag.idTipoProveso == 3 ? "técnica" : "económica")</th>
+                    break;
+                case 7:
+                    switch (ViewBag.idTipoProveso)
+                    {
+
+                        case 3:
+                            <th> Estatus técnica</th>
+                            <th> Proveedor </th>
+                            break;
+
+                        case 4:
+
+                            <th> Estatus económica</th>
+                            <th> Proveedor </th>
+                            break;
+                        case 6:
+                            <th> Estatus técnica</th>
+                            <th> Proveedor </th>
+                            break;
+                    }
+
+                    break;
+
+            }
+            <th> Número de requisión/servicio </th>
+            <th> Número de licitación </th>
+            <th> Solicitud </th>
+            <th> Abastecimiento </th>
+            <th> Capítulo </th>
+            <th> Partida </th>
+            <th> Origen de recurso </th>
+            <th> Valor aproximado </th>
+            <th> Tiempos </th>
+            <th> Ejercicios </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.ListadoRequisicionLicitacion)
+        {
+        <tr>
+            <td align="center">
+                @switch (ViewBag.IdPerfil)
+                {
+                    case 8:
+                        switch (ViewBag.idTipoProveso)
+                        {
+                            case 2:
+                            case 1:
+                                <button title="Abrir Requisicion" type="button" class="btn btn-secondary btn-circle edit-marca btn-sm" to onclick="location.href='@Url.Action("requisicionPropuestaTecnicaEconomica", "ListadoRequisicionLicitacion",new { id = item.IdRequisicion,IdProveedorRqInvitacion = item.IdProveedorRqInvitacion,IdTIpoProceso = ViewBag.idTipoProveso })'">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </button>
+                                break;
+                            default:
+                                <button title="" type="button" class="btn btn-secondary btn-circle edit-marca btn-sm" to onclick="location.href='@Url.Action("Index", "PreguntasProveedor",new { id = item.IdProveedorRqInvitacion, IdInvitacion =ViewBag.IdInvitacion })'">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </button>
+                                break;
+                        }
+
+
+                        break;
+                    case 3:
+                        switch (ViewBag.idTipoProveso)
+                        {
+
+                            case 1:
+                                <button title="Abrir licitación" type="button" class="btn btn-secondary btn-circle edit-marca btn-sm" to onclick="location.href='@Url.Action("Index", "RespuestaPreguntaSolicitante",new { @pIdRequisicion = item.IdRequisicion, @pIdlicitacion = ViewBag.IdLicitacion })'">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </button>
+                                break;
+                            case 5:
+                                <button title="Abrir Requisicion" type="button" class="btn btn-secondary btn-circle edit-marca btn-sm" to onclick="location.href='@Url.Action("requisicionPropuestaTecnicaEconomicaRevisor", "ListadoRequisicionLicitacion",new { id = item.IdRequisicion,IdProveedorRqInvitacion = item.IdProveedorRqInvitacion,IdTIpoProceso = ViewBag.idTipoProveso })'">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </button>
+                                break;
+                        }
+
+                        break;
+                    case 7:
+                        switch (ViewBag.idTipoProveso)
+                        {
+                            case 0:
+                                <button title="Abrir licitación" type="button" class="btn btn-secondary btn-circle edit-marca btn-sm" to onclick="location.href='@Url.Action("Index", "AceptarInvitacion",new { IdLicitacion = item.IdRequisicion })'">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </button>
+                                break;
+                            case 1:
+                                <button title="Abrir licitación" type="button" class="btn btn-secondary btn-circle edit-marca btn-sm" to onclick="location.href='@Url.Action("Index", "RevicionPreguntaRespuesta",new { pIdRequisicion = item.IdRequisicion, pIdlicitacion = ViewBag.IdLicitacion, pidTipoProveso = ViewBag.idTipoProveso  })'">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </button>
+                                break;
+                            case 4:
+                            case 3:
+                                <button title="Abrir Requisicion" type="button" class="btn btn-secondary btn-circle edit-marca btn-sm" to onclick="location.href='@Url.Action("requisicionPropuestaTecnicaEconomicaRevisor", "ListadoRequisicionLicitacion",new { id = item.IdRequisicion,IdProveedorRqInvitacion = item.IdProveedorRqInvitacion,IdTIpoProceso = ViewBag.idTipoProveso })'">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </button>
+                                break;
+                            case 6:
+                                <button title="Abrir Requisicion" type="button" class="btn btn-secondary btn-circle edit-marca btn-sm" to onclick="location.href='@Url.Action("requisicionPropuestaTecnicaEconomicaRevisor", "ListadoRequisicionLicitacion",new { id = item.IdRequisicion,IdProveedorRqInvitacion = item.IdProveedorRqInvitacion,IdTIpoProceso = ViewBag.idTipoProveso })'">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </button>
+                                break;
+                        }
+
+                        break;
+                    default:
+                        <button title="Abrir licitación" type="button" class="btn btn-secondary btn-circle edit-marca btn-sm">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                        </button>
+                        break;
+                }
+            </td>
+            @switch ((int)ViewBag.IdPerfil)
+            {
+
+                case 3:
+
+                    <!--<td> item.RazonSocial </td>-->
+                    <td> Estatus @(ViewBag.idTipoProveso == 1 || ViewBag.idTipoProveso == 3 ? @item.EstatusPropuestaEconomica : @item.EstatusPropuestaTecnica )</td>
+                    break;
+                case 7:
+                    switch (ViewBag.idTipoProveso)
+                    {
+
+                        case 3:
+                            <td> @item.EstatusPropuestaTecnica</td>
+                            
+                            <td> @item.RazonSocial </td>
+                            break;
+                        case 4:
+                            
+                            <td> @item.EstatusPropuestaEconomica</td>
+                            <td> @item.RazonSocial </td>
+                            break;
+                        case 6:
+                            <td> @item.EstatusPropuestaTecnica</td>
+                            <td> @item.RazonSocial </td>
+                            break;
+                    }
+
+                    break;
+
+            }
+            <td>@item.RequisicionFolio</td>
+            <td>@item.NumeroLicitacionT</td>
+            <td>@item.TipoSolicitud</td>
+            <td>@item.FormaAbastecimiento</td>
+            <td>@item.Capitulo</td>
+            <td>@item.Partida</td>
+            <td>@item.OrigenRecurso</td>
+            <td align="right">@String.Format("{0:C2}", item.MontoAproximadoAutorizado)</td>
+            <td>@item.Tiempo</td>
+            <td>@item.Ejercicio</td>
+        </tr>
+        }
+    </tbody>
+</table>

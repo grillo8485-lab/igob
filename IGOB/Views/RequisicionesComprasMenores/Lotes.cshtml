@@ -1,0 +1,73 @@
+﻿<div id="div_lotes" class="container-fluid tab-pane fade">
+    <div id="lotesDiv">
+        <button class="btn btn-secondary mb-2" data-toggle="modal" data-target="#modal_nuevo_lote" onclick="MuestraLoteCM();">NUEVO LOTE</button>
+        <br />
+        <table class="table" id="TableLotes">
+            <thead>
+                <tr style="text-align:center">
+                    <th style="min-width:100px;">Acciones</th>
+                    <th>Lote</th>
+                    <th>Cantidad</th>
+                    <th>Concepto</th>
+                    <th>Precio unitario sin impuesto</th>
+                    <th>Importe</th>
+                    <th>% Impuesto</th>
+                    <th>Impuesto</th>
+                </tr>
+            </thead>
+            <tbody id="tabla_lotes"></tbody>
+        </table>
+
+
+        <!-- Modal nuevo lote -->
+        <div class="modal fade" id="modal_nuevo_lote">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">NUEVO LOTE</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <input type="hidden" id="IdLoteCompraMenor" />
+                            <div class="row">
+
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>Concepto</label>
+                                        <textarea id="Concepto" type="text" class="form-control" required style="resize:none"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Precio unitario sin IVA</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">$</span>
+                                            </div>
+                                            <input id="PrecioUnitario" type="number" class="form-control textDerecha" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Cantidad</label>
+                                        <input id="Cantidad" type="number" class="form-control textDerecha" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="GuardaReqCMLote();">GUARDAR</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- fin de modal nuevo lote -->
+    </div>
+</div>

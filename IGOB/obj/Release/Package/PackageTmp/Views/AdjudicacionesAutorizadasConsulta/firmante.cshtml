@@ -1,0 +1,60 @@
+﻿@model IGOB.Models.Adjudicacion
+@{ var bloq = ""; }
+@if (Model.oAdjudicaciones.IdEstatusAdjudicacion == 80)
+{
+    bloq = "";
+}
+else {
+    bloq = "disabled";
+}
+<div id="div_firmantes" class="container-fluid tab-pane fade">
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>FIRMANTES</strong>
+        </div>
+    </div>
+    <br />
+    <div class="row col-12">
+        <input type="hidden" name="IdAdjudicacionFirmante" id="IdAdjudicacionFirmante" value="@(ViewBag.adjudicacionefirmante != null ? ViewBag.adjudicacionefirmante.IdAdjudicacionFirmante : 0)">
+        
+
+        <div class="col-md-6 col-sm-12"><h6><strong> Nombre de quien solicita: </strong></h6><input type="text" name="UsuarioSolicitante" id="UsuarioSolicitante" class="form-control" value="@ViewBag.UsuarioSolicitante.Nombres @ViewBag.UsuarioSolicitante.Apellidos" readonly></div>
+        <div class="col-md-6 col-sm-12"><h6><strong> Nombre de quien autoriza: </strong></h6><input type="text" name="UsuarioAutoriza" id="UsuarioAutoriza" class="form-control text-capitalize text-lowercase" value="@Session["Usuario"]" readonly></div>
+        <div class="col-md-6 col-sm-12">
+            <h6><strong> Autorizar lotes: </strong></h6>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="ValidaLotesRevisor" id="ValidaLotes1" value="true" class="custom-control-input" @bloq>
+                <label class="custom-control-label" for="ValidaLotes1">Si</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="ValidaLotesRevisor" id="ValidaLotes2" value="false" class="custom-control-input" checked @bloq>
+                <label class="custom-control-label" for="ValidaLotes2">No</label>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12"><h6><strong> Observaciones de lotes: </strong></h6><textarea class="form-control" cols="4" name="ObservacionLotesRevisor" id="ValidaLotesRevisor" @bloq>@((ViewBag.adjudicacionefirmante != null) ? ViewBag.adjudicacionefirmante.ObservacionLotesRevisor : "")</textarea></div>
+        <div class="col-md-6 col-sm-12">
+            <h6><strong> Autorizar condiciones de entrega: </strong></h6>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="ValidaCondicionEntregaRevisor" id="ValidaCondicionEntrega1" value="true" class="custom-control-input" @bloq>
+                <label class="custom-control-label" for="ValidaCondicionEntrega1">Si</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="ValidaCondicionEntregaRevisor" id="ValidaCondicionEntrega2" value="false" class="custom-control-input" checked @bloq>
+                <label class="custom-control-label" for="ValidaCondicionEntrega2">No</label>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12"><h6><strong> Observaciones de condiciones de entrega: </strong></h6><textarea class="form-control" cols="4" name="ObservacionConEntregaRevisor" id="ValidaCondicionEntregaRevisor" @bloq>@((ViewBag.adjudicacionefirmante != null) ? ViewBag.adjudicacionefirmante.ObservacionConEntregaRevisor : "")</textarea></div>
+        <div class="col-md-6 col-sm-12">
+            <h6><strong> Autorizar condiciones de pago: </strong></h6>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="ValidaCondicionPagoRevisor" id="ValidaCondicionPago1" value="true" class="custom-control-input" @bloq>
+                <label class="custom-control-label" for="ValidaCondicionPago1">Si</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" name="ValidaCondicionPagoRevisor" id="ValidaCondicionPago2" value="false" class="custom-control-input" checked @bloq>
+                <label class="custom-control-label" for="ValidaCondicionPago2">No</label>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12"><h6><strong> Observaciones de condiciones de pago: </strong></h6><textarea class="form-control" cols="4" name="ObservacionCondPagoRevisor" id="ValidaCondicionPagoRevisor" @bloq>@((ViewBag.adjudicacionefirmante != null) ? ViewBag.adjudicacionefirmante.ObservacionCondPagoRevisor : "")</textarea></div>
+    </div>
+</div>

@@ -1,0 +1,165 @@
+﻿<!-- Modal nuevo lote -->
+<div class="modal fade" id="modal_nuevo_lote">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">NUEVO LOTE</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container">
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form", @id = "div_LotesForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary()
+                        <input type="hidden" id="IdPartida_" value="@Model.oAdjudicaciones.IdPartida" />
+                        <input type="hidden" id="IdBienServicio" value="0" />
+                        <input type="hidden" id="IdLote" value="0" />
+                        if (ViewBag.IdPerfil == 8)
+                        {
+                        <div class="row form-group">
+                            <div class="col-md-12 text-left"><h4><label id="tpeuLabel"> </label></h4></div>
+                            <input type="hidden" class="form-control textDerecha" readonly name="tpeu" id="tpeu" value="" />
+                        </div>
+                            @*<div class="row form-group">
+                                <div class="offset-3 col-md-3 text-right" style="top:5px;"><strong> Precio Unitario Referencia: </strong></div>
+                                <div class="col-md-3 text-left">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1">$</span>
+                                        </div>
+                                        <input type="text" class="form-control textDerecha" readonly name="tpeu" id="tpeu" value="" />
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />*@
+                        }
+
+                        if (Model.oAdjudicaciones.IdTipoSolicitud == 2)
+                        {
+                            <div class="row form-group" id="DivServicios">
+                                <div class="col-md-1 text-right">Mes Inicio:</div>
+                                <div class="col-md-2 text-left">
+                                    @Html.DropDownList("De", ViewBag.lstMesesDe as SelectList, "Seleccione", new { @class = "form-control ", @Required = "", @onchange = "mesesActivos()" })
+
+                                </div>
+                                <div class="col-md-1 text-right">Mes Fin:</div>
+                                <div class="col-md-2 text-left">
+                                    @Html.DropDownList("Al", ViewBag.lstMesesAl as SelectList, "Seleccione", new { @class = "form-control ", @Required = "", @onchange = "mesesActivos()" })
+                                </div>
+                                <div class="col-md-2 text-right">Meses:</div>
+                                <div class="col-md-4 text-left"> <input type="number" class="form-control" id="Meses" placeholder="" readonly></div>
+                            </div>
+                        }
+                        else
+                        {
+                            @Html.TextBox("De", "0", new { @type = "hidden", @id = "De" })
+                            @Html.TextBox("Al", "0", new { @type = "hidden", @id = "Al" })
+                            @Html.TextBox("Meses", "0", new { @type = "hidden", @id = "Meses" })
+                        }
+
+                        <div class="row form-group">
+                            <div class="col-md-2 text-right">Producto o servicio:</div>
+                            <div class="col-md-4 text-left"> <input type="text" name="Producto" id="Producto" class="form-control" autocomplete="off" required></div>
+                            <div class="col-md-2 text-right">Unidad:</div>
+                            <div class="col-md-4 text-left"> <input type="text" class="form-control" id="Unidad" readonly></div>
+                        </div>
+                        <div class="row form-group" id="FrecuenciaServicio">
+                            @if (Model.oAdjudicaciones.IdTipoSolicitud == 2)
+                            {
+                                <div class="col-md-2 text-right">Frecuencia:</div>
+                                <div class="col-md-4 text-left">
+                                    @Html.DropDownList("Frecuencia", ViewBag.lstFrecuencias as SelectList, "Seleccione", new { @class = "form-control ", @Required = "", @id = "Frecuencia" })
+                                </div>
+                            }
+                            else
+                            {
+                                @Html.TextBox("Frecuencia", "0", new { @type = "hidden", @id = "Frecuencia" })
+                            }
+                            <div class="col-md-2 text-right">Requerimiento:</div>
+                            <div class="col-md-4 text-left">
+                                @if (ViewBag.lstRequerimiento != null)
+                                {
+                                    @Html.DropDownList("Requerimiento", ViewBag.lstRequerimiento as SelectList, "Seleccione", new { @class = "form-control ", @Required = "", @id = "Requerimiento" })
+
+                                }
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-2 text-right">Características:</div>
+                            <div class="col-md-4 text-left"> <textarea id="Caracteristica" class="form-control" cols="5" rows="5" style="resize:none" onkeydown="return false;"></textarea></div>
+                            <div class="col-md-2 text-right">Clave Pantone:</div>
+                            <div class="col-md-4 text-left"> <input type="text" class="form-control" id="ClavePantone" onkeyup="Pantone(this.value)"></div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-2 text-right">Impuesto:</div>
+                            <div class="col-md-4 text-left"> <input type="text" class="form-control" id="Impuesto" readonly><input type="hidden" id="TasaImpuesto" /></div>
+                            <div class="col-md-2 text-right">Precio unitario de lista sin impuesto@(Model.oAdjudicaciones.IdTipoSolicitud == 2 ? " mensual" : "" ):</div>
+                            <div class="col-md-4 text-left">
+                                <div class="input-group">
+                                    <div class="input-group-prepend" style="width:13%">
+                                        <span class="input-group-text" id="basic-addon1">$</span>
+                                    </div>
+                                    <input style="width:70%" type="text" name="number" min="1" class="form-control textDerecha" required id="PrecioUnitarioListaSinImpuestoMensual" @(ViewBag.IdPerfil == 8 ? "onkeyup=precioProv(event,this.value) onclick=precioProv(event,this.value)" : "") readonly>
+                                </div>
+                                <input type="hidden" id="importeConImpuesto" value="0" />
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-2 text-right">Cantidad:</div>
+                            <div class="col-md-4 text-left">
+                                <input type="text" name="Cantidad" min="1" class="form-control textDerecha" required id="Cantidad" @(ViewBag.IdPerfil == 3 ? MvcHtmlString.Create("onkeyup='return runScript(event)' onclick='return runScript(event)'") : Html.Raw(""))>
+                            </div>
+                            <div class="col-md-2 text-right">Importe sin impuesto@(Model.oAdjudicaciones.IdTipoSolicitud == 2 ? " mensual" : "" ):</div>
+                            <div class="col-md-4 text-left">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">$</span>
+                                    </div>
+                                    <input type="text" name="number" class="form-control textDerecha" id="ImporteSinImpuestoMensual" readonly>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-2 text-right">Importe con impuesto@(Model.oAdjudicaciones.IdTipoSolicitud == 2 ? " mensual" : "" ):</div>
+                            <div class="col-md-4 text-left">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">$</span>
+                                    </div>
+                                    <input type="text" name="number" class="form-control textDerecha" id="ImporteConImpuestoMensual" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-2 text-right">Importe total@(Model.oAdjudicaciones.IdTipoSolicitud == 2 ? " periodo" : "" ):</div>
+                            <div class="col-md-4 text-left">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">$</span>
+                                    </div>
+                                    <input type="text" name="number" class="form-control textDerecha" id="ImporteTotalPeriodo" readonly>
+                                    @Html.TextBox("ImporteTotalPeriodoActual", "0", new { @type = "hidden", @id = "ImporteTotalPeriodoActual" })
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                <button type="button" class="btn btn-secondary" id="GuardarLote" onclick="validarFormularioLote()">GUARDAR</button>
+                <button type="button" class="btn btn-secondary" id="ActualizarLote" @(ViewBag.Idperfil == 8 ? "onclick=validarFormularioProv()" : "onclick=validarFormularioLoteEdit()")>ACTUALIZAR</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>

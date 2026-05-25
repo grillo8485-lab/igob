@@ -1,0 +1,122 @@
+﻿@{
+    var activo = true;
+    if(ViewBag.BSEM != null)
+    {
+        activo = false;
+    }
+}
+<fieldset style="overflow:auto">
+    <legend>Datos Generales</legend>
+    <input type="hidden" id="UEVieneCatalogo" name="UEVieneCatalogo" value="@(ViewBag.BSEM != null ? (ViewBag.BSEM.UEVieneCatalogo ? "true" : "false") : "true")" />
+    <div class="row col-12">
+        <label for="BienServicio" class=" col-md-2 col-xs-12">Buscador del bien o servicio: </label>
+        <input id="BienServicio" name="BienServicio" type="text" class="required form-control col-md-10 col-xs-12" disabled  value="@(ViewBag.bienservicio != null ? ViewBag.bienservicio.BienServicio : "")"/>
+    </div>
+
+    <div class="row col-12">
+        <label for="DescripcionBS" class=" col-md-2 col-xs-12">Descripción del bien o servicio: </label>
+        <textarea id="DescripcionBS" name="DescripcionBS" type="text" class="required form-control col-md-10 col-xs-12" disabled style="resize:none">@(ViewBag.bienservicio != null ? ViewBag.bienservicio.Descripcion : "")</textarea>
+    </div>
+
+    <div class="row col-12">
+        <label for="CodigoSCIAN" class=" col-md-2 col-xs-12">
+            Código del SCIAN
+            <a href="#" data-toggle="tooltip" title="Sistema de Clasificación Industrial de América del Norte"><i class="fa fa-question-circle"></i></a>
+        </label>
+        <input id="CodigoSCIAN" name="CodigoSCIAN" type="text" class="required form-control col-md-4 col-xs-12" disabled value="@(ViewBag.bienservicio != null ? ViewBag.bienservicio.CodigoScian : "")"/>
+
+        <label for="ClasificacionSCIAN" class=" col-md-2 col-xs-12">Clasificación del SCIAN</label>
+        <input type="text" class="required form-control col-md-4 col-xs-12" name="ClasificacionSCIAN" id="ClasificacionSCIAN" disabled value="@(ViewBag.categorscian != null ? ViewBag.categorscian.Titulo : "")"/>
+    </div>
+
+    <br />
+    <hr />
+    <br />
+
+    <legend>Determinar Muestra</legend>
+    <div class="container-fluid" id="div_determinarMuestra">
+        <div class="row col-12 @(!activo ? "disabledClick":"")">
+            <label class="col-3">Tipo de Muestra para el estudio:</label>
+
+            <div class="col-md-2 col-xs-12">
+                <label for="TipoMuestra">Probabilistico:</label>
+                <input id="Probabilistico" name="TipoMuestra" type="radio" value="1" @(ViewBag.BSEM != null ? (ViewBag.BSEM.TipoDeterminacion == 1 ? "checked disabled" : "") : "checked")>
+            </div>
+            <div class="col-4"></div>
+            <div class=" col-md-3 col-xs-12">
+                <label for="TipoMuestra">No Probabilistico:</label>
+                <input id="NoProbabilistico" name="TipoMuestra" type="radio" value="0" @(ViewBag.BSEM != null ? (ViewBag.BSEM.TipoDeterminacion == 0 ? "checked disabled" : "") : "")>
+            </div>
+        </div>
+
+        <div class="row col-12">
+            <div class=" col-md-6 col-xs-12 @(!activo ? "disabledClick":"")" style="display:initial">
+                <table id="MuestreoProbabilistico">
+                    <tr>
+                        <td>Número de Unidades Economicas</td>
+                        <td><input id="Poblacion" name="Poblacion" type="text" class="form-control col-md-4 col-xs-12" disabled value="@(!activo ? (ViewBag.BSEM.TipoDeterminacion == 1 ? (ViewBag.determinacionP != null ? ViewBag.determinacionP.Poblacion : "") : "0") : "0")" /></td>
+                    </tr>
+                    <tr>
+                        <td>Nivel de Confianza</td>
+                        <td>
+                            @if (ViewBag.NivelConfianza != null)
+                            {
+                                @Html.DropDownList("NivelConfianza", ViewBag.NivelConfianza as SelectList, "Seleccione Nivel de confianza", new { @class = "form-control", @required = "", @id = "NivelConfianza" })
+                            }
+                            else {
+                                <input type="text" class="form-control" value="@ViewBag.determinacionP.NivelConfianza" id="NivelConfianza" name="NivelConfianza"/>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Margen de error (e)</td>
+                        <td><input type="number" id="MargenError" name="MargenError" class="form-control " max="1" min="0.0001" step="0.0001" value="@(ViewBag.determinacionP!=null?ViewBag.determinacionP.MargenError:"")" /></td>
+                    </tr>
+                    <tr>
+                        <td>Varianza (σ)</td>
+                        <td><input type="number" id="Varianza" name="Varianza" class="form-control " max="1" min="0.0001" step="0.0001" value="@(ViewBag.determinacionP!=null?ViewBag.determinacionP.Varianza:"")"/></td>
+                    </tr>
+                    <tr>
+                        <td>Muestra (n)</td>
+                        <td>
+                            <input type="text" name="muestra_n" id="muestra_n" value="@(!activo ? (ViewBag.BSEM.TipoDeterminacion == 1 ? (ViewBag.determinacionP != null ? ViewBag.determinacionP.MuestraRedondeada : "0") : "0") : "0")" class="form-control" disabled />
+                            <input type="hidden" name="muestra_no_r" id="muestra_no_r" value="@(!activo ? (ViewBag.BSEM.TipoDeterminacion == 1 ? (ViewBag.determinacionP != null ? ViewBag.determinacionP.Muestra : "0") : "0") : "0")"/>
+                        </td>
+                    </tr>
+                </table>
+                <button type="button" class="btn btn-secondary" id="calcular" onclick="getMuestreo()">Calcular</button>
+                <div>
+                    <img src="https://www.netquest.com/hs-fs/hubfs/Imported_Blog_Media/tamanomuestramedia1.png?width=1200&name=tamanomuestramedia1.png" alt="Alternate Text" />
+                </div>
+            </div>
+
+            <div class="col-6">
+                <label>Determinar muestra no probabilistica: </label>
+                <input type="number" name="MuestraNoProbabilistica" id="MuestraNoProbabilistica" value="@(!activo ? (ViewBag.BSEM.TipoDeterminacion == 1 ? "0" : ViewBag.determinacionP != null ? ViewBag.determinacionP.Poblacion : "") : "0")" class="form-control @(!activo ? "disabledClick":"")" disabled onchange="addproviders()" />
+                <br />
+                <label>Selección de Proveedores:</label>
+                <br />
+                @if (ViewBag.DispMP != null || ViewBag.DispMUE != null)
+                {
+                    <label for="SeleccionProveedores">Catalogo:</label>
+                    <input type="radio" name="SeleccionProveedores" id="CatalagoProv" value="cat" disabled @(ViewBag.BSEM!=null?(ViewBag.BSEM.UEVieneCatalogo?"checked":""):"") />
+                    <label for="SeleccionProveedores">Captura el responsable:</label>
+                    <input type="radio" name="SeleccionProveedores" id="CapturaProv" value="cap" disabled @(ViewBag.BSEM!=null?(!ViewBag.BSEM.UEVieneCatalogo?"checked":""):"")/>
+                }
+                else
+                {
+                    <label for="SeleccionProveedores">Catalogo:</label>
+                    <input type="radio" name="SeleccionProveedores" id="CatalagoProv" value="cat" @(ViewBag.BSEM != null ? (ViewBag.BSEM.UEVieneCatalogo ? "checked" : "") : "checked") disabled/>
+                    <label for="SeleccionProveedores">Captura el responsable:</label>
+                    <input type="radio" name="SeleccionProveedores" id="CapturaProv" value="cap" @(ViewBag.BSEM != null ? (ViewBag.BSEM.UEVieneCatalogo ? "" : "checked") : "") disabled/>
+                }
+                <br /><br />
+            </div>
+        </div>
+        <div class="row col-12 align-content-center @(!activo ? "disabledClick":"")">
+            <button type="button" class="btn btn-success" style="float:right" onclick="saveMarketReseach()" id="saveDatosBSEM" disabled>Guardar Datos</button>
+        </div>
+    </div>
+
+</fieldset>
+

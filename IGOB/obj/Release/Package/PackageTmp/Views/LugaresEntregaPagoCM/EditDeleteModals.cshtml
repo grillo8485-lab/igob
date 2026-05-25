@@ -1,0 +1,94 @@
+﻿<!-- Modal Edit - New -->
+<div class="modal fade" id="EditLugarModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title" id="formEditCreate">Editar Lugar Entrega/Pago</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div id="MensajeForm"></div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Id = "formLugar" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <div class="row">
+                        <input type="hidden" id="IdLugarEntregaPago" name="IdLugarEntregaPago" value="0" />
+                        <div class="col-md-6 col-sm-12">
+                            <label> Tipo de Lugar: </label>
+                            @if (ViewBag.ListaTiposLugar != null)
+                            {
+                                @Html.DropDownList("IdTipoLugarCM", ViewBag.ListaTiposLugar as SelectList, "Seleccione el tipo de lugar", new { @class = "form-control", @Required = "" })
+                            }
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label> Lugar: </label>
+                            <input class="form-control" type="text" name="Lugar" id="Lugar" required />
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label> Estado: </label>
+                            @if (ViewBag.EFList != null)
+                            {
+                                @Html.DropDownList("ClaveEstado", ViewBag.EFList as SelectList, "Seleccione el Estado", new { @class = "form-control", @Required = "" })
+                            }
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label> Municipio: </label>
+                            @Html.DropDownList("IdMunicipio", new SelectList(" "), "Seleccione el Municipio", new { @class = "form-control", @Required = "" })
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label> Direccion: </label>
+                            <input class="form-control" type="text" name="Direccion" id="Direccion" required />
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label> Colonia: </label>
+                            <input class="form-control" type="text" name="Colonia" id="Colonia" required />
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label> Codigo Postal: </label>
+                            <input class="form-control" type="text" name="CodigoPostal" id="CodigoPostal" required />
+                        </div>
+
+                        <div class="col-md-6 col-sm-12">
+                            <label> Teléfono: </label>
+                            <input class="form-control" type="text" name="Telefono" id="Telefono" required />
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Editar" id="submitform" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- End Modal Edit - New -->
+<!-- Modal Delete -->
+<div class="modal fade" id="DeleteLugarModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title" id="DeleteTitle">Eliminar Proveedor</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <br />
+                    <label id="titleLugar"></label>
+                    <input type="hidden" id="delete_IdLugarEntregaPago" />
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" value="Eliminar" class="btn btn-secondary" id="submit_delete" />
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->

@@ -1,0 +1,132 @@
+﻿
+@{
+    ViewBag.Title = "Modulos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    #row_:hover div {
+        text-decoration: none;
+        background: #adcb60;
+        color: #efefef;
+    }
+    .cabezera {
+        background: #e2e2e2 !important;
+        color: #455407 !important;
+        text-decoration: none !important;
+    }
+    /* The container */
+    .container {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 13px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        /* Hide the browser's default checkbox */
+        .container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 22px;
+        width: 22px;
+        background-color: #eee;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .container:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .container input:checked ~ .checkmark {
+        background-color: #F0BABA;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .container input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    /* Style the checkmark/indicator */
+    .container .checkmark:after {
+        left: 9px;
+        top: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+    .col-md-8 {
+         max-width: 100% !important; 
+    }
+</style>
+<br />
+<input type="hidden" name="IdPerfilFunciones" id="IdPerfilFunciones" value="0" />
+<input type="hidden" name="IdPerfil_" id="IdPerfil_" value="0" />
+<div>
+    <div class="row">
+        <div class="col-md-2 text-right">Perfil:</div>
+        <div class="input-group col-md-10">
+            @if (ViewBag.TPListPerfiles != null)
+            {
+                @Html.DropDownList("IdPerfil", ViewBag.TPListPerfiles as SelectList, "Seleccione Perfil", new { @class = "form-control", @Required = "" })
+            }
+            <div class="input-group-append">
+                <button type="button" class="btn btn-default" onclick="cargarModulosFunciones()">
+                    <span class="icon-search"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-2 text-right">Perfil Seleccion:</div>
+        <div class="col-md-8">
+            <label id="lbPerfil"></label>
+        </div>
+        <div class="col-md-2 text-right">
+            <button type="button" class="btn btn-secondary btn-circle " onclick="ValidatePetSelection()" disabled id="IdGuardarPerfilFunciones">
+                <span class="icon-save"></span>
+                Guardar
+            </button>
+        </div>
+    </div>
+    <br />
+
+    <div id="accordion" class="accordion">
+
+
+    </div>
+    <div id="ResultadoBuscar">
+
+
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/Catalogos/PerfilFuncion.js"></script>
+}
+

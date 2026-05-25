@@ -1,0 +1,100 @@
+﻿@model IGOB.Models.RespuestaPreguntaSolicitante
+@{
+   
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.AntiForgeryToken()
+@Html.ValidationSummary(true)
+<div class="modal-header changeColorModal">
+    <div class="col-6 text-left">
+        <label>@Model.Titulo</label>
+    </div>
+    <div class="col-6 text-right">
+        <button type="button" class="btn btn-default btn-sm" onclick="enviarRespuestas()" @(Model.IdEstatusRespues == 1 ? "" : "disabled")>
+            ENVIAR RESPUESTAS
+        </button>
+        <button type="button" class="btn btn-default btn-sm" onclick="location.href='@Url.Action("Index", "ListadoRequisicionLicitacion", new { @id=Model.IdLicitacion })'">
+            <span class="glyphicon glyphicon-step-backward"></span> Regresar
+        </button>
+    </div>
+
+</div>
+<input type="hidden" name="IdRequisicion" id="IdRequisicion" value="@Model.IdRequisicion" />
+<input type="hidden" name="IdRespuesta" id="IdRespuesta" value="0" />
+<input type="hidden" name="IdPregunta" id="IdPregunta" value="0" />
+<input type="hidden" name="IdLicitacion" id="IdLicitacion" value="@Model.IdLicitacion" />
+<div id="cargarTableRespuestas">
+    <table class="table-bordered hover" id="tablaRespuestaPreguntaSolicitante" width="100%">
+        <thead align="justify">
+            <tr>
+                <th> Acciones </th>
+                <th> Estatus </th>
+                <th> Pregunta </th>
+                <th> Respuesta </th>
+                <th> Observaciones Adquisiciones </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.lstPreguntaRespuestaSolicitanteDependencia)
+            {
+                <tr>
+                    <td align="center">
+                        <button @(Model.IdEstatusRespues == 1 ? "" : "disabled") title="" type="button" class="btn btn-secondary btn-circle edit-marca btn-sm @(item.IdEstatusRespuesta==1? "": "disabedClick")" onclick="actualizarPreguntaRespuesta(@item.IdPregunta)">
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </button>
+                    </td>
+                    <td>@item.EstatusRespuesta</td>
+                    <td>@item.Pregunta</td>
+                    <td>@item.Respuesta</td>
+                    <td>@item.Observaciones</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section scripts{
+    <script src="~/Scripts/Catalogos/RespuestaPreguntaSolicitante.js"></script>
+}
+
+    <div class="modal fade" id="modal_CargarPreguntaRespuesta">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Responder pregunta</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Pregunta: </label>
+                                    <label id="Pregunta"></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <textarea id="Respuesta" rows="5" name="Respuesta" class="form-control"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                    <button type="button" class="btn btn-secondary" onclick="saveRespuesta()">GUARDAR</button>
+                </div>
+
+            </div>
+        </div>
+    </div>

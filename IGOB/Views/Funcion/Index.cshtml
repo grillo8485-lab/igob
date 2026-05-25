@@ -1,0 +1,74 @@
+﻿
+@model List<IGOB.Areas.Catalogos.Models.ClsGenerica>
+@{
+    ViewBag.Title = "Modulos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<input type="hidden" name="IdFuncion" id="IdFuncion" value="0" />
+
+<div class="banner-color"></div>
+<button type="button" class="btn btn-secondary btn-circle " onclick="nuevaFuncion()">
+    <span class="icon-add-3"></span>
+    NUEVA FUNCIÓN
+</button>
+<br /><br />
+<div>
+    <table class="table table-bordered table-hover" id="tableCatalogos">
+        <thead align="center">
+            <tr>
+                <th> Acciones </th>
+                <th> Orden</th>
+                <th> Funcion </th>
+                <th> Descripcion </th>
+                <th> Formulario </th>
+                <th> Modulo </th>
+                <th> Icono </th>
+                <th> Activo</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    <div class="form-group" style="min-width:80px;">
+                        <button type="button" class="btn btn-secondary btn-circle delete-marca btn-sm" onclick="eliminarFuncion(@item.id,'@item.string1')"><span class="icon-garbage-2"></span></button>
+                        <button type="button" class="btn btn-secondary btn-circle edit-marca btn-sm" onclick="editarFuncion(@item.id)"><span class="icon-edit"></span></button>
+
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id3)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.string1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.string2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.string3)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.string6)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.string5)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.string4)
+                </td>
+            </tr>
+
+            }
+        </tbody>
+    </table>
+</div>
+@{
+    Html.RenderPartial("EditFuncion");
+}
+@section scripts{
+    <script src="~/Scripts/Catalogos/Funcion.js"></script>
+}
+

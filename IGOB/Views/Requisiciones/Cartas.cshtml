@@ -1,0 +1,119 @@
+﻿@model IGOB.Models.Requisicion
+@{ var activar = "";}
+
+@switch (Model.oRequisicones.IdEstatusRequisicion)
+{
+    case 50:
+    case 75:
+    case 85:
+        if (ViewBag.IdPerfil == 4)
+        {
+            activar = "disabledClick";
+        }
+        else
+        { activar = ""; }
+        break;
+    default:
+        { activar = "disabledClick"; }
+        break;
+}
+@if (Model.oRequisicones.NumeroLicitacion == 2) { activar = "disabledClick"; }
+<div id="div_cartas" class="container-fluid tab-pane fade ">
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>CARTAS</strong>
+        </div>
+    </div>
+    <br />
+
+    <div id="idNuevaCarta" class="@(activar)">
+        <button type="button" class="btn btn-secondary btn-circle  @(Model.Activar ? "disabledClick" : "")" onclick="nuevaCarta()">
+            <span class="icon-add-3"></span>
+            NUEVA CARTA
+        </button>
+
+    </div>
+    <br />
+    <br />
+    <table class="table" id="CartaTabla" width="100%">
+        <thead style="width:auto;">
+            <tr>
+                <th>Número</th>
+                <th>Inciso</th>
+                <th>Nombre Carta</th>
+                <th>Carta</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.lstCartas)
+            {
+                <tr>
+                    <td>@item.Numero</td>
+                    <td>@item.Inciso</td>
+                    <td>@item.NombreCarta</td>
+                    <td>@item.CartaTexto</td>
+                    <td>@item.Descripcion</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="modal fade" id="CartasModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header changeColorModal">
+                    <h4 class="modal-title"></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form", @id = "div_CartasForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary()
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <div class="col-md-2 text-right">Inciso:</div>
+                            <div class="col-md-4 text-left">
+                                @Html.TextBox("Inciso", "", new { @type = "text", @class = "form-control ", @id = "Inciso", @placeholder = "Introduce Inciso", @Required = "" })
+
+                            </div>
+                            <div class="col-md-2 text-right">Nombre carta:</div>
+                            <div class="col-md-4 text-left">
+                                @Html.TextBox("NombreCarta", "", new { @type = "text", @class = "form-control ", @id = "NombreCarta", @placeholder = "Introduce Nombre Carta", @Required = "" })
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-2 text-right">Carta:</div>
+                            <div class="col-md-10 text-left">
+                                @Html.TextArea("Carta", "", new { @class = "form-control ", @id = "Carta", @placeholder = "Introduce Carta", @Required = "" })
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-2 text-right">Descripción:</div>
+                            <div class="col-md-10 text-left">
+                                @Html.TextArea("Descripcion", "", new { @class = "form-control ", @id = "Descripcion", @placeholder = "Introduce Descripción", @Required = "" })
+
+                            </div>
+                        </div>
+                        <br />
+                        <div id="ResultadoBuscar">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cerrar" />
+                        <input type="button" value="Guardar" class="btn btn-default" onclick="validarFormularioCarta()" id="IdGuardar__" />
+
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

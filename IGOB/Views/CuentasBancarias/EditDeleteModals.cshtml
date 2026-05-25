@@ -1,0 +1,109 @@
+﻿<!-- Modal Edit - New -->
+<div class="modal fade" id="CtasBancariasModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title" id="titlemodal"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div align="center"><strong id="MensajeForm"></strong></div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Id = "form-CtasBancarias" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+            <div class="modal-body">
+                <div class="row col-12">
+                    <h6> <label> Dependencia: </label></h6>
+                    @if (ViewBag.DependenciasList != null)
+                    {
+                        @Html.DropDownList("IdDependencia", ViewBag.DependenciasList as SelectList, "Seleccione Dependencia", new { @class = "form-control " + ViewBag.disabled, @Required = "" })
+                    }
+                </div><hr />
+                <div class="row col-12">
+                    <div class="col-6">
+                        <h6><label> Origen recurso: </label></h6>
+                        @if (ViewBag.OrigenRecursoList != null)
+                        {
+                            @Html.DropDownList("IdOrigenRecurso", ViewBag.OrigenRecursoList as SelectList, "Seleccione Recurso de Origen", new { @class = "form-control " + ViewBag.disabled, @Required = "" })
+                        }
+                    </div>
+                    <div class="col-6">
+                        <h6><label> Banco: </label></h6>
+                            @if (ViewBag.BancosList != null)
+                            {
+                                @Html.DropDownList("IdBanco", ViewBag.BancosList as SelectList, "Seleccione Un Banco", new { @class = "form-control " + ViewBag.disabled, @required = "" })
+                            }
+                    </div>
+                </div>
+
+                <div class="row col-12">
+                    <div class="col-8">
+                        <h6><label> Nombre Cuenta: </label></h6>
+                        <input type="text" name="NombreCuenta" id="NombreCuenta" class="form-control" required />
+                    </div>
+                    <div class="col-4">
+                        <h6><label> Número de Cuenta: </label></h6>
+                        <input type="text" name="NumeroCuenta" id="NumeroCuenta" class="form-control @ViewBag.disabled" required />
+                    </div>
+                </div>
+
+                <div class="row col-12">
+                    <div class="col-6">
+                        <h6><label> Monto Disponible: </label></h6>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupPrepend2">$</span>
+                            </div>
+                            <input type="number" name="MontoDisponible" id="MontoDisponible" class="form-control textDerecha"  min="1" step=".1" required />
+                        </div>
+                    </div>
+
+                </div>
+                
+
+                <input type="hidden" name="AutorizadoIgob" id="AutorizadoIgob" class="form-control" value="0"/>
+                <input type="hidden" name="MontoDisponibleEntidad" id="MontoDisponibleEntidad" class="form-control" value="0"/>
+                <input type="hidden" name="MontoComprometido" id="MontoComprometido" class="form-control" value="0"/>
+                <input type="hidden" name="MontoSaldoIgob" id="MontoSaldoIgob" class="form-control" value="0"/>
+                <input type="hidden" name="MontoEjecutado" id="MontoEjecutado" class="form-control" value="0"/>
+                <input type="hidden" name="MontoEconomia" id="MontoEconomia" class="form-control" value="0"/>
+                <input type="hidden" value="@ViewBag.Fechas" name="FechaMovimiento" id="FechaMovimiento"/>
+                <input type="hidden" value="@ViewBag.Fechas" name="FechaRegistro" id="FechaRegistro"/>
+                <input type="hidden" name="IdUsuarioRegistro" id="IdUsuarioRegistro" value="@ViewBag.idUsuarioRegistra" />
+                <input type="hidden" name="IdCuentaBancaria" id="IdCuentaBancaria" value="0" />
+            </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Editar" id="subtmi-createdit" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- Modal Delete -->
+<div class="modal fade" id="DeleteModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title" id="titledelete"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm(null, null, FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <strong id="MensajeDelete"></strong>
+                    <div align="center"><strong id="MensajeResponde"></strong></div>
+                    <br />
+                    <input type="hidden" name="IdCtasBanc" id="IdCtasBanc" /><br />
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                        <input type="submit" value="Eliminar" class="btn btn-secondary" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->

@@ -1,0 +1,162 @@
+﻿
+@{
+    ViewBag.Title = "Subir Plantillas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="color: #fff;background-color: #999;text-align:center;padding:5px;">PLANTILLAS</div>
+<div id="ResultadoBuscar"></div>
+
+<button class="btn btn-secondary" onclick="NuevaPlantilla();">
+    <span class="icon-add-3"></span> NUEVO
+</button>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Acciones</th>
+            <th>Plantilla</th>
+            <th>Nombre del Reporte</th>
+            <th>Descargar</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var Plan in (List<iGob.Entidades.bePlantillas>)ViewBag.ListaPlantillas)
+        {
+            <tr>
+                <td>
+                    <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#modal_eliminar_plantilla" onclick="confirmaEliminarPlantilla('@Plan.IdPlantilla','@Plan.TipoUso')">
+                        <span class="icon-garbage-2"></span>
+                    </button>
+                    <button class="btn btn-secondary btn-sm" onclick="TraerPlantilla('@Plan.IdPlantilla')">
+                        <span class="icon-edit"></span>
+                    </button>
+                </td>
+                <td>@Plan.TipoUso</td>
+                <td>@Plan.NombreArchivo</td>
+                <td><a href="~/Files/Plantillas/@Plan.UrlPlantilla" download>@Plan.UrlPlantilla</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Modal subir plantilla -->
+<div class="modal fade" id="modal_editar_plantilla" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title" id="formEditCreate">Subir Plantilla</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div id="MensajeForm"></div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form", @Id = "formPlantilla" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <div class="row">
+                        <input type="hidden" id="IdPlantilla" name="IdPlantilla" value="0" />
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Tipo de Uso</label>
+                                @Html.DropDownList("IdTipoUsoPlantilla", ViewBag.ListaTipoUso as SelectList, "Seleccione el tipo de plantilla", new { @class = "form-control", @Required = "" })
+                                <input class="form-control" type="text" name="TipoUso" id="TipoUso" readonly />
+                            </div>
+
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label> Nombre del reporte: </label>
+                                <input class="form-control" type="text" name="NombreArchivo" id="NombreArchivo" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label> Descripción: </label>
+                                <textarea rows="4" class="form-control" name="Descripcion" id="Descripcion" style="resize:none;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 form-group">
+                            <div class="custom-file mb-3">
+                                <input type="file" class="form-control-file border form-control" id="FileUpload1" name="FileUpload1" accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modal_guardar_plantilla">
+                        <span>Guardar</span>
+                    </button>
+                </div>
+            }
+
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal alert -->
+<div class="modal fade" id="modal_guardar_plantilla">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Guardar Plantilla</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container">
+                    <label>¿Desea guardar los datos de la plantilla?</label>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-secondary" onclick="validarFormularioPlantilla();">Aceptar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal eliminar plantilla -->
+<div class="modal fade" id="modal_eliminar_plantilla">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">ELIMINAR PLANTILLA</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div id="MensajeDelete"></div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container">
+
+                    <input type="hidden" id="IdPlantillaBorrar">
+                    <label>¿Desea eliminar la plantilla <span id="TipoUsoBorrar"></span> ?</label>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="BorraPlantilla();">ELIMINAR</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/Catalogos/SubirPlantillas.js"></script>
+}

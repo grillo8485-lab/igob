@@ -1,0 +1,45 @@
+﻿@model IEnumerable<IGOB.Models.ClsMenuPropiedades>
+
+
+<div class="col-3 d-flex d-md-block flex-nowrap wrapper" style="padding:0" id="menu_index">
+
+        <nav class="navbar navbar-expand-lg navbar-light p-0">
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div id="accordion" style="width:100%;" role="tablist">
+                    <div class="list-group menu_Dinamic">
+                        @using (Html.BeginForm("accesoVista", "Menu", FormMethod.Post))
+                        {
+                            foreach (IGOB.Models.ClsMenuPropiedades menu in Model)
+                            {
+                                <div role="tab" id="heading_@menu.Modulo.IdModulo">
+                                    <a data-toggle="collapse" href="#collapse_@menu.Modulo.IdModulo" aria-expanded="false" aria-controls="collapse_@menu.Modulo.IdModulo" class="list-group-item list-group-item-darking">
+                                        <div>
+                                            <h2 class="icono-menu @menu.Modulo.Icono" style="margin-right: 3%;width:15px"></h2>
+                                            @Html.Raw((menu.Modulo.Descripcion))
+                                            <h2 style="" class="icono-cursor icon-play-button"></h2>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div id="collapse_@menu.Modulo.IdModulo" class="collapse @((int)Session["IdModulo"] == menu.Modulo.IdModulo?"show":"")" role="tabpanel" aria-labelledby="heading_@menu.Modulo.IdModulo" data-parent="#accordion">
+                                    @foreach (var itemFunciones in menu.Funciones)
+                                    {
+                                        var formulario = itemFunciones.Formulario.Split('?').ToList();
+                                        if (formulario.Count == 1)
+                                        {
+
+                                            <input type="submit" value="@itemFunciones.Descripcion" formaction=@Url.Action("accesoVista", "Menu", new { @id = 0, @IdModulo = menu.Modulo.IdModulo, @formulario = formulario.First(),@nombreVista=itemFunciones.Descripcion,@IdFuncion = itemFunciones.IdFuncion,@nombreModulo= menu.Modulo.Descripcion}) formmethod="post" class="submenu-Dinamic list-group-item list-group-item-action list-group-item-secondary @((int)Session["IdFuncion"] == itemFunciones.IdFuncion?"active":"")" style="font-weight: 700;" />
+                                        }
+                                        else
+                                        {
+                                            <input type="submit" value="@itemFunciones.Descripcion" formaction=@Url.Action("accesoVista", "Menu", new { @id = formulario.Last(), @IdModulo = menu.Modulo.IdModulo, @formulario = formulario.First(),@nombreVista=itemFunciones.Descripcion,@IdFuncion = itemFunciones.IdFuncion,@nombreModulo= menu.Modulo.Descripcion  }) formmethod="post" class="submenu-Dinamic list-group-item list-group-item-action list-group-item-secondary @((int)Session["IdFuncion"] == itemFunciones.IdFuncion?"active":"")" style="font-weight: 700;" />
+                                        }
+                                    }
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+

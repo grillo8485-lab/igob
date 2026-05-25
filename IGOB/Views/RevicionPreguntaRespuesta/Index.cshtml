@@ -1,0 +1,126 @@
+﻿@model IGOB.Models.RespuestaPreguntaSolicitante
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.AntiForgeryToken()
+@Html.ValidationSummary(true)
+<div id="btns">
+    <div class="modal-header changeColorModal">
+        <div class="col-6 text-left">
+            <label>@Model.Titulo</label>
+        </div>
+
+        <div class="col-6 text-right">
+            <button type="button" class="btn btn-default btn-sm" onclick="enviarAutorizarRespuestas()" @(Model.IdEstatusRespues == 2 ? "" : "disabled")>
+                ENVIAR RESPUESTAS
+            </button>
+            <button type="button" class="btn btn-default btn-sm" onclick="location.href='@Url.Action("Index", "ListadoRequisicionLicitacion", new { @id=Model.IdLicitacion ,idTipoProveso = Model.IdTipoProveso})'">
+                <span class="glyphicon glyphicon-step-backward"></span> Regresar
+            </button>
+        </div>
+    </div>
+</div>
+<input type="hidden" name="IdRequisicion" id="IdRequisicion" value="@Model.IdRequisicion" />
+<input type="hidden" name="IdRespuesta" id="IdRespuesta" value="0" />
+<input type="hidden" name="IdPregunta" id="IdPregunta" value="0" />
+<input type="hidden" name="IdLicitacion" id="IdLicitacion" value="@Model.IdLicitacion" />
+<input type="hidden" name="IdTipoProveso" id="IdTipoProveso" value="@Model.IdTipoProveso" />
+<div id="cargarTableRespuestas">
+    <table class="table-bordered hover" id="tablaRespuestaPreguntaSolicitante" width="100%">
+        <thead align="justify">
+            <tr>
+                <th> Acciones </th>
+                <th> Estatus </th>
+                <th> Pregunta </th>
+                <th> Respuesta </th>
+                <th> Observaciones Adquisiciones </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.lstPreguntaRespuestaSolicitanteDependencia)
+            {
+                <tr>
+                    <td align="center">
+                        <button @(Model.IdEstatusRespues == 2 ? "" : "disabled") title="" type="button" class="btn btn-secondary btn-circle edit-marca btn-sm @(item.IdEstatusRespuesta==1? "": "disabedClick")" onclick="autorizaPreguntaRespuesta(@item.IdPregunta)">
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </button>
+                    </td>
+                    <td>@item.EstatusRespuesta</td>
+                    <td>@item.Pregunta</td>
+                    <td>@item.Respuesta</td>
+                    <td>@item.Observaciones</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section scripts{
+    <script src="~/Scripts/Catalogos/RespuestaPreguntaSolicitante.js"></script>
+}
+
+<div class="modal fade" id="modal_CargarPreguntaRespuesta">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Autorizar respuesta</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Pregunta: </label>
+                                <label id="Pregunta"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Respuesta: </label>
+                                <label id="Respuesta"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-inline">
+                                <label></label>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" value="1" onclick="validarCheck()" checked />
+                                    <label class="custom-control-label" for="customRadio1"> Autoriza </label>
+                                </div>
+                                <div class="custom-control custom-radio" style="margin-left:10px;">
+                                    <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" value="0" onclick="validarCheck()" />
+                                    <label class="custom-control-label" for="customRadio2"> Rechaza </label>
+                                </div>
+                                <input type="hidden" id="AutorizarRechazar" value="1" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <textarea id="Observaciones" rows="5" name="Observaciones" class="form-control" disabled></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                <button type="button" class="btn btn-secondary" onclick="saveAutorizar()">GUARDAR</button>
+            </div>
+
+        </div>
+    </div>
+</div>

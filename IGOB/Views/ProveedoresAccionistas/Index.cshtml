@@ -1,0 +1,88 @@
+﻿@model IEnumerable<iGob.Entidades.beProveedoresAccionistas>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section css{
+    <link href="~/Content/jquery-ui.theme.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.structure.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.structure.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.theme.css" rel="stylesheet" />
+    <style>
+        .col-12{
+            margin-bottom:15px;
+        }
+    </style>
+}
+<div class="container col-12">
+    <ul class="nav nav-pills mt-2" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link" href="/ProveedoresMenores/Index/@ViewBag.Tipo">PROVEEDORES</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn-secondary btn active disabled" href="/ProveedoresAccionistas/Index/@ViewBag.IdProveedor">ACCIONISTAS / REPRESENTANTES LEGALES</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link addIdProv" href="/ProveedoresGirosComerciales/Index/@ViewBag.IdProveedor">GIROS PREPONDERANTES</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link addIdProv" href="/ProveedoresActaConstitutiva/Index/@ViewBag.IdProveedor">ACTA CONSTITUTIVA</a>
+        </li>
+    </ul>
+</div>
+<div class="container-fluid">
+    <br>
+    <button class="btn btn-secondary new-PA">Nuevo Proveedor Accionista</button>
+    <br> <br>
+    <table class="table hover table-bordered " id="tablePA">
+        <thead align="justify">
+            <tr>
+                <th>
+                    Acciones
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+                <th>
+                    Razon Social
+                </th>
+                <th>
+                    Tipo de Representación
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="form-group" style="min-width:100px;">
+                            <a title="Eliminar registro" id="@item.IdProveedorAccionista" data-title="@item.Nombre" class="btn btn-secondary btn-circle delete-PA btn-sm"><span class="icon-garbage-2"></span></a>
+                            <a title="Editar registro" id="@item.IdProveedorAccionista" data-per="@item.Nombre" data-idPer="@item.IdPersona" data-idProv="@item.IdProveedor" data-prov="@item.RazonSocial" data-TR="@item.IdTipoRepresentacion" class="btn btn-secondary btn-circle edit-PA btn-sm"><span class="icon-edit"></span></a>
+                        </div>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RazonSocial)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoRepresentacion)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @{
+        Html.RenderPartial("EditDeleteModals");
+    }
+</div>
+    @section Scripts{
+        <script src="~/Scripts/jquery-ui.js"></script>
+        <script src="~/Scripts/Catalogos/AccionesPA.js"></script>
+    }

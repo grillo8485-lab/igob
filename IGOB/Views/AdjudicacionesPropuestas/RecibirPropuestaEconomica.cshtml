@@ -1,0 +1,145 @@
+﻿@model List<iGob.Entidades.beAdjudicacionesPropuestasTecnicaEconomica>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="mainMenuBarAnchor"></div>
+<nav class="navbar text-white navbar-light changeColorModal mainMenuBar">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="col-sm-7">
+        <h5 style="font-size:16px;color: #fff;font-weight:bolder;">
+            @ViewBag.Adjudicacion.TipoAdjudicacion - @ViewBag.AdjudicacionFolio - @ViewBag.Adjudicacion.RazonSocial
+        </h5>
+    </div>
+    <div class="col-sm-4" align="right" id="controls__Confirmar" style="display: inline;">
+
+        <input type="button" onclick="confirmar(true)" value="Recibir" class="btn btn-secondary ml-auto" @(ViewBag.hasAConfirm ? "disabled" : "")>
+        <input type="button" onclick="confirmar(false)" value="Rechazar" class="btn btn-secondary ml-auto" @(ViewBag.hasAConfirm ? "disabled" : "")>
+        <a href="#" onclick="retornarPagina();" title="Regresar a la lista" class="btn btn-secondary">Regresar</a>
+    </div>
+</nav>
+
+<div class="row bg-secondary text-white sub_banner">
+    <div class="col-12" align="center">
+        <strong>VALIDAR PROPUESTA ECONÓMICA</strong>
+    </div>
+</div>
+<br />
+<table class="table" id="tablePropEco">
+    <thead>
+        <tr>
+            <th>Lote</th>
+            <th>Bien o Servicio</th>
+            <th>Cantidad</th>
+            <th>Unidad</th>
+            <th>Precio de referencia sin iva</th>
+            <th>Impuesto</th>
+            <th>Precio unitario ofertado sin iva</th>
+            <th>Importe</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{decimal impuesto = 0, subtotal = 0, total = 0; }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.NoLote </td>
+                <td>@item.BienServicio</td>
+                <td>@item.Cantidad</td>
+                <td>@item.UnidadMedida</td>
+                <td>@string.Format("{0:C2}", item.PrecioUnitarioRefencia)</td>
+                <td>@item.ImpuestoPorcentaje</td>
+                <td align="right">@string.Format("{0:C2}", item.PrecioUnitarioOfertado)</td>
+                <td align="right">@string.Format("{0:C2}", (item.TotalOfertado>0 ? item.TotalOfertado : item.TotalPeriodo))</td>
+            </tr>
+            subtotal += (item.IdTipoSolicitud == 1 ? item.TotalOfertado : item.TotalPeriodo);
+            impuesto += (item.ImpuestoPorcentaje * item.PrecioUnitarioOfertado * item.Cantidad);
+        }
+        @{total = subtotal + impuesto;}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="7" style="text-align:end;">Subtotal</td>
+            <td align="right">@string.Format("{0:C2}", subtotal)</td>
+        </tr>
+        <tr>
+            <td colspan="7" style="text-align:end;">Impuesto</td>
+            <td align="right">@string.Format("{0:C2}", impuesto)</td>
+        </tr>
+        <tr>
+            <td colspan="7" style="text-align:end;">Total</td>
+            <td align="right">@string.Format("{0:C2}", total)</td>
+        </tr>
+
+    </tfoot>
+</table>
+<br /><br />
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Cache selectors for faster performance.
+            var $window = $(window),
+                $mainMenuBar = $('.mainMenuBar'),
+                $mainMenuBarAnchor = $('.mainMenuBarAnchor');
+
+            // Run this on scroll events.
+            $window.scroll(function () {
+                var window_top = $window.scrollTop();
+                var div_top = $mainMenuBarAnchor.offset().top;
+                var diff = (Math.abs((window_top - 9) - (div_top)));
+
+                if (diff < 9) {
+                    return false;
+                } else if (window_top > div_top) {
+                    // Make the div sticky.
+                    $mainMenuBar.addClass('stick');
+                    $mainMenuBarAnchor.height($mainMenuBar.height());
+                }
+                else {
+                    // Unstick the div.
+                    $mainMenuBar.removeClass('stick');
+                    $mainMenuBarAnchor.height(0);
+                }
+            });
+        });
+
+        $("#tablePropEco").DataTable({
+            sort: false,
+        });
+
+
+            $("#Recibido").on("click", function () {
+                bootbox.alert({
+                    size: "small",
+                    title: `<div class="text-center">Aviso</div>`,
+                    message: "Se recibió propuesta técnica",
+                    callback: function () { /* */ }
+                })
+
+            });
+
+            function retornarPagina() {
+                location.href = '/AdjudicacionesPropuestas/Index/' + @ViewBag.Adjudicacion.IdAdjudicacion;
+            }
+
+        function confirmar(value) {
+            confirmGenerico("¿Desea recibir propuesta económica?", traerTokenCapturaGenerico, false, { title: "Introduce token", CallBack: validarTokenGenerico, CallBackPersonalizado: saveRevicirPropuestaEconomica, b: value });
+        }
+        function saveRevicirPropuestaEconomica(value) {
+            var parametros = {
+                    __RequestVerificationToken: $("[name='__RequestVerificationToken']").val(),
+                    IdAdjudicacionProveedor: @ViewBag.Adjudicacion.IdAdjudicacionProveedor,
+                    isApprove: value
+                }
+
+            $.post("/AdjudicacionesPropuestas/Confirmar", parametros, "JSON").done(function (data) {
+                mensajeGenerico("Aviso", data.mensaje,"1");
+                    
+                }).fail(function (data) {
+                    console.log(data)
+                    })
+        }
+    </script>
+
+}

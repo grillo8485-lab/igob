@@ -1,0 +1,63 @@
+﻿<!-- Modal Edit - New -->
+<div class="modal fade" id="EditDeptoModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title" id="formEditCreate">Editar Departamento</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div id="MensajeForm"></div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form", @Id = "formDepto" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <div class="row">
+                        <input type="hidden" id="IdDepartamento" name="IdDepartamento" value="0" />
+                        <div class="col-md-6 col-sm-12">
+                            <label> Departamento: </label>
+                            <input class="form-control"  type="text" name="Departamento" id="Departamento" required />
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label> Responsable: </label>
+                            <input class="form-control"  type="text" name="Responsable" id="Responsable" required />
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Editar" id="submitform" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- End Modal Edit - New -->
+<!-- Modal Delete -->
+<div class="modal fade" id="DeleteDeptoModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title" id="DeleteTitle">Eliminar Proveedor</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <br />
+                    <label id="titleDepto"></label>
+                    <input type="hidden" id="delete_IdDepartamento"  />
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" value="Eliminar" class="btn btn-secondary" id="submit_delete" />
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->

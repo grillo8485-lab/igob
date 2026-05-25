@@ -1,0 +1,48 @@
+﻿@model List<iGob.Entidades.beCertificaciones>
+@{
+   Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<button class="btn btn-secondary new-Cert">Nueva Certificacion</button>
+<br /><br />
+<div>
+    <table class="table" id="tableCert">
+        <thead align="center">
+            <tr>
+                <th><strong> Acciones </strong></th>
+                <th><strong> Certificación </strong></th>
+                <th><strong> NoCertificación </strong></th>
+                <th><strong> Fecha Registro </strong></th>
+            </tr>
+        </thead>
+        <tbody align="center">
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    <div class="form-group" style="min-width:100px;">
+                        <a title="Eliminar registro" id="@item.IdCertificacion" data-title="@item.Certificacion" data-NoCertificacion="@item.NoCertificacion" data-FechaRegistro="@item.FechaRegistro" class="btn btn-secondary btn-circle delete-Certificacion btn-sm"><span class="icon-garbage-2"></span></a>
+                        <a title="Editar registro" id="@item.IdCertificacion" data-title="@item.Certificacion" data-NoCertificacion="@item.NoCertificacion" data-FechaRegistro="@item.FechaRegistro" class="btn btn-secondary btn-circle edit-Cert btn-sm"><span class="icon-edit"></span></a>
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Certificacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoCertificacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaRegistro)
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@{
+    Html.RenderPartial("EditDeleteModals");
+}
+
+@section scripts{
+    <script src="~/Scripts/Catalogos/AccionesCertificaciones.js"></script>
+}

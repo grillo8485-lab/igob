@@ -1,0 +1,105 @@
+﻿@model List<iGob.Entidades.beRequisicionConsulta>
+@{
+    ViewBag.Title = "Consulta de requisiciones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br /><input type="hidden" id="idLista" value="@ViewBag.tipoRequisicion" />
+
+<div>
+    <table class="table" id="requisicionConsultaTable" width="100%">
+        <thead align="center">
+            <tr>
+                <th># </th>
+                <th>Acciones </th>
+                <th>Estatus </th>
+                <th>Tiempo restante </th>
+                <th>Fecha Hora Creación </th>
+                <th>Número de <br />requisición/servicio </th>
+                <th>Número de <br />oficio de solicitud</th>
+                <th>Número de licitación</th>
+                <th>Solicitud</th>
+                <th>Abastecimiento</th>
+                <th>Valor aproximado</th>
+                <th>Número oficio de <br />certificación de recursos</th>
+                <th>Origen de recurso</th>
+                <th>Capítulos</th>
+                <th>Partida</th>
+                <th>Ejercicio</th>
+                <th>Observación</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{var i = 1;}
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.IdRequisicion
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <a href="@Url.Action("editRequisicion","RequisicionHistorial",new {@idRequisicion=@item.IdRequisicion})"
+                               class="btn btn-secondary btn-circle edit-marca btn-sm">
+                                <span class="icon-edit"></span>
+                            </a>
+                        </div>
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Estatus)
+                    </td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-sm" style="background-color:@item.ColorTiempoRestante !important;">
+                            @Html.DisplayFor(modelItem => item.TiempoRestante)<span class="badge badge-light"></span>
+                        </button>
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaRequisicion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RequisicionFolio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumeroOficioSolicitud)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumeroLicitacionT)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoSolicitud)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FormaAbastecimiento)
+                    </td>
+                    <td align="right">
+                        @string.Format("{0:C2}", item.MontoAproximadoAutorizado)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumeroOficioCertificacion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrigenRecurso)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Capitulo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Partida)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ejercicio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Observaciones)
+                    </td>
+                </tr>
+                { i++; }
+            }
+        </tbody>
+    </table>
+</div>
+@section scripts{
+    <script src="~/Scripts/Catalogos/RequisicionConsulta.js"></script>
+}
+

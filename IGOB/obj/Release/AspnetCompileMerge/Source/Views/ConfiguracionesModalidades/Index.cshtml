@@ -1,0 +1,130 @@
+﻿@model IGOB.Models.ConfiguracionesModalidades
+@{
+    ViewBag.Title = "Configuraciones Modalidades";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+
+
+
+    input[type=number] {
+        text-align: right;
+    }
+
+    input[name=number] {
+        text-align: right;
+    }
+</style>
+<div class="">
+    <div class="form-group">
+        <button type="button" class="btn btn-secondary btn-circle " onclick="altaConfiguracionesModalidades()">
+            <span class="icon-add-3"></span>
+            NUEVA CONFIGURACIÓN MODALIDAD
+        </button>
+    </div>
+    <div id="div_configuracionesModalidadesTabla">
+        <table class="table" id="ConfiguracionesModalidadesTable">
+            <thead align="center">
+                <tr>
+                    <th>Acciones </th>
+                    <th>Tiempos </th>
+                    <th>Licitación</th>
+                    <th>Modalidad Licitación</th>
+                    <th>Días para publicación de convocatorias</th>
+                    <th>Días disposición de bases</th>
+                    <th>Hora limites de envio de preguntas</th>
+                    <th>Hora limites de envio de Respuestas</th>
+                    <th>Días para la junta de aclaración de dudas</th>
+                    <th>Días para el envio de propuestas técnicas</th>
+                    <th>Días para entrega de dictamen</th>
+                    <th>Días de fallo</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model.lstConfiguracionesModalidades)
+                {
+                    <tr>
+                        <td>
+                            <div class="input-group" style="min-width:80px;">
+                                <button class="btn btn-secondary btn-sm" style="margin-right:5px;" onclick="editarConfiguracionModalidad(@item.IdConfiguracionModalidad)"><span class="fa fa-pencil"></span></button>
+                                <button class="btn btn-secondary btn-sm" style="margin-right:5px;" onclick="eliminarConfiguracionModalidad(@item.IdConfiguracionModalidad)"><span class="fa fa-trash-o"></span></button>
+                            </div>
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tiempo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TipoLicitacion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ModalidadesLicitaciones)
+                        </td>
+                        <td style="text-align:right">
+                            @Html.DisplayFor(modelItem => item.PublicacionConvocatoriaDia)
+                        </td>
+                        <td style="text-align:right">
+                            @Html.DisplayFor(modelItem => item.DisposicionBasesDias)
+                        </td>
+                        <td style="text-align:right">
+                            @Html.DisplayFor(modelItem => item.LimiteEnvioPreguntasHoras)
+                        </td>
+                        <td style="text-align:right">
+                            @Html.DisplayFor(modelItem => item.LimiteEnvioRespuestasHoras)
+                        </td>
+                        <td style="text-align:right">
+                            @Html.DisplayFor(modelItem => item.AclaracionDudasDias)
+                        </td>
+                        <td style="text-align:right">
+                            @Html.DisplayFor(modelItem => item.EnvioProuestaTecEcoDias)
+                        </td>
+                        <td style="text-align:right">
+                            @Html.DisplayFor(modelItem => item.EntregaDictamenDias)
+                        </td>
+                        <td style="text-align:right">
+                            @Html.DisplayFor(modelItem => item.FalloDias)
+                        </td>
+
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @section scripts{
+        <script src="~/Scripts/Catalogos/ConfiguracionesModalidades.js"></script>
+    }
+
+</div>
+
+
+
+<div class="modal fade" id="ConfiguracionesModalidadesModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Configuración Modlidades</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+
+            <div class="modal-body">
+                <div id="div_configuracionesModalidades">
+                    @{
+                        <!-- Configuracione sModalidades -->
+                        Html.RenderPartial("ConfiguracionesModalidades");
+                    }
+                </div>
+            </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cerrar" />
+                    <input type="button" value="Guardar" class="btn btn-default" onclick="validarFormulario()" id="IdGuardar__" />
+
+                </div>
+
+            
+        </div>
+    </div>
+</div>

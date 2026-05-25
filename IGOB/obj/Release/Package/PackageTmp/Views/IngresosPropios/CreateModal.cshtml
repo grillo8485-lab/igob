@@ -1,0 +1,91 @@
+﻿<!-- Modal Edit - New -->
+<div class="modal fade" id="CtasBancariasModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title" id="titlemodal"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div align="center"><strong id="MensajeForm"></strong></div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Id = "form-IngresosPropios" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+                <div class="modal-body">
+                    <input type="hidden" name="IdCuentaBancaria" id="IdCuentaBancaria" value="0" class="form-control" />
+                    <input type="hidden" name="IdDependencia" id="IdDependencia" value="@(ViewBag.IdDep!=null ? ViewBag.IdDep : 0)" class="form-control" />
+                    <input type="hidden" name="IdOrigenRecurso" id="IdOrigenRecurso" value="3" class="form-control" />
+                    <input type="hidden" name="MontoDisponibleEntidad" id="MontoDisponibleEntidad" value="0" class="form-control" />
+                    <input type="hidden" name="AutorizadoIgob" id="AutorizadoIgob" value="0" class="form-control" />
+                    <input type="hidden" name="MontoComprometido" id="MontoComprometido" value="0" class="form-control" />
+                    <input type="hidden" name="MontoSaldoIgob" id="MontoSaldoIgob" value="0" class="form-control" />
+                    <input type="hidden" name="MontoEjecutado" id="MontoEjecutado" value="0" class="form-control" />
+                    <input type="hidden" name="MontoEconomia" id="MontoEconomia" value="0" class="form-control" />
+                    <input type="hidden" name="FechaMovimiento" id="FechaMovimiento" value="1999-01-01 00:00:00" class="form-control" />
+                    <input type="hidden" name="IdUsuarioRegistro" id="IdUsuarioRegistro" value="0" class="form-control" />
+
+                    <div class="row container-fluid">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5"><h6><strong> Numero de Cuenta: </strong></h6></div>
+                                <div class="col-7">
+                                    <input type="number" name="NumeroCuenta" id="NumeroCuenta" class="form-control" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5"><h6><strong> Nombre Cuenta: </strong></h6></div>
+                                <div class="col-7">
+                                    <input type="text" name="NombreCuenta" id="NombreCuenta" class="form-control" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row container-fluid">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5"><h6><strong> Banco: </strong></h6></div>
+                                <div class="col-7">
+                                    @if (ViewBag.BancosList != null)
+                                    {
+                                        @Html.DropDownList("IdBanco", ViewBag.BancosList as SelectList, "Seleccione Un Banco", new { @class = "form-control", @required = "" })
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5"><h6><strong> Monto Disponible: </strong></h6></div>
+                                <div class="col-7">
+                                    <input type="number" name="MontoDisponible" id="MontoDisponible" class="form-control" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row container-fluid">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5"><h6><strong> FechaRegistro: </strong></h6></div>
+                                <div class="col-7">
+                                    <input type="text" value="" autocomplete="off" readonly class="datetimepicker form-control" name="FechaRegistro" id="FechaRegistro" data-date-format="yyyy-mm-dd hh:ii" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-5"></div>
+                                <div class="col-7"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Editar" id="subtmi-createdit" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

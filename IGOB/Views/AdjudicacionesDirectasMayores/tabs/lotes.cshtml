@@ -1,0 +1,170 @@
+﻿    <!-- LOTES -->
+@model IGOB.Models.Adjudicacion
+<div id="div_lotes" class="container-fluid tab-pane fade" @( ViewBag.idPerfil == 8 ? "style=opacity:1" : "")>
+    <input value="@ViewBag.redirecthere" id="keepMe" type="hidden" />
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>COTIZAR LOTES</strong>
+        </div>
+    </div>
+    <br />
+    <button type="button" class="btn btn-secondary btn-circle @(ViewBag.IdPerfil == 8 ? "d-none" : "") @( Model.oAdjudicaciones.IdEstatusAdjudicacion == 50 || Model.oAdjudicaciones.IdEstatusAdjudicacion == 70 ? "":"disabledClick")" onclick="nuevoLote()">
+        <span class="icon-add-3"></span>
+        NUEVO LOTE
+    </button>
+    <br /><br />
+
+    <div id="container_tableLotes">
+        <table class="table" id="LotesTable">
+            <thead align="center">
+                <tr>
+                    <th style="min-width:100px;">Acciones</th>
+                    @if (ViewBag.IdPerfil == 8 && ViewBag.TipoPropuesta == 1)
+                    {
+                        <th>Lote Ofertado</th>
+                    }
+                    <th>Lote</th>
+                    @if (Model.oAdjudicaciones.IdTipoSolicitud == 2)
+                    {
+                        <th>Mes Inicial</th>
+                        <th>Mes Final</th>
+                    }
+                    <th>Producto o Servicio</th>
+                    <th>Unidad</th>
+                    <th>Características</th>
+                    @if (Model.oAdjudicaciones.IdTipoSolicitud == 2)
+                    {
+                        <th>Frecuencia</th>
+                    }
+                    <th>Requerimiento</th>
+                    <th>Clave Pantone</th>
+                    <th>Impuesto</th>
+                    @if (ViewBag.IdPerfil != 8)
+                    {
+                        <th>Importe Unitario sin impuesto</th>
+                        <th>Importe Unitario con impuesto</th>
+                    }
+                    <th>Cantidad</th>
+                    @if (ViewBag.IdPerfil != 8)
+                    {
+                        <th>Importe sin impuesto mensual</th>
+                        <th>Importe con impuesto mensual</th>
+                    }
+                    @if (Model.oAdjudicaciones.IdTipoSolicitud == 2)
+                    {
+                        <th>Periodo</th>
+                    }
+                    @if (ViewBag.IdPerfil != 8 && ViewBag.TipoPropuesta != 1)
+                    {
+                        <th>Total Periodo</th>
+                    }
+                </tr>
+            </thead>
+            <tbody align="justify">
+                @foreach (var item in Model.lstAdjudicacionLotes_x_IdAdjudicacion)
+                {
+                    <tr>
+                        <td align="center" style="min-width:100px;">
+                            @if (ViewBag.IdPerfil == 8)
+                            {
+                                if (@ViewBag.TipoPropuesta == 1)
+                                {
+                                    <button class="btn btn-secondary btn-sm editPropTec @(Model.isCheckTec == 0 ? "" : "disabledClick")" @(item.ActivoLote ? "" : "disabled")
+                                            data-Produ="@item.BienServicio"
+                                            data-unidad="@item.Cantidad"
+                                            data-IdAdjProTecEco="@item.IdAdjudicionPropuestaTecEco"
+                                            data-req="@item.Descripcion"
+                                            data-carc="@item.Muestra" data-toggle="modal" data-target="#PropTecnica" name="@item.IdLote">
+                                        <span class="fa fa-pencil"></span>
+                                    </button>
+                                }
+                                else if (@ViewBag.TipoPropuesta == 2)
+                                {
+                                    <button class="btn btn-secondary btn-sm @(Model.isCheckEco  == 0 ? "" : "disabledClick")" onclick="actualizarProv(@item.IdLote)"><span class="fa fa-pencil"></span></button>
+                                }
+                            }
+                            else
+                            {
+                                <button class="btn btn-secondary btn-sm @( Model.oAdjudicaciones.IdEstatusAdjudicacion == 50 || Model.oAdjudicaciones.IdEstatusAdjudicacion == 70 ? "":"disabledClick")" onclick="editarLote(@item.IdLote)" @(Model.Activar ? "disabled" : "")><span class="fa fa-pencil"></span></button>
+                                <button class="btn btn-secondary btn-sm @( Model.oAdjudicaciones.IdEstatusAdjudicacion == 50 || Model.oAdjudicaciones.IdEstatusAdjudicacion == 70 ? "":"disabledClick")" onclick="eliminarLoteModal(@item.IdLote)" @(Model.Activar ? "disabled" : "")><span class="fa fa-trash-o"></span></button>
+                            }
+                        </td>
+                        @if (ViewBag.IdPerfil == 8 && ViewBag.TipoPropuesta == 1)
+                        {
+                            <td>
+                                <div class="custom-control custom-checkbox  @(Model.isCheckTec == 0 ? "" : "disabledClick")" style="left:42%">
+                                    <input type="checkbox" class="custom-control-input" name="id" value="@item.IdLote" data-adj="@item.IdAdjudicacion" data-IdAdjProTecEco="@item.IdAdjudicionPropuestaTecEco" id="@item.IdLote" @(item.ActivoLote ? "checked" : "")>
+                                    <label class="custom-control-label" for="@item.IdLote"></label>
+                                </div>
+                            </td>
+                        }
+                        <td>@item.NoLote</td>
+                        @if (Model.oAdjudicaciones.IdTipoSolicitud == 2)
+                        {
+                            <td>@item.DescripcionMesInicial</td>
+                            <td>@item.DescripcionMesFinal</td>
+                        }
+                        <td>@item.BienServicio</td>
+                        <td>@item.UnidadMedida</td>
+                        <td>@item.Descripcion</td>
+                        @if (Model.oAdjudicaciones.IdTipoSolicitud == 2)
+                        {
+                            <td>@item.DescripcionFrecuencia</td>
+                        }
+                        <td>@item.Muestra</td>
+                        <td>@item.Pantone</td>
+                        <td align="right">@String.Format("{0:C2}", @item.Impuesto) </td>
+                        @if (ViewBag.IdPerfil != 8)
+                        {
+                            <td align="right">@String.Format("{0:C2}", @item.PrecioUnitario)</td>
+                            <td align="right">@String.Format("{0:C2}", @item.ImporteCImpuesto)</td>
+                        }
+
+                        <td align="right">@item.Cantidad</td>
+                        @if (ViewBag.IdPerfil != 8)
+                        {
+                            <td align="right">@String.Format("{0:C2}", @item.Importe)</td>
+                            <td align="right">@String.Format("{0:C2}", @item.ImporteMensualCImpuesto)</td>
+                        }
+
+
+                        @if (Model.oAdjudicaciones.IdTipoSolicitud == 2)
+                        {
+                            <td>@item.MesesServicio</td>
+                        }
+                        @if (ViewBag.IdPerfil != 8 && ViewBag.TipoPropuesta != 1)
+                        {
+                            <td align="right">@String.Format("{0:C2}", @item.Total)</td>
+                        }
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+
+    </div>
+    @if (ViewBag.IdPerfil != 8)
+    {
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Monto presupuestado autorizado</label>
+                    <input type="text" name="number" value="@String.Format("{0:C2}", Model.oAdjudicaciones.MontoAproximadoAutorizado)" id="MontoPresupuestoAutorizado" class="form-control textDerecha" readonly />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Liquidez</label>
+                    <input type="text" name="number" value="@String.Format("{0:C2}", Model.sumLiquidez)" id="liquidez" class="form-control textDerecha" readonly>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group" id="ImporteTotalConImpuestoDiv">
+                    <label>Importe total con impuestos</label>
+                    <input type="text" name="number" value="@String.Format("{0:C2}", Model.sumAdjudicacionLote)" id="ImporteTotalConImpuesto" class="form-control textDerecha" readonly>
+                </div>
+            </div>
+        </div>
+    }
+    </div>

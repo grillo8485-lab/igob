@@ -1,0 +1,287 @@
+﻿@model IGOB.Models.Requisicion
+
+@{
+    ViewBag.Title = "Requisiciones Menores";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section css{
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.structure.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.theme.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+}
+@{ var activar = "";}
+@switch (Model.oRequisicones.IdEstatusRequisicion)
+{
+    case 50:
+    case 75:
+    case 85:
+        if (ViewBag.IdPerfil == 4)
+        {
+            activar = "disabledClick";
+        }
+        else
+        { activar = ""; }
+        break;
+    case 60:
+        { activar = ""; }
+        break;
+    default:
+        if (ViewBag.ActivoHistorial == 1)
+        {
+            activar = "";
+        }
+        else
+        { activar = "disabledClick"; }
+        break;
+}
+<!-- estilo pills personalizado -->
+<style>
+    #pac-input {
+        width: 100%;
+    }
+
+    .col-12 {
+        margin-bottom: 15px !important;
+    }
+
+    .pac-container {
+        z-index: 9999;
+    }
+
+    #map {
+        width: 100% !important;
+        height: 15vw !important;
+    }
+
+    .dataTables_filter {
+        text-align: right;
+    }
+
+    .error {
+        color: red !important;
+    }
+
+    .sub_banner {
+        margin-top: 15px
+    }
+
+        .sub_banner strong {
+            font-size: 9.94pt;
+        }
+
+    input[type=number] {
+        text-align: right;
+    }
+
+    input[name=number] {
+        text-align: right;
+    }
+
+    /*.ui-autocomplete {
+        height: 350px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }*/
+    .ui-autocomplete {
+        max-height: 350px;
+        overflow-y: auto;
+        width:350px;
+        max-width:350px;
+        /* prevent horizontal scrollbar */
+        overflow-x: hidden;
+        /* add padding to account for vertical scrollbar */
+        padding-right: 20px;
+    }
+    .ui-menu .ui-menu-item-wrapper {
+        border-bottom: 1px solid #ADCB60 !important;
+    } 
+</style>
+<div class="">
+    <input type="hidden" id="Formulario" value="@ViewBag.formulario" />
+    <input type="hidden" id="IdRequisicion" value="@ViewBag.idRequisicion" />
+    <input type="hidden" id="tipoRequisicion" value="@ViewBag.tipoRequisicion" />
+    <input type="hidden" id="IdTipoSolicitud" value="@Model.oRequisicones.IdTipoSolicitud" />
+    <input type="hidden" id="cartaActivo" value="@Model.Activar" />
+    <input type="hidden" id="Diferencia" value="@ViewBag.Diferencia" />
+    <input type="hidden" id="estatusreq" value="@Model.oRequisicones.IdEstatusRequisicion" />
+
+    <div class="pos-f-t">
+        <div class="mainMenuBarAnchor"></div>
+        <nav class="navbar bg-secondary text-white navbar-light bg-light changeColorModal mainMenuBar">
+            <div class="row col-12">
+                <div class="col-1 text-left">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+                <div class="col-6 text-center">
+                    <h6>@Model.Titulo</h6>
+                </div>
+
+                <div class="col-5 text-right">
+                    @switch (Model.oRequisicones.IdEstatusRequisicion)
+                    {
+                        case 0:
+                        case 50:
+                        case 75:
+                        case 85:
+                        case 20:
+                            if (ViewBag.IdPerfil != 4)
+                            {
+                                <button type="button" class="btn btn-default btn-sm" onclick="validarFormulario()" id="btnGuardarValidaciones">GUARDAR</button>
+                            }
+
+                            break;
+                        case 60:
+                        case 65:
+                        case 70:
+                            <input type="button" class="btn btn-default btn-sm" name="" value="Autorizar" @(ViewBag.inactivo == "disabled" ? ViewBag.inactivo : "id=Autorizar" + " disabled")>
+                            <input type="button" class="btn btn-default btn-sm" name="" value="Rechazar" @(ViewBag.inactivo == "disabled" ? ViewBag.inactivo : "id=Rechazar")>
+                            <input type="button" class="btn btn-default btn-sm" name="" id="Descargar" value="Descargar Documento" @((ViewBag.reqFirm == null) ? "style=display:none" : ((ViewBag.reqFirm.IdEstatusRequisicion == 70) ? ViewBag.doc : "disabled")) onclick="ImprimirDictamen()">
+                            break;
+
+                    }
+
+                    @switch (Model.oRequisicones.IdEstatusRequisicion)
+                    {
+
+                        case 150:
+                        case 5:
+                            <button class="btn btn-default  btn-sm" onclick="location.href='@Url.Action("Index", ViewBag.Back)'">REGRESAR</button>
+                            break;
+                        default:
+                            <button class="btn btn-default  btn-sm" onclick="location.href='@Url.Action("Index", ViewBag.Back, new { id = ViewBag.tipoRequisicion })'">REGRESAR</button>
+                            break;
+                    }
+
+                </div>
+            </div>
+        </nav>
+        <div class="collapse changeColorModal show" id="navbarToggleExternalContent">
+            <div class="bg-light p-1 " id="activarDiv">
+                <ul class="nav nav-pills" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="pill" href="#DatosGenerales" id="DatosGeneralesTabPadre">DATOS GENERALES</a>
+                    </li>
+
+                    <li class="nav-item @(activar) @(ViewBag.idRequisicion == 0 ? "disabledClick" : "")">
+                        <a class="nav-link" data-toggle="pill" href="#div_presupuesto_liquidez" id="div_presupuesto_liquidezTabPadre">PRESUPUESTO Y LIQUIDEZ</a>
+                    </li>
+                    <li class="nav-item @(activar) @(ViewBag.idRequisicion == 0 ? " disabledClick" : "")">
+                        <a class="nav-link" data-toggle="pill" href="#div_cartas" id="div_cartasTabPadre">CARTAS</a>
+                    </li>
+                    <li class="nav-item @(activar) @(ViewBag.idRequisicion == 0 ? "disabledClick" : "")">
+                        <a class="nav-link" data-toggle="pill" href="#div_lotes" id="div_lotesTabPadre">LOTES</a>
+                    </li>
+                    <li class="nav-item @(activar) @(ViewBag.idRequisicion == 0 ? "disabledClick" : (Model.lstRequisicionLotesIdRequisicion.Count > 0 ? "" : "disabledClick"))">
+                        <a class="nav-link" data-toggle="pill" href="#div_condiciones_entrega" id="div_condiciones_entregaTabPadre">CONDICIONES DE ENTREGA</a>
+                    </li>
+                    <li class="nav-item @(activar) @(ViewBag.idRequisicion == 0 ? "disabledClick" : (Model.lstRequisicionLotesIdRequisicion.Count > 0 ? "" : "disabledClick"))">
+                        <a class="nav-link" data-toggle="pill" href="#div_condiciones_pago" id="div_condiciones_pagoTabPadre">CONDICIONES DE PAGO</a>
+                    </li>
+                    @if (ViewBag.tipoRequisicion == 2)
+                        {
+                        <li class="nav-item @(ViewBag.idRequisicion == 0 ? "disabledClick" : Model.oRequisicones.IdTipoRequisicion == 2 ? "" : "disabledClick") @( ViewBag.IdPerfil==3?"":"verSeccion") @(activar)">
+                            <a class="nav-link" data-toggle="pill" href="#div_asignar_proveedores" id="div_asignar_proveedoresTabPadre">ASIGNAR PROVEEDORES</a>
+                        </li>
+                    }
+
+
+                    <li class="nav-item @(activar) @(ViewBag.idRequisicion == 0 ? "disabledClick": (Model.lstRequisicionLotesIdRequisicion.Count > 0 ? "" : "disabledClick"))">
+                        <!--Model.Activar ? "disabledClick":""-->
+                        <a class="nav-link" data-toggle="pill" href="#div_firmantes" id="div_firmantesTabPadre">FIRMANTES</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="ResultadoBuscar"></div>
+    <!-- Nav pills -->
+    <!-- Tab panes -->
+    <div class="tab-content">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+
+        @{
+            <!-- Datos Generales -->
+            Html.RenderPartial("DatosGenerales");
+            <!-- PRESUPUESTO Y LIQUIDEZ -->
+            Html.RenderPartial("PresupuestoLiquidez");
+            <!-- CARTAS -->
+            Html.RenderPartial("Cartas");
+            <!-- LOTES -->
+            Html.RenderPartial("Lotes");
+            <!-- CONDICIONES DE ENTREGA -->
+            Html.RenderPartial("CondicionesEntrega");
+            <!-- CONDICIONES DE PAGO -->
+            Html.RenderPartial("CondicionesPago");
+            <!-- ASIGNAR PROVEEDORES -->
+            Html.RenderPartial("AsignarProveedores");
+            <!-- FIRMANTES -->
+            Html.RenderPartial("Firmantes");
+        }
+
+    </div>
+    <div class="modal fade" id="Pop-Up" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header changeColorModal">
+                    <h4 class="modal-title">Requisición Monto</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                @using (Html.BeginForm(null, null, FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <div class="modal-body">
+                        <br />
+                        <h4 id="titlePopUp"></h4>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cerrar" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+<script type="text/javascript">
+
+
+$(document).ready(function () {
+// Cache selectors for faster performance.
+var $window = $(window),
+$mainMenuBar = $('.mainMenuBar'),
+$mainMenuBarAnchor = $('.mainMenuBarAnchor');
+
+// Run this on scroll events.
+$window.scroll(function () {
+var window_top = $window.scrollTop();
+var div_top = $mainMenuBarAnchor.offset().top;
+var diff = (Math.abs((window_top - 9 )- (div_top)));
+
+if (diff < 9) {
+return false;
+}else if(window_top > div_top) {
+// Make the div sticky.
+$mainMenuBar.addClass('stick');
+$mainMenuBarAnchor.height($mainMenuBar.height());
+}
+else {
+// Unstick the div.s
+$mainMenuBar.removeClass('stick');
+$mainMenuBarAnchor.height(0);
+}
+});
+});
+</script>
+        <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/Catalogos/Requisiciones.js"></script>
+    <script src="~/Scripts/Catalogos/RequisicionesFirmas.js" charset="utf-8"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZRXUq794gmdIcVRUS0toiAQD9MnQEFYg&libraries=places&callback=initAutocomplete" async defer></script> <!--Modal-->
+
+    <script src="~/Scripts/inputMap.js"></script>
+}

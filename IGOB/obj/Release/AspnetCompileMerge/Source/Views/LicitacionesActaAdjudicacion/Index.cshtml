@@ -1,0 +1,181 @@
+﻿
+@{
+    ViewBag.Title = "Acta de Propuestas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<style>
+    /* Ensure that the demo table scrolls */
+
+    .data_table > tbody > tr > td {
+        white-space: nowrap;
+    }
+
+    /*
+    .data_table > tbody > tr > td {
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    */
+
+</style>
+
+@Html.AntiForgeryToken()
+@Html.ValidationSummary()
+<input type="hidden" class="form-control" readonly id="IdLic_" value="@ViewBag.pIdLic">
+<div class="">
+    <div class="pos-f-t">
+        <nav class="navbar bg-secondary text-white navbar-light bg-light changeColorModal">
+            <div class="col-sm-4">
+                <label>@ViewBag.FolioLicitacion</label>
+            </div>
+
+            <div class="col-sm-8" style="text-align: right;">
+                <button class="btn btn-default btn-circle  btn-sm " type="button" onclick="ImprimirReporteActaAdjudicacion();"  @(ViewBag.Licitacion.IdEstatusLicitacion > 50?"":"disabled")>DESCARGAR ADJUDICACIÓN</button>
+                <button class="btn btn-default btn-circle  btn-sm" type="button" onclick="validarGenerarActaAdjudicacionProveedores()"  @(ViewBag.Licitacion.IdEstatusLicitacion==50?"":"disabled")>GENERAR ADJUDICACIÓN</button>
+                <button type="button" class="btn btn-default btn-sm" onclick="location.href='@Url.Action("Index", "ListadoLicitacionesInvitacionAceptadasProveedor")'">
+                    <span class="glyphicon glyphicon-step-backward"></span> Regresar
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <div style="color: #fff;background-color: #455407;text-align:center;padding:5px;">Acta de Adjudicación</div>
+
+    <div id="ResultadoBuscar"></div>
+    @foreach (var Req in ((List<iGob.Entidades.beLicitacionesActaAdjudicacion>)ViewBag.ListaReq))
+    {
+        IGOB.Models.Enletras let = new IGOB.Models.Enletras();
+        string MontoAutorizado = Req.MontoAproximadoAutorizado.ToString("C2") + " (" + let.enletras(Req.MontoAproximadoAutorizado.ToString()) + ").";
+        string MontoEjercido = Req.MontoEjercido.ToString("C2") + " (" + let.enletras(Req.MontoEjercido.ToString()) + ").";
+        string MontoAdjudicado = Req.MontoTotalAdjudicado.ToString("C2") + " (" + let.enletras(Req.MontoTotalAdjudicado.ToString()) + ").";
+        decimal economias = Req.MontoTotalAdjudicado - Req.MontoEjercido;
+        string MontoEconomias = economias.ToString("C2") + " (" + let.enletras(economias.ToString()) + ").";
+
+        <div style="color: #fff;background-color: #999;text-align:center;padding:5px;">&nbsp;</div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Requisición:</th>
+                    <th>@Req.RequisicionFolio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Dependencia solicitante:</td>
+                    <td>@Req.Dependencia</td>
+                </tr>
+                <tr>
+                    <td>Tipo de abastecimiento</td>
+                    <td>@Req.FormaAbastecimiento</td>
+                </tr>
+                <tr>
+                    <td>Monto presupuestado autorizado:</td>
+                    <td>@MontoAutorizado</td>
+                </tr>
+                <tr>
+                    <td>Monto total de lotes adjudicados:</td>
+                    <td>@MontoAdjudicado</td>
+                </tr>
+                <tr>
+                    <td>Ejercido:</td>
+                    <td>@MontoEjercido</td>
+                </tr>
+                <tr>
+                    <td>Economías:</td>
+                    <td>@MontoEconomias</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr style="text-align:center;">
+                    <th>Lote</th>
+                    <th>Productos y servicios</th>
+                    <th>Cantidad</th>
+                    <th>Unidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Periodos</th>                    
+                    <th>IVA</th>                    
+                    <th>Subtotal</th>
+                    <th>Impuesto Total</th>
+                    <th>Importe Total</th>
+                    <th>Proveedor Ganador</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    decimal subtotal = 0;
+                    decimal totalimpuesto = 0;
+                }
+                @foreach (var Lote in ((List<iGob.Entidades.beLicitacionesActaAdjudicacion>)ViewBag.ListaLotes).Where(x => x.IdRequisicion == Req.IdRequisicion))
+                {
+                    subtotal += Lote.ImportePeriodo;
+                    totalimpuesto += Lote.ImpuestoPeriodo;
+
+                    decimal TotalLote = Lote.ImpuestoPeriodo + Lote.ImportePeriodo;
+                <tr>
+                    <td style="text-align:center;">@Lote.NoLote</td>
+                    <td>@Lote.BienServicio</td>
+                    <td style="text-align:center;">@Lote.Cantidad</td>
+                    <td>@Lote.UnidadMedida</td>
+                    <td style="text-align:center;">@Lote.PrecioUnitarioOfertado.ToString("C2")</td>
+                    <td>@Lote.MesesServicio</td>
+                    <td style="text-align:center;">@Lote.ImpuestoPorcentaje.ToString("P2")</td>                    
+                    <td style="text-align:center;background-color:#eee;">@Lote.ImportePeriodo.ToString("C2")</td>
+                    <td style="text-align:center;">@Lote.ImpuestoPeriodo.ToString("C2")</td>
+                    <td style="text-align:center;background-color:#eee;">@TotalLote.ToString("C2")</td>
+                    <td>@Lote.RazonSocial</td>
+                </tr>
+                }
+                @{ decimal total = subtotal + totalimpuesto;}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>TOTAL</td>
+                    <td style="text-align:center;background-color:#eee;">@subtotal.ToString("C2")</td>
+                    <td style="text-align:center;">@totalimpuesto.ToString("C2")</td>                    
+                    <td style="text-align:center;background-color:#eee;">@total.ToString("C2")</td>
+                    <td></td>
+                </tr>                
+            </tbody>
+        </table>
+    }
+</div>
+
+@section scripts{
+    <script src="~/Scripts/Catalogos/LicitacionesActaAdjudicacion.js"></script>
+}
+
+<!-- Modal loading -->
+<div class="modal fade" id="modal_loading">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header" style="text-align:center;">
+                <h4 class="modal-title">Generando Documento</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container" style="text-align:center;">
+                    <img style="width:100%;" src="~/Img/loading.gif">
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <!--<div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+            </div>-->
+
+        </div>
+    </div>
+</div>

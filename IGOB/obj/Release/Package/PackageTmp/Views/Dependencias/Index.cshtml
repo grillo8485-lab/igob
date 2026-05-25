@@ -1,0 +1,108 @@
+﻿@model IEnumerable<iGob.Entidades.beDependencias>
+
+@section css
+{
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <style>
+        #modalDependencia .row {
+            margin-bottom: 15px;
+        }
+    </style>
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<input type="button" id="create-item" class="btn btn-secondary" value="Nueva Dependencia" />
+<br /><br />
+<table class="table-bordered hover" id="tableDep">
+    <thead align="justify">
+        <tr>
+            <th style="min-width:100px;"> Acción </th>
+            <th> Dependencias </th>
+            <th> Abreviaturas </th>
+            <th> RFC </th>
+            <th> Calle </th>
+            <th> N° Exterior </th>
+            <th> N° Interior </th>
+            <th> Colonia </th>
+            <th> Código Postal </th>
+            <th> Municipio </th>
+            <th> Estado </th>
+            <th> Localidad </th>
+            <th> Teléfono </th>
+            <th> Correo </th>
+            <th> Logo </th>
+            <th> Página Web </th>
+            <th> Titular </th>
+            <th> Fecha de Registro </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td align="center" valign="middle">
+                    <div class="form-group" style="min-width:100px;">
+                        <a title="Eliminar registro" class="btn btn-secondary btn-circle delet-item btn-sm"
+                           data-iddep="@item.IdDependencia"
+                           data-idgob="@item.IdGobierno"
+                           data-idmp="@item.IdMunicipio"
+                           data-dep="@item.Dependencia"
+                           data-idusreg="@item.IdUsuarioRegistro"><span class="icon-garbage-2"></span></a>
+                        <a title="Editar registro"
+                           data-iddep="@item.IdDependencia"
+                           data-dep="@item.Dependencia"
+                           data-abv="@item.Abreviatura"
+                           data-web="@item.Sitiooficial"
+                           data-tt="@item.Titular"
+                           data-rfc="@item.Rfc"
+                           data-calle="@item.Calle"
+                           data-NExt="@item.NoExterior"
+                           data-Nint="@item.NoInterior"
+                           data-idmp="@item.IdMunicipio"
+                           data-col="@item.Colonia"
+                           data-codpos="@item.CodigoPostal"
+                           data-tel="@item.Telefono"
+                           data-email="@item.Email"
+                           data-logo="@item.Logo"
+                           data-idusreg="@item.IdUsuarioRegistro"
+                           data-freg="@item.FechaRegistro"
+                           data-idgob="@item.IdGobierno"
+                           data-munc="@item.Municipio"
+                           data-estado="@item.Estado"
+                           data-local="@item.Localidad"
+                           data-cvest="@item.ClaveEstado"
+                           class="btn btn-secondary btn-circle edit-item btn-sm"><span class="icon-edit"></span></a>
+                    </div>
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.Dependencia)</td>
+                <td>@Html.DisplayFor(modelItem => item.Abreviatura)</td>
+                <td>@Html.DisplayFor(modelItem => item.Rfc)</td>
+                <td>@Html.DisplayFor(modelItem => item.Calle)</td>
+                <td>@Html.DisplayFor(modelItem => item.NoExterior)</td>
+                <td>@Html.DisplayFor(modelItem => item.NoInterior)</td>
+                <td>@Html.DisplayFor(modelItem => item.Colonia)</td>
+                <td>@Html.DisplayFor(modelItem => item.CodigoPostal)</td>
+                <td>@Html.DisplayFor(modelItem => item.Municipio)</td>
+                <td>@Html.DisplayFor(modelItem => item.Estado)</td>
+                <td>@Html.DisplayFor(modelItem => item.Localidad)</td>
+                <td>@Html.DisplayFor(modelItem => item.Telefono)</td>
+                <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                <td>@Html.DisplayFor(modelItem => item.Logo)</td>
+                <td>@Html.DisplayFor(modelItem => item.Sitiooficial)</td>
+                <td>@Html.DisplayFor(modelItem => item.Titular)</td>
+                <td>@Html.DisplayFor(modelItem => item.FechaRegistro)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{ 
+    Html.RenderPartial("EditDeleteModals");
+
+}
+
+@section scripts{
+    <script src="~/Scripts/Catalogos/AccionesDependencias.js"></script>
+}

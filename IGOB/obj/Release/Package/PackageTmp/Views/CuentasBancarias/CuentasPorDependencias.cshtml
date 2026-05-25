@@ -1,0 +1,87 @@
+﻿@model IEnumerable<iGob.Entidades.beCuentasBancariasDependencias>
+@section css
+{
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+
+<br /><br />
+<table class="table-bordered hover" id="tableCtaBan">
+    <thead align="center">
+        <tr>
+            <!-- <th> Acciones </th> -->
+            <th> Dependencia </th>
+            <th> Origen Recurso </th>
+            <th> Nombre Corto </th>
+            <th> Nombre Cuenta </th>
+            <th> Número Cuenta </th>
+            <th> Monto Disponible </th>
+            <th> Monto Comprometido </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <!--  <td>
+          <div class="form-group" style="min-width:100px;">
+              <a title="Eliminar registro" data-ictaband="@item.IdCuentaBancaria" data-nomcta="@item.NombreCuenta" class="btn btn-secondary btn-circle delete-cuentabancaria"><span class="icon-garbage-2"></span></a>
+              <a title="Editar registro"
+                 data-ictaband="@item.IdCuentaBancaria"
+                 data-iddep="@item.IdDependencia"
+                 data-idorigen="@item.IdOrigenRecurso"
+                 data-idbanco="@item.IdBanco"
+                 data-numerocta="@item.NumeroCuenta"
+                 data-nomcta="@item.NombreCuenta"
+                 data-disponible="@item.MontoDisponible"
+                 data-disponibleEnt="@item.MontoDisponibleEntidad"
+                 data-autorizadoigob="@item.AutorizadoIgob"
+                 data-moncomprometido="@item.MontoComprometido"
+                 data-monsaldigob="@item.MontoSaldoIgob"
+                 data-monejecutado="@item.MontoEjecutado"
+                 data-moneconomia="@item.MontoEconomia"
+                 data-fechaMovimiento="@item.FechaMovimiento"
+                 data-idusreg="@item.IdUsuarioRegistro"
+                 data-fechareg="@item.FechaRegistro"
+                 class="btn btn-secondary btn-circle edit-cuentabancaria">
+                  <span class="icon-edit"></span>
+              </a>
+          </div>
+      </td>-->
+            <td>
+                @Html.DisplayFor(modelItem => item.Dependencia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrigenRecurso)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreCorto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreCuenta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumeroCuenta)
+            </td>
+            <td align="right">
+                @String.Format("{0:C2}", item.MontoDisponible)
+            </td>
+            <td align="right">
+                @String.Format("{0:C2}", item.MontoComprometido)
+            </td>
+
+        </tr>
+        }
+    </tbody>
+</table>
+@{
+    Html.RenderPartial("EditDeleteModals");
+}
+
+@section scripts{
+    <script src="~/Scripts/Catalogos/AccionesCtaBancaria.js"></script>
+}

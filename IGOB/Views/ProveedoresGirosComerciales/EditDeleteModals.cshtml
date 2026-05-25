@@ -1,0 +1,32 @@
+﻿<!-- Modal -->
+<div class="modal fade" id="ModalForm" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title" id="formEditCreate"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div align="center"><strong id="MensajeForm"></strong></div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, htmlAttributes: new { @class = "PGCForm" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <div class="row col-12">
+                        <label> Actividad económica: </label>
+                        <input type="text" id="ActividadEconomica" name="ActividadEconomica" class="form-control" />
+                    </div>
+                </div>
+
+                <input type="hidden" id="IdProveedorGiroComercial" name="IdProveedorGiroComercial" class="form-control" value="0" />
+                <input type="hidden" name="IdProveedor" id="IdProveedor" value="@ViewBag.IdProveedor" />
+                <input type='hidden' class="form-control" id="IdActividadEconomica" name="IdActividadEconomica" />
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <input type="submit" value="Guardar" id="submitform" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>

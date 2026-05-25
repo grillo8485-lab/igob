@@ -1,0 +1,117 @@
+﻿@model IEnumerable<iGob.Entidades.beConfiguracionModalidadTipoProceso>
+    @{
+        ViewBag.Title = "Index";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    <br />
+
+
+    <div class="row">
+        <div class="col-sm-6">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Id = "Adj-directa" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="card">
+                    <h5 class="card-header">Adjudicación Directa</h5>
+                    <div class="card-body">
+                        <h5 class="card-title">Monto mínimo</h5>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <input type="number" required name="MontoMinimo" class="form-control textDerecha" min="1" step="0.1" value="@ViewBag.MontoMinimo">
+                        </div>
+                        <input type="hidden" name="IdModalidadLicitacion" value="5" />
+                        <input type="hidden" name="IdConfiguracionModalidadTipoProceso" value="6" />
+                        <h5 class="card-title">Monto máximo</h5>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <input type="number" required name="MontoMaximo" class="form-control textDerecha" min="1" step="0.1" value="@ViewBag.MontoMaximo">
+                        </div>
+
+                        <button type="submit" class="btn btn-secondary float-right">Configurar</button>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="col-sm-6">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Id = "Adj-mayor" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="card">
+                    <h5 class="card-header">Adjudicación Mayor</h5>
+                    <div class="card-body">
+                        <h5 class="card-title">Monto mínimo</h5>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <input type="number" required name="MontoMinimo" class="form-control textDerecha" min="1" step="0.1" value="@ViewBag.MontoMinimo2">
+                        </div>
+                        <input type="hidden" name="IdModalidadLicitacion" value="6" />
+                        <input type="hidden" name="IdConfiguracionModalidadTipoProceso" value="7" />
+                        <h5 class="card-title">Monto máximo</h5>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <input type="number" required name="MontoMaximo" class="form-control textDerecha" min="1" step="0.1" value="@ViewBag.MontoMaximo2">
+                        </div>
+
+                        <button type="submit" class="btn btn-secondary float-right">Configurar</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+
+    @section Scripts{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#Adj-directa").on("submit",function(e){
+                e.preventDefault();
+
+                let ser= $("#Adj-directa").serialize();
+
+                $.post("/ConfiguracionAdjudicaciones/ConfigurarDirecta/",ser, "JSON")
+                    .always(function (e) {
+                        bootbox.alert({
+                            size: "small",
+                            title: e.success ? "Aviso" : "Error",
+                            message: e.m
+                        });
+                    });
+            });
+
+
+            $("#Adj-mayor").on("submit",function(e){
+                e.preventDefault();
+
+                let ser= $("#Adj-mayor").serialize();
+
+                $.post("/ConfiguracionAdjudicaciones/ConfigurarMayor/",ser, "JSON")
+                    .always(function (e) {
+                        bootbox.alert({
+                            size: "small",
+                            title: e.success ? "Aviso" : "Error",
+                            message: e.m
+                        });
+                    });
+
+            });
+        })
+
+
+    </script>
+
+    }
+
+

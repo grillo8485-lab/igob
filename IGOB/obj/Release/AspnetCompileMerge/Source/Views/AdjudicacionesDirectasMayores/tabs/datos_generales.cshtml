@@ -1,0 +1,116 @@
+﻿<!-- Datos Generales -->
+<div id="div_datos_generales" class="container-fluid tab-pane active @(ViewBag.IdPerfil == 2  ||  ViewBag.IdPerfil == 8 ? "d-none": "") ">
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>DATOS GENERALES</strong>
+        </div>
+    </div>
+    <br />
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { @Id = "DatosGeneralesForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <br>
+        <div class="row">
+            <div class="col-4">
+                <div class="form-group" id="Camp1">
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Tipo de Adjudicación</label>
+                    @Html.DropDownList("IdTipoAdjudicacion", ViewBag.TiposAdjudicaciones as SelectList, "Seleccionar", new { @class = "form-control ", @Required = "", @Disabled = "" })
+
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Solicitud</label>
+                    @if (ViewBag.SolList != null)
+                    {
+                        @Html.DropDownList("IdTipoSolicitud", ViewBag.SolList as SelectList, "Seleccione el tipo de Solicitud", new { @class = "form-control", @Required = "" })
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Capítulo</label>
+                    @if (ViewBag.CapList != null)
+                    {
+                        @Html.DropDownList("IdCapitulo", ViewBag.CapList as SelectList, "Selecciona el Capítulo", new { @class = "form-control", @Required = "" })
+                    }
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Partida <a href="#" data-toggle="tooltip" data-placement="bottom" title="Comentario de partida"><i class="fa fa-question-circle-o"></i></a></label>
+                    @if (ViewBag.lstPartidas != null)
+                    {
+                        @Html.DropDownList("IdPartida", ViewBag.lstPartidas as SelectList, "Seleccione Partida", new { @class = "form-control", @Required = "", @onchange = "getPresupuestoPartida()" })
+                    }
+                    <input type="hidden" id="IdPresupuestoPartida" value="1" />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Origen de recurso</label>
+                    <input type="text" name="OrigenRecursos" id="OrigenRecursos" value="@(ViewBag.OrigenAdjudicacion == null ? "Estatal" : ViewBag.OrigenAdjudicacion )" class="form-control" readonly Required />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Valor apróximado <a href="#" data-toggle="tooltip" data-placement="top" title="Comentario"><i class="fa fa-question-circle-o"></i></a></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        
+                        <input type="text" data-tipoadj="@ViewBag.tipoAdjudicacion" class="form-control text-xl-right" name="ValorAproximado" id="ValorAproximado" min="0" step="0.1" max="" style="min-width: 80%;" @(Model.oAdjudicaciones.MontoAproximado == 0 ? "" : "disabled") value="@String.Format("{0:N2}", (Model.oAdjudicaciones.MontoAproximadoAutorizado == 0 ? Model.oAdjudicaciones.MontoAproximado : Model.oAdjudicaciones.MontoAproximadoAutorizado))" required onkeyup="Monto()">
+                        <input type="hidden" name="pre" id="pre" value="" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Núm. de oficio de certificación de recurso <a href="#" data-toggle="tooltip" data-placement="top" title="Comentario"><i class="fa fa-question-circle-o"></i></a></label>
+                    <input type="text" name="NumeroOficioCertificacion" required class="form-control text-xl-right" id="NumeroOficioCertificacion" @(Model.oAdjudicaciones.NumeroOficioCertificacion == null ? "" : "disabled") value="@Model.oAdjudicaciones.NumeroOficioCertificacion" placeholder="Válido en el ejercicio fiscal vigente">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="Ejercicio">Ejercicio</label>
+                    <input type="text" class="form-control" readonly id="Ejercicio" value="@(ViewBag.EjercicioAdjudicacion == null ? ViewBag.ejercicioActual.Ejercicio : ViewBag.EjercicioAdjudicacion )">
+                    <input type="hidden" id="IdEjercicioFiscal" value="@(Model.oAdjudicaciones.IdEjercicioFiscal == 0 ? ViewBag.ejercicioActual.IdEjercicioFiscal : ViewBag.IdEjercicioFiscal )">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12" id="DBS">
+                <div class="form-group">
+                    <label>Descripción de bienes o servicios</label>
+                    <textarea class="form-control" name="Observacion" id="Observacion" @(Model.oAdjudicaciones.Observaciones == null ? "" : "disabled") style="resize: none;" required="required">@Model.oAdjudicaciones.Observaciones</textarea>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group" id="Camp2">
+                </div>
+            </div>
+        </div>
+    }
+
+    <div id="ResultadoBuscar" class="col-12"></div>
+
+    <div class="alert alert-danger " style="display:none" id="Pop-Up">
+        <strong>Advertencia!  </strong><span id="titlePopUp"></span>
+    </div>
+</div>
+
+

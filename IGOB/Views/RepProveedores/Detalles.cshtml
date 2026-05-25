@@ -1,0 +1,207 @@
+﻿
+
+    @if (ViewBag.IdPerfil == 11)
+    {
+        List<iGob.Entidades.beRptAppEjecutivosLicitaciones> ListRep = ViewBag.ListRep;
+
+        <script type="text/javascript">
+        google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(AdqDirectas);
+        google.charts.setOnLoadCallback(LicRestringidas);
+        google.charts.setOnLoadCallback(LicAbiertas);
+
+        function AdqDirectas() {
+            var dataTable = new google.visualization.DataTable();
+            dataTable.addColumn('string', 'Descripcion');
+            dataTable.addColumn('number', 'Cantidad');
+            // A column for custom tooltip content
+            dataTable.addColumn({ type: 'string', role: 'tooltip' });
+            dataTable.addRows([
+                @for (int i = 0; i < ListRep.Count; i++)
+                {
+                    @:['@ListRep[i].Dependencia: @ListRep[i].MontoTotalDirectas.ToString("C2")', @ListRep[i].MontoTotalDirectas, '@ListRep[i].Dependencia: @ListRep[i].MontoTotalDirectas.ToString("C2")']
+                    if (i < ListRep.Count - 1)
+                    {
+                        @:,
+                    }
+                }
+            ]);
+
+            var formatter = new google.visualization.NumberFormat({
+                prefix: '$'
+            });
+            formatter.format(dataTable, 1);
+
+            var options = {
+                legend: { position: 'right' },
+                is3D: true,
+                pieSliceText: 'value',
+                sliceVisibilityThreshold: 0,
+                chartArea: { 'width': '100%', 'height': '80%' },
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart_3d_Addir'));
+            chart.draw(dataTable, options);
+        }
+
+        function LicRestringidas() {
+
+            @{
+                string Titulos = "'Dependencia'";
+                string Contenido = "'LICITACIONES RESTRINGIDAS'";
+            }
+            @foreach (iGob.Entidades.beRptAppEjecutivosLicitaciones Dep in ListRep)
+            {
+                Titulos+= ",'" + Dep.Dependencia + Dep.MontoTotalRestringidas.ToString("C2") + "',{ type: 'string', role: 'tooltip' }";
+                Contenido+= "," + Dep.MontoTotalRestringidas + ",'"+ Dep.Dependencia + Dep.MontoTotalRestringidas.ToString("C2")+"'";
+            }
+
+
+            var data = google.visualization.arrayToDataTable([
+
+                [@Html.Raw(Titulos)],
+                [@Html.Raw(Contenido)]
+            ]);
+
+            var options = {
+
+                legend: { position: 'right'},
+                bar: { groupWidth: '80%' },
+                chartArea: { 'width': '100%', 'height': '80%',right: '40%',left:'10%' },
+            };
+
+            var chart = new google.visualization.ColumnChart(document.getElementById('piechart_3d_LicRes'));
+            chart.draw(data, options);
+        }
+
+        function LicAbiertas() {
+            var dataTable = new google.visualization.DataTable();
+            dataTable.addColumn('string', 'Descripcion');
+            dataTable.addColumn('number', 'Cantidad');
+            // A column for custom tooltip content
+            dataTable.addColumn({ type: 'string', role: 'tooltip' });
+            dataTable.addRows([
+                @for (int i = 0; i < ListRep.Count; i++)
+                {
+                    @:['@ListRep[i].Dependencia: @ListRep[i].MontoTotalAbiertas.ToString("C2")', @ListRep[i].MontoTotalAbiertas, '@ListRep[i].Dependencia: @ListRep[i].MontoTotalAbiertas.ToString("C2")']
+                    if(i < ListRep.Count - 1)
+                    {
+                        @:,
+                    }
+                }
+            ]);
+
+            var formatter = new google.visualization.NumberFormat({
+                prefix: '$'
+            });
+            formatter.format(dataTable, 1);
+
+            var options = {
+                legend: { position: 'right' },
+                is3D: true,
+                pieSliceText: 'value',
+                sliceVisibilityThreshold: 0,
+                chartArea: { 'width': '100%', 'height': '80%' },
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart_3d_LicAbi'));
+            chart.draw(dataTable, options);
+        }
+
+        </script>
+    }
+    else if (ViewBag.IdPerfil == 4)
+    {
+        iGob.Entidades.beRptAppEjecutivosLicitaciones obeRep = ViewBag.obeRep;
+        <script type="text/javascript">
+            google.charts.load("current", { packages: ["corechart"] });
+            google.charts.setOnLoadCallback(DepPro);
+
+            function DepPro() {
+
+                var data = google.visualization.arrayToDataTable([
+
+                    ['', 'ADJUDICACIONES DIRECTAS: @obeRep.MontoTotalDirectas.ToString("C2")', { type: 'string', role: 'tooltip' }, 'RESTRINGIDAS: @obeRep.MontoTotalRestringidas.ToString("C2")', { type: 'string', role: 'tooltip' }, 'ADJUDICACIONES DIRECTAS: @obeRep.MontoTotalAbiertas.ToString("C2")', { type: 'string', role: 'tooltip' }],
+                    ['TOTAL ADJUDICADO: @obeRep.MontoTotal.ToString("C2")',@obeRep.MontoTotalDirectas, 'ADJUDICACIONES DIRECTAS: @obeRep.MontoTotalDirectas.ToString("C2")',@obeRep.MontoTotalRestringidas,'RESTRINGIDAS: @obeRep.MontoTotalRestringidas.ToString("C2")',@obeRep.MontoTotalAbiertas,'ADJUDICACIONES DIRECTAS: @obeRep.MontoTotalAbiertas.ToString("C2")']
+                ]);
+
+                var options = {
+
+                    legend: { position: 'right'},
+                    bar: { groupWidth: '80%' },
+                    chartArea: { 'width': '100%', 'height': '80%', right: '40%', left: '10%' },
+                    colors: ['#c00000', '#00c000', '#0000c0'],
+                };
+
+                var chart = new google.visualization.ColumnChart(document.getElementById('barchart'));
+                chart.draw(data, options);
+            }
+        </script>
+
+
+    
+}
+
+    <script>
+        function printData() {
+
+            var divGrafica = document.getElementById("div_grafica");
+            var htmlToPrint = '' +
+                '<style type="text/css">' +
+                'table { border-collapse:collapse;}' +
+                'table th, table td {border:1px solid #000; padding:0.5em;}' +
+                '</style>';
+            //var encabezado = '<center><b>PROVEEDOR</b><br></center>';
+            newWin = window.open("");
+            newWin.document.write(htmlToPrint + divGrafica.outerHTML);
+            newWin.print();
+            newWin.close();
+        }
+    </script>
+
+
+@if (ViewBag.IdPerfil == 11)
+{
+    <div id="div_grafica">
+        <br />
+        <div style="text-align:center;">
+            <span style="font-weight:bold;">
+                @ViewBag.Proveedor <br /><br />
+                ADJUDICACIONES DIRECTAS<br />
+            </span>
+        </div>
+        <div id="piechart_3d_Addir" style="width:80%;height:400px;"></div>
+
+        <div style="text-align:center;">
+            <span style="font-weight:bold;">
+                RESTRINGIDAS<br />
+            </span>
+        </div>
+        <div id="piechart_3d_LicRes" style="width:80%;height:400px;"></div>
+
+        <div style="text-align:center;">
+            <span style="font-weight:bold;">
+                LICITACIONES ABIERTAS<br />
+            </span>
+        </div>
+        <div id="piechart_3d_LicAbi" style="width:80%;height:400px;"></div>
+    </div>
+}
+else if (ViewBag.IdPerfil == 4)
+{
+    iGob.Entidades.beRptAppEjecutivosLicitaciones obeRep = ViewBag.obeRep;
+
+    <div id="div_grafica">
+        <br />
+        
+
+        <div style="text-align:center;">
+            <span style="font-weight:bold;">
+                @obeRep.Dependencia<br />
+                @obeRep.RazonSocial<br />
+            </span>
+        </div>
+        <div id="barchart" style="width:80%;height:400px;"></div>
+
+    </div>
+}

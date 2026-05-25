@@ -1,0 +1,49 @@
+﻿@model IEnumerable<iGob.Entidades.beCuentasBancariasDependencias>
+@section css
+{
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <style>
+        .col-12 {
+            margin-bottom:12px;
+        }
+    </style>
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<button class="btn btn-secondary" id="create-ctaban">Nueva Cuenta Bancaria</button>
+<br /><br />
+<table class="table-bordered hover" id="tableCtaBanGroup">
+    <thead align="justify">
+        <tr>
+            <th>Acciones</th>
+            <th> Dependencia </th>
+            <th> Total Saldo Inicial </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td align="center">
+                    <button title="" type="button" class="btn btn-secondary btn-circle edit-marca btn-sm cuentaBanc" data-ictaband="@item.IdDependencia">
+                        <span class="glyphicon glyphicon-eye-open"></span>
+                    </button>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Dependencia)
+                </td>
+                <td align="right">
+                    @String.Format("{0:C2}",  item.TotalInicial)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@{
+    Html.RenderPartial("EditDeleteModals");
+}
+@section scripts{
+    <script src="~/Scripts/Catalogos/AccionesCtaBancaria.js"></script>
+}

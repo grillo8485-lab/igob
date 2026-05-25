@@ -1,0 +1,27 @@
+﻿@model List<iGob.Entidades.beFamilias>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<button class="btn btn-secondary new-fam">Nueva Familia</button>
+<br /><br />
+
+<table class="table" id="tableCatalogos">
+    <thead align="center">
+        <tr>
+            <th style="min-width:100px"> Acciones </th>
+            <th> Familia </th>
+            <th> Descripción</th>
+        </tr>
+    </thead>
+</table>
+@{
+    Html.RenderPartial("EditDeleteModals");
+}
+
+@section scripts{
+    <script src="~/Scripts/Catalogos/AccionesFam.js"></script>
+}
+
+

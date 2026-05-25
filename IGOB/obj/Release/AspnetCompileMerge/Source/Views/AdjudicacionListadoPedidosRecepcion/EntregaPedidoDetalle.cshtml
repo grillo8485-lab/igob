@@ -1,0 +1,91 @@
+﻿@model IEnumerable<iGob.Entidades.beAdjudicacionLiberarPedido>
+
+@{
+    ViewBag.Title = "EntregaPedidoDetalle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="text-white sub_banner changeColorModal">
+    <div class="mainMenuBarAnchor"></div>
+    <nav class="navbar bg-secondary text-white navbar-light bg-light changeColorModal mainMenuBar">
+        <div class="row col-12">
+            <div class="col-7 text-left">
+                <h6>@ViewBag.Titulo</h6>
+            </div>
+            <div class="col-5 text-right">
+                <button class="btn btn-secondary btn-sm" onclick="location.href=`/AdjudicacionListadoPedidosRecepcion/`">REGRESAR</button>
+            </div>
+        </div>
+    </nav>
+</div>
+<br />
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-4">
+            <label for="">Dependencia</label>
+            <input id="" name="" value="@ViewBag.dependencia.Dependencia" class="form-control" disabled />
+        </div>
+        <div class="col-4">
+            <label for="">Estatus</label>
+            <input id="" name="" value="@ViewBag.estatus.Estatus" class="form-control" disabled />
+        </div>
+        <div class="col-4">
+            <label for="">Fecha y hora</label>
+            <input id="" name="" value="@ViewBag.adjudicacionpedido.FechaPedido" class="form-control" disabled />
+        </div>
+        <div class="col-4">
+            <label for="">Folio del pedido</label>
+            <input id="" name="" value="@ViewBag.adjudicacionpedido.Folio" class="form-control" disabled />
+        </div>
+        <div class="col-4">
+            <label for="">Adjudicación</label>
+            <input id="" name="" value="@ViewBag.adjudicacion.AdjudicacionFolio" class="form-control" disabled />
+        </div>
+        <div class="col-4">
+            <label for="">Partida</label>
+            <input id="" name="" value="@ViewBag.Partida" class="form-control" disabled />
+        </div>
+        <div class="col-4">
+            <label for="">Proveedor</label>
+            <input id="" name="" value="@ViewBag.proveedor.RazonSocial" class="form-control" disabled />
+        </div>
+    </div>
+    <br />
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <table id="PedidosRecepcion" class="table table-hover userSelectnone">
+        <thead>
+            <tr>
+                <th>NoLote</th>
+                <th width="200px;">Descripción</th>
+                <th>Unidad<br /> medida</th>
+                <th>Cantidad<br /> total</th>
+                @*<th>Cantidad<br /> pendiente</th>*@
+                <th>Cantidad<br /> total recibida</th>
+                <th>Fecha<br /> recibo</th>
+                <th>Lugar entregado</th>
+                <th>Encargado<br /> recepción</th>
+                <th>Observación</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var i in Model)
+            {
+                var recepcionado = (i.CantidadRecepcionar - i.CantidadxRecibir);
+                <tr>
+                    <td>@i.NoLote</td>
+                    <td>@i.BienServicio</td>
+                    <td>@i.UnidadMedida</td>
+                    <td>@i.CantidadRecepcionar</td>
+                    @*<td>@i.CantidadxRecibir</td>*@
+                    <td>@i.CantidadRecibida</td>
+                    <td>@i.FechaRegistro</td>
+                    <td>@i.LugarEntregado</td>
+                    <td>@i.NombreResponsable</td>
+                    <td>@i.Observaciones</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section scripts{
+}

@@ -1,0 +1,77 @@
+﻿
+<div class="modal fade" id="BuscarPersonaModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title" id="titleModalPersona"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form" , @id = "SearchUserForm" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="input-group col-md-12">
+                            <input type="text" class="form-control" id="texto" placeholder="Buscar por Nombre o RFC" >
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-default" onclick="buscarPersonas()">
+                                    <span class="icon-search"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <br />
+                        <table class="table table-bordered table-hover" >
+                            <thead align="center">
+                                <tr>
+                                    <th> Acciones </th>
+                                    <th> # </th>
+                                    <th> RFC </th>
+                                    <th> Nombre Completo </th>
+                                    <th> Dependencia </th>
+                                    <th> Proveedor </th>
+                                </tr>
+                            </thead>
+                            <tbody id="renderizando">
+                                
+                            </tbody>
+                        </table>
+
+                    </div>
+                        <br />
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default " data-dismiss="modal" value="Cerrar" />
+                    <input type="button" value="Agregar" class="btn btn-default" onclick="" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DeleteUsuario" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Eliminar Usuario</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm("Eliminar", "Usuario", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <br />
+                    <h4 id="titleUsuario"></h4>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cerrar" />
+                    <input type="button" value="Eliminar" class="btn btn-default" onclick="eliminarRegistro()"/>
+                </div>
+            }
+        </div>
+    </div>
+</div>

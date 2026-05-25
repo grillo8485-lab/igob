@@ -1,0 +1,173 @@
+﻿@{
+    ViewBag.Title = "Presupuesto Dependencia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section css{
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.structure.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.theme.css" rel="stylesheet" />
+    <style>
+        .col-12 {
+            margin-bottom: 15px;
+        }
+    </style>
+}
+
+<link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+
+@Html.AntiForgeryToken()
+@Html.ValidationSummary()
+
+<div id="menu_principal">
+    <div class="pos-f-t">
+        <nav class="navbar bg-secondary text-white navbar-light bg-light changeColorModal">
+            <div class="col-sm-4">
+
+            </div>
+
+            <div class="col-sm-8" style="text-align: right;">
+                <button class="btn btn-default btn-circle btn-sm" type="button" id="btn_presupuesto" onclick="TraerPresupuesto()" disabled>PRESUPUESTO</button>
+                <button class="btn btn-default btn-circle btn-sm" type="button" id="btn_adquisiciones" onclick="TraerAdquisiciones()" disabled>ADQUISICIONES</button>
+            </div>
+        </nav>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="form-group">
+                <label> Seleccione la dependencia o entidad: </label>
+                <input type="text" id="Dependencia" name="Dependencia" class="form-control" />
+                <input type='hidden' class="form-control" id="IdDependencia" name="IdDependencia" />
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="menu_RepPre" style="display:none;">
+    <div class="pos-f-t">
+        <nav class="navbar bg-secondary text-white navbar-light bg-light changeColorModal">
+            <div class="col-sm-4">
+            </div>
+
+            <div class="col-sm-8" style="text-align: right;">
+                <button class="btn btn-default btn-circle btn-sm" type="button" onclick="printDataPre()">IMPRIMIR</button>
+                <button class="btn btn-default btn-circle btn-sm" type="button" onclick="menu_principal()">REGRESAR</button>
+            </div>
+        </nav>
+    </div>
+    <div id="div_RepPre" style="width:100%;overflow:auto;"></div>
+</div>
+
+<div id="menu_RepAdq" style="display:none;">
+    <div class="pos-f-t">
+        <nav class="navbar bg-secondary text-white navbar-light bg-light changeColorModal">
+            <div class="col-sm-4">
+            </div>
+
+            <div class="col-sm-8" style="text-align: right;">
+                <button class="btn btn-default btn-circle btn-sm" type="button" onclick="printDataAdq()">IMPRIMIR</button>
+                <button class="btn btn-default btn-circle btn-sm" type="button" onclick="menu_principal()">REGRESAR</button>
+            </div>
+        </nav>
+    </div>
+    <div id="div_RepAdq" style="width:100%;overflow:auto;"></div>
+</div>
+
+
+
+@section Scripts{
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+
+    <script>
+        $("#Dependencia").autocomplete({
+            minLength: 1,
+            source: function (request, response) {
+                $.ajax({
+                    url: '/RepDependenciasEntidades/ListaDependencias',
+                    dataType: 'JSON',
+                    data: { descripcion: $("#Dependencia").val() },
+
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.Dependencia, value: item.Dependencia, id: item.IdDependencia };
+                        }))
+                        //console.log(data);
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            },
+            select: function (e, ui) {
+                $("#IdDependencia").val(ui.item.id);
+                $('#btn_presupuesto').prop("disabled", false);
+                $('#btn_adquisiciones').prop("disabled", false);
+            },
+            change: function (e, ui) {
+                if (!(ui.item)) e.target.value = "";
+            }
+        });
+
+        function menu_principal() {
+            $('#div_RepPre').html();
+            $('#div_RepAdq').html();
+            $('#menu_RepPre').css("display", "none");
+            $('#menu_RepAdq').css("display", "none");
+            $('#menu_principal').css("display", "inline");
+        }
+
+        function TraerPresupuesto() {
+            var token = $("[name='__RequestVerificationToken']").val();
+            var IdDependencia = $("#IdDependencia").val();
+            var parametros = {
+                IdDependencia: IdDependencia,
+                __RequestVerificationToken: token
+            };
+
+            $.ajax({
+                data: parametros,
+                url: '/RepDependenciasEntidades/ReportePresupuesto',
+                type: 'post',
+                beforeSend: function () {
+
+                },
+                success: function (result) {
+                    $('#div_RepAdq').html();
+                    $('#div_RepPre').html(result);
+                    $('#menu_principal').css("display", "none");
+                    $('#menu_RepAdq').css("display", "none");
+                    $('#menu_RepPre').css("display", "inline");
+                }
+            });
+        }
+
+        function TraerAdquisiciones() {
+            var token = $("[name='__RequestVerificationToken']").val();
+            var IdDependencia = $("#IdDependencia").val();
+            var parametros = {
+                IdDependencia: IdDependencia,
+                __RequestVerificationToken: token
+            };
+
+            $.ajax({
+                data: parametros,
+                url: '/RepDependenciasEntidades/ReporteAdquisiciones',
+                type: 'post',
+                beforeSend: function () {
+
+                },
+                success: function (result) {
+                    $('#div_RepAdq').html(result);
+                    $('#div_RepPre').html();
+                    $('#menu_principal').css("display", "none");
+                    $('#menu_RepAdq').css("display", "inline");
+                    $('#menu_RepPre').css("display", "none");
+                }
+            });
+        }
+    </script>
+}
+

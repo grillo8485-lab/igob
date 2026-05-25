@@ -1,0 +1,71 @@
+﻿
+<div class="modal fade" id="PerfilModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-2 text-right">Perfil:</div>
+                        <div class="col-md-4 "><input type="text" class="form-control" id="Perfil" placeholder="Introduce Perfil"></div>
+                        <div class="col-md-2 text-right">Descripcion:</div>
+                        <div class="col-md-4 text-left"> <input type="text" class="form-control" id="Descripcion" placeholder="Introduce Descripcion"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 text-right">Codigo Perfil:</div>
+                        <div class="col-md-4 text-left"> <input type="text" class="form-control" id="CodigoPerfil" placeholder="Introduce Codigo Perfil"></div>
+                        <div class="col-md-2 text-right">Activo:</div>
+                        <div class="col-md-4 text-left">
+                            <div class="input-group">
+                                <div id="radioBtn" class="btn-group">
+                                    <a class="btn btn-primary btn-sm active" data-toggle="happy" id="Activo" data-title="S">SI</a>
+                                    <a class="btn btn-primary btn-sm notActive" data-toggle="happy" id="InActivo" data-title="N">NO</a>
+                                </div>
+                                <input type="hidden" name="happy" id="happy">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <br />
+                    <div id="ResultadoBuscar"></div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cerrar" />
+                    <input type="button" value="Guardar" class="btn btn-default" onclick="validarForm()" id="IdGuardar__" />
+                    <input type="button" value="Actualizar" class="btn btn-default" onclick="guardarEdicion()" id="Actualizar__" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DeletePerfil" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Eliminar Modulo</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm("Eliminar", "Usuario", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <br />
+                    <h4 id="titleFuncion"></h4>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cerrar" />
+                    <input type="button" value="Eliminar" class="btn btn-default" onclick="eliminarRegistro()" />
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,858 @@
+﻿
+@model IGOB.Models.Requisicion
+    @*seccion lotes valida*@
+<div class="container-fluid">
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>VALIDAR LOTES</strong>
+        </div>
+    </div>
+
+    <br />
+    <div id="cargarLotesTableValida">
+            <table class="table" id="LotesTable" width="100%">
+                <thead>
+                    <tr>
+                        <th class="@Model.visibleTecnica">Lote ofertado</th>
+                        <th class="@Model.visibleTecnicaSolicitante">Cumple con lo ofertado (lote)</th>
+                        <th class="@Model.visibleTecnicaSolicitante">Observaciones y fundamentación legal</th>
+                        <th class="@Model.visibleTecnicaRevisor ">Lote rechazado</th>
+                        <th class="@Model.visibleTecnicaRevisor ">Observaciones adquisición</th>
+                        <th>Lote</th>
+                        <th>Cantidad</th>
+                        <th>Productos o servicios</th>
+                        <th>Características</th>
+                        <th>Unidad</th>
+                        <th class="@Model.visibleEconimica">Precio de referencia sin iva</th>
+
+                        <th class="@Model.visibleTecnica">Requerimiento</th>
+                        <th class="@Model.visibleTecnica">Adjuntar comprobante <br />de muestra y/o catalogo</th>
+                        <th class="@Model.visibleTecnica">Adjuntar certificado(pdf)</th>
+                        <th class="@Model.visibleTecnica">Clave Pantone</th>
+                        <th class="@Model.visibleTecnica">Mejorar</th>
+                        <th class="@Model.visibleTecnica">Observaciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.lstRequisicionLotesIdRequisicion)
+                    {
+                        <tr>
+                            <td class="@Model.visibleTecnica">
+                                @(Model.oRequisicones.IdFormaAbastecimiento == 1 ? item.LoteOfertado ? "Si" : "No" : item.LoteOfertado ? "Si" : "No")
+
+                            </td>
+                            <td class=" @Model.visibleTecnicaSolicitante">
+                                @(item.DependenciaCumple ? "Si" : "No")
+
+                            </td>
+                            <td class="@Model.visibleTecnicaSolicitante">
+                                @(item.FundamentoLegal)
+
+                            </td>
+                            <td class="@Model.visibleTecnicaRevisor">
+                                @(item.AdquisicionCumple ? "Si" : "No")
+
+                            </td>
+                            <td class="@Model.visibleTecnicaRevisor">
+                                @(item.AdquisicionObserva)
+                            </td>
+                            <td>@item.NoLote</td>
+                            <td align="right">@item.Cantidad</td>
+                            <td>@item.BienServicio</td>
+                            <td>@item.Descripcion</td>
+                            <td>@item.UnidadMedida</td>
+                            <td class="@Model.visibleEconimica" align="right">@String.Format("{0:C2}", item.PrecioUnitario)</td>
+
+                            <td class="@Model.visibleTecnica">@item.Muestra</td>
+                            <td class="@Model.visibleTecnica">@item.URLFileMuestraCatalogo</td>
+                            <td class="@Model.visibleTecnica">@item.URLFileCertificacion</td>
+                            <td class="@Model.visibleTecnica">@item.Pantone</td>
+                            <td class="@Model.visibleTecnica">@(item.EstatusMejora == 1 ? "Si" : "No")</td>
+                            <td class="@Model.visibleTecnica">@item.Mejora</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+    </div>
+   
+    <div class="row verSeccion">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Monto presupuestado autorizado</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input type="text" name="number" value="@Model.oRequisicones.MontoAproximadoAutorizado" id="MontoPresupuestoAutorizado" class="form-control" readonly />
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Liquidez</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input type="text" name="number" value="@Model.sumLiquidez" id="liquidez" class="form-control" readonly>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group" id="ImporteTotalConImpuestoDiv">
+                <label>Importe total con impuestos</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input type="text" name="number" value="@Model.sumRequisicionLote" id="ImporteTotalConImpuesto" class="form-control" readonly>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@*seccion cartas valida*@
+<div>
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>VALIDACIÓN DE CARTAS DE CUMPLIMIENTO Y RESPALDO DE BIENES Y/O SERVICIOS</strong>
+        </div>
+    </div>
+    <br />
+    <div id="cargarTablaCartaValida">
+        <table class="table" id="CartaTablaValida" style="width:100%;">
+            <thead style="width:auto;">
+                <tr>
+                    <th>*Aceptar</th>
+                    <th>Inciso</th>
+                    <th>Nombre Carta</th>
+                    <th>Carta</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.lstCartas)
+                {
+                    <tr>
+                        <td class="disabledClick">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" name="CartasProveedor" value="@item.IdProveedorCarta" id="@item.IdProveedorCarta" @(item.AceptacionCarta ? "checked" : "") onclick="aceptarCarta(@item.IdProveedorCarta,@item.IdProveedorRqInvitacion)">
+                                <label class="custom-control-label" for="@item.IdProveedorCarta"></label>
+                            </div>
+
+                        </td>
+                        <td>@item.Inciso</td>
+                        <td>@item.NombreCarta</td>
+                        <td>@item.CartaTexto</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div id="CargarCartasPanel2">
+        <div class="row form-group @Model.visibleTecnicaSolicitante">
+            <div class="col-md-2 text-right">Cumple con lo ofertado (cartas):</div>
+            <div class="col-md-2 text-left input-group">
+                <label>@(Model.oProveedoresRequisicionesInvitacion.CartasDependenciaCumple ? "Si" : "No") </label>
+            </div>
+            <div class="col-md-2 text-right">Observaciones y fundamentación legal:</div>
+            <div class="col-md-6 text-left">
+                <textarea id="CartaFundamento" name="CartaFundamento" rows="3" cols="33" class="form-control disabledClick">@Model.oProveedoresRequisicionesInvitacion.CartaFundamento</textarea>
+            </div>
+        </div>
+        <div class="row form-group @Model.visibleTecnicaRevisor">
+            <div class="col-md-2 text-right">Rechazar:</div>
+            <div class="col-md-2 text-left  input-group">
+                <label>@(Model.oProveedoresRequisicionesInvitacion.CartaAdquisicionCumple ? "Si" : "No")</label>
+            </div>
+            <div class="col-md-2 text-right">Observaciones adquisición</div>
+            <div class="col-md-6 text-left">
+                <textarea id="CartasAdqObservacion" name="CartasAdqObservacion" rows="3" cols="33" class="form-control disabledClick">@Model.oProveedoresRequisicionesInvitacion.CartasAdqObservacion</textarea>
+            </div>
+        </div>
+    </div>
+</div>
+@*seccion condiciones de pago valida*@
+<div>
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>VALIDAR CONDICIONES DE PAGO</strong>
+        </div>
+    </div>
+    <br />
+    <div id="cargarLoadCondicionesDePgo" class="disabledClick">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form", @id = "div_condiciones_pagoForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary()
+            <input type="hidden" id="IdRequisicionCondicionPago" value="@Model.condicionPago.IdRequisicionCondicionPago" />
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Cantidad</label>
+                        <input type="number" id="PlazoPagoCantidad" class="form-control" value="@Model.condicionPago.PlazoPagoCantidad" min="0"><br>
+
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Unidad</label>
+                        @Html.DropDownList("IdPlazoTiempoPago", ViewBag.lstPlazoTiempoPago as SelectList, "Seleccione Unidad", new { @class = "form-control ", @Required = "", @id = "IdPlazoTiempoPago" })
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Día</label>
+                        @Html.DropDownList("IdTipoDiaPago", ViewBag.lstTipoDiaPago as SelectList, "Seleccione Unidad", new { @class = "form-control ", @Required = "", @id = "IdTipoDiaPago" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4 ml-auto">
+                    <div class="form-group">
+                        <label>Condición de pago</label>
+                        @Html.DropDownList("IdCondicionPago", ViewBag.lstCondicionPago as SelectList, "Seleccione condición", new { @class = "form-control ", @Required = "", @id = "IdCondicionPago" })
+                    </div>
+
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Mapa de localización del lugar de firma de pedido, orden de trabajo o contrato </label>
+                        @Html.DropDownList("IdLugarEntregaPago", ViewBag.lstLugarPagoFirma as SelectList, "Seleccione lugar firma", new { @class = "form-control ", @Required = "", @id = "IdLugarEntregaPago", @onchange = "getDireccionPago()" })
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Mapa</label>
+                        <div id="mapFirmaPagoValida" style="width:350px;height:200px;"></div>
+                    </div>
+                </div>
+            </div>
+
+
+        }
+    </div>
+    <label>Datos facturación</label>
+    <hr />
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Nombre, denominación o razón social</label>
+                    <input type="text" class="form-control" readonly value="@Model.datosFacturacion.Dependencia">
+
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Clave de registro federal de contribuyentes</label>
+                    <input type="text" class="form-control" readonly value="@Model.datosFacturacion.Rfc">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Calle</label>
+                    <input type="text" class="form-control" readonly value="@Model.datosFacturacion.Calle">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Número exterior</label>
+                    <input type="text" class="form-control" readonly value="@Model.datosFacturacion.NoExterior">
+
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Número interior</label>
+                    <input type="text" class="form-control" readonly value="@Model.datosFacturacion.NoInterior">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Colonia</label>
+                    <input type="text" class="form-control" readonly value="@Model.datosFacturacion.Colonia">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Pais</label>
+                    @Html.DropDownList("IdPais", ViewBag.lstPais as SelectList, "Seleccione Pais", new { @class = "form-control disabledClick", @Required = "", @id = "IdPais", @readonly = true })
+
+
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Estado</label>
+                    @Html.DropDownList("IdEstado", ViewBag.lstEstado as SelectList, "Seleccione Estado", new { @class = "form-control disabledClick", @Required = "", @id = "IdEstado", @readonly = true })
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Municipio</label>
+                    @Html.DropDownList("IdMunicipio", ViewBag.lstMunicipio as SelectList, "Seleccione Municipio", new { @class = "form-control disabledClick", @Required = "", @id = "IdMunicipio", @readonly = true })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Localidad</label>
+                    <input type="text" class="form-control" readonly value="@Model.datosFacturacion.Localidad">
+
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Código postal</label>
+                    <input type="text" class="form-control" readonly value="@Model.datosFacturacion.CodigoPostal">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Correo electrónico</label>
+                    <input type="text" class="form-control" readonly value="@Model.datosFacturacion.Email">
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="container ">
+        <div class="row disabledClick">
+            <div class="col-sm-4">
+
+                <div class="form-group form-inline">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            Anticipo
+
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" value="1" @(Model.condicionPago.Anticipo ? "checked" : "")>
+                                <label class="custom-control-label" for="customRadio1">SI</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" value="0" @(!Model.condicionPago.Anticipo ? "checked" : "")>
+                                <label class="custom-control-label" for="customRadio2">NO</label>
+                            </div>
+                            <input type="hidden" id="IdAnticipoBool" />
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            Porcentaje
+                            @Html.DropDownList("IdAnticipo", ViewBag.lstAnticipo as SelectList, "Seleccione Anticipo", new { @class = "form-control", @Required = "", @id = "IdAnticipo", @onchange = "calcularPorcentaje()" })
+                            <input type="hidden" value="@Model.condicionPago.PorcentajeAnticipo" id="porcentajeAplicado" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Numero de pagos</label>
+                    <input type="number" class="form-control" id="numeroPagosAGenerar" value="@Model.condicionPago.NumeroPagos" min="0">
+                </div>
+            </div>
+            <div class="col-sm-4">
+
+
+                <div class="form-group">
+                    <label>Periodicidad</label>
+                    <div class="input-group mb-3">
+                        @Html.DropDownList("IdPeriodicidad", ViewBag.lstPeriodicidad as SelectList, "Seleccione periodicidad", new { @class = "form-control", @Required = "", @id = "IdPeriodicidad" })
+
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary btn-sm" type="button" onclick="getCalculoPartida()">GENERAR PAGOS</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row verSeccion">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    Anticipo
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input type="text" name="number" class="form-control" readonly id="ImporteAnticipo" value="@Model.condicionPago.ImporteAnticipo">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Total de los pagos</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input type="text" class="form-control" readonly name="number" value="@Model.condicionPago.ImporteTotalPagos" id="importeTotalPagosPendiente">
+                    </div>
+
+
+
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Importe total</label><br>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input type="text" class="form-control" readonly name="number" value="@Model.sumRequisicionLote" id="ImporteTotalPago">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row verSeccion">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Fecha Inicio Pagos</label>
+                    <div class='input-group date' id='datetimepickerPago'>
+                        <input type='text' class="form-control" value="@String.Format("{0:yyyy-MM-dd}", Model.condicionPago.FechaInicioPago)" name="FechaInicioPago" id="FechaInicioPago" autocomplete="off" readonly />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-time"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+
+            </div>
+            <div class="col-sm-4">
+
+            </div>
+        </div>
+    </div>
+    <div class="container verSeccion">
+        <table id="tablaPagos" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+
+                    <th>Acciones</th>
+                    <th>Pago</th>
+                    <th>Monto</th>
+                    <th>Porcentaje</th>
+                    <th>Mes de pago</th>
+                    <th>Observacion</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.condicionPagoDetalle)
+                {
+                    <tr>
+                        <td><div class="btn-group disabledClick"><button class="btn btn-secondary btn-sm (@item.bool1? '' : 'disabledClick')" style="margin-right:5px;" onclick="editarCondicionPagoDetalle(@item.id2)"><span class="fa fa-pencil"></span></button></div></td>
+                        <td>@item.id</td>
+                        <td style="text-align:right">@(String.Format("{0:C2}", item.decimal1))</td>
+                        <td style="text-align:right">%@(String.Format("{0:N2}", item.decimal2))</td>
+                        <td>@item.string1</td>
+                        <td>@item.string2</td>
+                    </tr>
+                }
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td></td>
+                    <td>Total</td>
+                    <td style="text-align:right">@(String.Format("{0:C2}", @Model.condicionPagoDetalle.Select(c => c.decimal1).Sum()))</td>
+                    <td style="text-align:right">%@(String.Format("{0:N2}", @Model.condicionPagoDetalle.Select(c => c.decimal2).Sum()))</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+            </tfoot>
+        </table>
+    </div>
+    <div id="CargaCondcionesPago2">
+        <div class="row form-group @Model.visibleTecnicaSolicitante">
+            <div class="col-md-2 text-right">Cumple con lo ofertado (condiciones de pago):</div>
+            <div class="col-md-2 text-left input-group">
+                <label>@(Model.oProveedoresRequisicionesInvitacion.CondicionPagoDependenciaCumple ? "Si" : "No")</label>
+            </div>
+            <div class="col-md-2 text-right">Observaciones y fundamentación legal:</div>
+            <div class="col-md-6 text-left">
+                <textarea id="CondicionPagoFundamento" name="CondicionPagoFundamento" rows="3" cols="33" class="form-control disabledClick">@Model.oProveedoresRequisicionesInvitacion.CondicionPagoFundamento</textarea>
+            </div>
+        </div>
+        <div class="row form-group @Model.visibleTecnicaRevisor">
+            <div class="col-md-2 text-right">Rechazar:</div>
+            <div class="col-md-2 text-left  input-group">
+                <label>@(Model.oProveedoresRequisicionesInvitacion.CondicionPagoAdquisicionCumple ? "Si" : "No") </label>
+            </div>
+            <div class="col-md-2 text-right">Observaciones adquisición</div>
+            <div class="col-md-6 text-left">
+                <textarea id="CondicionPagoAdqObservacion" name="CondicionPagoAdqObservacion" rows="3" cols="33" class="form-control">@Model.oProveedoresRequisicionesInvitacion.CondicionPagoAdqObservacion</textarea>
+            </div>
+        </div>
+    </div>
+</div>
+@*seccion condicion de entrega valida*@
+<div>
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>VALIDAR CONDICIONES DE ENTREGA</strong>
+        </div>
+    </div>
+    <br />
+    <div id="cargarLoadCondicionesDeEntregaValida">
+
+        <input type="hidden" id="IdRequisicionCondicionEntrega" value="@Model.condicionesDeEntrega.IdRequisicionCondicionEntrega" />
+        <input type="hidden" id="IdRequisicion" value="@Model.oRequisicones.IdRequisicion" />
+        <div class="row  disabledClick">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Plazo de entrega</label>
+                    @Html.DropDownList("IdPlazoEntegra", ViewBag.lstPlazoEntrega as SelectList, "Seleccione Plazo Entrega", new { @class = "form-control ", @Required = "", @id = "IdPlazoEntegra" })
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Cantidad</label>
+                    <input type="number" class="form-control" value="@Model.condicionesDeEntrega.PlazoEntregaCantidad" id="PlazoEntregaCantidad" min="0">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Unidad</label>
+                    @Html.DropDownList("IdPlazoTiempo", ViewBag.lstPlazoTiempo as SelectList, "Seleccione Unidad", new { @class = "form-control ", @Required = "", @id = "IdPlazoTiempo" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row  disabledClick">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Día</label>
+                    @Html.DropDownList("IdTipoDia", ViewBag.lstTipoDia as SelectList, "Seleccione Unidad", new { @class = "form-control ", @Required = "", @id = "IdTipoDia" })
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Forma de entrega</label>
+                    @Html.DropDownList("IdTipoEntrega", ViewBag.lstTiposEntrega as SelectList, "Seleccione forma de entrega", new { @class = "form-control ", @Required = "", @id = "IdTipoEntrega" })
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Hasta:</label>
+                    <div class='input-group date' id='datetimepicker4'>
+                        <input type='text' class="form-control" value="@String.Format("{0:yyyy-MM-dd}", Model.condicionesDeEntrega.FechaLimite)" name="FechaLimite" id="FechaLimite" autocomplete="off" readonly />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-time"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="idNuevaCondicionDePago">
+            <button type="button" class="btn btn-secondary btn-circle " data-toggle="modal" data-target="#modal_condcionesDePago_NotaEspecialValida">
+                <span class="icon-add-3"></span>
+                NOTA ESPECIAL
+            </button>
+
+        </div>
+        <br />
+
+        <div class="modal fade" id="modal_condcionesDePago_NotaEspecialValida">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Nota Especial</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="container">
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <textarea id="NotaEspecial" rows="5" class="form-control" disabled>@Model.condicionesDeEntrega.NotaEspecial</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <br />
+    <table class="table-bordered hover" id="condicionesDeEntragaTable" width="100%">
+        <thead>
+            <tr>
+
+                <th>Número</th>
+                <th>Lote</th>
+                <th>Cantidad Entrega</th>
+                <th>Lugar Entrega</th>
+                <th>Domicilio Entrega</th>
+                <th>Mapa</th>
+                <th>Horario Inicio Entrega</th>
+                <th>Horario Fin Entrega</th>
+                <th>Dias Entrega</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{var i = 1;}
+            @foreach (var item in Model.lstRequisicionCondicionesEntregaDetalleConsulta)
+            {
+                <tr>
+
+                    <td>@item.NumeroEntrega</td>
+                    <td>@item.NoLote</td>
+                    <td align="right">@item.CantidadEntregaDetalle</td>
+                    <td>@item.Lugar</td>
+                    <td>@item.DomicilioEntrega</td>
+
+                    <td style="width:200px;height:200px;">
+                        <div id="mapValida-@i" class="mapValida disabledClick" style="width:150px;height:150px">
+                        </div>
+                        <input type="hidden" class="inptValida" value="@item.LocalizacionGoogle"  id="hiddenValida-@i" />
+                    </td>
+                    <td>@item.HorarioInicio</td>
+                    <td>@item.HorarioFinal</td>
+                    <td>
+                        @if (item.Lunes == 1)
+                        {
+                            <button type="button" class="btn btn-secondary btn-sm"><span class="badge badge-light">Lunes</span></button>
+                        }
+                        @if (item.Martes == 1)
+                        {
+                            <button type="button" class="btn btn-secondary btn-sm"><span class="badge badge-light">Martes</span></button>
+                        }
+                        @if (item.Miercoles == 1)
+                        {
+                            <button type="button" class="btn btn-secondary btn-sm"><span class="badge badge-light">Miercoles</span></button>
+                        }
+                        @if (item.Jueves == 1)
+                        {
+                            <button type="button" class="btn btn-secondary btn-sm"><span class="badge badge-light">Jueves</span></button>
+                        }
+                        @if (item.Viernes == 1)
+                        {
+                            <button type="button" class="btn btn-secondary btn-sm"><span class="badge badge-light">Viernes</span></button>
+                        }
+                        @if (item.Sabado == 1)
+                        {
+                            <button type="button" class="btn btn-secondary btn-sm"><span class="badge badge-light">Sabado</span></button>
+                        }
+                        @if (item.Domingo == 1)
+                        {
+                            <button type="button" class="btn btn-secondary btn-sm"><span class="badge badge-light">Domingo</span></button>
+                        }
+
+
+                    </td>
+                </tr>
+                { i++; }
+            }
+        </tbody>
+    </table>
+    <br />
+    <div id="CargaCondicionesEntregaPanel2" >
+        <div class="row form-group @Model.visibleTecnicaSolicitante">
+            <div class="col-md-2 text-right">Cumple con lo ofertado (condiciones de entrega):</div>
+            <div class="col-md-2 text-left input-group">
+                <label>@(Model.oProveedoresRequisicionesInvitacion.CondicionEntregaDependenciaCumple ? "Si" : "No")</label>
+            </div>
+            <div class="col-md-2 text-right">Observaciones y fundamentación legal:</div>
+            <div class="col-md-6 text-left">
+                <textarea id="CondicionEntregaFundamento" name="CondicionEntregaFundamento" rows="3" cols="33" class="form-control disabledClick">@Model.oProveedoresRequisicionesInvitacion.CondicionEntregaFundamento</textarea>
+            </div>
+        </div>
+        <div class="row form-group @Model.visibleTecnicaRevisor">
+            <div class="col-md-2 text-right">Rechazar:</div>
+            <div class="col-md-2 text-left  input-group">
+                <label>@(Model.oProveedoresRequisicionesInvitacion.CondicionEntregaAdquisicionCumple ? "Si" : "No")</label>
+            </div>
+            <div class="col-md-2 text-right">Observaciones adquisición</div>
+            <div class="col-md-6 text-left">
+                <textarea id="CondicionEntregaAdqObservacion" name="CondicionEntregaAdqObservacion" rows="3" cols="33" class="form-control disabledClick">@Model.oProveedoresRequisicionesInvitacion.CondicionEntregaAdqObservacion</textarea>
+            </div>
+        </div>
+    </div>
+</div>
+@*seccion requisitos adicionales*@
+<div>
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>REQUISITOS ADICIONALES</strong>
+        </div>
+    </div>
+    <br />
+    <div id="cargarRequisitosAdicionalesValida" class="disabledClick">
+        <input type="hidden" id="IdManifiestoProveedor" name="IdManifiestoProveedor" value="@Model.oManifiestosProveedores.IdManifiestoProveedor" />
+        <input type="hidden" id="IdRequisicion" name="IdRequisicion" value="@Model.oRequisicones.IdRequisicion" />
+        <input type="hidden" id="IdProveedorRqInvitacion" name="IdProveedorRqInvitacion" value="@Model.oManifiestosProveedores.IdProveedorRqInvitacion" />
+        <div class="row ">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>*Descripción de infraestructura:</label>
+                    @Html.TextArea("Infraestructura", Model.oManifiestosProveedores.Infraestructura, new { @id = "Infraestructura", @class = "form-control ", @Required = "" })
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>*Experiencia adquirida en el ramo(años)</label>
+                    @Html.TextBox("AnnioExperiencia", Model.oManifiestosProveedores.AnnioExperiencia == 0 ? 1 : Model.oManifiestosProveedores.AnnioExperiencia, new { @type = "number", @id = "AnnioExperiencia number Required", @class = "form-control ", @Required = "", @min = 1 })
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>*Número de empleados</label>
+                    @Html.TextBox("NumeroEmpleados", Model.oManifiestosProveedores.NumeroEmpleados == 0 ? 1 : Model.oManifiestosProveedores.NumeroEmpleados, new { @type = "number", @class = "form-control number Required", @Required = "", @id = "NumeroEmpleados", @min = 1 })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4 ml-auto">
+                <div class="form-group">
+                    <label>*Domicilio para oir o recibir notificaciones</label>
+                    @Html.TextArea("Domicilio", Model.oManifiestosProveedores.Domicilio, new { @id = "Domicilio", @class = "form-control ", @Required = "" })
+                </div>
+
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Aplica capital contable</label>
+
+                    <div class="input-group">
+
+
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" aria-label="Checkbox for following text input" class="custom-control-input" name="AplicaCapitalContable" value="" id="AplicaCapitalContable" @(Model.oManifiestosProveedores.AplicaCapitalContable == 1 ? "checked" : "") onclick="activarAplicaCapitalContable()">
+                                    <label class="custom-control-label" for="AplicaCapitalContable"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="text" name="number" value="@String.Format("{0:N2}",Model.oManifiestosProveedores.CapitalContable > 0 ? Model.oManifiestosProveedores.CapitalContable : 0)" class = "form-control "/>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Ingreso último año:</label>
+                    <input type="text" name="number" value="@String.Format("{0:N2}",Model.oManifiestosProveedores.IngresosUltimoAnnio > 0 ? Model.oManifiestosProveedores.IngresosUltimoAnnio : 0)" class = "form-control "/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>PRINCIPALES CLIENTES DE LOS ULTIMOS DOS EJERCICIOS</strong>
+        </div>
+    </div>
+
+    <br />
+    <div id="cargarTablaPricipalesClienteValida">
+        <table id="tablaPricipalesClienteValida" class="table " width="100%">
+            <thead style="width:auto;">
+                <tr>
+                    
+                    <th>Cliente</th>
+                    <th>Dirección</th>
+                    <th>Teléfono</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.lstManifiestoProveedoresClientes)
+                {
+                    <tr>
+                        
+                        <td>@item.NombreCliente</td>
+                        <td style="text-align:right">@item.DirecionCliente</td>
+                        <td style="text-align:right">@item.TelefonoCliente</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <br />
+    <div class="row bg-secondary text-white sub_banner">
+        <div class="col-12" align="center">
+            <strong>CARTA DECLARATORIAS SOLICITANTE</strong>
+        </div>
+    </div>
+    <br />
+
+    <br />
+    <div id="CargarTablaCartaDeclaratoriaSolcitantesValida">
+        <table id="tablaCartaDeclaratoriaSolcitantesValida" class="table" style="width:100%" width="100%">
+            <thead style="width:auto;">
+                <tr>
+
+                    <th>Manifiesto</th>
+                    <th>Acepta</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.lstManifiestoProveedoresDeclaratorias)
+                {
+                    <tr>
+
+                        <td>@item.Manifiesto</td>
+                        <td>
+                            <div class="custom-control custom-checkbox disabledClick">
+                                <input type="checkbox" class="custom-control-input" name="id" value="@item.IdManifiestoProveedorDeclaratoria" id="@item.IdManifiestoProveedorDeclaratoria" @(item.Aceptacion ? "checked" : "")>
+                                <label class="custom-control-label" for="@item.IdManifiestoProveedorDeclaratoria" onclick="aceptarManifiestoConfirm(@item.IdManifiestoProveedorDeclaratoria)"></label>
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <br />
+    <div id="CargarRequisitosAdicionalesPanel2">
+        <div class="row form-group @Model.visibleTecnicaSolicitante">
+            <div class="col-md-2 text-right">Cumple con lo ofertado (condiciones de pago):</div>
+            <div class="col-md-2 text-left input-group">
+                <label>@(Model.oProveedoresRequisicionesInvitacion.ManifiestoDependenciaCumple ? "Si" : "No")</label>
+            </div>
+            <div class="col-md-2 text-right">Observaciones y fundamentación legal:</div>
+            <div class="col-md-6 text-left">
+                <textarea id="ManifiestoFundamento" name="ManifiestoFundamento" rows="3" cols="33" class="form-control disabledClick">@Model.oProveedoresRequisicionesInvitacion.ManifiestoFundamento</textarea>
+            </div>
+        </div>
+        <div class="row form-group @Model.visibleTecnicaRevisor">
+            <div class="col-md-2 text-right">Rechazar:</div>
+            <div class="col-md-2 text-left  input-group">
+                <label>@(Model.oProveedoresRequisicionesInvitacion.ManifiestoAdquisicionCumple ? "SI" : "No")</label>
+            </div>
+            <div class="col-md-2 text-right">Observaciones adquisición</div>
+            <div class="col-md-6 text-left">
+                <textarea id="ManifiestoAdqObservacion" name="ManifiestoAdqObservacion" rows="3" cols="33" class="form-control disabledClick">@Model.oProveedoresRequisicionesInvitacion.ManifiestoAdqObservacion</textarea>
+            </div>
+        </div>
+    </div>
+</div>

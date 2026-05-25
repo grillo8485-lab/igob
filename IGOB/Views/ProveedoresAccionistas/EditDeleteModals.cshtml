@@ -1,0 +1,74 @@
+﻿<!-- Modal Edit - New -->
+<div class="modal fade" id="PAModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Editar Proveedor Accionista</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+            <div class="modal-body">
+                <div class="row col-12">
+                    <div class="col-10">
+                        <label> Nombre: </label>
+                        <input type="text" name="Persona" id="Persona" class="form-control " autocomplete="off" required />
+                    </div>
+                </div>
+                @*<div class="row col-12">
+                    <div class="col-10">
+                        <label> Proveedor: </label>
+                        <input type="text" name="Proveedor" id="Proveedor" class="form-control" autocomplete="off" required />
+                    </div>
+                </div>*@
+                <div class="row col-12">
+                    <div class="col-6">
+                        <label>Tipo de Representación</label>
+                        @if (ViewBag.TRList != null)
+                        {
+                            @Html.DropDownList("IdTipoRepresentacion", ViewBag.TRList as SelectList, "Seleccione el Tipo de Representación", new { @class = "form-control", @Required = "" })
+                        }
+                    </div>
+                </div>
+                <input type="hidden" name="IdProveedorAccionista" id="IdProveedorAccionista" value="0" />
+                <input type="hidden" name="IdPersona" id="IdPersona" value="0" />
+                <input type="hidden" name="IdProveedor" id="IdProveedor" value="@ViewBag.IdProveedor" />
+                <input type="hidden" name="Activo" id="Activo" value="true" />
+            </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Editar" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->
+<!-- Modal Delete -->
+<div class="modal fade" id="DeletePAModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Eliminar Registro</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <br />
+                    <h4 id="titlePA"></h4>
+                    <input type="hidden" class="IdProveedorAccionista" />
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Eliminar" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->

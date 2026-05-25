@@ -1,0 +1,93 @@
+﻿@model IEnumerable<iGob.Entidades.beDatosPersonas>
+@section css{
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <style>
+        .col-md-4.col-sm-12{
+            padding-top:5px;
+        }
+    </style>
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<input class="btn btn-secondary" id="create-item" type="button" value="Nueva Persona" />
+<br /><br />
+<table class="table-bordered hover" id="tableDatosPersona">
+    <thead align="justify">
+        <tr>
+            <th> Acciones </th>
+            <th> Nombres </th>
+            <th> Apellidos </th>
+            <th> Fecha Nacimiento </th>
+            <th> Sexo </th>
+            <th> Entidad Federativa de Nacimiento </th>
+            <th> Teléfono </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <div class="form-group" style="min-width:100px;">
+                        <button title="Eliminar registro" class="btn btn-secondary btn-circle delete-datper" data-id="@item.IdPersona" data-name="@item.Nombres @item.Apellidos"><span class="icon-garbage-2"></span></button>
+                        <button title="Editar registro" class="btn btn-secondary btn-circle edit-datper"
+                                data-IdPersona="@item.IdPersona"
+                                data-Apellidos="@item.Apellidos"
+                                data-Nombres="@item.Nombres"
+                                data-FechaNacimiento="@item.FechaNacimiento"
+                                data-Sexo="@item.Sexo"
+                                data-EntFedNacimiento="@item.EntFedNacimiento"
+                                data-Curp="@item.Curp"
+                                data-Rfc="@item.Rfc"
+                                data-Telefono="@item.Telefono"
+                                data-Celular="@item.Celular"
+                                data-CorreoElectronico="@item.CorreoElectronico"
+                                data-Calle="@item.Calle"
+                                data-NoExterior="@item.NoExterior"
+                                data-NoInterior="@item.NoInterior"
+                                data-Localidad="@item.Localidad"
+                                data-IdColonia="@item.IdColonia"
+                                data-CodigoPostal="@item.CodigoPostal"
+                                data-EstadoCivil="@item.EstadoCivil"
+                                data-Nacionalidad="@item.Nacionalidad"
+                                data-IdDependencia="@item.IdDependencia"
+                                data-IdProveedor="@item.IdProveedor"
+                                data-IdEstatus="@item.IdEstatus"
+                                data-IdTipoPersona="@item.IdTipoPersona"
+                                data-IdUsuarioRegistro="@item.IdUsuarioRegistro"
+                                data-FechaRegistro="@item.FechaRegistro"
+                                ><span class="icon-edit"></span></button>
+                    </div>
+                </td>
+                <td>
+                    @item.Nombres
+                </td>
+                <td>
+                    @item.Apellidos
+                </td>
+                <td>
+                    @item.FechaNacimiento
+                </td>
+                <td>
+                    @item.Sexo
+                </td>
+                <td>
+                    @item.EntFedNacimiento
+                </td>
+                <td>
+                    @item.Telefono
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    Html.RenderPartial("EditDeleteModals");
+}
+
+@section scripts{
+    <script src="~/Scripts/Catalogos/AccionesDatosPersonas.js"></script>
+}

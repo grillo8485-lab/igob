@@ -1,0 +1,118 @@
+﻿@model IEnumerable<iGob.Entidades.beProveedoresActaConstitutiva>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section css{
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.structure.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.theme.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <style>
+        #pac-input {
+            width: 100%;
+        }
+        .col-12 {
+            margin-bottom: 15px !important;
+        }
+        .pac-container {
+            z-index: 9999;
+        }
+        #map {
+            width: 100% !important;
+            height: 15vw !important;
+            border: 1px solid #cecece;
+            border-radius: 4px;
+        }
+    </style>
+}
+<div class="container col-12">
+    <ul class="nav nav-pills mt-2" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link" href="/ProveedoresMenores/Index/@ViewBag.Tipo">PROVEEDORES</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link addIdProv" href="/ProveedoresAccionistas/Index/@ViewBag.IdProveedor">ACCIONISTAS / REPRESENTANTES LEGALES</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link addIdProv" href="/ProveedoresGirosComerciales/Index/@ViewBag.IdProveedor">GIROS PREPONDERANTES</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn-secondary btn active disabled" href="/ProveedoresActaConstitutiva/Index/@ViewBag.IdProveedor">ACTA CONSTITUTIVA</a>
+        </li>
+    </ul>
+</div>
+<div class="container-fluid">
+    <br />
+    <button class="btn btn-secondary new-PAC">Nuevo Proveedor Acta Constitutiva</button>
+    <br><br>
+    <table class="table-bordered hover" id="tablePAC">
+        <thead align="justify">
+            <tr>
+                <th style="min-width:100px;">Acciones</th>
+                <th>Número Escritura</th>
+                <th>Número Notaria</th>
+                <th>Lugar</th>
+                <th>Fecha Escritura</th>
+                <th>Fecha Registro Público</th>
+                <th>Número Folio Registro</th>
+                <th>Actualización</th>
+                <th>Razón Social</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{var i = 1;}
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td align="center" valign="middle"> 
+                        <div class="form-group" style="min-width:100px;">
+                            <a title="Eliminar registro" id="@item.IdActaConstitutiva" data-prov="@item.RazonSocial" class="btn btn-secondary btn-circle delete-PAC btn-sm"><span class="icon-garbage-2"></span></a>
+                            <a title="Editar registro" id="@item.IdActaConstitutiva" data-prov="@item.RazonSocial" data-lugar="@item.Lugar" data-IdProv="@item.IdProveedor" data-NE="@item.NoEscritura" data-NN="@item.NoNotaria" data-FE="@item.FechaEscritura" data-FRP="@item.FechaRegistroPublico" data-NFR="@item.NoFolioRegistro" data-act="@item.Actualizacion" class="btn btn-secondary btn-circle edit-PAC btn-sm"><span class="icon-edit"></span></a>
+                        </div>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NoEscritura)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NoNotaria)
+                    </td>
+                    <td>
+                        <div id="map-@i" class="maps" style="width:150px;height:150px">
+
+                        </div>
+                        <input type="hidden" class="inpt" value="@item.Lugar" />
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaEscritura)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaRegistroPublico)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NoFolioRegistro)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Actualizacion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RazonSocial)
+                    </td>
+                </tr>
+                { i++; }
+            }
+        </tbody>
+    </table>
+
+    @{
+        Html.RenderPartial("EditDeleteModals");
+    }
+</div>
+@section Scripts{
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZRXUq794gmdIcVRUS0toiAQD9MnQEFYg&libraries=places&callback=initAutocomplete" async defer></script> <!--Modal-->
+
+    <script src="~/Scripts/inputMap.js"></script>
+    <script src="~/Scripts/Catalogos/AccionesPAC.js"></script>
+}

@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <style>
+        /* Ensure that the demo table scrolls */
+        .hide {
+            display: none;
+        }
+
+        span.arrow {
+            margin-left: 6px;
+            height: 26px;
+            background: url('http://i45.tinypic.com/f9ifz6.png') no-repeat left center;
+        }
+
+        label.error {
+            height: 17px;
+            border-top: 1px solid #99182c;
+            border-right: 1px solid #99182c;
+            border-bottom: 1px solid #99182c;
+            margin-left: 0;
+            padding: 1px 5px 0px 5px;
+            font-size: small;
+        }
+    </style>
+    <div class="container-fluid hidden-phone" style="width:100%;padding-right:0;">
+        <div class="row" style="position:fixed;width:100%;z-index:9;">
+            <div class="col barra-green">
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="row justify-content-center">
+            <div class="col-md-4 col-sm-12 col-logo">
+                <img class="img-fluid" draggable="false" src="~/Img/login/iGob_logotipo.png" width="100%" />
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-4 col-sm-12">
+                <div class="panel-heading">
+                    <h1 class="panel-title-login userSelectnone">Ingrese sus datos para recuperar la contraseña</h1>
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "FormAcceso",@onsubmit="return false;" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary()
+
+                    <fieldset>
+                        <input type="hidden" name="attemptResponseCode" id="attemptResponseCode" value="" />
+                        <input type="hidden" name="authnAttemptId" id="authnAttemptId" value="" />
+                        <div style="margin-bottom: 20px" class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text"><span class="icon-user"></span></div>
+                            </div>
+                            @Html.TextBox("correo", null, new { @class = "form-control", @type = "email", @Required = "True", @Autofocus = "True", @Id = "correo", @Placeholder = "Usuario (correo asociado al sistema)", @Tabindex = "1" })
+
+                        </div>
+                        <div class="row justify-content-center">
+                            <button type="button" class="btn btn-ChangeColor" tabindex="5" id="SendEmail" style="margin:0;padding:0;float:none;"><strong>Enviar</strong></button>
+                        </div>
+                    </fieldset>
+                    }
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+        <footer class="footer">
+            <img src="~/Img/login/flechas_bottom.png" draggable="false" width="100%" />
+        </footer>
+    </div>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script>
+        $("#SendEmail").on("click", function () {
+            let data = $("#FormAcceso").serialize()
+            $.post("/RecuperacionContrasenia/RecuperacionPassword", data, "json")
+                .done(function (result) {
+                    if (result.success) {
+                        bootbox.alert({
+                            title: "Aviso",
+                            message: `<strong style="color:#000 !important">${result.message}</strong>`,
+                            size: "small"
+                        })
+                    } else {
+                        bootbox.alert({
+                            title: "Aviso",
+                            message: `<strong style="color:#000 !important">${result.message}</strong>`,
+                            size: "small"
+                        })
+                    }
+                })
+        })
+    </script>
+</body>
+</html>

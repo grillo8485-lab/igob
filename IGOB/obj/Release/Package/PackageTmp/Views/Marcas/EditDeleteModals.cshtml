@@ -1,0 +1,36 @@
+﻿<!-- Modal Edit - New -->
+<div class="modal fade" id="MarcasModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Editar Marca</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class= "data-form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <div class="row col-12">
+                        <div class="col-8">
+                            <label>Nombre de la marca:</label>
+                            <input type="text" name="Marca" id="Marca" class="form-control" required />
+                        </div>
+                        <div class="col-4">
+                            <label>Abreviatura de la marca:</label>                  
+                            <input type="text" name="Abreviatura" id="Abreviatura" maxlength="10" class="form-control" required />
+                        </div>
+
+                    </div>
+                    <input type="hidden" name="Activo" id="Activo" value="true" />
+                    <input type="hidden" name="IdMarca" id="IdMarca" value="0" />
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Editar" class="btn btn-secondary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->

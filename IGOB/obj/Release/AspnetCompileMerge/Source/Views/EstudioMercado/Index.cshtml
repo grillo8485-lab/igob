@@ -1,0 +1,154 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section css{
+
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.theme.css" rel="stylesheet" />
+    <style>
+        .disabledClick {
+            opacity: 0.9 !important;
+        }
+
+        .row .col-12 {
+            margin-bottom: 15px;
+        }
+
+        .invalid {
+            background: #fbe3e4;
+            border: 1px solid #fbc2c4;
+            color: #8a1f11;
+        }
+
+        .wrap {
+            max-width: 980px;
+            margin: 10px auto 0;
+        }
+
+        #steps {
+            margin: 80px 0 0 0
+        }
+
+        .commands {
+            overflow: hidden;
+            margin-top: 30px;
+        }
+
+        .prev {
+            float: left
+        }
+
+        .next, .submit {
+            float: right
+        }
+
+        .error {
+            color: #b33;
+        }
+
+        #progress {
+            position: relative;
+            height: 5px;
+            background-color: #eee;
+            margin-bottom: 20px;
+        }
+
+        #progress-complete {
+            border: 0;
+            position: absolute;
+            height: 5px;
+            min-width: 10px;
+            background-color: #337ab7;
+            transition: width .2s ease-in-out;
+        }
+    </style>
+
+}
+<br />
+
+
+<form id="EstudioMercado" action="#">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div id='progress'>
+        <div id='progress-complete'></div>
+    </div>
+    @{
+        Html.RenderPartial("Section1");
+        Html.RenderPartial("Section2");
+        Html.RenderPartial("Section3");
+        Html.RenderPartial("Section4");
+    }
+</form>
+
+@{
+    Html.RenderPartial("Modal");
+}
+
+<div class="modal" tabindex="-1" role="dialog" id="SaveDispMUEForm">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Aviso</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-sm-12">
+                    <input type="hidden" id="iddispercionmuestraueform" value="" />
+                    <label for="ex1">Unidad economica:</label>
+                    <input placeholder="Unidad economica" id="ex1" class="form-control" />
+                </div>
+                <div class="col-sm-12">
+                    <label for="ex2">Domicilio:</label>
+                    <input placeholder="Domicilio" id="ex2" class="form-control" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="saveDispMUEInd()">Guardar cotizacion</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/jquery.formtowizard.js"></script>
+    <script src="~/Scripts/Catalogos/EstudioMercado.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        $(function () {
+            var $signupForm = $('#EstudioMercado');
+
+            $signupForm.validate({ errorElement: 'br', errorClass: "invalid" });
+
+            $signupForm.formToWizard({
+                submitButton: 'SaveAccount',
+                nextBtnClass: 'btn btn-primary next',
+                prevBtnClass: 'btn btn-default prev',
+                buttonTag: 'button',
+                validateBeforeNext: function (form, step) {
+                    var stepIsValid = true;
+                    var validator = form.validate();
+                    $(":input[class='required']", step).each(function (index) {
+                        var xy = validator.element(this);
+                        //console.log(xy);
+                        stepIsValid = stepIsValid && (typeof xy == 'undefined' || xy);
+                    });
+
+                    return stepIsValid;
+                },
+                progress: function (i, count) {
+                    $('#progress-complete').width('' + (i / count * 100) + '%');
+                }
+            });
+        });
+    </script>
+}
+

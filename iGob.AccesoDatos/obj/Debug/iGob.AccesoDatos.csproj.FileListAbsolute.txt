@@ -1,0 +1,72 @@
+D:\Proyectos Web\Proyecto i Gob 2\iGob.AccesoDatos\bin\Debug\iGob.AccesoDatos.dll
+D:\Proyectos Web\Proyecto i Gob 2\iGob.AccesoDatos\bin\Debug\iGob.AccesoDatos.pdb
+D:\Proyectos Web\Proyecto i Gob 2\iGob.AccesoDatos\bin\Debug\iGob.Entidades.dll
+D:\Proyectos Web\Proyecto i Gob 2\iGob.AccesoDatos\bin\Debug\iGob.Entidades.pdb
+D:\Proyectos Web\Proyecto i Gob 2\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.dll
+D:\Proyectos Web\Proyecto i Gob 2\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.pdb
+D:\Proyectos Web\Proyecto i Gob 2\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.csprojAssemblyReference.cache
+D:\Proyectos Web\Proyecto i Gob 2\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.csproj.CoreCompileInputs.cache
+D:\Proyectos Web\Proyecto i Gob 2\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.csproj.CopyComplete
+D:\Proyecto i Gob NL\iGob.AccesoDatos\bin\Debug\iGob.AccesoDatos.dll
+D:\Proyecto i Gob NL\iGob.AccesoDatos\bin\Debug\iGob.AccesoDatos.pdb
+D:\Proyecto i Gob NL\iGob.AccesoDatos\bin\Debug\iGob.Entidades.dll
+D:\Proyecto i Gob NL\iGob.AccesoDatos\bin\Debug\iGob.Entidades.pdb
+D:\Proyecto i Gob NL\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.csprojAssemblyReference.cache
+D:\Proyecto i Gob NL\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.csproj.CoreCompileInputs.cache
+D:\Proyecto i Gob NL\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.csproj.CopyComplete
+D:\Proyecto i Gob NL\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.dll
+D:\Proyecto i Gob NL\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.pdb
+D:\Proyecto Igob IMSS\iGob.AccesoDatos\bin\Debug\iGob.AccesoDatos.dll
+D:\Proyecto Igob IMSS\iGob.AccesoDatos\bin\Debug\iGob.AccesoDatos.pdb
+D:\Proyecto Igob IMSS\iGob.AccesoDatos\bin\Debug\iGob.Entidades.dll
+D:\Proyecto Igob IMSS\iGob.AccesoDatos\bin\Debug\iGob.Entidades.pdb
+D:\Proyecto Igob IMSS\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.dll
+D:\Proyecto Igob IMSS\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.pdb
+D:\Proyecto Igob IMSS\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.csprojAssemblyReference.cache
+D:\Proyecto Igob IMSS\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.csproj.CoreCompileInputs.cache
+D:\Proyecto Igob IMSS\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.csproj.CopyComplete
+D:\SEDENA\iGob.AccesoDatos\bin\Debug\iGob.AccesoDatos.dll
+D:\SEDENA\iGob.AccesoDatos\bin\Debug\iGob.AccesoDatos.pdb
+D:\SEDENA\iGob.AccesoDatos\bin\Debug\iGob.Entidades.dll
+D:\SEDENA\iGob.AccesoDatos\bin\Debug\iGob.Entidades.pdb
+D:\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.csprojAssemblyReference.cache
+D:\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.csproj.CoreCompileInputs.cache
+D:\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.csproj.CopyComplete
+D:\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.dll
+D:\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.pdb
+D:\_ProyectoIgobmayo2022\SEDENA\iGob.AccesoDatos\bin\Debug\iGob.AccesoDatos.dll
+D:\_ProyectoIgobmayo2022\SEDENA\iGob.AccesoDatos\bin\Debug\iGob.AccesoDatos.pdb
+D:\_ProyectoIgobmayo2022\SEDENA\iGob.AccesoDatos\bin\Debug\iGob.Entidades.dll
+D:\_ProyectoIgobmayo2022\SEDENA\iGob.AccesoDatos\bin\Debug\iGob.Entidades.pdb
+D:\_ProyectoIgobmayo2022\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.csprojAssemblyReference.cache
+D:\_ProyectoIgobmayo2022\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.csproj.CoreCompileInputs.cache
+D:\_ProyectoIgobmayo2022\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.csproj.CopyComplete
+D:\_ProyectoIgobmayo2022\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.dll
+D:\_ProyectoIgobmayo2022\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.pdb
+D:\_ProyectoIgobMarzo2023\SEDENA\iGob.AccesoDatos\bin\Debug\iGob.AccesoDatos.dll
+D:\_ProyectoIgobMarzo2023\SEDENA\iGob.AccesoDatos\bin\Debug\iGob.AccesoDatos.pdb
+D:\_ProyectoIgobMarzo2023\SEDENA\iGob.AccesoDatos\bin\Debug\iGob.Entidades.dll
+D:\_ProyectoIgobMarzo2023\SEDENA\iGob.AccesoDatos\bin\Debug\iGob.Entidades.pdb
+D:\_ProyectoIgobMarzo2023\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.csprojAssemblyReference.cache
+D:\_ProyectoIgobMarzo2023\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.csproj.CoreCompileInputs.cache
+D:\_ProyectoIgobMarzo2023\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.csproj.CopyComplete
+D:\_ProyectoIgobMarzo2023\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.dll
+D:\_ProyectoIgobMarzo2023\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.pdb
+D:\_ProyectoIgobChiapas2024\SEDENA\iGob.AccesoDatos\bin\Debug\iGob.AccesoDatos.dll
+D:\_ProyectoIgobChiapas2024\SEDENA\iGob.AccesoDatos\bin\Debug\iGob.AccesoDatos.pdb
+D:\_ProyectoIgobChiapas2024\SEDENA\iGob.AccesoDatos\bin\Debug\iGob.Entidades.dll
+D:\_ProyectoIgobChiapas2024\SEDENA\iGob.AccesoDatos\bin\Debug\iGob.Entidades.pdb
+D:\_ProyectoIgobChiapas2024\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.csprojAssemblyReference.cache
+D:\_ProyectoIgobChiapas2024\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.csproj.CoreCompileInputs.cache
+D:\_ProyectoIgobChiapas2024\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.csproj.CopyComplete
+D:\_ProyectoIgobChiapas2024\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.dll
+D:\_ProyectoIgobChiapas2024\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.pdb
+E:\SEDENA\iGob.AccesoDatos\bin\Debug\iGob.AccesoDatos.dll
+E:\SEDENA\iGob.AccesoDatos\bin\Debug\iGob.AccesoDatos.pdb
+E:\SEDENA\iGob.AccesoDatos\bin\Debug\iGob.Entidades.dll
+E:\SEDENA\iGob.AccesoDatos\bin\Debug\iGob.Entidades.pdb
+E:\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.csprojAssemblyReference.cache
+E:\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.csproj.CoreCompileInputs.cache
+E:\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.csproj.CopyComplete
+E:\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.dll
+E:\SEDENA\iGob.AccesoDatos\obj\Debug\iGob.AccesoDatos.pdb

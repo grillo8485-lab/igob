@@ -1,0 +1,91 @@
+﻿<!-- Modal Edit - New -->
+<div class="modal fade" id="LiquidezModal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Agregar</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Id = "form-Liquidez" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-5">
+                        <h6>Origen Recurso</h6>
+                        @if (ViewBag.ORList != null)
+                        {
+                            @Html.DropDownList("IdOrigenRecurso", ViewBag.ORList as SelectList, "Seleccionar", new { @class = "form-control", @Required = "" })
+                        }
+                    </div>
+                    <div class="col-5">
+                        <h6>Cuenta</h6>
+                        @Html.DropDownList("IdcuentaBancaria", new SelectList(" "), "Seleccionar", new { @class = "form-control", @Required = "" })
+                    </div>
+                    <div class="col-1"></div>
+                </div>
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-5">
+                        <h6>Banco</h6>
+                        <input type="text" name="Banco" id="Banco" class="form-control" readonly />
+                    </div>
+                    <div class="col-5">
+                        <h6>Saldo en cuenta</h6>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">$</span>
+                            </div>
+                            <input type="text" name="SaldoCuenta" id="SaldoCuenta" value="" class="form-control textDerecha" readonly />
+                        </div>
+                    </div>
+
+                    <div class="col-1"></div>
+                </div>
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-5">
+                        <h6>Nombre de la cuenta</h6>
+                        <input type="text" name="NombreCuenta" id="NombreCuenta" value="" class="form-control" readonly />
+                    </div>
+                    <div class="col-5">
+                        <h6>Número de operación bancaria</h6>
+                        <input type="text" name="NumeroOperacion" id="NumeroOperacion" value="" required min="1" class="form-control textDerecha" />
+                    </div>
+                    <div class="col-1"></div>
+                </div>
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-5">
+                        <h6>Monto comprometido</h6>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">$</span>
+                            </div>
+                            <input type="number" name="MontoComprometido" min="1" id="MontoComprometido" required class="form-control textDerecha" />
+                        </div>
+                    </div>
+                    <div class="col-5">
+                        <h6>Fecha autorización</h6>
+                        <input type="text" name="FechaDeposito" id="FechaDeposito" onkeydown="return false;" required class="form-control datepicker textDerecha" />
+                    </div>
+                    <div class="col-1"></div>
+                </div>
+                <input type="hidden" id="IdAdjudicacion" name="IdAdjudicacion" value="@Model.oAdjudicaciones.IdAdjudicacion" />
+                <input type="hidden" name="IdAdjudicacionLiquidez" id="IdAdjudicacionLiquidez" />
+                <input type="hidden" id="IdEstatus" name="IdEstatus" value="1" />
+                <input type="hidden" name="SaldoIgob" id="SaldoIgob" value="0.00" class="form-control" readonly />
+            </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <input type="submit" value="Agregar" class="btn btn-secondary" />
+                </div>
+
+
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal Edit - New -->

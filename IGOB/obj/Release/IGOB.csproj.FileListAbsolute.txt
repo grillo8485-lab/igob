@@ -1,0 +1,220 @@
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\ApplicationInsights.config
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\IGOB.dll.config
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\IGOB.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\IGOB.pdb
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\csc.exe
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\csc.exe.config
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\csc.rsp
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\csi.exe
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\csi.exe.config
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\csi.rsp
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\Microsoft.Managed.Core.targets
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\System.AppContext.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\System.Collections.Immutable.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\System.Console.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\System.IO.Compression.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\System.IO.FileSystem.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\System.IO.Pipes.AccessControl.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\System.IO.Pipes.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\System.Reflection.Metadata.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\System.Security.AccessControl.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\System.Security.Claims.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\System.Security.Cryptography.Encoding.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\System.Security.Cryptography.Primitives.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\System.Security.Principal.Windows.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\System.Text.Encoding.CodePages.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\System.ValueTuple.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\System.Xml.ReaderWriter.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\System.Xml.XmlDocument.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\System.Xml.XPath.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\System.Xml.XPath.XDocument.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\vbc.exe
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\vbc.exe.config
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\vbc.rsp
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\VBCSCompiler.exe
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\roslyn\VBCSCompiler.exe.config
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\Antlr3.Runtime.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\EntityFramework.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\EntityFramework.SqlServer.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\iGob.AccesoDatos.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\iGob.Entidades.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\iGob.ReglasNegocios.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\Microsoft.AI.Agent.Intercept.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\Microsoft.AI.DependencyCollector.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\Microsoft.AI.Web.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\Microsoft.AI.WindowsServer.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\Microsoft.ApplicationInsights.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\Microsoft.AspNet.TelemetryCorrelation.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\Microsoft.Web.Infrastructure.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\Newtonsoft.Json.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\System.Diagnostics.DiagnosticSource.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\System.Web.Helpers.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\System.Web.Mvc.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\System.Web.Optimization.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\System.Web.Razor.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\System.Web.WebPages.Deployment.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\System.Web.WebPages.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\System.Web.WebPages.Razor.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\WebGrease.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\iGob.AccesoDatos.pdb
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\iGob.Entidades.pdb
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\iGob.ReglasNegocios.pdb
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\EntityFramework.xml
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\EntityFramework.SqlServer.xml
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\System.Web.Helpers.xml
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\System.Web.Mvc.xml
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\System.Web.Optimization.xml
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\System.Web.Razor.xml
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\System.Web.WebPages.xml
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\System.Web.WebPages.Deployment.xml
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\System.Web.WebPages.Razor.xml
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\Newtonsoft.Json.xml
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\Antlr3.Runtime.pdb
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\System.Diagnostics.DiagnosticSource.xml
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\Microsoft.AspNet.TelemetryCorrelation.xml
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\Microsoft.AI.DependencyCollector.xml
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\Microsoft.AI.WindowsServer.xml
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\Microsoft.AI.Web.xml
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\es\System.Web.Helpers.resources.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\es\System.Web.Mvc.resources.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\es\System.Web.Optimization.resources.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\es\System.Web.Razor.resources.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\es\System.Web.WebPages.resources.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\es\System.Web.WebPages.Deployment.resources.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\bin\es\System.Web.WebPages.Razor.resources.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\obj\Release\IGOB.csprojAssemblyReference.cache
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\obj\Release\IGOB.csproj.CoreCompileInputs.cache
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\obj\Release\IGOB.csproj.CopyComplete
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\obj\Release\IGOB.dll
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\obj\Release\IGOB.pdb
+D:\Proyectos Web\Proyecto i Gob 2\IGOB\obj\Release\IGOB.csproj.ResolveComReference.cache
+D:\SEDENA\IGOB\bin\ApplicationInsights.config
+D:\SEDENA\IGOB\bin\IGOB.dll.config
+D:\SEDENA\IGOB\bin\IGOB.dll
+D:\SEDENA\IGOB\bin\IGOB.pdb
+D:\SEDENA\IGOB\bin\roslyn\csc.exe
+D:\SEDENA\IGOB\bin\roslyn\csc.exe.config
+D:\SEDENA\IGOB\bin\roslyn\csc.rsp
+D:\SEDENA\IGOB\bin\roslyn\csi.exe
+D:\SEDENA\IGOB\bin\roslyn\csi.exe.config
+D:\SEDENA\IGOB\bin\roslyn\csi.rsp
+D:\SEDENA\IGOB\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\SEDENA\IGOB\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\SEDENA\IGOB\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\SEDENA\IGOB\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\SEDENA\IGOB\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\SEDENA\IGOB\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\SEDENA\IGOB\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\SEDENA\IGOB\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\SEDENA\IGOB\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\SEDENA\IGOB\bin\roslyn\Microsoft.Managed.Core.targets
+D:\SEDENA\IGOB\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\SEDENA\IGOB\bin\roslyn\System.AppContext.dll
+D:\SEDENA\IGOB\bin\roslyn\System.Collections.Immutable.dll
+D:\SEDENA\IGOB\bin\roslyn\System.Console.dll
+D:\SEDENA\IGOB\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+D:\SEDENA\IGOB\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\SEDENA\IGOB\bin\roslyn\System.IO.Compression.dll
+D:\SEDENA\IGOB\bin\roslyn\System.IO.FileSystem.dll
+D:\SEDENA\IGOB\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\SEDENA\IGOB\bin\roslyn\System.IO.Pipes.AccessControl.dll
+D:\SEDENA\IGOB\bin\roslyn\System.IO.Pipes.dll
+D:\SEDENA\IGOB\bin\roslyn\System.Reflection.Metadata.dll
+D:\SEDENA\IGOB\bin\roslyn\System.Security.AccessControl.dll
+D:\SEDENA\IGOB\bin\roslyn\System.Security.Claims.dll
+D:\SEDENA\IGOB\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+D:\SEDENA\IGOB\bin\roslyn\System.Security.Cryptography.Encoding.dll
+D:\SEDENA\IGOB\bin\roslyn\System.Security.Cryptography.Primitives.dll
+D:\SEDENA\IGOB\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+D:\SEDENA\IGOB\bin\roslyn\System.Security.Principal.Windows.dll
+D:\SEDENA\IGOB\bin\roslyn\System.Text.Encoding.CodePages.dll
+D:\SEDENA\IGOB\bin\roslyn\System.ValueTuple.dll
+D:\SEDENA\IGOB\bin\roslyn\System.Xml.ReaderWriter.dll
+D:\SEDENA\IGOB\bin\roslyn\System.Xml.XmlDocument.dll
+D:\SEDENA\IGOB\bin\roslyn\System.Xml.XPath.dll
+D:\SEDENA\IGOB\bin\roslyn\System.Xml.XPath.XDocument.dll
+D:\SEDENA\IGOB\bin\roslyn\vbc.exe
+D:\SEDENA\IGOB\bin\roslyn\vbc.exe.config
+D:\SEDENA\IGOB\bin\roslyn\vbc.rsp
+D:\SEDENA\IGOB\bin\roslyn\VBCSCompiler.exe
+D:\SEDENA\IGOB\bin\roslyn\VBCSCompiler.exe.config
+D:\SEDENA\IGOB\bin\Antlr3.Runtime.dll
+D:\SEDENA\IGOB\bin\EntityFramework.dll
+D:\SEDENA\IGOB\bin\EntityFramework.SqlServer.dll
+D:\SEDENA\IGOB\bin\iGob.AccesoDatos.dll
+D:\SEDENA\IGOB\bin\iGob.Entidades.dll
+D:\SEDENA\IGOB\bin\iGob.ReglasNegocios.dll
+D:\SEDENA\IGOB\bin\itextsharp.dll
+D:\SEDENA\IGOB\bin\Microsoft.AI.Agent.Intercept.dll
+D:\SEDENA\IGOB\bin\Microsoft.AI.DependencyCollector.dll
+D:\SEDENA\IGOB\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\SEDENA\IGOB\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\SEDENA\IGOB\bin\Microsoft.AI.Web.dll
+D:\SEDENA\IGOB\bin\Microsoft.AI.WindowsServer.dll
+D:\SEDENA\IGOB\bin\Microsoft.ApplicationInsights.dll
+D:\SEDENA\IGOB\bin\Microsoft.AspNet.TelemetryCorrelation.dll
+D:\SEDENA\IGOB\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\SEDENA\IGOB\bin\Microsoft.Web.Infrastructure.dll
+D:\SEDENA\IGOB\bin\Newtonsoft.Json.dll
+D:\SEDENA\IGOB\bin\System.Diagnostics.DiagnosticSource.dll
+D:\SEDENA\IGOB\bin\System.Web.Helpers.dll
+D:\SEDENA\IGOB\bin\System.Web.Mvc.dll
+D:\SEDENA\IGOB\bin\System.Web.Optimization.dll
+D:\SEDENA\IGOB\bin\System.Web.Razor.dll
+D:\SEDENA\IGOB\bin\System.Web.WebPages.Deployment.dll
+D:\SEDENA\IGOB\bin\System.Web.WebPages.dll
+D:\SEDENA\IGOB\bin\System.Web.WebPages.Razor.dll
+D:\SEDENA\IGOB\bin\WebGrease.dll
+D:\SEDENA\IGOB\bin\iGob.AccesoDatos.pdb
+D:\SEDENA\IGOB\bin\iGob.Entidades.pdb
+D:\SEDENA\IGOB\bin\iGob.ReglasNegocios.pdb
+D:\SEDENA\IGOB\bin\EntityFramework.xml
+D:\SEDENA\IGOB\bin\EntityFramework.SqlServer.xml
+D:\SEDENA\IGOB\bin\itextsharp.xml
+D:\SEDENA\IGOB\bin\System.Web.Helpers.xml
+D:\SEDENA\IGOB\bin\System.Web.Mvc.xml
+D:\SEDENA\IGOB\bin\System.Web.Optimization.xml
+D:\SEDENA\IGOB\bin\System.Web.Razor.xml
+D:\SEDENA\IGOB\bin\System.Web.WebPages.xml
+D:\SEDENA\IGOB\bin\System.Web.WebPages.Deployment.xml
+D:\SEDENA\IGOB\bin\System.Web.WebPages.Razor.xml
+D:\SEDENA\IGOB\bin\Newtonsoft.Json.xml
+D:\SEDENA\IGOB\bin\Antlr3.Runtime.pdb
+D:\SEDENA\IGOB\bin\System.Diagnostics.DiagnosticSource.xml
+D:\SEDENA\IGOB\bin\Microsoft.AspNet.TelemetryCorrelation.xml
+D:\SEDENA\IGOB\bin\Microsoft.AI.DependencyCollector.xml
+D:\SEDENA\IGOB\bin\Microsoft.AI.WindowsServer.xml
+D:\SEDENA\IGOB\bin\Microsoft.AI.Web.xml
+D:\SEDENA\IGOB\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\SEDENA\IGOB\bin\es\System.Web.Helpers.resources.dll
+D:\SEDENA\IGOB\bin\es\System.Web.Mvc.resources.dll
+D:\SEDENA\IGOB\bin\es\System.Web.Optimization.resources.dll
+D:\SEDENA\IGOB\bin\es\System.Web.Razor.resources.dll
+D:\SEDENA\IGOB\bin\es\System.Web.WebPages.resources.dll
+D:\SEDENA\IGOB\bin\es\System.Web.WebPages.Deployment.resources.dll
+D:\SEDENA\IGOB\bin\es\System.Web.WebPages.Razor.resources.dll
+D:\SEDENA\IGOB\obj\Release\IGOB.csprojAssemblyReference.cache
+D:\SEDENA\IGOB\obj\Release\IGOB.csproj.ResolveComReference.cache
+D:\SEDENA\IGOB\obj\Release\IGOB.csproj.CoreCompileInputs.cache
+D:\SEDENA\IGOB\obj\Release\IGOB.csproj.CopyComplete
+D:\SEDENA\IGOB\obj\Release\IGOB.dll
+D:\SEDENA\IGOB\obj\Release\IGOB.pdb

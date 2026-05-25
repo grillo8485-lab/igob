@@ -1,0 +1,113 @@
+﻿@model List<iGob.Entidades.beDeterminacionPrecios>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section css{
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.structure.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.theme.css" rel="stylesheet" />
+}
+<style>
+
+    #map {
+        width: 100% !important;
+        height: 15vw !important;
+    }
+
+
+
+    .error {
+        color: red !important;
+    }
+
+
+
+    input[type=number] {
+        text-align: right;
+    }
+
+    input[name=number] {
+        text-align: right;
+    }
+
+    .ui-autocomplete {
+        max-height: 350px;
+        overflow-y: auto;
+        width: 350px;
+        max-width: 350px;
+        /* prevent horizontal scrollbar */
+        overflow-x: hidden;
+        /* add padding to account for vertical scrollbar */
+        padding-right: 20px;
+    }
+
+    .ui-menu .ui-menu-item-wrapper {
+        border-bottom: 1px solid #ADCB60 !important;
+    }
+</style>
+<br />
+<div id="idNuevoInvetigacionPrecio">
+    <button type="button" class="btn btn-secondary btn-circle " onclick="nuevoInvestigacionPrecios()">
+        <span class="icon-add-3"></span>
+        NUEVA INVESTIGACIÓN PRECIO
+    </button>
+</div>
+<br />
+<br />
+@Html.AntiForgeryToken()
+@Html.ValidationSummary(true)
+<table class="table-bordered hover" id="InvetigacionPrecioS">
+    <thead>
+        <tr>
+            <th>Acciones</th>
+            <!--<th>Productos o servicios</th>-->
+            <th>Número de Unidades Economicas (N)</th>
+            <th>Nivel Confianza</th>
+            <th>Valor de Nivel de confianza (Z)</th>
+            <th>Margen de error (e)</th>
+            <th>Varianza (σ)</th>
+            <th>Muestra (n)</th>
+            <th>Muestra redondeado (n)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <div class="input-group @(item.Mediana==0?"":"disabledClick")">
+                        <button class="btn btn-secondary btn-sm" onclick="editarInvestigacionPrecios(@item.IdDeterminaPrecioBienServicio)"><span class="fa fa-pencil"></span></button>
+                    </div>
+                </td>
+                <!--<td>item.BienServicio</td>-->
+                <td>@item.Poblacion</td>
+                <td align="right">@item.NivelConfianza</td>
+                <td aling="right">@item.ConstanteNivelConfianza</td>
+                <td aling="right">@item.MargenError</td>
+                <td aling="right">@item.Varianza</td>
+                <td aling="right">@item.Muestra</td>
+                <td aling="right">@item.MuestraRedondeada</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<!-- Modal loading -->
+<div class="modal fade" id="modal_InvestigacionPrecios">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content" id="ContenedorResultado">
+
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/Catalogos/InvestigacionPrecios.js"></script>
+
+}
+
+
+
+
+
+

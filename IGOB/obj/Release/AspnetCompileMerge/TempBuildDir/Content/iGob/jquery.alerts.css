@@ -1,0 +1,124 @@
+#popup_container {
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+	min-width: 300px; /* Dialog will be no smaller than this */
+	max-width: 600px; /* Dialog will wrap after this width */
+	background: #FFF;
+	/*border: solid 5px #999;*/
+	color: #000;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+#popup_title {
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+	line-height: 2.75em;
+	color: #fff;
+	background: #adcb60!important;
+	/*border: solid 1px #FFF;*/
+	border-bottom: solid 1px #999;
+	cursor: default;
+	padding: 0em;
+	margin: 0em;
+	padding: 4px;
+	border-radius: 5px 5px 0px 0px;
+}
+#popup_title_Error{
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+	line-height: 2.75em;
+	color: #fff;
+	background: #cc1313!important;
+	/*border: solid 1px #FFF;*/
+	border-bottom: solid 1px #999;
+	cursor: default;
+	padding: 0em;
+	margin: 0em;
+	padding: 4px;
+	border-radius: 5px 5px 0px 0px;
+}
+#popup_title_Warning{
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+	line-height: 2.75em;
+	color: #fff;
+	background: #f79537!important;
+	/*border: solid 1px #FFF;*/
+	border-bottom: solid 1px #999;
+	cursor: default;
+	padding: 0em;
+	margin: 0em;
+	padding: 4px;
+	border-radius: 5px 5px 0px 0px;
+}
+
+#popup_content {
+	background: 16px 30px no-repeat url(images/info.gif);
+	padding: 2em 1.75em;
+	margin: 0em;
+}
+
+#popup_content.alert {
+	background-image: url(images/info.gif);
+}
+
+#popup_content.confirm {
+	background-image: url(images/help.gif);
+}
+
+#popup_content.prompt {
+	background-image: url(images/help.gif);
+}
+
+#popup_content.message {
+	background-image: url(images/message-icon.png);
+}
+
+#popup_content.warning {
+	background-image: url(images/warning-icon.png);
+}
+
+#popup_content.error {
+	background-image: url(images/error-icon.png);
+}
+
+#popup_message {
+	padding-left: 48px;
+	padding-bottom: 10px;
+	padding-top: 5px;
+	padding-right: 10px;
+	font-weight: bold;
+}
+
+#popup_panel {
+	padding: 10px;
+	text-align: right;
+}
+
+#popup_prompt {
+	margin: .5em 0em;
+}
+
+#popup_ok {
+	/*background: #25a79f !important;*/
+	color: white;
+	/*border-color: #25a79f !important;*/
+	/*padding-right: 22px;*/
+    /*padding-left: 22px;*/
+	/*se modifico para tomar los estilos de boostrab*/
+	/*padding: 3px 30px 3px 30px;*/
+	/*border: 0px !important;*/
+}
+
+#popup_cancel {
+	/*background: #94004c;*/
+	color: white;
+	/*se modifico para tomar los estilos de boostrab*/
+	/*padding: 3px 20px 3px 20px;
+	border: 0px !important;*/
+}

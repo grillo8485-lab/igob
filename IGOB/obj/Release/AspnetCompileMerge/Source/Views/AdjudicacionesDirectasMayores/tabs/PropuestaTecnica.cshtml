@@ -1,0 +1,71 @@
+﻿<div class="modal fade" id="PropTecnica" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header changeColorModal">
+                <h4 class="modal-title">Ofertar lote - propuesta técnica</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @Class = "data-form", @id = "formPropTec", @enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                <div class="modal-body">
+                    <div class="row col-12">
+                        <input type="hidden" id="IdAdjudicionPropuestaTecEco" name="IdAdjudicionPropuestaTecEco" value="" class="form-control"/>
+                        <div class="col-6">
+                            <label>Bien o Servicio</label>
+                            <input type="text" class="form-control" id="Product" readonly />
+                        </div>
+                        <div class="col-6">
+                            <label> Cantidad </label>
+                            <input type="text" class="form-control" id="Unidad" readonly />
+                        </div>
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-6">
+                            <label> Características </label>
+                            <input type="text" class="form-control" id="Caracteristica" readonly />
+                        </div>
+                        <div class="col-6">
+                            <label> Requerimiento </label>
+                            <input type="text" class="form-control" id="Requerimiento" readonly />
+                        </div>
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-6" id="div_muestra">
+                            <label> Muestra </label>
+                            <div class="input-group mb-3">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" accept="application/pdf" name="URLFileMuestraCatalogo" id="URLFileMuestraCatalogo" onchange="changeName(this,'lblURLFileMuestraCatalogo')">
+                                    <label class="custom-file-label text-long" id="lblURLFileMuestraCatalogo">Seleccione Archivo</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6" id="div_Certificado">
+                            <label> Certificación </label>
+                            <div class="input-group mb-3">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" accept="application/pdf" name="URLFileCertificacion" id="URLFileCertificacion" onchange="changeName(this,'lblURLFileCertificacion')">
+                                    <label class="custom-file-label text-long" id="lblURLFileCertificacion">Seleccione Archivo</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" name="EstatusMejora" id="EstatusMejora" value="0">
+                            <label class="custom-control-label" for="EstatusMejora" style="text-transform:initial !important">Mejorar</label>
+                        </div>
+                        <textarea name="Mejora" id="Mejora" class="form-control" readonly></textarea>
+                    </div>
+                    </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                    <button type="button" class="btn btn-secondary" id="GuardarPropTec">Guardar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

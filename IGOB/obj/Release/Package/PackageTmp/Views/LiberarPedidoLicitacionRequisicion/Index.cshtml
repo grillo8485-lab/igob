@@ -1,0 +1,348 @@
+﻿
+@model IGOB.Models.LiberarPedidoLicitacionRequisicion
+@{
+    ViewBag.Title = "ElaborarPedido";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section css{
+    <style>
+        .sub_banner {
+            padding: 10.5px;
+        }
+
+            .sub_banner strong {
+                font-size: 9.94pt;
+            }
+
+        .hide {
+            display: none;
+        }
+    </style>
+}
+
+
+<div class="text-white sub_banner changeColorModal" id="encabezado">
+    <div class="row">
+        <div class="col-9 text-left">
+            <h6>@Model.Titulo</h6>
+        </div>
+        <div class="col-3 text-right">
+            @using (Html.BeginForm(null, null, FormMethod.Post, htmlAttributes: new { @id = "FormLiberarPedido" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <button class="btn btn-default btn-circle  btn-sm " type="button" onclick="ImprimirPedido();" >Imprimir Pedido</button>
+                @*<button type="button" class="btn btn-default btn-sm @Model.lstPedidosFirmantes.Where(s=> s.IdPerfil== Model.IdPerfil).FirstOrDefault().activo" id="btnLibPedido">Liberar Pedido</button>*@
+                <button type="button" class="btn btn-default btn-sm" onclick="location.href='@Url.Action("Index", "ListadoRequisicionLicitacion")'">
+                    <span class="glyphicon glyphicon-step-backward"></span> Regresar
+                </button>
+            }
+            <input type="hidden" id="IdPedido_" value="@Model.Pedido.IdPedido" class="form-control" disabled />
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-4">
+            <label>Pedido:</label>
+            <input type="text" value="@Model.Pedido.Folio" class="form-control" disabled />
+        </div>
+        <div class="col-4">
+            <label>Adjudicación</label>
+            <input type="text" value="@Model.Pedido.RequisicionFolio" class="form-control" disabled />
+        </div>
+        <div class="col-4">
+
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-12">
+            <label>Partidas y Conceptos</label>
+            <input value="@Model.Partida" class="form-control" disabled />
+        </div>
+    </div>
+    <br />
+    <label style="height:15px;margin:0 !important;padding:0 !important;">Datos Generales del Proveedor</label>
+    <hr style="margin:0 !important;padding:0 !important;" />
+    <div class="row">
+        <div class="col-4">
+            <label>Nombre denominación o razón social</label>
+            <input value="@Model.Proveedor.RazonSocial" class="form-control" disabled />
+        </div>
+        <div class="col-4">
+            <label>Clave de registro federal de contribuyente(RFC)</label>
+            <input class="form-control" value="@Model.Proveedor.Rfc" disabled />
+        </div>
+        <div class="col-4">
+            <label>Calle</label>
+            <input class="form-control" value="@Model.Proveedor.Calle" disabled />
+        </div>
+        <div class="col-4">
+            <label>Número exterior</label>
+            <input class="form-control" value="@Model.Proveedor.NoExterior" disabled />
+        </div>
+        <div class="col-4">
+            <label>Número interior</label>
+            <input class="form-control" value="@Model.Proveedor.NoInterior" disabled />
+        </div>
+        <div class="col-4">
+            <label>Colonia</label>
+            <input class="form-control" value="@Model.Proveedor.Colonia" disabled />
+        </div>
+        <div class="col-4">
+            <label>País</label>
+            <input class="form-control" value="@Model.Pais" disabled />
+        </div>
+        <div class="col-4">
+            <label>Estado</label>
+            <input class="form-control" value="@Model.Estado" disabled />
+        </div>
+        <div class="col-4">
+            <label>Municipio</label>
+            <input class="form-control" value="@Model.Municipio" disabled />
+        </div>
+        <div class="col-4">
+            <label>Localidad</label>
+            <input class="form-control" value="@Model.Proveedor.Colonia" disabled />
+        </div>
+        <div class="col-4">
+            <label>Código postal</label>
+            <input class="form-control" value="@Model.Proveedor.CodigoPostal" disabled />
+        </div>
+        <div class="col-4">
+            <label>Correo electrónico</label>
+            <input class="form-control" value="@Model.Proveedor.Email" disabled />
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-4">
+            <label>Fechas</label>
+            <input class="form-control" value="@Model.Fecha" disabled />
+        </div>
+        <div class="col-4">
+            <label>Dependencias o entidades</label>
+            <textarea class="form-control" disabled>@Model.Dependencia</textarea>
+
+        </div>
+        <div class="col-4">
+            <label>Condiciones de entrega</label>
+            <textarea class="form-control" disabled>@Model.CondicionesEntrega</textarea>
+        </div>
+    </div>
+    <hr />
+    <table class="table" width="100%">
+        <thead style="width:auto;">
+            <tr>
+                <th>Lote</th>
+                <th>Productos y servicios</th>
+
+                <th>Unidad de medida</th>
+                <th>Cantidad</th>
+                <th>Precio unitario</th>
+
+
+                <th>Frecuencia</th>
+                <th>Importe</th>
+
+                <th>Lugar entrega</th>
+                <th>Horarios de entrega</th>
+                <th>Días de entrega</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.lstPedidoDetallesLotesEntregas)
+            {
+                <tr>
+
+                    <td align="center">@item.NoLote</td>
+                    <td align="center">
+                        @item.BienServicio
+                    </td>
+                    <td>@item.UnidadMedida</td>
+                    <td align="right">@item.Cantidad</td>
+
+                    <td align="right">@(String.Format("{0:C2}", item.PrecioUnitario))</td>
+                    <td>@item.Frecuencia</td>
+                    <td align="right">@(String.Format("{0:C2}", item.Importe))</td>
+                    <td>@item.Lugar</td>
+                    <td>@item.HorarioEntrega</td>
+                    <td>@item.DiasEntrega</td>
+                </tr>
+            }
+
+        </tbody>
+        <tfoot>
+
+            <tr>
+                <td colspan="6" align="right">SUBTOTAL:</td>
+                <td align="right">@(String.Format("{0:C2}", Model.SutTotal))</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="6" align="right">IMPUESTOS:</td>
+                <td align="right">@(String.Format("{0:C2}", Model.Impuesto))</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="6" align="right">TOTAL:</td>
+                <td align="right">@(String.Format("{0:C2}", Model.Total))</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="6"></td>
+                <td colspan="4">TOTAL CON LETRAS: @Model.TotalLetras</td>
+            </tr>
+        </tfoot>
+    </table>
+    <hr />
+    <div class="row">
+        <div class="col-4">
+            <label>Condiciones de pago</label>
+            <input class="form-control" value="@Model.CondicionesPago" disabled />
+        </div>
+        <div class="col-4">
+            <label>Plazo de entrega</label>
+            <input class="form-control" value="@Model.PlazoEntrega" disabled />
+        </div>
+        <div class="col-4">
+            <label>Condiciones de entrega</label>
+            <input class="form-control" value="@Model.CondicionesEntrega" disabled />
+        </div>
+    </div>
+    <br />
+
+    <table id="tablaCartaDeclaratoriaSolcitantes" class="table" style="width:100%" width="100%">
+        <thead style="width:auto;">
+            <tr>
+
+                <th colspan="2" class="changeColorModal text-center"><h4>Condiciones</h4></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.lstManifiesto)
+            {
+                <tr>
+
+                    <td>@item.IdManifiesto</td>
+                    <td>@item.Manifiesto</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+    <br />
+    <div id="CargarFirmante">
+        <table id="tablaPedidosFirmantes" class="table" width="100%">
+            <thead style="width:auto;">
+                <tr>
+                    <th>#</th>
+                    <th>Firma</th>
+                    <th>Estatus Firma</th>
+                    <th>Perfil</th>
+                    <th>Cargo</th>
+                    <th>Nombre</th>
+                    <th>Fecha Firma</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.lstPedidosFirmantes)
+                {
+                    <tr>
+
+                        <td>@item.Ordenamiento</td>
+                        <td>
+                            <div class="custom-control custom-checkbox @item.activo">
+                                <input type="checkbox" class="custom-control-input" name="@item.IdPedidoFirmante" value="0" id="@item.IdPedidoFirmante" @(item.check) onclick="liberarPedidoFirmaConfirm(@item.IdPedidoFirmante)">
+                                <label class="custom-control-label" for="@item.IdPedidoFirmante"></label>
+                            </div>
+
+                        </td>
+                        <td>@item.EstatusFirmaPedido</td>
+                        <td>@item.Perfil</td>
+                        <td>@item.Cargo</td>
+                        <td>@item.NombreCompleto.ToUpper()</td>
+                        <td>
+                            @if (@item.FechaFirma != DateTime.MinValue)
+                            {
+                                @item.FechaFirma;
+                            }
+                    </td>
+                </tr>
+            }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@*<div class="container-fluid">
+        <div class="row">
+            <div class="col-4">
+                <label>Oficialia Mayor</label>
+                <input class="form-control" disabled />
+            </div>
+            <div class="col-4">
+                <label>Administrativo Dependencia</label>
+                <input class="form-control" disabled />
+            </div>
+            <div class="col-4">
+                <label>Titular dependencia</label>
+                <input class="form-control" disabled />
+            </div>
+            <div class="col-4">
+                <label>Secretario Tecnico del Comite</label>
+                <input class="form-control" disabled />
+            </div>
+        </div>
+        <label>Datos del representante legal del proveedor</label>
+        <hr />
+        <div class="row">
+            <div class="col-6">
+                <label>Nombre</label>
+                <input class="form-control" disabled />
+            </div>
+            <div class="col-6">
+                <label>cargo</label>
+                <input class="form-control" disabled />
+            </div>
+        </div>
+    </div>*@
+
+@section scripts{
+    <script src="~/Scripts/Catalogos/LiberarPedidoLicitacion.js"></script>
+}
+
+<!-- Modal loading -->
+<div class="modal fade" id="modal_loading">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header" style="text-align:center;">
+                <h4 class="modal-title">Generando Documento</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container" style="text-align:center;">
+                    <img style="width:100%;" src="~/Img/loading.gif">
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <!--<div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+            </div>-->
+
+        </div>
+    </div>
+</div>
